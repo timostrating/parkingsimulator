@@ -41,21 +41,24 @@ public class Simulator {
     }
 
     public void run() {
-        for (int i = 0; i < 10000; i++) {
-            tick();
-        }
+        while (true) {
+        	tick();
+
+			// Pause.
+			try {
+				Thread.sleep(tickPause);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+
+		}
     }
 
     private void tick() {
     	advanceTime();
     	handleExit();
     	updateViews();
-    	// Pause.
-        try {
-            Thread.sleep(tickPause);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     	handleEntrance();
     }
 
