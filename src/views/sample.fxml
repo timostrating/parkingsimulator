@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -21,7 +19,7 @@
                     <font>
                         <Font name="Raleway" size="16.0" />
                     </font>
-            </Text>
+                </Text>
                 <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="37.0" layoutY="146.0">
                     <image>
                         <Image url="/img/chart_32px.png" />
@@ -31,7 +29,7 @@
                     <font>
                         <Font name="Raleway" size="16.0" />
                     </font>
-            </Text>
+                </Text>
                 <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="37.0" layoutY="242.0">
                     <image>
                         <Image url="/img/ssd_32px.png" />
@@ -41,7 +39,7 @@
                     <font>
                         <Font name="Raleway" size="16.0" />
                     </font>
-            </Text>
+                </Text>
                 <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="38.0" layoutY="700.0" AnchorPane.bottomAnchor="25.0">
                     <image>
                         <Image url="/img/sign_out_32px.png" />
@@ -49,22 +47,7 @@
                 </ImageView>
             </children>
         </AnchorPane>
-        <AnchorPane layoutX="136.0" layoutY="80.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;">
-            <children>
-                <Canvas fx:id="canvas" height="650.0" width="650.0" />
-            </children>
-        </AnchorPane>
-        <Text layoutX="136.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parkeergarage Cityparking Groningen" wrappingWidth="282.7109375">
-            <font>
-                <Font name="Raleway ExtraBold" size="22.0" />
-            </font>
-        </Text>
-        <Button layoutX="819.0" layoutY="80.0" mnemonicParsing="false" text="Button" />
-        <Button layoutX="819.0" layoutY="133.0" mnemonicParsing="false" text="Button" />
-        <Button layoutX="819.0" layoutY="195.0" mnemonicParsing="false" text="Button" />
-        <Button layoutX="475.0" layoutY="27.0" mnemonicParsing="false" text="&gt;" />
-      <Button layoutX="445.0" layoutY="27.0" mnemonicParsing="false" text="||" />
-      <Button layoutX="509.0" layoutY="27.0" mnemonicParsing="false" text="&gt;&gt;" />
-      <Button layoutX="551.0" layoutY="27.0" mnemonicParsing="false" text="&gt;&gt;&gt;" />
+
+        <fx:include source="test.fxml" />
     </children>
 </AnchorPane>
