@@ -1,3 +1,5 @@
+package demo;
+
 import java.util.Random;
 import java.awt.*;
 

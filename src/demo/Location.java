@@ -1,3 +1,5 @@
+package demo;
+
 public class Location {
 
     private int floor;
@@ -5,7 +7,7 @@ public class Location {
     private int place;
 
     /**
-     * Constructor for objects of class Location
+     * Constructor for objects of class demo.Location
      */
     public Location(int floor, int row, int place) {
         this.floor = floor;

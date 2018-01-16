@@ -1,3 +1,5 @@
+package demo;
+
 import java.util.Random;
 
 public class Simulator {
@@ -42,6 +44,8 @@ public class Simulator {
 
     public void run() {
         while (true) {
+
+
         	tick();
 
 			// Pause.
