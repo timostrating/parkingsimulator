@@ -43,20 +43,19 @@ public class Simulator {
     }
 
     public void run() {
-        while (true) {
+      while (true) {
+
+        tick();
+
+        // Pause.
+        try {
+          Thread.sleep(tickPause);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
 
 
-        	tick();
-
-			// Pause.
-			try {
-				Thread.sleep(tickPause);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-
-		}
+		  }
     }
 
     private void tick() {
