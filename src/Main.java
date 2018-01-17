@@ -1,6 +1,3 @@
-package views;
-
-import engine.Simulator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,10 +6,18 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    /*
+
+    The main() method launches a new Application View (fxml)
+    The application view will create the ApplicationController
+    The ApplicationController will create the ApplicationModel
+
+     */
+
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("../views/charts.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/charts.fxml"));
         primaryStage.setTitle("Parkeer simulator");
         primaryStage.setScene(new Scene(root, 600, 475));
         primaryStage.show();
@@ -22,7 +27,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 
-        new Thread(() -> new Simulator().run()).start();
         launch(args);
         
     }

@@ -1,15 +1,9 @@
-package engine;
-
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+package controllers;
 
 /**
  * Created by Hilko on 16-1-2018.
  */
-public class Simulator {
+public class ApplicationController {
 
 	public final static double TIME_STEP = 1000d / 60d;
 
@@ -17,9 +11,26 @@ public class Simulator {
 
 	private int updates = 0;
 
+	public ApplicationController() {
+
+		/*
+
+		Our application is dual-threaded.
+		1 thread handles the User Interface.
+		The other thread handles the simulation-updates.
+
+		 */
+		new Thread(new Runnable() { // create simulation-updates thread
+			@Override
+			public void run() {
+				ApplicationController.this.run();
+			}
+		}).start();
+	}
+
 	/*
 
-	The run method is called when the Application is created.
+	The run method is called when the second Thread is created
 
 	We make sure that update() is called guaranteed 60 times per second.
 
