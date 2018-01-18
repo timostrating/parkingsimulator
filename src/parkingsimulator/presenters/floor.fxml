@@ -5,7 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane layoutX="109.0" layoutY="18.0" prefHeight="281.0" prefWidth="310.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FloorsController">
+
+<AnchorPane layoutX="109.0" layoutY="18.0" prefHeight="281.0" prefWidth="310.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parkingsimulator.controllers.FloorsController">
     <children>
 
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parkeergarage Cityparking Groningen" wrappingWidth="282.7109375" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">

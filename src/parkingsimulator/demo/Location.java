@@ -1,4 +1,4 @@
-package demo;
+package parkingsimulator.demo;
 
 public class Location {
 

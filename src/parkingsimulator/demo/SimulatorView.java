@@ -1,6 +1,6 @@
-package demo;
+package parkingsimulator.demo;
 
-import demo.Cars.Car;
+import parkingsimulator.demo.Cars.Car;
 
 import javax.swing.*;
 import java.awt.*;
