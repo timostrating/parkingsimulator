@@ -5,8 +5,8 @@ package parkingsimulator.models;
  */
 public class ApplicationModel extends BaseModel {
 
-	public ApplicationModel() {
-		super();
-	}
+    public ApplicationModel() {
+        super();
+    }
 
 }

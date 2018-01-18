@@ -5,8 +5,8 @@ package parkingsimulator.controllers;
  */
 public class ChartsController {
 
-	public ChartsController() {
+    public ChartsController() {
 
-	}
+    }
 
 }

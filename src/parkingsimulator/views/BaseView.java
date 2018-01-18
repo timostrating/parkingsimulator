@@ -8,15 +8,15 @@ import parkingsimulator.models.BaseModel;
  */
 public abstract class BaseView<T extends BaseModel> {
 
-	protected T model;
+    protected T model;
 
-	public BaseView(T model, BaseController controller) {
-		this.model = model;
-		createPresenter(controller);
-	}
+    public BaseView(T model, BaseController controller) {
+        this.model = model;
+        createPresenter(controller);
+    }
 
-	protected abstract void createPresenter(BaseController controller);
+    protected abstract void createPresenter(BaseController controller);
 
-	public abstract void updateView();
+    public abstract void updateView();
 
 }

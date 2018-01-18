@@ -3,13 +3,13 @@ package parkingsimulator;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+/**
+ *
+ * The Main-class is used to start the application.
+ *
+ */
 
-    /*
-        The main() method launches a new Application View (fxml)
-        The application view will create the ApplicationController
-        The ApplicationController will create the ApplicationModel
-     */
+public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -20,7 +20,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-
         launch(args);
     }
 

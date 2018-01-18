@@ -10,24 +10,24 @@ import java.util.List;
  */
 public abstract class BaseModel {
 
-	protected List<BaseView> views;
+    protected List<BaseView> views;
 
-	public BaseModel() {
-		views = new ArrayList<>();
-	}
+    public BaseModel() {
+        views = new ArrayList<>();
+    }
 
-	public void registerView(BaseView view) {
-		views.add(view);
-	}
+    public void registerView(BaseView view) {
+        views.add(view);
+    }
 
-	public void unregisterView(BaseView view) {
-		views.remove(view);
-	}
+    public void unregisterView(BaseView view) {
+        views.remove(view);
+    }
 
-	protected void notifyViews() {
-		for (BaseView v : views)
-			v.updateView();
-	}
+    protected void notifyViews() {
+        for (BaseView v : views)
+            v.updateView();
+    }
 
 }
 

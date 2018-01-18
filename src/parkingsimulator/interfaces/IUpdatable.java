@@ -5,6 +5,6 @@ package parkingsimulator.interfaces;
  */
 public interface IUpdatable {
 
-	void update();
+    void update();
 
 }
