@@ -1,5 +1,9 @@
 package demo;
 
+import demo.Cars.AdHocCar;
+import demo.Cars.Car;
+import demo.Cars.ParkingPassCar;
+
 import java.util.Random;
 
 public class Simulator {
@@ -22,6 +26,7 @@ public class Simulator {
 
     int weekDayArrivals= 100; // average number of arriving cars per hour
     int weekendArrivals = 200; // average number of arriving cars per hour
+
     int weekDayPassArrivals= 50; // average number of arriving cars per hour
     int weekendPassArrivals = 5; // average number of arriving cars per hour
 
@@ -79,7 +84,6 @@ public class Simulator {
         while (day > 6) {
             day -= 7;
         }
-
     }
 
     private void handleEntrance(){

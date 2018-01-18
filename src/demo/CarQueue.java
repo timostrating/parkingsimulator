@@ -1,5 +1,7 @@
 package demo;
 
+import demo.Cars.Car;
+
 import java.util.LinkedList;
 import java.util.Queue;
 

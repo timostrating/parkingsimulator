@@ -1,4 +1,4 @@
-package demo;
+package demo.Cars;
 
 import java.util.Random;
 import java.awt.*;
