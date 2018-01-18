@@ -1,5 +1,10 @@
 package controllers;
 
+import java.util.Collections;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+
 /**
  * Created by Hilko on 16-1-2018.
  */
@@ -11,14 +16,51 @@ public class ApplicationController {
 
 	private int updates = 0;
 
+
+	// Singleton
+	private static ApplicationController instance = null;
+
+	public static ApplicationController getInstance() {
+		if(instance == null) {
+			instance = new ApplicationController();
+		}
+		return instance;
+	}
+
+
+	// Can use CopyOnWriteArraySet too make it thread-safe
+	private final Set<Listener> mListeners = Collections.newSetFromMap(
+			new ConcurrentHashMap<Listener, Boolean>(0));
+
+	/** This method adds a new Listener */
+	public void registerListener(Listener listener) {
+		if (listener == null) return;
+		mListeners.add(listener);
+	}
+
+	/** This method removes an Listener */
+	public void unregisterListener(Listener listener) {
+		if (listener != null) {
+			mListeners.remove(listener);
+		}
+	}
+
+	/** This method notifies currently registered listeners about the change */
+	private void notifyListeners() {
+		for (Listener listener : mListeners) {
+			listener.onObservableChanged();
+		}
+	}
+
+
 	public ApplicationController() {
+		if(instance == null)
+			instance = this;
 
 		/*
-
-		Our application is dual-threaded.
-		1 thread handles the User Interface.
-		The other thread handles the simulation-updates.
-
+			Our application is dual-threaded.
+			1 thread handles the User Interface.
+			The other thread handles the simulation-updates.
 		 */
 		new Thread(new Runnable() { // create simulation-updates thread
 			@Override
@@ -28,22 +70,18 @@ public class ApplicationController {
 		}).start();
 	}
 
+
 	/*
+		The run method is called when the second Thread is created
+		We make sure that update() is called guaranteed 60 times per second.
 
-	The run method is called when the second Thread is created
+			while true { 							// infinite
+				while deltaTime >= TIME_STEP		// 60x per second
+					update();
 
-	We make sure that update() is called guaranteed 60 times per second.
-
-		while true { 							// infinite
-
-			while deltaTime >= TIME_STEP		// 60x per second
-				update();
-
-			render(); 							// as many times as possible
-		}
-
+				render(); 							// as many times as possible
+			}
 	 */
-
 	public void run() {
 
 		double prevTime = System.currentTimeMillis();
@@ -63,14 +101,10 @@ public class ApplicationController {
 		}
 	}
 
-	private void update() {
 
+	private void update() {
 		updates++;
 
-		System.out.println(updates);
-
+		notifyListeners();
 	}
-
-
-
 }

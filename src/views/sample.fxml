@@ -6,6 +6,8 @@
     <children>
         <fx:include source="menu.fxml" />
 
-        <fx:include source="test.fxml" />
+        <fx:include source="floor.fxml" />
+
+        <!--<fx:include source="charts.fxml" />-->
     </children>
 </AnchorPane>
