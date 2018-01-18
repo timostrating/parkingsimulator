@@ -10,7 +10,7 @@
    <children>
       <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="40.0" layoutY="52.0">
          <image>
-            <Image url="/img/server_32px.png" />
+            <Image url="/parkingsimulator/img/server_32px.png" />
          </image>
       </ImageView>
       <Text fill="WHITE" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Simulate" textAlignment="CENTER" wrappingWidth="108.0000102519989">
@@ -20,7 +20,7 @@
       </Text>
       <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="37.0" layoutY="146.0">
          <image>
-            <Image url="/img/chart_32px.png" />
+            <Image url="/parkingsimulator/img/chart_32px.png" />
          </image>
       </ImageView>
       <Text fill="WHITE" layoutX="-3.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charts" textAlignment="CENTER" wrappingWidth="108.00000321865082">
@@ -30,7 +30,7 @@
       </Text>
       <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="37.0" layoutY="242.0">
          <image>
-            <Image url="/img/ssd_32px.png" />
+            <Image url="/parkingsimulator/img/ssd_32px.png" />
          </image>
       </ImageView>
       <Text fill="WHITE" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings" textAlignment="CENTER" wrappingWidth="108.00000476837158">
@@ -40,7 +40,7 @@
       </Text>
       <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="38.0" layoutY="700.0" AnchorPane.bottomAnchor="25.0">
          <image>
-            <Image url="/img/sign_out_32px.png" />
+            <Image url="/parkingsimulator/img/sign_out_32px.png" />
          </image>
       </ImageView>
    </children>

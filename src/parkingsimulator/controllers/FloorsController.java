@@ -1,12 +1,13 @@
-package controllers;
+package parkingsimulator.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import models.Floor;
-import models.FloorType;
+import parkingsimulator.Floor;
+import parkingsimulator.FloorType;
+import parkingsimulator.Listener;
 
 import java.util.Random;
 
@@ -33,7 +34,7 @@ public class FloorsController implements Listener {
         gc = canvas.getGraphicsContext2D();
         gc.setLineWidth(2);
         rand = new Random();
-        ApplicationController.getInstance().registerListener( this );
+//        ApplicationController.getInstance().registerListener( this );
     }
 
 

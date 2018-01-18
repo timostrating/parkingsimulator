@@ -1,4 +1,4 @@
-package controllers;
+package parkingsimulator;
 
 /**
  * Created by Sneeuwpopsneeuw on 18-Jan-18.
