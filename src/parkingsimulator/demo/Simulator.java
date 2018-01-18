@@ -1,8 +1,8 @@
-package demo;
+package parkingsimulator.demo;
 
-import demo.Cars.AdHocCar;
-import demo.Cars.Car;
-import demo.Cars.ParkingPassCar;
+import parkingsimulator.demo.Cars.AdHocCar;
+import parkingsimulator.demo.Cars.Car;
+import parkingsimulator.demo.Cars.ParkingPassCar;
 
 import java.util.Random;
 

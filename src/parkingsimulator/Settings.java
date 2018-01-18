@@ -1,3 +1,8 @@
+package parkingsimulator;
+
+/**
+ * Created by Hilko on 18-1-2018.
+ */
 public class Settings {
 
     private static double subscribers;
@@ -28,8 +33,5 @@ public class Settings {
         Settings.subscribers = subscribers;
     }
 
-    private Settings(){
-
-    }
 
 }

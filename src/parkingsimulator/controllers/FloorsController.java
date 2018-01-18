@@ -1,19 +1,19 @@
-package controllers;
+package parkingsimulator.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import models.Floor;
-import models.FloorType;
+import parkingsimulator.Floor;
+import parkingsimulator.FloorType;
 
 import java.util.Random;
 
 /**
  * Created by Sneeuwpopsneeuw on 17-Jan-18.
  */
-public class FloorsController implements Listener {
+public class FloorsController {
 
     @FXML
     private Canvas canvas;
@@ -24,7 +24,7 @@ public class FloorsController implements Listener {
 
 
     public FloorsController() {
-        floors = new Floor[]{ new Floor() };
+        floors = new Floor[]{new Floor()};
     }
 
 
@@ -33,7 +33,7 @@ public class FloorsController implements Listener {
         gc = canvas.getGraphicsContext2D();
         gc.setLineWidth(2);
         rand = new Random();
-        ApplicationController.getInstance().registerListener( this );
+//        ApplicationController.getInstance().registerListener( this );
     }
 
 
@@ -42,9 +42,9 @@ public class FloorsController implements Listener {
 
     @FXML
     public void step(ActionEvent event) {
-        for(int i=0; i<floors.length; i++) {
-            for(int x=0; x<floors[i].getRows(); x++) {
-                for(int y=0; y<floors[i].getColmns(); y++) {
+        for (int i = 0; i < floors.length; i++) {
+            for (int x = 0; x < floors[i].getRows(); x++) {
+                for (int y = 0; y < floors[i].getColmns(); y++) {
                     if (floors[i].getFloorTypeAt(x, y) == FloorType.PARKABLE)
                         gc.setFill(Color.GREEN);
                     else
@@ -58,8 +58,4 @@ public class FloorsController implements Listener {
         }
     }
 
-    @Override
-    public void onObservableChanged() {
-        step(null);
-    }
 }

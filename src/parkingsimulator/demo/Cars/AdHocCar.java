@@ -1,4 +1,4 @@
-package demo.Cars;
+package parkingsimulator.demo.Cars;
 
 import java.util.Random;
 import java.awt.*;

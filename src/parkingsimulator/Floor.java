@@ -1,4 +1,4 @@
-package models;
+package parkingsimulator;
 
 /**
  * Created by Sneeuwpopsneeuw on 17-Jan-18.
