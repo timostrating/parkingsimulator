@@ -1,7 +1,7 @@
 package parkingsimulator.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import parkingsimulator.interfaces.Updatable;
@@ -15,8 +15,8 @@ public class ApplicationController extends BaseController {
 
     @FXML
     private Slider speedSlider;
-    @FXML
-    private Button pauseButton;
+//    @FXML
+//    private Button pauseButton;
     private ApplicationModel model;
 
     public ApplicationController() {
@@ -34,7 +34,7 @@ public class ApplicationController extends BaseController {
         speedSlider.valueProperty().addListener(
                 (observable, oldValue, newValue) -> model.updatesPerSecond = newValue.doubleValue()
         );
-        pauseButton.setOnAction(event -> model.paused = !model.paused);
+//        pauseButton.setOnAction(event -> model.paused = !model.paused);
 
         new Thread(new Runnable() { // create simulation-updates thread
             @Override
@@ -100,5 +100,10 @@ public class ApplicationController extends BaseController {
     @FXML
     public void speedSliderChanged(MouseEvent mouseEvent) {
 
+    }
+
+    @FXML
+    public void hoi(ActionEvent event) {
+        System.err.println("oke");
     }
 }

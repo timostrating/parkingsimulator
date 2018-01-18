@@ -12,7 +12,7 @@
          <top>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="pauseButton" mnemonicParsing="false" text="&gt;/||" />
+                  <Button fx:id="pauseButton" onAction="#hoi" mnemonicParsing="false" text="&gt;/||" />
                   <Slider fx:id="speedSlider" prefWidth="230.0" showTickLabels="true" showTickMarks="true" />
                </children>
             </HBox>
