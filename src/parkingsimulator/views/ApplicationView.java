@@ -2,6 +2,7 @@ package parkingsimulator.views;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 import parkingsimulator.CompositionRoot;
 import parkingsimulator.controllers.BaseController;
 import parkingsimulator.models.ApplicationModel;
@@ -21,10 +22,14 @@ public class ApplicationView extends BaseView<ApplicationModel> {
     protected void createPresenter(BaseController controller) {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../presenters/sample.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../presenters/application.fxml"));
             loader.setController(controller);
-            System.out.println(CompositionRoot.getInstance());
-            CompositionRoot.getInstance().stage.setScene(new Scene(loader.load(), 1500, 800));
+
+            Stage stage = CompositionRoot.getInstance().stage;
+            stage.setScene(new Scene(loader.load(), 1500, 800));
+
+
+            stage.setOnCloseRequest(event -> model.isSimulatorRunning = false);
 
         } catch (IOException e) {
             e.printStackTrace();
