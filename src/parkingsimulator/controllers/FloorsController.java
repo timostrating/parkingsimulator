@@ -19,6 +19,8 @@ public class FloorsController {
     private Canvas canvas;
     private GraphicsContext gc;
 
+    private int update;
+
     private Floor[] floors;
     Random rand;
 
@@ -42,20 +44,26 @@ public class FloorsController {
 
     @FXML
     public void step(ActionEvent event) {
-        for (int i = 0; i < floors.length; i++) {
-            for (int x = 0; x < floors[i].getRows(); x++) {
-                for (int y = 0; y < floors[i].getColmns(); y++) {
-                    if (floors[i].getFloorTypeAt(x, y) == FloorType.PARKABLE)
-                        gc.setFill(Color.GREEN);
-                    else
-                        gc.setFill(Color.BLACK);
+        gc.setFill(Color.GREEN);
 
-//                    gc.strokeOval(x * NODE_WIDTH +5, y * NODE_HEIGHT +5, NODE_WIDTH-10, NODE_HEIGHT-10);
-                    gc.fillRect(x * NODE_WIDTH, y * NODE_HEIGHT, NODE_WIDTH, NODE_HEIGHT);
+        for(int i=0; i<floors.length; i++)
+            for(int x=0; x<40; x++)
+                for(int y=0; y<40; y++)
+                    if (floors[i].getFloorTypeAt((x+update)%3, (y+update)%3) == FloorType.PARKABLE)     // PARKABLE
+                        gc.fillRect(x * NODE_WIDTH, y * NODE_HEIGHT, NODE_WIDTH, NODE_HEIGHT);
 
-                }
-            }
-        }
+
+        gc.setFill(Color.BLACK);
+
+        for(int i=0; i<floors.length; i++)
+            for(int x=0; x<40; x++)
+                for(int y=0; y<40; y++)
+                    if (floors[i].getFloorTypeAt((x+update)%3, (y+update)%3) == FloorType.ROAD)         // road
+                        gc.fillRect(x * NODE_WIDTH, y * NODE_HEIGHT, NODE_WIDTH, NODE_HEIGHT);
     }
 
+    public void onObservableChanged() {
+        update++;
+        step(null);
+    }
 }
