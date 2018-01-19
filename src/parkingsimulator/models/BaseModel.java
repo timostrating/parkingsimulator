@@ -10,11 +10,7 @@ import java.util.List;
  */
 public abstract class BaseModel {
 
-    protected List<BaseView> views;
-
-    public BaseModel() {
-        views = new ArrayList<>();
-    }
+    protected List<BaseView> views = new ArrayList<>();
 
     public void registerView(BaseView view) {
         views.add(view);

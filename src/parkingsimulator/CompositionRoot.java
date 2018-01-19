@@ -2,6 +2,7 @@ package parkingsimulator;
 
 import javafx.stage.Stage;
 import parkingsimulator.controllers.ApplicationController;
+import parkingsimulator.controllers.ChartsController;
 
 /**
  *
@@ -25,7 +26,7 @@ public class CompositionRoot {
 
     public Stage stage;
     public ApplicationController applicationController;
-
+    public ChartsController chartsController;
 
     private CompositionRoot(Stage stage) {
         this.stage = stage;
@@ -33,6 +34,7 @@ public class CompositionRoot {
 
     private void start() {
         applicationController = new ApplicationController();
+        chartsController = new ChartsController();
     }
 
 }

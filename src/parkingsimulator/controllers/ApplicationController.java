@@ -1,27 +1,22 @@
 package parkingsimulator.controllers;
 
-import parkingsimulator.interfaces.IUpdatable;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
+import parkingsimulator.interfaces.Updatable;
 import parkingsimulator.models.ApplicationModel;
 import parkingsimulator.views.ApplicationView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- *
  * The ApplicationController is responsible for updating the simulation
- *
  */
 public class ApplicationController extends BaseController {
 
-    public final static double TIME_STEP = 1000d / 60d;
-
-    private boolean isSimutatorRunning = true;
-
-    private int updates = 0;
-
-    private List<IUpdatable> updatables = new ArrayList<>();
-
+    @FXML
+    private Slider speedSlider;
+//    @FXML
+//    private Button pauseButton;
     private ApplicationModel model;
 
     public ApplicationController() {
@@ -35,6 +30,12 @@ public class ApplicationController extends BaseController {
         model = new ApplicationModel();
         model.registerView(new ApplicationView(model, this));
 
+        speedSlider.setValue(model.updatesPerSecond);
+        speedSlider.valueProperty().addListener(
+                (observable, oldValue, newValue) -> model.updatesPerSecond = newValue.doubleValue()
+        );
+//        pauseButton.setOnAction(event -> model.paused = !model.paused);
+
         new Thread(new Runnable() { // create simulation-updates thread
             @Override
             public void run() {
@@ -44,12 +45,12 @@ public class ApplicationController extends BaseController {
 
     }
 
-    public void registerUpdatable(IUpdatable updatable) {
-        updatables.add(updatable);
+    public void registerUpdatable(Updatable updatable) {
+        model.updatables.add(updatable);
     }
 
-    public void unregisterUpdatable(IUpdatable updatable) {
-        updatables.remove(updatable);
+    public void unregisterUpdatable(Updatable updatable) {
+        model.updatables.remove(updatable);
     }
 
 
@@ -57,22 +58,28 @@ public class ApplicationController extends BaseController {
         The run method is called when the second Thread is created
         We make sure that update() is called guaranteed 60 times per second.
 
-            while true { 							// infinite
-                while deltaTime >= TIME_STEP		// 60x per second
+            while true {                            // infinite
+                while deltaTime >= TIME_STEP {      // 60x per second
                     update();
+                    deltaTime -= TIME_STEP
+                }
 
-                render(); 							// as many times as possible
+                deltaTime += time elapsed since previous time
             }
      */
-    public void run() {
+    private void run() {
 
         double prevTime = System.currentTimeMillis();
         double deltaTime = 0;
 
-        while (isSimutatorRunning) { // loop
-            while (deltaTime >= TIME_STEP) {
-                callUpdates();
-                deltaTime -= TIME_STEP;
+        while (model.isSimulatorRunning) {
+            double timeStep = 1000d / model.updatesPerSecond;
+            while (deltaTime >= timeStep) {
+
+                if (!model.paused)
+                    update();
+
+                deltaTime -= timeStep;
             }
 
             double time = System.currentTimeMillis();
@@ -81,14 +88,22 @@ public class ApplicationController extends BaseController {
         }
     }
 
+    private void update() {
+        model.updates++;
 
-    private void callUpdates() {
-        updates++;
-
-        for (IUpdatable u : updatables)
+        for (Updatable u : model.updatables)
             u.update();
 
-//		notifyListeners();
+        System.out.println(model.updates);
     }
 
+    @FXML
+    public void speedSliderChanged(MouseEvent mouseEvent) {
+
+    }
+
+    @FXML
+    public void hoi(ActionEvent event) {
+        System.err.println("oke");
+    }
 }

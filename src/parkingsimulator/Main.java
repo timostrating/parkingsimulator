@@ -12,8 +12,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Parkeer simulator");
         CompositionRoot.init(primaryStage);
         primaryStage.show();
