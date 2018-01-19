@@ -8,6 +8,7 @@ import com.parkingtycoon.controllers.BaseController;
 import com.parkingtycoon.models.ApplicationModel;
 
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by Hilko on 18-1-2018.
@@ -22,7 +23,7 @@ public class ApplicationView extends BaseView<ApplicationModel> {
     protected void createPresenter(BaseController controller) {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../presenters/application.fxml"));
+            FXMLLoader loader = new FXMLLoader(new URL("file", "", "core/src/com/parkingtycoon/presenters/application.fxml"));
             loader.setController(controller);
 
             Stage stage = CompositionRoot.getInstance().stage;
