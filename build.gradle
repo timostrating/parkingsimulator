@@ -34,6 +34,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
+		
 }
 
 project(":desktop") {
@@ -46,6 +47,11 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         
     }
+		compileJava {
+			sourceCompatibility = 1.8
+			targetCompatibility = 1.8
+		}
+		
 }
 
 project(":html") {
@@ -60,6 +66,10 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
         
     }
+		compileJava {
+			sourceCompatibility = 1.8
+			targetCompatibility = 1.8
+		}
 }
 
 project(":core") {
@@ -70,6 +80,11 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         
     }
+		compileJava {
+			sourceCompatibility = 1.8
+			targetCompatibility = 1.8
+		}
+		
 }
 
 tasks.eclipse.doLast {
