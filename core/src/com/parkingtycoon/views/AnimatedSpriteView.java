@@ -28,7 +28,6 @@ public class AnimatedSpriteView extends SpriteView {
 
         sprite.setSize(spriteModel.frameWidth / 16f, spriteModel.frameHeight / 16f);
 
-        play("run", true);
     }
 
     @Override
