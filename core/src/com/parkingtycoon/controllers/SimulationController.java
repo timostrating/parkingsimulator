@@ -33,4 +33,7 @@ public class SimulationController extends BaseController {
 
     }
 
+    public SimulationModel getModel() {
+        return model;
+    }
 }

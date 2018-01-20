@@ -19,4 +19,6 @@ public abstract class BaseView {
 
     public void draw(SpriteBatch batch) {}
 
+    public abstract float renderIndex();
+
 }

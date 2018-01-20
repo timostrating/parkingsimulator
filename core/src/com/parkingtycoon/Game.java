@@ -58,14 +58,20 @@ public class Game extends ApplicationAdapter {
     @Override
     public void render() {
 
+        // update simulation
         simulationController.update();
 
+        // clear screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // sort views so that render-order is correct
+        sortViews();
 
         for (BaseView v : views)
             v.preRender();
 
+        // render all views
         batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
         for (BaseView v : views)
@@ -128,6 +134,21 @@ public class Game extends ApplicationAdapter {
         convert.x = (xDiff + yDiff) / 4;
         convert.y = (yDiff - xDiff) / 4;
         return convert;
+    }
+
+    private void sortViews() {
+        for (int i = 1; i < views.size(); i++) {
+            BaseView temp = views.get(i);
+            float renderIndex = temp.renderIndex();
+
+            int j = i - 1;
+
+            while (j >= 0 && views.get(j).renderIndex() < renderIndex) {
+                views.set(j + 1, views.get(j));
+                j--;
+            }
+            views.set(j + 1, temp);
+        }
     }
 
 }

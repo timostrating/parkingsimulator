@@ -2,11 +2,13 @@ package com.parkingtycoon.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.parkingtycoon.ArrayNamed;
+import com.parkingtycoon.Game;
 import com.parkingtycoon.interfaces.Named;
+import com.parkingtycoon.models.BaseModel;
+import com.parkingtycoon.models.SimulationModel;
 
 import java.util.ArrayList;
 
@@ -19,8 +21,8 @@ public class AnimatedSpriteView extends SpriteView {
     private AnimatedSpriteModel spriteModel;
     private AnimatedSpriteModel.Animation currentAnimation;
 
-    public AnimatedSpriteView(String spritePath, Vector2 offset) {
-        super(spritePath + ".png", offset);
+    public AnimatedSpriteView(String spritePath, boolean simulationSpeedDependent) {
+        super(spritePath + ".png");
 
         spriteModel = animatedSpriteModels.get(spritePath);
         if (spriteModel == null)
@@ -28,6 +30,16 @@ public class AnimatedSpriteView extends SpriteView {
 
         sprite.setSize(spriteModel.frameWidth / 16f, spriteModel.frameHeight / 16f);
 
+        if (simulationSpeedDependent)
+            Game.getInstance().getSimulationController().getModel().registerView(this);
+
+    }
+
+    @Override
+    public void updateView(BaseModel model) {
+        if (model instanceof SimulationModel)
+            speedMultiplier = (float) ((SimulationModel) model).updatesPerSecond
+                    / SimulationModel.REAL_TIME_UPDATES_PER_SECOND;
     }
 
     @Override
