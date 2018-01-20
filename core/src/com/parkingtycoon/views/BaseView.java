@@ -1,22 +1,22 @@
 package com.parkingtycoon.views;
 
-import com.parkingtycoon.controllers.BaseController;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.parkingtycoon.Game;
 import com.parkingtycoon.models.BaseModel;
 
 /**
  * Created by Hilko on 18-1-2018.
  */
-public abstract class BaseView<T extends BaseModel> {
+public abstract class BaseView {
 
-    protected T model;
-
-    public BaseView(T model, BaseController controller) {
-        this.model = model;
-        createPresenter(controller);
+    public BaseView() {
+        Game.getInstance().registerView(this);
     }
 
-    protected abstract void createPresenter(BaseController controller);
+    public abstract void updateView(BaseModel model);
 
-    public abstract void updateView();
+    public void preRender() {}
+
+    public void draw(SpriteBatch batch) {}
 
 }

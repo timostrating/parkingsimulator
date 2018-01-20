@@ -22,7 +22,7 @@ public abstract class BaseModel {
 
     protected void notifyViews() {
         for (BaseView v : views)
-            v.updateView();
+            v.updateView(this);
     }
 
 }
