@@ -6,127 +6,129 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.parkingtycoon.controllers.FloorsController;
 import com.parkingtycoon.controllers.SimulationController;
 import com.parkingtycoon.views.BaseView;
-import com.parkingtycoon.views.SpriteView;
+import com.parkingtycoon.views.TestSpriteView;
 
 import java.util.ArrayList;
 
 public class Game extends ApplicationAdapter {
 
-	private static Game instance;
+    private static Game instance;
 
-	public static Game getInstance() {
-		return instance;
-	}
+    public static Game getInstance() {
+        return instance;
+    }
 
-	public int worldWidth, worldHeight;
+    public int worldWidth, worldHeight;
 
-	private SimulationController simulationController;
-	private FloorsController floorsController;
+    private SimulationController simulationController;
+    private FloorsController floorsController;
 
-	private ArrayList<BaseView> views = new ArrayList<>();
+    private ArrayList<BaseView> views = new ArrayList<>();
 
-	private OrthographicCamera worldCamera;
-	private SpriteBatch batch;
+    private OrthographicCamera worldCamera;
+    private SpriteBatch batch;
 
-	public Game() {
-		if (instance != null)
-			throw new RuntimeException("Game already instantiated");
-		instance = this;
-	}
+    public Game() {
+        if (instance != null)
+            throw new RuntimeException("Game already instantiated");
+        instance = this;
+    }
 
-	@Override
-	public void create () {
+    @Override
+    public void create() {
 
-		worldCamera = new OrthographicCamera();
-		batch = new SpriteBatch();
+        worldCamera = new OrthographicCamera();
+        batch = new SpriteBatch();
 
-		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		simulationController = new SimulationController();
-		floorsController = new FloorsController();
+        simulationController = new SimulationController();
+        floorsController = new FloorsController();
 
-		Gdx.input.setInputProcessor(new InputProcessor());
+        Gdx.input.setInputProcessor(new InputProcessor());
 
-		new SpriteView("badlogic.jpg", null);
+        for (int i = 0; i < 20000; i++)
+            new TestSpriteView();
 
-	}
+    }
 
-	@Override
-	public void render () {
+    @Override
+    public void render() {
 
-		simulationController.update();
-
-		Logger.info(worldCamera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));
+        simulationController.update();
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        for (BaseView v : views) v.preRender();
+        for (BaseView v : views)
+            v.preRender();
 
         batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
-		for (BaseView v : views) v.draw(batch);
-		batch.end();
+        for (BaseView v : views)
+            v.draw(batch);
+        batch.end();
 
-	}
+        Gdx.graphics.setTitle("Parking Tycoon (fps: " + Gdx.graphics.getFramesPerSecond() + ")");
 
-	@Override
-	public void resize(int width, int height) {
-		worldCamera.setToOrtho(false, 10f * width / height, 10);
-	}
+    }
 
-	public SimulationController getSimulationController() {
-		return simulationController;
-	}
+    @Override
+    public void resize(int width, int height) {
+        worldCamera.setToOrtho(false, 10f * width / height, 10);
+    }
 
-	public FloorsController getFloorsController() {
-		return floorsController;
-	}
+    public SimulationController getSimulationController() {
+        return simulationController;
+    }
 
-	public OrthographicCamera getWorldCamera() {
-		return worldCamera;
-	}
+    public FloorsController getFloorsController() {
+        return floorsController;
+    }
 
-	public void registerView(BaseView view) {
-		views.add(view);
-	}
+    public OrthographicCamera getWorldCamera() {
+        return worldCamera;
+    }
 
-	public void unregisterView(BaseView view) {
-		views.remove(view);
-	}
+    public void registerView(BaseView view) {
+        views.add(view);
+    }
 
-	public Vector2 normalToIsometric(Vector2 convert) {
+    public void unregisterView(BaseView view) {
+        views.remove(view);
+    }
 
-		float normalX = convert.x;
-		float normalY = convert.y;
+    public Vector2 normalToIsometric(Vector2 convert) {
 
-		convert.set(worldWidth * 2, worldHeight);
+        float normalX = convert.x;
+        float normalY = convert.y;
 
-		convert.x += normalX * 2;
-		convert.y -= normalX;
+        convert.set(worldWidth * 2, worldHeight);
 
-		convert.x -= normalY * 2;
-		convert.y -= normalY;
+        convert.x += normalX * 2;
+        convert.y -= normalX;
 
-		return convert;
-	}
+        convert.x -= normalY * 2;
+        convert.y -= normalY;
 
-	public Vector2 isometricToNormal(Vector2 convert) {
+        return convert;
+    }
 
-		float isoX = convert.x;
-		float isoY = convert.y;
+    public Vector2 isometricToNormal(Vector2 convert) {
 
-		float xDiff = isoX - worldWidth * 2;
-		float yDiff = -2 * (isoY - worldHeight);
+        float isoX = convert.x;
+        float isoY = convert.y;
 
-		convert.x = (xDiff + yDiff) / 4;
-		convert.y = (yDiff - xDiff) / 4;
-		return convert;
-	}
+        float xDiff = isoX - worldWidth * 2;
+        float yDiff = -2 * (isoY - worldHeight);
+
+        convert.x = (xDiff + yDiff) / 4;
+        convert.y = (yDiff - xDiff) / 4;
+        return convert;
+    }
 
 }
 
