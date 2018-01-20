@@ -37,6 +37,11 @@ public class FloorsView extends BaseView {
         renderMap(camera);
     }
 
+    @Override
+    public float renderIndex() {
+        return 0;
+    }
+
     private void moveCamera(OrthographicCamera camera) {
 
         float x = Gdx.input.getX() / (float) Gdx.graphics.getWidth();

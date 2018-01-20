@@ -4,20 +4,28 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
+import com.parkingtycoon.Game;
 import com.parkingtycoon.models.BaseModel;
+
+import java.util.HashMap;
 
 public class SpriteView extends BaseView {
 
+    private static HashMap<String, Texture> textures = new HashMap<>();
+
     protected Sprite sprite;
-    protected Vector2 isometricPosition = new Vector2();
-    protected Vector2 offset;
     protected boolean visible = true;
 
-    public SpriteView(String spritePath, Vector2 offset) {
+    public SpriteView(String spritePath) {
         super();
-        sprite = new Sprite(new Texture(Gdx.files.internal(spritePath)));
-        this.offset = offset == null ? new Vector2() : offset;
+
+        Texture texture = textures.get(spritePath);
+        if (texture == null) {
+            texture = new Texture(Gdx.files.internal(spritePath));
+            textures.put(spritePath, texture);
+        }
+
+        sprite = new Sprite(texture);
         sprite.setSize(sprite.getWidth() / 16f, sprite.getHeight() / 16f);
     }
 
@@ -28,8 +36,12 @@ public class SpriteView extends BaseView {
     public void draw(SpriteBatch batch) {
         if (!visible) return;
 
-        sprite.setPosition(isometricPosition.x + offset.x, isometricPosition.y + offset.y);
         sprite.draw(batch);
     }
 
+    @Override
+    public float renderIndex() {
+        int worldHeight = Game.getInstance().worldHeight;
+        return (sprite.getY() + worldHeight) / (worldHeight * 2f);
+    }
 }
