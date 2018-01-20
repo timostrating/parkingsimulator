@@ -1,4 +1,4 @@
-package com.parkingtycoon;
+package com.parkingtycoon.helpers;
 
 import com.badlogic.gdx.Gdx;
 
