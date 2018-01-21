@@ -4,11 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.ArrayNamed;
 import com.parkingtycoon.interfaces.Named;
 import com.parkingtycoon.models.BaseModel;
-import com.parkingtycoon.models.SimulationModel;
 
 import java.util.ArrayList;
 
@@ -30,16 +28,16 @@ public class AnimatedSpriteView extends SpriteView {
 
         sprite.setSize(spriteModel.frameWidth / 16f, spriteModel.frameHeight / 16f);
 
-        if (simulationSpeedDependent)
-            CompositionRoot.getInstance().simulationController.getModel().registerView(this);
+//        if (simulationSpeedDependent)                     // I HAVE NO IDEA WHY THIS CODE WAS HERE
+//            CompositionRoot.getInstance().simulationController.getModel().registerView(this);
 
     }
 
     @Override
     public void updateView(BaseModel model) {
-        if (model instanceof SimulationModel)
-            speedMultiplier = (float) ((SimulationModel) model).updatesPerSecond
-                    / SimulationModel.REAL_TIME_UPDATES_PER_SECOND;
+//        if (model instanceof SimulationModel)
+//            speedMultiplier = (float) ((SimulationModel) model).updatesPerSecond
+//                    / SimulationModel.REAL_TIME_UPDATES_PER_SECOND;
     }
 
     @Override

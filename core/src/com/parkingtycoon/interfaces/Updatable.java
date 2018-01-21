@@ -3,7 +3,7 @@ package com.parkingtycoon.interfaces;
 /**
  * Created by Hilko on 18-1-2018.
  */
-public interface Updatable {
+public interface Updatable<BaseController> {
 
     void update();
 
