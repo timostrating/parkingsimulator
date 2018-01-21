@@ -40,6 +40,7 @@ public class SpriteView extends BaseView {
 
     @Override
     public float renderIndex() {
+        // todo worldHeight = floor height
         int worldHeight = 1080; // Game.getInstance().worldHeight;
         return (sprite.getY() + worldHeight) / (worldHeight * 2f);
     }

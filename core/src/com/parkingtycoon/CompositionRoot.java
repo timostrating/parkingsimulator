@@ -1,5 +1,6 @@
 package com.parkingtycoon;
 
+import com.parkingtycoon.controllers.AnimatedSpritesController;
 import com.parkingtycoon.controllers.FloorsController;
 import com.parkingtycoon.controllers.SimulationController;
 import com.parkingtycoon.helpers.Logger;
@@ -13,8 +14,8 @@ import com.parkingtycoon.helpers.Logger;
 
 public class CompositionRoot {
     public SimulationController simulationController;
+    public AnimatedSpritesController animatedSpritesController;
     public FloorsController floorsController;
-
 
     private static CompositionRoot instance;
 
@@ -37,6 +38,7 @@ public class CompositionRoot {
 
     private void start() {
         simulationController = new SimulationController();
+        animatedSpritesController = new AnimatedSpritesController();
         floorsController = new FloorsController();
     }
 }

@@ -2,42 +2,25 @@ package com.parkingtycoon.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
-import com.parkingtycoon.helpers.ArrayNamed;
-import com.parkingtycoon.interfaces.Named;
-import com.parkingtycoon.models.BaseModel;
-
-import java.util.ArrayList;
+import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.models.AnimatedSpriteModel;
 
 public class AnimatedSpriteView extends SpriteView {
 
     private int currentFrame;
     private float remainingTime;
-    private float speedMultiplier = 1;
-    private boolean loop, flipX, flipY, done;
+    private boolean loop, flipX, flipY, done, simulationSpeedDependent;
     private AnimatedSpriteModel spriteModel;
     private AnimatedSpriteModel.Animation currentAnimation;
 
     public AnimatedSpriteView(String spritePath, boolean simulationSpeedDependent) {
         super(spritePath + ".png");
 
-        spriteModel = animatedSpriteModels.get(spritePath);
-        if (spriteModel == null)
-            modelFromJson(spritePath);
+        this.simulationSpeedDependent = simulationSpeedDependent;
 
+        spriteModel = CompositionRoot.getInstance().animatedSpritesController.getAnimatedSpriteModel(spritePath);
         sprite.setSize(spriteModel.frameWidth / 16f, spriteModel.frameHeight / 16f);
 
-//        if (simulationSpeedDependent)                     // I HAVE NO IDEA WHY THIS CODE WAS HERE
-//            CompositionRoot.getInstance().simulationController.getModel().registerView(this);
-
-    }
-
-    @Override
-    public void updateView(BaseModel model) {
-//        if (model instanceof SimulationModel)
-//            speedMultiplier = (float) ((SimulationModel) model).updatesPerSecond
-//                    / SimulationModel.REAL_TIME_UPDATES_PER_SECOND;
     }
 
     @Override
@@ -66,7 +49,7 @@ public class AnimatedSpriteView extends SpriteView {
         if (done || currentAnimation == null)
             return;
 
-        remainingTime -= Gdx.graphics.getDeltaTime() * speedMultiplier;
+        remainingTime -= Gdx.graphics.getDeltaTime() * (simulationSpeedDependent ? spriteModel.speedMultiplier : 1);
         if (remainingTime <= 0) {
             boolean lastFrame = currentFrame == currentAnimation.size() - 1;
             if (!loop && lastFrame) {
@@ -94,94 +77,6 @@ public class AnimatedSpriteView extends SpriteView {
                 flipX ? -spriteModel.frameWidth : spriteModel.frameWidth,   // width
                 flipY ? -spriteModel.frameHeight : spriteModel.frameHeight  // height
         );
-    }
-
-    private void modelFromJson(String path) {
-
-        spriteModel = new AnimatedSpriteModel(path);
-        animatedSpriteModels.add(spriteModel);
-
-        JsonValue json = new JsonReader().parse(Gdx.files.internal(path + ".json"));
-        JsonValue jsonFrames = json.get("frames");
-
-        AnimatedSpriteModel.Animation.Frame[] frames = new AnimatedSpriteModel.Animation.Frame[jsonFrames.size];
-
-        for (int i = 0; i < jsonFrames.size; i++) {
-            JsonValue jsonFrame = jsonFrames.get(i);
-            JsonValue f = jsonFrame.get("frame");
-
-            frames[i] = new AnimatedSpriteModel.Animation.Frame(
-                    f.getInt("x"),
-                    f.getInt("y"),
-                    jsonFrame.getFloat("duration") / 1000f
-            );
-
-            if (spriteModel.frameWidth == 0) {
-                spriteModel.frameWidth = f.getInt("w");
-                spriteModel.frameHeight = f.getInt("h");
-            }
-
-        }
-
-        JsonValue tags = json.get("meta").get("frameTags");
-        for (JsonValue tag : tags) {
-
-            AnimatedSpriteModel.Animation animation = new AnimatedSpriteModel.Animation(tag.getString("name"));
-
-            int from = tag.getInt("from"),
-                    to = tag.getInt("to");
-
-            for (int i = from; i <= to; i++)
-                animation.add(frames[i]);
-
-            spriteModel.animations.add(animation);
-        }
-
-    }
-
-    private static ArrayNamed<AnimatedSpriteModel> animatedSpriteModels = new ArrayNamed<>();
-
-    private static class AnimatedSpriteModel implements Named {
-
-        private String name;
-        private ArrayNamed<Animation> animations = new ArrayNamed<>();
-        private int frameWidth, frameHeight;
-
-        private AnimatedSpriteModel(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String name() {
-            return name;
-        }
-
-        static class Animation extends ArrayList<Animation.Frame> implements Named {
-
-            static class Frame {
-                int x, y;
-                float duration;
-
-                public Frame(int x, int y, float duration) {
-                    this.x = x;
-                    this.y = y;
-                    this.duration = duration;
-                }
-
-            }
-
-            private String name;
-
-            Animation(String name) {
-                this.name = name;
-            }
-
-            @Override
-            public String name() {
-                return name;
-            }
-        }
-
     }
 
 }
