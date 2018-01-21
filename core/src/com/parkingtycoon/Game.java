@@ -11,7 +11,9 @@ import java.util.ArrayList;
 
 public class Game extends com.badlogic.gdx.Game {
 
-    private Game instance;
+    public static final int V_WIDTH = 700;
+    public static final int V_HEIGHT = 500;
+
     public SpriteBatch batch;
     public BitmapFont font;
 

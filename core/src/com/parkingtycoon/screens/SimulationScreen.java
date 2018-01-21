@@ -28,9 +28,7 @@ public class SimulationScreen implements Screen {
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() { }
 
     @Override
     public void render(float delta) {
@@ -42,7 +40,7 @@ public class SimulationScreen implements Screen {
         for (BaseView v : views)
             v.preRender();
 
-        sortViews();                                                    // sort views so that render-order is correct
+        sortViews();                                                    // sort the views so that the render-order is correct
 
         for (BaseView v : views)
             v.preRender();

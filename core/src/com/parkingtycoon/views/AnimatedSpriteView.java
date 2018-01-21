@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.parkingtycoon.helpers.ArrayNamed;
-import com.parkingtycoon.interfaces.Named;
+import com.parkingtycoon.interfaces.INamed;
 import com.parkingtycoon.models.BaseModel;
 
 import java.util.ArrayList;
@@ -141,7 +141,7 @@ public class AnimatedSpriteView extends SpriteView {
 
     private static ArrayNamed<AnimatedSpriteModel> animatedSpriteModels = new ArrayNamed<>();
 
-    private static class AnimatedSpriteModel implements Named {
+    private static class AnimatedSpriteModel implements INamed {
 
         private String name;
         private ArrayNamed<Animation> animations = new ArrayNamed<>();
@@ -156,7 +156,7 @@ public class AnimatedSpriteView extends SpriteView {
             return name;
         }
 
-        static class Animation extends ArrayList<Animation.Frame> implements Named {
+        static class Animation extends ArrayList<Animation.Frame> implements INamed {
 
             static class Frame {
                 int x, y;
