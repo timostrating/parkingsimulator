@@ -5,11 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 
 public class MainMenuScreen implements Screen {
 
     private final Game game;
+    private final CompositionRoot root;
 
     private OrthographicCamera camera;
 
@@ -19,7 +21,9 @@ public class MainMenuScreen implements Screen {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
-        game.setMainCamera(camera);
+        root = CompositionRoot.getInstance();
+
+        root.renderController.setMainCamera(camera);
     }
 
     @Override

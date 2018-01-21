@@ -1,6 +1,7 @@
 package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.Gdx;
+import com.parkingtycoon.helpers.UpdateableController;
 
 import java.util.ArrayList;
 
@@ -14,13 +15,6 @@ public class SimulationController extends BaseController {
     private float deltaTime;
 
 
-    public boolean registerUpdatable(UpdateableController updatable) {
-        return updatables.add(updatable);
-    }
-
-    public boolean unregisterUpdatable(UpdateableController updatable) {
-        return updatables.remove(updatable);
-    }
 
     public void update() {
 
@@ -36,6 +30,14 @@ public class SimulationController extends BaseController {
 
             deltaTime -= timeStep;
         }
+    }
+
+    public boolean registerUpdatable(UpdateableController updatable) {
+        return updatables.add(updatable);
+    }
+
+    public boolean unregisterUpdatable(UpdateableController updatable) {
+        return updatables.remove(updatable);
     }
 
     public int getUpdatesPerSecond() {

@@ -1,47 +1,32 @@
 package com.parkingtycoon.models;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+
 /**
  * Created by Sneeuwpopsneeuw on 17-Jan-18.
  */
 public class FloorModel extends BaseModel {
+    private TiledMap tiledMap;
+    private TiledMapTileLayer layer;
 
-    public enum FloorType {
-        PARKABLE,
-        ROAD
-    }
 
-    private FloorType[][] floorNodes;
-    private boolean isCurrentFloor;
 
     public FloorModel() {
-        this.floorNodes = new FloorType[][]    {{FloorType.PARKABLE,    FloorType.PARKABLE, FloorType.PARKABLE},
-                                                {FloorType.ROAD,        FloorType.ROAD,     FloorType.PARKABLE},
-                                                {FloorType.PARKABLE,    FloorType.PARKABLE, FloorType.PARKABLE}};
+        tiledMap = new TmxMapLoader().load("maps/default.tmx");;
+        layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
     }
 
-    public FloorType getFloorTypeAt(int x, int y) {
-        return floorNodes[x][y];
-    }
-
-    public void setFloorTypeAt(int x, int y, FloorType floorType) {
-        floorNodes[x][y] = floorType;
-    }
-
-    public boolean isCurrentFloor() {
-        return isCurrentFloor;
-    }
-
-    public void setCurrentFloor(boolean b) {
-        this.isCurrentFloor = b;
-        notifyViews();
+    public TiledMap getTiledMap() {
+        return tiledMap;
     }
 
     public int getWidth() {
-        return floorNodes.length;
+        return layer.getWidth();
     }
 
     public int getHeight() {
-        return floorNodes[0].length;
+        return layer.getHeight();
     }
-
 }

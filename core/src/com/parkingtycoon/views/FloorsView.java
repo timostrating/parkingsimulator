@@ -2,26 +2,22 @@ package com.parkingtycoon.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.models.BaseModel;
+import com.parkingtycoon.models.FloorModel;
 
 public class FloorsView extends BaseView {
 
     private IsometricTiledMapRenderer renderer;
-    private TiledMap tiledMap;
 
-    public FloorsView() {
+    private FloorModel model;
+
+
+    public FloorsView(FloorModel model) {
         super();
-        tiledMap = new TmxMapLoader().load("maps/default.tmx");
-        renderer = new IsometricTiledMapRenderer(tiledMap, 1 / 16f);
-
-//        Game game = Game.getInstance();
-        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-//        game.worldHeight = layer.getHeight();
-//        game.worldWidth = layer.getWidth();
+        this.model = model;
+        renderer = new IsometricTiledMapRenderer(model.getTiledMap(), 1 / 16f);
     }
 
     @Override
@@ -31,9 +27,9 @@ public class FloorsView extends BaseView {
 
     @Override
     public void preRender() {
-//        OrthographicCamera camera = Game.getInstance().getWorldCamera();
-//        moveCamera(camera);
-//        renderMap(camera);
+        OrthographicCamera camera = CompositionRoot.getInstance().renderController.getMainCamera();
+        moveCamera(camera);
+        renderMap(camera);
     }
 
     @Override
@@ -42,7 +38,6 @@ public class FloorsView extends BaseView {
     }
 
     private void moveCamera(OrthographicCamera camera) {
-
         float x = Gdx.input.getX() / (float) Gdx.graphics.getWidth();
         float y = Gdx.input.getY() / (float) Gdx.graphics.getHeight();
 

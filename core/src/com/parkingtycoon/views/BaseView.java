@@ -1,6 +1,7 @@
 package com.parkingtycoon.views;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.models.BaseModel;
 
 /**
@@ -9,7 +10,7 @@ import com.parkingtycoon.models.BaseModel;
 public abstract class BaseView {
 
     public BaseView() {
-//        Game.getInstance().registerView(this);
+        CompositionRoot.getInstance().renderController.registerView(this);
     }
 
     public abstract void updateView(BaseModel model);

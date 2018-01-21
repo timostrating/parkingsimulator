@@ -1,7 +1,6 @@
 package com.parkingtycoon;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.parkingtycoon.screens.MainMenuScreen;
@@ -18,7 +17,6 @@ public class Game extends com.badlogic.gdx.Game {
     public SpriteBatch batch;
     public BitmapFont font;
 
-    private OrthographicCamera mainCamera;
 
     private int currentScreenIndex = 0;
 
@@ -27,17 +25,7 @@ public class Game extends com.badlogic.gdx.Game {
 
 
 
-    private static Game instance;
-    public static Game getInstance() {
-        return instance;
-    }
-
     public Game() { // added Screens
-        if (instance != null)
-            throw new RuntimeException("Game already instantiated");
-
-        instance = this;
-
         screens.add(MainMenuScreen.class);
         screens.add(SimulationScreen.class);
     }
@@ -45,7 +33,7 @@ public class Game extends com.badlogic.gdx.Game {
     @Override
 	public void create () {
 
-        CompositionRoot.init();   // let's create a Composition root
+        CompositionRoot.init(this);   // let's create a Composition root
 
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -86,15 +74,6 @@ public class Game extends com.badlogic.gdx.Game {
 
         batch.dispose();
         font.dispose();
-    }
-
-
-    public OrthographicCamera getMainCamera() {
-        return mainCamera;
-    }
-
-    public void setMainCamera(OrthographicCamera mainCamera) {
-        this.mainCamera = mainCamera;
     }
 }
 
