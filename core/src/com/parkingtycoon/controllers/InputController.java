@@ -1,8 +1,6 @@
-package com.parkingtycoon;
+package com.parkingtycoon.controllers;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-
-public class InputProcessor implements com.badlogic.gdx.InputProcessor {
+public class InputController implements com.badlogic.gdx.InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
@@ -41,8 +39,8 @@ public class InputProcessor implements com.badlogic.gdx.InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
-        OrthographicCamera camera = Game.getInstance().getWorldCamera();
-        camera.zoom = Math.max(1, Math.min(5, camera.zoom + amount * .2f));
+//        OrthographicCamera camera = Game.getInstance().getWorldCamera();
+//        camera.zoom = Math.max(1, Math.min(5, camera.zoom + amount * .2f));
         return true;
     }
 }

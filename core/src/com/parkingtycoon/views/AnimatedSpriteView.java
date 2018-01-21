@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.parkingtycoon.ArrayNamed;
-import com.parkingtycoon.Game;
+import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.helpers.ArrayNamed;
 import com.parkingtycoon.interfaces.Named;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.SimulationModel;
@@ -31,7 +31,7 @@ public class AnimatedSpriteView extends SpriteView {
         sprite.setSize(spriteModel.frameWidth / 16f, spriteModel.frameHeight / 16f);
 
         if (simulationSpeedDependent)
-            Game.getInstance().getSimulationController().getModel().registerView(this);
+            CompositionRoot.getInstance().simulationController.getModel().registerView(this);
 
     }
 

@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
-import com.parkingtycoon.Game;
 import com.parkingtycoon.models.BaseModel;
 
 public class FloorsView extends BaseView {
@@ -19,10 +18,10 @@ public class FloorsView extends BaseView {
         tiledMap = new TmxMapLoader().load("maps/default.tmx");
         renderer = new IsometricTiledMapRenderer(tiledMap, 1 / 16f);
 
-        Game game = Game.getInstance();
+//        Game game = Game.getInstance();
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-        game.worldHeight = layer.getHeight();
-        game.worldWidth = layer.getWidth();
+//        game.worldHeight = layer.getHeight();
+//        game.worldWidth = layer.getWidth();
     }
 
     @Override
@@ -32,9 +31,9 @@ public class FloorsView extends BaseView {
 
     @Override
     public void preRender() {
-        OrthographicCamera camera = Game.getInstance().getWorldCamera();
-        moveCamera(camera);
-        renderMap(camera);
+//        OrthographicCamera camera = Game.getInstance().getWorldCamera();
+//        moveCamera(camera);
+//        renderMap(camera);
     }
 
     @Override

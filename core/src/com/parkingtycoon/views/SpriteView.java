@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.parkingtycoon.Game;
 import com.parkingtycoon.models.BaseModel;
 
 import java.util.HashMap;
@@ -41,7 +40,7 @@ public class SpriteView extends BaseView {
 
     @Override
     public float renderIndex() {
-        int worldHeight = Game.getInstance().worldHeight;
+        int worldHeight = 1080; // Game.getInstance().worldHeight;
         return (sprite.getY() + worldHeight) / (worldHeight * 2f);
     }
 }
