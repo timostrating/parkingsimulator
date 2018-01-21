@@ -18,11 +18,8 @@ public class MainMenuScreen implements Screen {
         camera.setToOrtho(false, 800, 480);
     }
 
-
     @Override
-    public void show() {
-
-    }
+    public void show() { }
 
     @Override
     public void render(float delta) {
@@ -44,9 +41,7 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) { }
 
     @Override
     public void pause() { }

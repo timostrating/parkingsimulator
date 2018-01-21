@@ -17,7 +17,8 @@ public class SimulationScreen implements Screen {
     final Game game;
     private CompositionRoot root;
 
-    OrthographicCamera worldCamera;
+    private OrthographicCamera worldCamera;
+    private Hud hud;
 
 
     public SimulationScreen(Game game) {
@@ -25,6 +26,9 @@ public class SimulationScreen implements Screen {
         worldCamera = new OrthographicCamera();
 //        worldCamera.setToOrtho(false, 800, 480);
         root = CompositionRoot.getInstance();
+        hud = new Hud(game.batch);
+
+
     }
 
     @Override
@@ -37,15 +41,14 @@ public class SimulationScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);        // clear screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        for (BaseView v : views)
-            v.preRender();
-
         sortViews();                                                    // sort the views so that the render-order is correct
 
         for (BaseView v : views)
             v.preRender();
 
-        game.batch.setProjectionMatrix(worldCamera.combined);           // render all views
+        game.batch.setProjectionMatrix(hud.stage.getCamera().combined); // render Hud
+        hud.stage.draw();
+
         game.batch.begin();
 
             for (BaseView v : views)                                        // draw
@@ -78,7 +81,6 @@ public class SimulationScreen implements Screen {
     public OrthographicCamera getWorldCamera() {
         return worldCamera;
     }
-
 
 
 //    public void registerView(BaseView view) {
