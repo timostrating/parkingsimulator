@@ -1,69 +1,49 @@
 package com.parkingtycoon.controllers;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import com.parkingtycoon.Floor;
-import com.parkingtycoon.FloorType;
+import com.parkingtycoon.models.FloorModel;
+import com.parkingtycoon.views.FloorsView;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 /**
  * Created by Sneeuwpopsneeuw on 17-Jan-18.
  */
-public class FloorsController {
+public class FloorsController  {
 
-    @FXML
-    private Canvas canvas;
-    private GraphicsContext gc;
-
-    private int update;
-
-    private Floor[] floors;
-    Random rand;
-
+    private ArrayList<FloorModel> floorModels = new ArrayList<>();
+    private FloorsView view;
+    private int currentFloor = 0;
 
     public FloorsController() {
-        floors = new Floor[]{new Floor()};
+        FloorModel floor = new FloorModel();
+        view = new FloorsView(floor);
+        floor.registerView(view);
+        floorModels.add(floor);
+    }
+
+    public void setCurrentFloor(int currentFloor) {
+        if (currentFloor < 0 || currentFloor >= floorModels.size())
+            return;
+
+        this.currentFloor = currentFloor;
+//        for (int i = 0; i < floorModels.size(); i++)
+//            floorModels.get(i).setCurrentFloor(i == currentFloor);
+    }
+
+    public int getCurrentFloor() {
+        return currentFloor;
+    }
+
+    public ArrayList<FloorModel> getFloorModels() {
+        return floorModels;
     }
 
 
-    @FXML
-    public void initialize() {
-        gc = canvas.getGraphicsContext2D();
-        gc.setLineWidth(2);
-        rand = new Random();
-//        ApplicationController.getInstance().registerListener( this );
+    public int getWidth() {
+        return floorModels.get(currentFloor).getWidth();
     }
 
-
-    private static final int NODE_WIDTH = 40;
-    private static final int NODE_HEIGHT = 40;
-
-    @FXML
-    public void step(ActionEvent event) {
-        gc.setFill(Color.GREEN);
-
-        for(int i=0; i<floors.length; i++)
-            for(int x=0; x<40; x++)
-                for(int y=0; y<40; y++)
-                    if (floors[i].getFloorTypeAt((x+update)%3, (y+update)%3) == FloorType.PARKABLE)     // PARKABLE
-                        gc.fillRect(x * NODE_WIDTH, y * NODE_HEIGHT, NODE_WIDTH, NODE_HEIGHT);
-
-
-        gc.setFill(Color.BLACK);
-
-        for(int i=0; i<floors.length; i++)
-            for(int x=0; x<40; x++)
-                for(int y=0; y<40; y++)
-                    if (floors[i].getFloorTypeAt((x+update)%3, (y+update)%3) == FloorType.ROAD)         // road
-                        gc.fillRect(x * NODE_WIDTH, y * NODE_HEIGHT, NODE_WIDTH, NODE_HEIGHT);
-    }
-
-    public void onObservableChanged() {
-        update++;
-        step(null);
+    public int getHeight() {
+        return floorModels.get(currentFloor).getHeight();
     }
 }

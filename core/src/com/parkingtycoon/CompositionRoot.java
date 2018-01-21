@@ -1,40 +1,52 @@
 package com.parkingtycoon;
 
-import javafx.stage.Stage;
-import com.parkingtycoon.controllers.ApplicationController;
-import com.parkingtycoon.controllers.ChartsController;
+import com.parkingtycoon.controllers.AnimatedSpritesController;
+import com.parkingtycoon.controllers.FloorsController;
+import com.parkingtycoon.controllers.RenderController;
+import com.parkingtycoon.controllers.SimulationController;
+import com.parkingtycoon.helpers.Logger;
+
 
 /**
- *
- * The CompositionRoot manages all the controllers.
- *
+ * This is the Root object of our project
+ * see the CompositionRoot design pattern for more info
+ * http://www.dotnetcurry.com/patterns-practices/1285/clean-composition-roots-dependency-injection
  */
+
 public class CompositionRoot {
+    public Game game;
+    public SimulationController simulationController;
+    public RenderController renderController;
+    public AnimatedSpritesController animatedSpritesController;
+    public FloorsController floorsController;
 
     private static CompositionRoot instance;
 
     public static CompositionRoot getInstance() {
+        if (instance == null) {
+            instance = new CompositionRoot();
+        }
+
         return instance;
     }
 
-    static void init(Stage stage) {
-        if (instance == null) {
-            instance = new CompositionRoot(stage);
-            instance.start();
-        }
+
+    public static void init(Game game) {
+        getInstance().start(game);
     }
 
-    public Stage stage;
-    public ApplicationController applicationController;
-    public ChartsController chartsController;
 
-    private CompositionRoot(Stage stage) {
-        this.stage = stage;
+    private CompositionRoot() {
+
+        Logger.info("CompositionRoot is created");
     }
 
-    private void start() {
-        applicationController = new ApplicationController();
-        chartsController = new ChartsController();
-    }
 
+    private void start(Game game) {
+        this.game = game;
+        simulationController = new SimulationController();
+        renderController = new RenderController(game);
+        animatedSpritesController = new AnimatedSpritesController();
+        floorsController = new FloorsController();
+    }
 }
