@@ -9,17 +9,17 @@ public class SimulationController extends BaseController {
 
     public final static int REAL_TIME_UPDATES_PER_SECOND = 20;
 
-    private ArrayList<IUpdatable> updatables = new ArrayList<>();
+    private ArrayList<UpdateableController> updatables = new ArrayList<>();
     private int updatesPerSecond = REAL_TIME_UPDATES_PER_SECOND;
     private long updates;
     private float deltaTime;
 
 
-    public boolean registerUpdatable(IUpdatable updatable) {
+    public boolean registerUpdatable(UpdateableController updatable) {
         return updatables.add(updatable);
     }
 
-    public boolean unregisterUpdatable(IUpdatable updatable) {
+    public boolean unregisterUpdatable(UpdateableController updatable) {
         return updatables.remove(updatable);
     }
 
@@ -32,7 +32,7 @@ public class SimulationController extends BaseController {
 
             updates++;
 
-            for (IUpdatable u : updatables)
+            for (UpdateableController u : updatables)
                 u.update();
 
             deltaTime -= timeStep;
