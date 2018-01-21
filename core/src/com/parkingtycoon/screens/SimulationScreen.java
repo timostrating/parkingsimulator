@@ -25,7 +25,7 @@ public class SimulationScreen implements Screen {
         root = CompositionRoot.getInstance();
         hud = new Hud(game.batch);
 
-        for (int i = 0; i < 20000; i++)
+        for (int i = 0; i < 1000; i++)
             new TestSpriteView();
     }
 
