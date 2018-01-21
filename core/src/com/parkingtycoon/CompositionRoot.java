@@ -1,5 +1,6 @@
 package com.parkingtycoon;
 
+import com.parkingtycoon.controllers.AnimatedSpritesController;
 import com.parkingtycoon.controllers.FloorsController;
 import com.parkingtycoon.controllers.RenderController;
 import com.parkingtycoon.controllers.SimulationController;
@@ -16,8 +17,8 @@ public class CompositionRoot {
     public Game game;
     public SimulationController simulationController;
     public RenderController renderController;
+    public AnimatedSpritesController animatedSpritesController;
     public FloorsController floorsController;
-
 
     private static CompositionRoot instance;
 
@@ -45,6 +46,7 @@ public class CompositionRoot {
         this.game = game;
         simulationController = new SimulationController();
         renderController = new RenderController(game);
+        animatedSpritesController = new AnimatedSpritesController();
         floorsController = new FloorsController();
     }
 }
