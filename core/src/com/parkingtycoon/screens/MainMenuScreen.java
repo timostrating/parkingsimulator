@@ -8,14 +8,18 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.Game;
 
 public class MainMenuScreen implements Screen {
-    final Game game;
 
-    OrthographicCamera camera;
+    private final Game game;
+
+    private OrthographicCamera camera;
+
+
 
     public MainMenuScreen(final Game game) {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
+        game.setMainCamera(camera);
     }
 
     @Override

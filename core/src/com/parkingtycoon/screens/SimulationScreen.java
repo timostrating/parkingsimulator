@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.views.BaseView;
+import com.parkingtycoon.views.TestSpriteView;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,9 @@ public class SimulationScreen implements Screen {
         root = CompositionRoot.getInstance();
         hud = new Hud(game.batch);
 
-
+        game.setMainCamera(worldCamera);
+        for (int i = 0; i < 20000; i++)
+            new TestSpriteView();
     }
 
     @Override

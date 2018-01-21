@@ -1,5 +1,8 @@
 package com.parkingtycoon.controllers;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.parkingtycoon.Game;
+
 public class InputController implements com.badlogic.gdx.InputProcessor {
 
     @Override
@@ -39,8 +42,8 @@ public class InputController implements com.badlogic.gdx.InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
-//        OrthographicCamera camera = Game.getInstance().getWorldCamera();
-//        camera.zoom = Math.max(1, Math.min(5, camera.zoom + amount * .2f));
+        OrthographicCamera camera = Game.getInstance().getMainCamera();
+        camera.zoom = Math.max(1, Math.min(5, camera.zoom + amount * .2f));
         return true;
     }
 }

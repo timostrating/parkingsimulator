@@ -56,6 +56,6 @@ public class Hud {
 
         stage.addActor(button);
 
-        Gdx.input.setInputProcessor(new InputMultiplexer(new InputController(), stage));
+        Gdx.input.setInputProcessor(new InputMultiplexer(new InputController(), stage));  // TODO: the Game class may should do this.
     }
 }

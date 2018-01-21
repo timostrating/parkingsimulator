@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by Sneeuwpopsneeuw on 17-Jan-18.
  */
-public class FloorsController {
+public class FloorsController  {
 
     private ArrayList<FloorModel> floorModels = new ArrayList<>();
     private FloorsView view = new FloorsView();

@@ -1,6 +1,7 @@
 package com.parkingtycoon;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.parkingtycoon.screens.MainMenuScreen;
@@ -17,13 +18,26 @@ public class Game extends com.badlogic.gdx.Game {
     public SpriteBatch batch;
     public BitmapFont font;
 
+    private OrthographicCamera mainCamera;
 
     private int currentScreenIndex = 0;
 
     // Screens should probably not be added while the simulation is running. But we keep everything Generic too optimize the compiler
     private ArrayList<Class<? extends Screen>> screens = new ArrayList<>();  // see  https://stackoverflow.com/questions/13685158/why-does-java-allow-type-unsafe-array-assignments
 
+
+
+    private static Game instance;
+    public static Game getInstance() {
+        return instance;
+    }
+
     public Game() { // added Screens
+        if (instance != null)
+            throw new RuntimeException("Game already instantiated");
+
+        instance = this;
+
         screens.add(MainMenuScreen.class);
         screens.add(SimulationScreen.class);
     }
@@ -72,6 +86,15 @@ public class Game extends com.badlogic.gdx.Game {
 
         batch.dispose();
         font.dispose();
+    }
+
+
+    public OrthographicCamera getMainCamera() {
+        return mainCamera;
+    }
+
+    public void setMainCamera(OrthographicCamera mainCamera) {
+        this.mainCamera = mainCamera;
     }
 }
 
