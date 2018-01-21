@@ -1,7 +1,6 @@
 package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.Gdx;
-import com.parkingtycoon.interfaces.IUpdatable;
 
 import java.util.ArrayList;
 

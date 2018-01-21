@@ -1,11 +1,11 @@
 package com.parkingtycoon.controllers;
 
-import com.parkingtycoon.interfaces.IUpdatable;
+import com.parkingtycoon.interfaces.Updatable;
 
 /**
  * Created by Hilko on 17-1-2018.
  */
-public class ChartsController extends BaseController implements IUpdatable {
+public class ChartsController extends BaseController implements Updatable {
 
     public ChartsController() {
 
