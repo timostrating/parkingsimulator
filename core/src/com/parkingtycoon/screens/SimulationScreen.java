@@ -21,6 +21,7 @@ public class SimulationScreen implements Screen {
         this.game = game;
         worldCamera = new OrthographicCamera();
         worldCamera.setToOrtho(false, 800, 480);
+        CompositionRoot.getInstance().renderController.setMainCamera(worldCamera);
         root = CompositionRoot.getInstance();
         hud = new Hud(game.batch);
 
@@ -33,6 +34,8 @@ public class SimulationScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        game.batch.setProjectionMatrix(worldCamera.combined);
         root.simulationController.update();     // update simulation
         root.renderController.preRender();      // preRender views
         root.renderController.render();         // render views
