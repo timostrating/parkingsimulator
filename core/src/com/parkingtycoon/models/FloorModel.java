@@ -15,6 +15,11 @@ public class FloorModel extends BaseModel {
         GRASS
     }
 
+    private boolean isCurrentFloor = false;
+    public FloorType[][] tiles = new FloorType[Game.WORLD_WIDTH][];
+    public ArrayList<CarModel> cars = new ArrayList<>();
+    public CarModel[][] parkedCars = new CarModel[Game.WORLD_WIDTH][];
+
     public boolean isCurrentFloor() {
         return isCurrentFloor;
     }
@@ -22,25 +27,6 @@ public class FloorModel extends BaseModel {
     public void setCurrentFloor(boolean currentFloor) {
         isCurrentFloor = currentFloor;
         notifyViews();
-    }
-
-    public FloorType[][] tiles = new FloorType[Game.WORLD_WIDTH][];
-    public ArrayList<CarModel> cars = new ArrayList<>();
-    public CarModel[][] parkedCars = new CarModel[Game.WORLD_WIDTH][];
-
-    private boolean isCurrentFloor = false;
-
-    public FloorModel() {
-        for (int x = 0; x < Game.WORLD_WIDTH; x++) {
-
-            tiles[x] = new FloorType[Game.WORLD_HEIGHT];
-
-            for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
-
-                tiles[x][y] = FloorType.GRASS;
-
-            }
-        }
     }
 
 }

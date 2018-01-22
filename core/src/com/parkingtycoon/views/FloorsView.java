@@ -79,11 +79,11 @@ public class FloorsView extends BaseView {
                         break;
 
                     case ROAD:
-                        tile = tileSets.getTile(174);
+                        tile = tileSets.getTile(78);
                         break;
 
                     case PARKABLE:
-                        tile = tileSets.getTile(78);
+                        tile = tileSets.getTile(174);
                         break;
 
                     default:

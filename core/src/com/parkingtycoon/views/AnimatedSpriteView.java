@@ -19,7 +19,7 @@ public class AnimatedSpriteView extends SpriteView {
         this.simulationSpeedDependent = simulationSpeedDependent;
 
         spriteModel = CompositionRoot.getInstance().animatedSpritesController.getAnimatedSpriteModel(spritePath);
-        sprite.setSize(spriteModel.frameWidth / 16f, spriteModel.frameHeight / 16f);
+        sprite.setSize(spriteModel.frameWidth / 32f, spriteModel.frameHeight / 32f);
 
     }
 

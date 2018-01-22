@@ -2,6 +2,7 @@ package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.helpers.Random;
 import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.views.CarView;
@@ -48,8 +49,10 @@ public class SimulationController extends BaseController {
     }
 
     private void addCars() {
-        if (Math.random() > .95f) {
+        if (Math.random() > .96f) {
             CarModel car = new CarModel();
+            car.startTime = updates;
+            car.endTime = updates + Random.randomInt(50, 200);
             car.registerView(new CarView());
             CompositionRoot.getInstance().entrancesController.addToQueue(car);
         }

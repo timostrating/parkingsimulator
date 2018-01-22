@@ -10,6 +10,6 @@ public abstract class CarQueuesController extends UpdateableController {
         CompositionRoot.getInstance().simulationController.registerUpdatable(this);
     }
 
-    public abstract void addToQueue(CarModel car);
+    public abstract boolean addToQueue(CarModel car);
 
 }

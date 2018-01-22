@@ -26,7 +26,7 @@ public class SpriteView extends BaseView {
         }
 
         sprite = new Sprite(texture);
-        sprite.setSize(sprite.getWidth() / 16f, sprite.getHeight() / 16f);
+        sprite.setSize(sprite.getWidth() / 32f, sprite.getHeight() / 32f);
     }
 
     @Override
