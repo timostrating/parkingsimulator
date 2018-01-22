@@ -127,4 +127,4 @@ Thumbs.db
 /out/
 
 ## CUSTOM
-gradle.properties
+*.properties
