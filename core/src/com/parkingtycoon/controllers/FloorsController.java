@@ -69,6 +69,7 @@ public class FloorsController extends UpdateableController {
                         // available place found.
                         floor.parkedCars[x][y] = car;
                         floor.cars.add(car);
+                        car.position.set(x, y);
                         Logger.info("Car parked at (" + x + ", " + y + ") on floor " + i);
                         return true;
 
