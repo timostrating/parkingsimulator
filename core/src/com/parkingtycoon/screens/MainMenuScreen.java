@@ -20,7 +20,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final Game game) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, Game.V_WIDTH, Game.V_HEIGHT);
         root = CompositionRoot.getInstance();
 
         root.renderController.setMainCamera(camera);

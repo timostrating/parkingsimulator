@@ -19,10 +19,13 @@ public class SimulationScreen implements Screen {
 
     public SimulationScreen(Game game) {
         this.game = game;
+
         worldCamera = new OrthographicCamera();
-        worldCamera.setToOrtho(false, 800, 480);
-        CompositionRoot.getInstance().renderController.setMainCamera(worldCamera);
+        worldCamera.setToOrtho(false, Game.V_WIDTH, Game.V_HEIGHT);
+
         root = CompositionRoot.getInstance();
+        root.renderController.setMainCamera(worldCamera);
+
         hud = new Hud(game.batch);
 
         for (int i = 0; i < 20000; i++)
@@ -35,13 +38,11 @@ public class SimulationScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        game.batch.setProjectionMatrix(worldCamera.combined);
         root.simulationController.update();     // update simulation
         root.renderController.preRender();      // preRender views
+        game.batch.setProjectionMatrix(worldCamera.combined);
         root.renderController.render();         // render views
-
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined); // render Hud
-        hud.stage.draw();
+        hud.render();                           // render UI
 
         Gdx.graphics.setTitle("Parking Tycoon (fps: " + Gdx.graphics.getFramesPerSecond() + ")");
     }
@@ -49,6 +50,7 @@ public class SimulationScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         worldCamera.setToOrtho(false, 10f * width / height, 10);
+        hud.resize(width, height);
     }
 
     @Override
@@ -61,7 +63,9 @@ public class SimulationScreen implements Screen {
     public void hide() { }
 
     @Override
-    public void dispose() { }
+    public void dispose() {
+        hud.dispose();
+    }
 
 
 

@@ -24,17 +24,17 @@ public class RenderController extends BaseController {
     }
 
     public void preRender() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);        // clear screen
+        Gdx.gl.glClearColor(0, 0, 0, 1);    // clear screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        sortViews();                                                    // sort the views so that the render-order is correct
+        sortViews();                                // sort the views so that the render-order is correct
         for (BaseView v : views)
-            v.preRender();                         // PreRender
+            v.preRender();                          // PreRender
     }
 
     public void render() {
         game.batch.begin();
-        for (BaseView v : views)                // render views
+        for (BaseView v : views)                    // render views
             v.draw(game.batch);
         game.batch.end();
     }
