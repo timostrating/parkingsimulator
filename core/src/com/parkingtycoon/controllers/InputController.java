@@ -1,5 +1,7 @@
 package com.parkingtycoon.controllers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 
@@ -7,6 +9,9 @@ public class InputController implements com.badlogic.gdx.InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.ESCAPE)
+            Gdx.app.exit();
+
         return false;
     }
 

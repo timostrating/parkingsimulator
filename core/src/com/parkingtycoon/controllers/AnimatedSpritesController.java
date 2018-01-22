@@ -21,8 +21,7 @@ public class AnimatedSpritesController extends UpdateableController {
 
         SimulationController simulationController = CompositionRoot.getInstance().simulationController;
 
-        float speedMultiplier = simulationController.getUpdatesPerSecond()
-                        / SimulationController.REAL_TIME_UPDATES_PER_SECOND;
+        float speedMultiplier = simulationController.getUpdatesPerSecond() / (float) SimulationController.REAL_TIME_UPDATES_PER_SECOND;
 
         for (AnimatedSpriteModel spriteModel : models)
             spriteModel.speedMultiplier = speedMultiplier;
