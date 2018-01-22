@@ -1,7 +1,6 @@
 package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.Gdx;
-import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.helpers.UpdateableController;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class SimulationController extends BaseController {
 
             updates++;
             pausedUpdate = true; // only pause if there has been a new render
-            Logger.info(updates);
+//            Logger.info(updates);
 
             for (UpdateableController u : updatables)
                 u.update();

@@ -5,6 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 
+
+/**
+ * This Class is responsible for keyboard and mouse controllers that are applied to the GameWindow
+ */
 public class InputController implements com.badlogic.gdx.InputProcessor {
 
     @Override

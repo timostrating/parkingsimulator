@@ -37,15 +37,15 @@ public class FloorsView extends BaseView {
         return 0;
     }
 
-    private void moveCamera(OrthographicCamera camera) {
+    private void moveCamera(OrthographicCamera camera) {  // TODO: this is not the responsibility of this class
         float x = Gdx.input.getX() / (float) Gdx.graphics.getWidth();
         float y = Gdx.input.getY() / (float) Gdx.graphics.getHeight();
 
         if (x < .02f) camera.position.x -= .1f * camera.zoom;
         else if (x > .98f) camera.position.x += .1f * camera.zoom;
 
-        if (y < .03f) camera.position.y += .1f * camera.zoom;
-        else if (y > .97f) camera.position.y -= .1f * camera.zoom;
+        if (y < .02f) camera.position.y += .1f * camera.zoom;
+        else if (y > .98f) camera.position.y -= .1f * camera.zoom;
 
         camera.update();
     }
