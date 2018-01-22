@@ -71,10 +71,14 @@ public class AnimatedSpritesController extends UpdateableController {
             int from = tag.getInt("from"),
                     to = tag.getInt("to");
 
-            // todo: support reverse animations
+            boolean reverse = tag.getString("direction").equals("reverse");
 
-            for (int i = from; i <= to; i++)
-                animation.add(frames[i]);
+            for (int i = from; i <= to; i++) {
+                if (reverse)
+                    animation.add(0, frames[i]);
+                else
+                    animation.add(frames[i]);
+            }
 
             spriteModel.animations.add(animation);
         }
