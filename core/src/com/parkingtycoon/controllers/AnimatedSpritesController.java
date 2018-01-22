@@ -71,6 +71,8 @@ public class AnimatedSpritesController extends UpdateableController {
             int from = tag.getInt("from"),
                     to = tag.getInt("to");
 
+            // todo: support reverse animations
+
             for (int i = from; i <= to; i++)
                 animation.add(frames[i]);
 
