@@ -1,7 +1,10 @@
 package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.Gdx;
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.UpdateableController;
+import com.parkingtycoon.models.CarModel;
+import com.parkingtycoon.views.CarView;
 
 import java.util.ArrayList;
 
@@ -14,8 +17,6 @@ public class SimulationController extends BaseController {
     private long updates;
     private float deltaTime;
 
-
-
     public void update() {
 
         float timeStep = 1 / (float) updatesPerSecond;
@@ -27,6 +28,8 @@ public class SimulationController extends BaseController {
 
             for (UpdateableController u : updatables)
                 u.update();
+
+            addCars();
 
             deltaTime -= timeStep;
         }
@@ -43,4 +46,13 @@ public class SimulationController extends BaseController {
     public int getUpdatesPerSecond() {
         return updatesPerSecond;
     }
+
+    private void addCars() {
+        if (Math.random() > .95f) {
+            CarModel car = new CarModel();
+            car.registerView(new CarView());
+            CompositionRoot.getInstance().entrancesController.addToQueue(car);
+        }
+    }
+
 }

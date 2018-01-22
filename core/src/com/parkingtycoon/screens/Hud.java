@@ -30,7 +30,7 @@ public class Hud {
 
     public Hud(SpriteBatch batch) {
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Game.V_WIDTH, Game.V_HEIGHT, camera);
+        viewport = new FitViewport(Game.VIEWPORT_WIDTH, Game.VIEWPORT_HEIGHT, camera);
         stage = new Stage(viewport, batch);
 
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));

@@ -1,4 +1,10 @@
 package com.parkingtycoon.models;
 
-public class CarModel {
+import com.badlogic.gdx.math.Vector2;
+
+public class CarModel extends BaseModel {
+
+    public Vector2 position = new Vector2();
+
+
 }

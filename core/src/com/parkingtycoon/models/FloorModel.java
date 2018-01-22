@@ -1,32 +1,46 @@
 package com.parkingtycoon.models;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.parkingtycoon.Game;
+
+import java.util.ArrayList;
 
 /**
  * Created by Sneeuwpopsneeuw on 17-Jan-18.
  */
 public class FloorModel extends BaseModel {
-    private TiledMap tiledMap;
-    private TiledMapTileLayer layer;
 
+    public enum FloorType {
+        ROAD,
+        PARKABLE,
+        GRASS
+    }
 
+    public boolean isCurrentFloor() {
+        return isCurrentFloor;
+    }
+
+    public void setCurrentFloor(boolean currentFloor) {
+        isCurrentFloor = currentFloor;
+        notifyViews();
+    }
+
+    public FloorType[][] tiles = new FloorType[Game.WORLD_WIDTH][];
+    public ArrayList<CarModel> cars = new ArrayList<>();
+    public CarModel[][] parkedCars = new CarModel[Game.WORLD_WIDTH][];
+
+    private boolean isCurrentFloor = false;
 
     public FloorModel() {
-        tiledMap = new TmxMapLoader().load("maps/default.tmx");;
-        layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+        for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+
+            tiles[x] = new FloorType[Game.WORLD_HEIGHT];
+
+            for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+
+                tiles[x][y] = FloorType.GRASS;
+
+            }
+        }
     }
 
-    public TiledMap getTiledMap() {
-        return tiledMap;
-    }
-
-    public int getWidth() {
-        return layer.getWidth();
-    }
-
-    public int getHeight() {
-        return layer.getHeight();
-    }
 }

@@ -10,40 +10,26 @@ import java.util.ArrayList;
  */
 public class FloorsController  {
 
-    private ArrayList<FloorModel> floorModels = new ArrayList<>();
+    private ArrayList<FloorModel> floors = new ArrayList<>();
     private FloorsView view;
     private int currentFloor = 0;
 
     public FloorsController() {
         FloorModel floor = new FloorModel();
-        view = new FloorsView(floor);
+        view = new FloorsView();
         floor.registerView(view);
-        floorModels.add(floor);
+        floors.add(floor);
+
+        setCurrentFloor(0);
     }
 
     public void setCurrentFloor(int currentFloor) {
-        if (currentFloor < 0 || currentFloor >= floorModels.size())
+        if (currentFloor < 0 || currentFloor >= floors.size())
             return;
 
         this.currentFloor = currentFloor;
-//        for (int i = 0; i < floorModels.size(); i++)
-//            floorModels.get(i).setCurrentFloor(i == currentFloor);
+        for (int i = 0; i < floors.size(); i++)
+            floors.get(i).setCurrentFloor(i == currentFloor);
     }
 
-    public int getCurrentFloor() {
-        return currentFloor;
-    }
-
-    public ArrayList<FloorModel> getFloorModels() {
-        return floorModels;
-    }
-
-
-    public int getWidth() {
-        return floorModels.get(currentFloor).getWidth();
-    }
-
-    public int getHeight() {
-        return floorModels.get(currentFloor).getHeight();
-    }
 }
