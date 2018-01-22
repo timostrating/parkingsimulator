@@ -38,9 +38,9 @@ public class SimulationScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        game.batch.setProjectionMatrix(worldCamera.combined);
         root.simulationController.update();     // update simulation
         root.renderController.preRender();      // preRender views
+        game.batch.setProjectionMatrix(worldCamera.combined);
         root.renderController.render();         // render views
         hud.render();                           // render UI
 
@@ -50,6 +50,7 @@ public class SimulationScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         worldCamera.setToOrtho(false, 10f * width / height, 10);
+        hud.resize(width, height);
     }
 
     @Override

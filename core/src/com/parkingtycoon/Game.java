@@ -69,7 +69,6 @@ public class Game extends com.badlogic.gdx.Game {
         super.render(); // important!
     }
 
-
     public void dispose() {
 
         batch.dispose();
