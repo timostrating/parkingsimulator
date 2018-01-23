@@ -2,15 +2,14 @@ package com.parkingtycoon.models;
 
 import java.util.Random;
 
-
 /**
  * Stores all data that is known to a CAR. This class is managed by CarController;
  */
-public class CarModel {
+public class CarModel extends PathFollowerModel {
+
+    public long startTime, endTime, timer;
 
     private String license = "";
-
-
 
     /**
      * Standard constructor
@@ -31,4 +30,5 @@ public class CarModel {
     public String getLicense() {
         return license;
     }
+  
 }

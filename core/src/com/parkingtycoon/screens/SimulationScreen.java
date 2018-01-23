@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
+import com.parkingtycoon.views.EntranceView;
 import com.parkingtycoon.views.TestSpriteView;
 
 public class SimulationScreen implements Screen {
@@ -18,18 +19,24 @@ public class SimulationScreen implements Screen {
 
 
     public SimulationScreen(Game game) {
+
+        root = CompositionRoot.getInstance();
+        root.simulationController.startSimulation();
+
         this.game = game;
 
         worldCamera = new OrthographicCamera();
-        worldCamera.setToOrtho(false, Game.V_WIDTH, Game.V_HEIGHT);
+        worldCamera.setToOrtho(false, Game.VIEWPORT_WIDTH, Game.VIEWPORT_HEIGHT);
 
         root = CompositionRoot.getInstance();
         root.renderController.setMainCamera(worldCamera);
 
         hud = new Hud(game.batch);
 
-        for (int i = 0; i < 20000; i++)
+        for (int i = 0; i < 1000; i++)
             new TestSpriteView();
+
+        new EntranceView();
     }
 
     @Override
@@ -38,7 +45,6 @@ public class SimulationScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        root.simulationController.update();     // update simulation
         root.renderController.preRender();      // preRender views
         game.batch.setProjectionMatrix(worldCamera.combined);
         root.renderController.render();         // render views
@@ -67,9 +73,8 @@ public class SimulationScreen implements Screen {
         hud.dispose();
     }
 
-
-
     public OrthographicCamera getWorldCamera() {
         return worldCamera;
     }
+  
 }

@@ -1,7 +1,10 @@
 package com.parkingtycoon.controllers;
 
-import com.badlogic.gdx.Gdx;
+import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.helpers.Random;
 import com.parkingtycoon.helpers.UpdateableController;
+import com.parkingtycoon.models.CarModel;
+import com.parkingtycoon.views.CarView;
 
 import java.util.ArrayList;
 
@@ -9,33 +12,46 @@ public class SimulationController extends BaseController {
 
     public final static int REAL_TIME_UPDATES_PER_SECOND = 20;
 
+    public boolean isSimulatorRunning = true;
+
     private ArrayList<UpdateableController> updatables = new ArrayList<>();
     private int updatesPerSecond = REAL_TIME_UPDATES_PER_SECOND;
-    private long updates = 0;
-    private float deltaTime = 0;
+    private long updates;
+    private float deltaTime;
+    private long prevTime;
     private boolean paused = false;
     private boolean pausedUpdate = false;
 
+    public void startSimulation() {
+        new Thread( () -> {
+            while (isSimulatorRunning) update();
+        }).start();
+    }
 
     public void update() {
-
+      
         if (paused && pausedUpdate)
             return;
 
-        float timeStep = 1 / (float) updatesPerSecond;
-        deltaTime += Math.min(Gdx.graphics.getDeltaTime(), .25f);
+        long time = System.currentTimeMillis();
+
+        float timeStep = 1000 / (float) updatesPerSecond;
+        deltaTime += Math.min(time - prevTime, 250);
 
         while (deltaTime >= timeStep) {
 
             updates++;
             pausedUpdate = true; // only pause if there has been a new render
-//            Logger.info(updates);
 
             for (UpdateableController u : updatables)
                 u.update();
 
+            addCars();
+
             deltaTime -= timeStep;
         }
+
+        prevTime = time;
     }
 
     public boolean registerUpdatable(UpdateableController updatable) {
@@ -55,8 +71,6 @@ public class SimulationController extends BaseController {
         return paused ? 0 : updatesPerSecond;
     }
 
-
-    // PAUSED
     public void pause() {
         paused = true;
         pausedUpdate = false;
@@ -71,4 +85,15 @@ public class SimulationController extends BaseController {
         paused = !paused;
         pausedUpdate = false;
     }
+
+    private void addCars() { // todo: remove to an appropriate controller
+        if (Math.random() > .96f) {
+            CarModel car = CompositionRoot.getInstance().carsController.createCar();
+            car.startTime = updates;
+            car.endTime = updates + Random.randomInt(50, 200);
+            car.registerView(new CarView());
+            CompositionRoot.getInstance().entrancesController.addToQueue(car);
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.parkingtycoon.Game;
 import com.parkingtycoon.models.BaseModel;
 
 import java.util.HashMap;
@@ -14,10 +15,16 @@ public class SpriteView extends BaseView {
 
     protected Sprite sprite;
     protected boolean visible = true;
+    protected String spritePath;
 
     public SpriteView(String spritePath) {
         super();
+        this.spritePath = spritePath;
+    }
 
+    @Override
+    public void start() {
+        super.start();
         Texture texture = textures.get(spritePath);
         if (texture == null) {
             texture = new Texture(Gdx.files.internal(spritePath));
@@ -25,7 +32,7 @@ public class SpriteView extends BaseView {
         }
 
         sprite = new Sprite(texture);
-        sprite.setSize(sprite.getWidth() / 16f, sprite.getHeight() / 16f);
+        sprite.setSize(sprite.getWidth() / 32f, sprite.getHeight() / 32f);
     }
 
     @Override
@@ -40,8 +47,7 @@ public class SpriteView extends BaseView {
 
     @Override
     public float renderIndex() {
-        // todo worldHeight = floor height
-        int worldHeight = 1080; // Game.getInstance().worldHeight;
-        return (sprite.getY() + worldHeight) / (worldHeight * 2f);
+        return (sprite.getY() + Game.WORLD_HEIGHT) / (Game.WORLD_HEIGHT * 2f);
     }
+
 }

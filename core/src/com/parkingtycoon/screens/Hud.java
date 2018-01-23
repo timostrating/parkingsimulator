@@ -45,7 +45,7 @@ public class Hud implements Disposable {
 
         root = CompositionRoot.getInstance();
         hudCamera = new OrthographicCamera(Gdx.graphics.getWidth() * scale,  Gdx.graphics.getHeight() * scale);
-        hudCamera.setToOrtho(false, Game.V_WIDTH, Game.V_HEIGHT);
+        hudCamera.setToOrtho(false, Game.VIEWPORT_WIDTH, Game.VIEWPORT_HEIGHT);
 
         viewport = new ScreenViewport();
         stage = new Stage(viewport, batch);
@@ -56,7 +56,7 @@ public class Hud implements Disposable {
 
         VisUI.load();
 
-                addStuff(stage);
+        addStuff(stage);
 
         Gdx.input.setInputProcessor(new InputMultiplexer(new InputController(), stage));  // TODO: the Game class may should do this.
     }
@@ -91,8 +91,9 @@ public class Hud implements Disposable {
         hudCamera.update();
 
         hudBatch.begin();
-            stage.act();
-            stage.draw();
+        stage.act();
+        stage.draw();
         hudBatch.end();
     }
+  
 }

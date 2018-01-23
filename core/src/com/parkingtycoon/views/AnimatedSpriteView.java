@@ -12,15 +12,19 @@ public class AnimatedSpriteView extends SpriteView {
     private boolean loop, flipX, flipY, done, simulationSpeedDependent;
     private AnimatedSpriteModel spriteModel;
     private AnimatedSpriteModel.Animation currentAnimation;
+    private String jsonPath;
 
     public AnimatedSpriteView(String spritePath, boolean simulationSpeedDependent) {
         super(spritePath + ".png");
-
+        jsonPath = spritePath + ".json";
         this.simulationSpeedDependent = simulationSpeedDependent;
+    }
 
-        spriteModel = CompositionRoot.getInstance().animatedSpritesController.getAnimatedSpriteModel(spritePath);
-        sprite.setSize(spriteModel.frameWidth / 16f, spriteModel.frameHeight / 16f);
-
+    @Override
+    public void start() {
+        super.start();
+        spriteModel = CompositionRoot.getInstance().animatedSpritesController.getAnimatedSpriteModel(jsonPath);
+        sprite.setSize(spriteModel.frameWidth / 32f, spriteModel.frameHeight / 32f);
     }
 
     @Override

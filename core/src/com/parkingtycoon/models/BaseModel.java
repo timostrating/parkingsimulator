@@ -20,7 +20,7 @@ public abstract class BaseModel {
         views.remove(view);
     }
 
-    protected void notifyViews() {
+    public void notifyViews() {
         for (BaseView v : views)
             v.updateView(this);
     }
