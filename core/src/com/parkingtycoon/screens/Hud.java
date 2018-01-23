@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,7 +26,10 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.controllers.InputController;
-import com.parkingtycoon.helpers.Logger;
+import com.parkingtycoon.controllers.ui.HudGameController;
+import com.parkingtycoon.controllers.ui.HudOptionsController;
+import com.parkingtycoon.controllers.ui.HudStatsController;
+import com.parkingtycoon.controllers.ui.HudTimeController;
 import com.parkingtycoon.views.ui.TestListView;
 
 public class Hud implements Disposable {
@@ -35,7 +39,6 @@ public class Hud implements Disposable {
 
     private final CompositionRoot root;
 
-    private VisTable table;
     private float scale = 1f;
     //    private Texture myTexture;
     private Stage stage;
@@ -46,9 +49,21 @@ public class Hud implements Disposable {
 
     private SpriteBatch hudBatch;
 
+    private HudOptionsController hudTopLeftController;
+    private HudGameController hudTopRightController;
+    private HudStatsController hudBottomLeftController;
+    private HudTimeController hudBottomRightController;
+    private ShapeRenderer shapeRenderer;
 
 
     public Hud(SpriteBatch batch) {
+        hudTopLeftController = new HudOptionsController();
+        hudTopRightController = new HudGameController();
+        hudBottomLeftController = new HudStatsController();
+        hudBottomRightController = new HudTimeController();
+
+        shapeRenderer = new ShapeRenderer();
+
         root = CompositionRoot.getInstance();
         hudCamera = new OrthographicCamera(Gdx.graphics.getWidth() * scale,  Gdx.graphics.getHeight() * scale);
         hudCamera.setToOrtho(false, Game.V_WIDTH, Game.V_HEIGHT);
@@ -68,9 +83,9 @@ public class Hud implements Disposable {
     }
 
     private void addStuff(Stage stage) {  // TODO: RENAME
-        table = new VisTable();
-        table.setDebug(DEBUG);
-        table.setFillParent(true);
+        VisTable mainTable = new VisTable();
+        mainTable.setDebug(DEBUG);
+        mainTable.setFillParent(true);
 
 
         // BUTTON 1
@@ -88,23 +103,19 @@ public class Hud implements Disposable {
             }
         });
 
-        table.add(button).top().left();
+        mainTable.add(button).top().left();
 
 
         // SLIDER
-        final VisSlider slider = new VisSlider(1, 100, 1, false);
+        final VisSlider slider = new VisSlider(10, 100, 1, false);
         slider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
                 root.simulationController.setUpdatesPerSecond((int)(slider.getValue()));
-                Logger.info(slider.getValue());
-
-
                 return true;
             }
         });
-        table.add(slider).expand().top().left();
-
+        mainTable.add(slider).expand().top().left();
 
         // BUTTON 2
         final VisImageButton button2 = new VisImageButton(drawable);
@@ -118,10 +129,29 @@ public class Hud implements Disposable {
             }
         });
 
-        table.add(button2).expand().top().right();
+
+        // BUTTON 3
+        final VisImageButton button3 = new VisImageButton(drawable);
+        button.setWidth(100);
+        button.setHeight(100);
+
+        button3.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+//                stage.addActor(new TestGraphView());
+
+                
+            }
+        });
+
+        VisTable buttonTable = new VisTable(true);
+        buttonTable.add(button2);
+        buttonTable.add(button3);
+
+        mainTable.add(buttonTable).expand().top().right();
 
 
-        stage.addActor(table);
+        stage.addActor(mainTable);
     }
 
 
@@ -138,6 +168,17 @@ public class Hud implements Disposable {
 
     public void render() {
         hudCamera.update();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.rect(0, 0, 200, 200);
+//            shapeRenderer.line(0,0,400,400);
+            shapeRenderer.circle(100,100,80);
+        shapeRenderer.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//            shapeRenderer.setColor(0, 1, 0, 1);
+            shapeRenderer.arc(100,100, 80, 0,90);
+        shapeRenderer.end();
 
         hudBatch.begin();
             stage.act();
