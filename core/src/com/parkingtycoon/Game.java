@@ -20,7 +20,7 @@ public class Game extends com.badlogic.gdx.Game {
 
     private int currentScreenIndex = 0;
 
-    // Screens should probably not be added while the simulation is running. But we keep everything Generic too optimize the compiler
+    // Screens should probably not be added while the simulation is running. But we keep everything Generic to optimize the compiler
     private ArrayList<Class<? extends Screen>> screens = new ArrayList<>();  // see  https://stackoverflow.com/questions/13685158/why-does-java-allow-type-unsafe-array-assignments
 
 
