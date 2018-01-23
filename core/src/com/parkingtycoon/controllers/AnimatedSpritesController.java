@@ -40,7 +40,7 @@ public class AnimatedSpritesController extends UpdateableController {
         AnimatedSpriteModel spriteModel = new AnimatedSpriteModel(path);
         models.add(spriteModel);
 
-        JsonValue json = new JsonReader().parse(Gdx.files.internal(path + ".json"));
+        JsonValue json = new JsonReader().parse(Gdx.files.internal(path));
         JsonValue jsonFrames = json.get("frames");
 
         AnimatedSpriteModel.Animation.Frame[] frames = new AnimatedSpriteModel.Animation.Frame[jsonFrames.size];
@@ -70,8 +70,14 @@ public class AnimatedSpritesController extends UpdateableController {
             int from = tag.getInt("from"),
                     to = tag.getInt("to");
 
-            for (int i = from; i <= to; i++)
-                animation.add(frames[i]);
+            boolean reverse = tag.getString("direction").equals("reverse");
+
+            for (int i = from; i <= to; i++) {
+                if (reverse)
+                    animation.add(0, frames[i]);
+                else
+                    animation.add(frames[i]);
+            }
 
             spriteModel.animations.add(animation);
         }
