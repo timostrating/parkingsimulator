@@ -1,6 +1,7 @@
-# Parkingsimulator
+# ParkingSimulator Tycoon
 
-This is an AWESOME parkingsimulator inspired by rollercoaster tycoon 2.
+This is an AWESOME parkingsimulator inspired by Rollercoaster Tycoon 2.
+![gif](https://i.imgur.com/NNS8PzY.png)
 
 ## Dependencies
 * Gradle
@@ -15,6 +16,7 @@ org.gradle.java.home=___URL_TOO_YOUR_JAVA_HOME___
 ```
 
 Replace this with the url of your jdk installation. For example: if you have jdk version 1.8.0_73 installed on Windows.
+WARNING: Java 9 not supported!
 
 ```gradle.properties
 org.gradle.java.home=C:\\Program Files\\Java\\jdk1.8.0_73
