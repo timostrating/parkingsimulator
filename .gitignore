@@ -125,3 +125,6 @@ Thumbs.db
 /ios-moe/xcode/native/
 
 /out/
+
+## CUSTOM
+*.properties

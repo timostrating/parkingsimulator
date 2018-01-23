@@ -5,7 +5,7 @@ import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.models.BaseModel;
 
 /**
- * Created by Hilko on 18-1-2018.
+ * This class is responsible for adding the responbitities of a View in the MVC architechture.
  */
 public abstract class BaseView {
 

@@ -4,8 +4,9 @@
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 
     <inherits name='com.parkingtycoon.GdxDefinition' />
-    
-    <collapse-all-properties />
+	<inherits name='com.kotcrab.vis.vis-ui' />
+
+	<collapse-all-properties />
     
 	<add-linker name="xsiframe"/>	
 	<set-configuration-property name="devModeRedirectEnabled" value="true"/>

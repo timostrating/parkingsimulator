@@ -19,6 +19,8 @@ public class SimulationController extends BaseController {
     private long updates;
     private float deltaTime;
     private long prevTime;
+    private boolean paused = false;
+    private boolean pausedUpdate = false;
 
     public void startSimulation() {
         new Thread( () -> {
@@ -27,6 +29,9 @@ public class SimulationController extends BaseController {
     }
 
     public void update() {
+      
+        if (paused && pausedUpdate)
+            return;
 
         long time = System.currentTimeMillis();
 
@@ -35,8 +40,8 @@ public class SimulationController extends BaseController {
 
         while (deltaTime >= timeStep) {
 
-
             updates++;
+            pausedUpdate = true; // only pause if there has been a new render
 
             for (UpdateableController u : updatables)
                 u.update();
@@ -57,13 +62,32 @@ public class SimulationController extends BaseController {
         return updatables.remove(updatable);
     }
 
-    public int getUpdatesPerSecond() {
-//        Logger.info("ups" + updatesPerSecond);
-        return updatesPerSecond;
+
+    public void setUpdatesPerSecond(int updatesPerSecond) {
+        this.updatesPerSecond = updatesPerSecond;
     }
 
-    private void addCars() {
-        if (Math.random() > .96f || true) {
+    public int getUpdatesPerSecond() {
+        return paused ? 0 : updatesPerSecond;
+    }
+
+    public void pause() {
+        paused = true;
+        pausedUpdate = false;
+    }
+
+    public void resume() {
+        paused = false;
+        pausedUpdate = false;
+    }
+
+    public void togglePaused() {
+        paused = !paused;
+        pausedUpdate = false;
+    }
+
+    private void addCars() { // todo: remove to an appropriate controller
+        if (Math.random() > .96f) {
             CarModel car = CompositionRoot.getInstance().carsController.createCar();
             car.startTime = updates;
             car.endTime = updates + Random.randomInt(50, 200);

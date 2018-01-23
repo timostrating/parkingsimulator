@@ -13,17 +13,14 @@ public class Game extends com.badlogic.gdx.Game {
 
     public static final int VIEWPORT_WIDTH = 700, VIEWPORT_HEIGHT = 500;
     public static final int WORLD_WIDTH = 100, WORLD_HEIGHT = 100;
-
+  
     public SpriteBatch batch;
     public BitmapFont font;
 
-
     private int currentScreenIndex = 0;
 
-    // Screens should probably not be added while the simulation is running. But we keep everything Generic too optimize the compiler
+    // Screens should probably not be added while the simulation is running. But we keep everything Generic to optimize the compiler
     private ArrayList<Class<? extends Screen>> screens = new ArrayList<>();  // see  https://stackoverflow.com/questions/13685158/why-does-java-allow-type-unsafe-array-assignments
-
-
 
     public Game() { // added Screens
         screens.add(MainMenuScreen.class);
@@ -31,7 +28,7 @@ public class Game extends com.badlogic.gdx.Game {
     }
 
     @Override
-	public void create () {
+	  public void create () {
 
         CompositionRoot.init(this);   // let's create a Composition root
 
@@ -39,7 +36,6 @@ public class Game extends com.badlogic.gdx.Game {
         font = new BitmapFont();
         loadScreen(0);
     }
-
 
     public int getCurrentScreenIndex() {
         return currentScreenIndex;
@@ -68,7 +64,6 @@ public class Game extends com.badlogic.gdx.Game {
 
         super.render(); // important!
     }
-
 
     public void dispose() {
 
