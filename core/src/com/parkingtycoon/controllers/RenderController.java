@@ -23,8 +23,6 @@ public class RenderController extends BaseController {
     }
 
     public void preRender() {
-
-
         views.process(BaseView::start);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);        // clear screen

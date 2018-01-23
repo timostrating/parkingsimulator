@@ -50,7 +50,5 @@ public class CompositionRoot {
         entrancesController = new EntrancesController();
         exitsController = new ExitsController();
         floorsController = new FloorsController();
-
-        simulationController.startSimulation();
     }
 }

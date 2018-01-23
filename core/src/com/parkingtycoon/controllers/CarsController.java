@@ -1,6 +1,5 @@
 package com.parkingtycoon.controllers;
 
-import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.models.CarModel;
 
 public class CarsController extends PathFollowerController<CarModel> {
@@ -9,10 +8,8 @@ public class CarsController extends PathFollowerController<CarModel> {
     public void update() {
         super.update();
 
-        for (CarModel car : pathFollowers) {
-            Logger.info(car.path);
+        for (CarModel car : pathFollowers)
             car.notifyViews();
-        }
     }
 
     public CarModel createCar() {

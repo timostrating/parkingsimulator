@@ -19,11 +19,14 @@ public class SimulationScreen implements Screen {
 
 
     public SimulationScreen(Game game) {
+
+        root = CompositionRoot.getInstance();
+        root.simulationController.startSimulation();
+
         this.game = game;
         worldCamera = new OrthographicCamera();
         worldCamera.setToOrtho(false, 800, 480);
-        CompositionRoot.getInstance().renderController.setMainCamera(worldCamera);
-        root = CompositionRoot.getInstance();
+        root.renderController.setMainCamera(worldCamera);
         hud = new Hud(game.batch);
 
         for (int i = 0; i < 1000; i++)

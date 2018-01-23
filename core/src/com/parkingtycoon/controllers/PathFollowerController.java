@@ -1,7 +1,6 @@
 package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.CompositionRoot;
-import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.PathFollowerModel;
 
@@ -21,8 +20,6 @@ public class PathFollowerController<T extends PathFollowerModel> extends Updatea
         for (T pathFollower : pathFollowers) {
             if (pathFollower.path == null)
                 continue;
-
-            Logger.info(pathFollower.path);
 
             // follow the path
         }

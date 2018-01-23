@@ -39,8 +39,11 @@ public class Delegate<T> {
             return;
 
         if (toBeAdded.size() > 0) {
+            Logger.info("process");
             list.addAll(toBeAdded);
-            for (T object : toBeAdded) processor.process(object);
+            for (T object : list)   // do not loop toBeAdded because toBeAdded might be modified at the same time in another thread.
+                if (toBeAdded.contains(object))
+                    processor.process(object);
             toBeAdded.clear();
         }
 

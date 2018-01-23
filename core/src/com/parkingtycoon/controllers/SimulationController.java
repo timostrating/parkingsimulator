@@ -1,6 +1,5 @@
 package com.parkingtycoon.controllers;
 
-import com.badlogic.gdx.Gdx;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.Random;
 import com.parkingtycoon.helpers.UpdateableController;
@@ -32,7 +31,7 @@ public class SimulationController extends BaseController {
         long time = System.currentTimeMillis();
 
         float timeStep = 1000 / (float) updatesPerSecond;
-        deltaTime += Math.min(Gdx.graphics.getDeltaTime(), 250);
+        deltaTime += Math.min(time - prevTime, 250);
 
         while (deltaTime >= timeStep) {
 
@@ -59,6 +58,7 @@ public class SimulationController extends BaseController {
     }
 
     public int getUpdatesPerSecond() {
+//        Logger.info("ups" + updatesPerSecond);
         return updatesPerSecond;
     }
 
