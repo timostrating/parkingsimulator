@@ -10,7 +10,10 @@
 
 
 ### Wat is MVC?
-M staat voor Model. V staat voor View en C staat voor Controller. <br>
+* M staat voor Model. 
+* V staat voor View.
+* C staat voor Controller. <br><br>
+
 De Model onthoudt alle data (denk aan variabelen) <br>
 Je kan een model zien als een record uit de datatbase. <br><br>
 
@@ -32,6 +35,21 @@ Schreeuwen en luisteren binnen code.
 ### Waarom Observer Pattern?
 
 Voorbeeld Comminucatie tussen Model en View.<br>
+
+```Java
+ArrayList<Luisteraar> luisteraars = new Arraylist<>();
+
+public void registreerMij(Luisteraar mij) {
+   luisteraars.add(mij);
+}
+
+private void schreeuw() {
+   for(Luisteraar luisteraar : luisteraars)
+      luisteraar.luisterNaarMij();
+}
+
+private void aanpassing() { ... schreeuw(); }
+```
 
 ### MVC vs Observer Pattern.
 
