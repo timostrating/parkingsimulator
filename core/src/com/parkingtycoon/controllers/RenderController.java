@@ -8,6 +8,11 @@ import com.parkingtycoon.views.BaseView;
 
 import java.util.ArrayList;
 
+
+
+/**
+ * This Class is responsible for enabeling View to be called every frame.
+ */
 public class RenderController extends BaseController {
 
     private ArrayList<BaseView> views = new ArrayList<>();

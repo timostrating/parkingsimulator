@@ -21,7 +21,7 @@ public class CarModel {
     }
 
     /**
-     * Optional constructor where you need too give me a license plate string
+     * Optional constructor where you need to give me a license plate string
      * @param license a string that is used as identifying the car
      */
     public CarModel(String license) {

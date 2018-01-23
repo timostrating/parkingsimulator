@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Hilko on 18-1-2018.
+ * This class is responsible for adding the responbitities of a Model in the MVC architechture.
  */
 public abstract class BaseModel {
 
-    protected List<BaseView> views = new ArrayList<>();
+    protected List<BaseView> views = new ArrayList<>();  // Delegate
 
     public void registerView(BaseView view) {
         views.add(view);
