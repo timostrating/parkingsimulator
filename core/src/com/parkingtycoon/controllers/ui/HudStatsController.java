@@ -1,4 +1,5 @@
 package com.parkingtycoon.controllers.ui;
 
-public class HudStatsController {
+public class HudStatsController extends HudBaseController {
+
 }
