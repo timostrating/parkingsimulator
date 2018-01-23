@@ -20,7 +20,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final Game game) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Game.V_WIDTH, Game.V_HEIGHT);
+        camera.setToOrtho(false, Game.VIEWPORT_WIDTH, Game.VIEWPORT_HEIGHT);
         root = CompositionRoot.getInstance();
 
         root.renderController.setMainCamera(camera);
@@ -38,8 +38,8 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-            game.font.draw(game.batch, "Welcome to ParkingTycoon!!! ", 100, 150);
-            game.font.draw(game.batch, "Click anywhere to begin!", 100, 100);
+        game.font.draw(game.batch, "Welcome to ParkingTycoon!!! ", 100, 150);
+        game.font.draw(game.batch, "Click anywhere to begin!", 100, 100);
         game.batch.end();
 
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
