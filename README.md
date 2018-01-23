@@ -1,6 +1,7 @@
-# ParkingSimulator Tycoon
+![LOGO](https://raw.githubusercontent.com/timostrating/parkingsimulator/master/blender_files/logo/logo_small.png)
 
 This is an AWESOME parkingsimulator inspired by Rollercoaster Tycoon 2.
+<br><br>
 ![gif](https://i.imgur.com/NNS8PzY.png)
 
 ## Dependencies
