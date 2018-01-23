@@ -37,11 +37,8 @@ public class PathFinder {
 
     public static List<Node> calcPath(NavMap navMap, int fromX, int fromY, int toX, int toY) {
 
-        if (!navMap.open(fromX, fromY, true, false) || !navMap.open(toX, toY, false, true)) {
-
-
+        if (!navMap.open(fromX, fromY, true, false) || !navMap.open(toX, toY, false, true))
             return null; // impossible goal
-        }
 
         Node[][] nodes = new Node[Game.WORLD_WIDTH][];
 
@@ -95,7 +92,7 @@ public class PathFinder {
                 for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
                     Node node = nodes[x][y];
-                    if (!node.open)
+                    if (node == null || !node.open)
                         continue;
 
                     int nodeCost = node.cost(current.x, current.y);

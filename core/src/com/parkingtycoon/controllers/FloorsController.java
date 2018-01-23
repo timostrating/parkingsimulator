@@ -124,7 +124,7 @@ public class FloorsController extends UpdateableController {
 
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
-                floor.tiles[x][y] = x % 2 == 0 || y % 2 == 0 ? FloorModel.FloorType.GRASS : FloorModel.FloorType.PARKABLE;
+                floor.tiles[x][y] = x % 2 == 0 || y % 2 == 0 ? FloorModel.FloorType.ROAD : FloorModel.FloorType.PARKABLE;
 
             }
         }

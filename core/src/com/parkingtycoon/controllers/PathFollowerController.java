@@ -23,12 +23,12 @@ public class PathFollowerController<T extends PathFollowerModel> extends Updatea
             if (f.path == null)
                 continue;
 
-            PathFinder.Node next = f.path.get(f.currentNode + 1);
-
-            if (next == null) {
+            if (f.currentNode + 1 == f.path.size()) {
                 f.path = null;  // arrived at goal
                 continue;
             }
+
+            PathFinder.Node next = f.path.get(f.currentNode + 1);
 
             float diffX = f.position.x - next.x;
             float diffY = f.position.y - next.y;
@@ -56,7 +56,6 @@ public class PathFollowerController<T extends PathFollowerModel> extends Updatea
                 x,                                  // to x
                 y                                   // to y
         );
-
         pathFollower.currentNode = 0;
     }
 

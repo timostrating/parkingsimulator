@@ -2,6 +2,7 @@ package com.parkingtycoon.views;
 
 import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.helpers.IsometricConverter;
+import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.CarModel;
 
@@ -23,10 +24,12 @@ public class CarView extends AnimatedSpriteView {
     public void updateView(BaseModel model) {
 
         if (model instanceof CarModel) {
+
             CarModel car = (CarModel) model;
 
             spritePosition.set(car.position);
             IsometricConverter.normalToIsometric(spritePosition);
+            sprite.setPosition(spritePosition.x, spritePosition.y);
 
         }
 
