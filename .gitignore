@@ -128,3 +128,4 @@ Thumbs.db
 
 ## CUSTOM
 *.properties
+gradle.properties
