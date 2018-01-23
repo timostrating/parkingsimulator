@@ -37,8 +37,6 @@ public class SimulationScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
-        root.simulationController.update();     // update simulation
         root.renderController.preRender();      // preRender views
         game.batch.setProjectionMatrix(worldCamera.combined);
         root.renderController.render();         // render views

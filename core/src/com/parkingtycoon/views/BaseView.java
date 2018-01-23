@@ -9,9 +9,11 @@ import com.parkingtycoon.models.BaseModel;
  */
 public abstract class BaseView {
 
-    public BaseView() {
+    BaseView() {
         CompositionRoot.getInstance().renderController.registerView(this);
     }
+
+    public void start() {}
 
     public abstract void updateView(BaseModel model);
 

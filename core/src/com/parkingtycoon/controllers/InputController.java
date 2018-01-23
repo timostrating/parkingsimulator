@@ -43,7 +43,7 @@ public class InputController implements com.badlogic.gdx.InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         OrthographicCamera camera = CompositionRoot.getInstance().renderController.getMainCamera();
-        camera.zoom = Math.max(1, Math.min(5, camera.zoom + amount * .2f));
+        camera.zoom = Math.max(1, Math.min(10, camera.zoom + amount * .2f));
         return true;
     }
 }

@@ -15,6 +15,7 @@ public class CompositionRoot {
     public SimulationController simulationController;
     public RenderController renderController;
     public AnimatedSpritesController animatedSpritesController;
+    public CarsController carsController;
     public EntrancesController entrancesController;
     public ExitsController exitsController;
     public FloorsController floorsController;
@@ -36,8 +37,7 @@ public class CompositionRoot {
 
 
     private CompositionRoot() {
-
-        Logger.info("CompositionRoot is created");
+        Logger.info("CompositionRoot is created\nEnjoy ParkingSimulator Tycoon");
     }
 
 
@@ -46,8 +46,11 @@ public class CompositionRoot {
         simulationController = new SimulationController();
         renderController = new RenderController(game);
         animatedSpritesController = new AnimatedSpritesController();
+        carsController = new CarsController();
         entrancesController = new EntrancesController();
         exitsController = new ExitsController();
         floorsController = new FloorsController();
+
+        simulationController.startSimulation();
     }
 }

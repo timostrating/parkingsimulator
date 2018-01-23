@@ -15,10 +15,16 @@ public class SpriteView extends BaseView {
 
     protected Sprite sprite;
     protected boolean visible = true;
+    protected String spritePath;
 
     public SpriteView(String spritePath) {
         super();
+        this.spritePath = spritePath;
+    }
 
+    @Override
+    public void start() {
+        super.start();
         Texture texture = textures.get(spritePath);
         if (texture == null) {
             texture = new Texture(Gdx.files.internal(spritePath));

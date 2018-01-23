@@ -7,7 +7,11 @@ public class TestSpriteView extends AnimatedSpriteView {
 
     public TestSpriteView() {
         super("sprites/cars/pontiac", true);
+    }
 
+    @Override
+    public void start() {
+        super.start();
         play("spin", true);
 
         Vector2 pos = IsometricConverter.normalToIsometric(
@@ -16,5 +20,6 @@ public class TestSpriteView extends AnimatedSpriteView {
         );
         sprite.setPosition(pos.x, pos.y);
     }
+
 
 }

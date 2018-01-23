@@ -6,6 +6,7 @@ import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FloorModel;
+import com.parkingtycoon.pathfinding.PathFinder;
 import com.parkingtycoon.views.FloorsView;
 
 import java.util.ArrayList;
@@ -70,6 +71,9 @@ public class FloorsController extends UpdateableController {
                         floor.parkedCars[x][y] = car;
                         floor.cars.add(car);
                         car.position.set(x, y);
+                        car.path = PathFinder.calcPath(
+                                floor.carNavMap, (int) car.position.x, (int) car.position.y, x, y
+                        );
                         Logger.info("Car parked at (" + x + ", " + y + ") on floor " + i);
                         return true;
 

@@ -37,8 +37,11 @@ public class PathFinder {
 
     public static List<Node> calcPath(NavMap navMap, int fromX, int fromY, int toX, int toY) {
 
-        if (!navMap.open(fromX, fromY) || !navMap.open(toX, toY))
+        if (!navMap.open(fromX, fromY, true, false) || !navMap.open(toX, toY, false, true)) {
+
+
             return null; // impossible goal
+        }
 
         Node[][] nodes = new Node[Game.WORLD_WIDTH][];
 
@@ -46,11 +49,9 @@ public class PathFinder {
         Node current = new Node(fromX, fromY, null, 0);
         nodes[fromX][fromY] = current; // the very first node of the path
 
-        while (true) {
+        while (current.x != toX && current.y != toY) {
 
             current.open = false;
-            if (current.x == toX && current.y == toY)
-                break; // goal reached
 
             // create a node for each neighbour of the current node:
             for (int x = current.x - 1 < 0 ? 0 : current.x - 1;
@@ -65,7 +66,7 @@ public class PathFinder {
                             || (nodes[x] != null && nodes[x][y] != null))
                         continue; // node already exists.
 
-                    if (navMap.open(x, y)) {
+                    if (navMap.open(x, y, false, x == toX && y == toY)) {
 
                         if (!navMap.allowDiagonalPaths && x != current.x && y != current.y)
                             continue; // continue if diagonal path are not allowed

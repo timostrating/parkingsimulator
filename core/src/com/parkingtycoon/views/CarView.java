@@ -14,6 +14,12 @@ public class CarView extends AnimatedSpriteView {
     }
 
     @Override
+    public void start() {
+        super.start();
+        play("spin", true);
+    }
+
+    @Override
     public void updateView(BaseModel model) {
 
         if (model instanceof CarModel) {

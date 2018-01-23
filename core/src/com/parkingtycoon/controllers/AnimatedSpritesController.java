@@ -41,7 +41,7 @@ public class AnimatedSpritesController extends UpdateableController {
         AnimatedSpriteModel spriteModel = new AnimatedSpriteModel(path);
         models.add(spriteModel);
 
-        JsonValue json = new JsonReader().parse(Gdx.files.internal(path + ".json"));
+        JsonValue json = new JsonReader().parse(Gdx.files.internal(path));
         JsonValue jsonFrames = json.get("frames");
 
         AnimatedSpriteModel.Animation.Frame[] frames = new AnimatedSpriteModel.Animation.Frame[jsonFrames.size];
