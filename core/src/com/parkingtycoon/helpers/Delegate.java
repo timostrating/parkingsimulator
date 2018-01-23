@@ -22,8 +22,13 @@ public class Delegate<T> {
     }
 
     @FunctionalInterface
-    public interface Processor<T> {
-        void process(T object);
+    public interface Starter<T> {
+        void start(T object);
+    }
+
+    @FunctionalInterface
+    public interface Sorter<T> {
+        float getIndex(T object);
     }
 
     public boolean register(T object) {
@@ -34,16 +39,15 @@ public class Delegate<T> {
         return multiThreaded ? toBeRemoved.add(object) : list.remove(object);
     }
 
-    public void process(Processor<T> processor) {
+    public void process(Starter<T> starter) {
         if (!multiThreaded)
             return;
 
         if (toBeAdded.size() > 0) {
-            Logger.info("process");
             list.addAll(toBeAdded);
             for (T object : list)   // do not loop toBeAdded because toBeAdded might be modified at the same time in another thread.
                 if (toBeAdded.contains(object))
-                    processor.process(object);
+                    starter.start(object);
             toBeAdded.clear();
         }
 
@@ -59,8 +63,21 @@ public class Delegate<T> {
             notifier.notify(object);
     }
 
-    public void sort() {
+    public void sort(Sorter<T> sorter) {
+        for (int i = 1; i < list.size(); i++) {
 
+            T temp = list.get(i);
+            float index = sorter.getIndex(temp);
+
+            int j = i - 1;
+
+            while (j >= 0 && sorter.getIndex(list.get(j)) < index) {
+                list.set(j + 1, list.get(j));
+                j--;
+            }
+            list.set(j + 1, temp);
+
+        }
     }
 
 }

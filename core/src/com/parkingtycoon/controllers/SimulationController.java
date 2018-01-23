@@ -1,6 +1,7 @@
 package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.helpers.Delegate;
 import com.parkingtycoon.helpers.Random;
 import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.CarModel;
@@ -14,13 +15,14 @@ public class SimulationController extends BaseController {
 
     public boolean isSimulatorRunning = true;
 
-    private ArrayList<UpdateableController> updatables = new ArrayList<>();
+    private Delegate<UpdateableController> updatables = new Delegate<>(false);
     private int updatesPerSecond = REAL_TIME_UPDATES_PER_SECOND;
     private long updates;
     private float deltaTime;
     private long prevTime;
     private boolean paused = false;
     private boolean pausedUpdate = false;
+    private Delegate.Notifier<UpdateableController> notifier = UpdateableController::update;
 
     public void startSimulation() {
         new Thread( () -> {
@@ -40,11 +42,9 @@ public class SimulationController extends BaseController {
 
         while (deltaTime >= timeStep) {
 
-            updates++;
             pausedUpdate = true; // only pause if there has been a new render
-
-            for (UpdateableController u : updatables)
-                u.update();
+            updates++;
+            updatables.notifyObjects(notifier);
 
             addCars();
 
@@ -55,11 +55,11 @@ public class SimulationController extends BaseController {
     }
 
     public boolean registerUpdatable(UpdateableController updatable) {
-        return updatables.add(updatable);
+        return updatables.register(updatable);
     }
 
     public boolean unregisterUpdatable(UpdateableController updatable) {
-        return updatables.remove(updatable);
+        return updatables.unregister(updatable);
     }
 
 

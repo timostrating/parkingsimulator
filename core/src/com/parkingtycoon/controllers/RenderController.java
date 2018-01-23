@@ -8,7 +8,7 @@ import com.parkingtycoon.helpers.Delegate;
 import com.parkingtycoon.views.BaseView;
 
 /**
- * This Class is responsible for enabeling View to be called every frame.
+ * This Class is responsible for enabling View to be called every frame.
  */
 public class RenderController extends BaseController {
 
@@ -18,6 +18,8 @@ public class RenderController extends BaseController {
 
     private Delegate.Notifier<BaseView> preRenderer = BaseView::preRender;
     private Delegate.Notifier<BaseView> renderer;
+    private Delegate.Sorter<BaseView> sorter = BaseView::renderIndex;
+    private Delegate.Starter<BaseView> starter = BaseView::start;
 
     public RenderController(Game game) {
         super();
@@ -26,12 +28,12 @@ public class RenderController extends BaseController {
     }
 
     public void preRender() {
-        views.process(BaseView::start);         // for every new view -> call start()
+        views.process(starter);                 // for every new view -> call start()
 
         Gdx.gl.glClearColor(0, 0, 0, 1);        // clear screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        sortViews();                            // sort the views so that the render-order is correct
+        views.sort(sorter);                     // sort the views so that the render-order is correct
         views.notifyObjects(preRenderer);
     }
 
@@ -48,22 +50,6 @@ public class RenderController extends BaseController {
     public void unregisterView(BaseView view) {
         views.unregister(view);
     }
-
-    private void sortViews() {
-//        for (int i = 1; i < views.size(); i++) {
-//            BaseView temp = views.get(i);
-//            float renderIndex = temp.renderIndex();
-//
-//            int j = i - 1;
-//
-//            while (j >= 0 && views.get(j).renderIndex() < renderIndex) {
-//                views.set(j + 1, views.get(j));
-//                j--;
-//            }
-//            views.set(j + 1, temp);
-//        }
-    }
-
 
     public OrthographicCamera getMainCamera() {
         return mainCamera;
