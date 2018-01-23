@@ -7,8 +7,6 @@ import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.views.CarView;
 
-import java.util.ArrayList;
-
 public class SimulationController extends BaseController {
 
     public final static int REAL_TIME_UPDATES_PER_SECOND = 20;
@@ -90,7 +88,7 @@ public class SimulationController extends BaseController {
         if (Math.random() > .96f) {
             CarModel car = CompositionRoot.getInstance().carsController.createCar();
             car.startTime = updates;
-            car.endTime = updates + Random.randomInt(50, 200);
+            car.endTime = updates + Random.randomInt(500, 2000);
             car.registerView(new CarView());
             CompositionRoot.getInstance().entrancesController.addToQueue(car);
         }

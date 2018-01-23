@@ -19,6 +19,7 @@ public class CompositionRoot {
     public EntrancesController entrancesController;
     public ExitsController exitsController;
     public FloorsController floorsController;
+    public PathFollowerController pathFollowerController;
 
     private static CompositionRoot instance;
 
@@ -50,5 +51,6 @@ public class CompositionRoot {
         entrancesController = new EntrancesController();
         exitsController = new ExitsController();
         floorsController = new FloorsController();
+        pathFollowerController = new PathFollowerController();
     }
 }
