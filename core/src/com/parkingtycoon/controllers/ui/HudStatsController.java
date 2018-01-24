@@ -1,26 +1,36 @@
 package com.parkingtycoon.controllers.ui;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.kotcrab.vis.ui.widget.VisImageButton;
-import com.parkingtycoon.CompositionRoot;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.parkingtycoon.models.ui.HudStatsModel;
+import com.parkingtycoon.views.ui.HudStatsView;
 
 public class HudStatsController extends HudBaseController {
 
-    public HudStatsController() {
-        super();
-        CompositionRoot root = CompositionRoot.getInstance();
+    public HudStatsController(Stage stage) {
+        super(stage);
+
+
+        HudStatsModel model = new HudStatsModel();
+        HudStatsView view = new HudStatsView(stage);
+        model.registerView(view);
+
+//        CompositionRoot root = CompositionRoot.getInstance();
 
         // BUTTON 1
-        final VisImageButton button = new VisImageButton(setupDrawable("ui/test.png"));
+//        VisLabel label = new VisLabel("label");
+//        VisProgressBar progressbar = new VisProgressBar(0, 100, 1, false);
 
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                root.simulationController.togglePaused();
-            }
-        });
+//        final VisImageButton button = new VisImageButton(setupDrawable("ui/test.png"), setupDrawable("ui/test.png"));
 
-        table.add(button).expand().bottom().left();
+//        button.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                root.simulationController.togglePaused();
+//            }
+//        });
+
+
+//        table.add().bottom().left();
+//        table.add(button).expand().bottom().left();
     }
 }

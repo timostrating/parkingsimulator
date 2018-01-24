@@ -9,7 +9,7 @@ import com.parkingtycoon.models.BaseModel;
  */
 public abstract class BaseView {
 
-    BaseView() {
+    protected BaseView() {
         CompositionRoot.getInstance().renderController.registerView(this);
     }
 

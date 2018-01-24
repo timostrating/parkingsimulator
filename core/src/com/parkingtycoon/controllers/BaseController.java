@@ -1,7 +1,7 @@
 package com.parkingtycoon.controllers;
 
 /**
- * This class is responsible for adding the responbitities of a Controller in the MVC architechture.
+ * This class is responsible for adding the responsibilities of a Controller in the MVC architecture.
  */
 public abstract class BaseController {
 
