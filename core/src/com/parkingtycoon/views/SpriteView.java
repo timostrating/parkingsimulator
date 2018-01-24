@@ -13,7 +13,7 @@ public class SpriteView extends BaseView {
 
     private static HashMap<String, Texture> textures = new HashMap<>();
 
-    protected Sprite sprite;
+    protected Sprite sprite = new Sprite();
     protected boolean visible = true;
     protected String spritePath;
 
@@ -24,15 +24,15 @@ public class SpriteView extends BaseView {
 
     @Override
     public void start() {
-        super.start();
         Texture texture = textures.get(spritePath);
         if (texture == null) {
             texture = new Texture(Gdx.files.internal(spritePath));
             textures.put(spritePath, texture);
         }
 
-        sprite = new Sprite(texture);
+        sprite.setTexture(texture);
         sprite.setSize(sprite.getWidth() / 32f, sprite.getHeight() / 32f);
+        super.start();
     }
 
     @Override

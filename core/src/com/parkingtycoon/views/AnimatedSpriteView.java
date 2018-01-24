@@ -7,12 +7,13 @@ import com.parkingtycoon.models.AnimatedSpriteModel;
 
 public class AnimatedSpriteView extends SpriteView {
 
+    protected AnimatedSpriteModel spriteModel;
     private int currentFrame;
     private float remainingTime;
     private boolean loop, flipX, flipY, done, simulationSpeedDependent;
-    private AnimatedSpriteModel spriteModel;
-    private AnimatedSpriteModel.Animation currentAnimation;
     private String jsonPath;
+
+    protected AnimatedSpriteModel.Animation currentAnimation;
 
     public AnimatedSpriteView(String spritePath, boolean simulationSpeedDependent) {
         super(spritePath + ".png");
@@ -74,7 +75,7 @@ public class AnimatedSpriteView extends SpriteView {
         setRegion(currentAnimation.get(currentFrame));
     }
 
-    private void setRegion(AnimatedSpriteModel.Animation.Frame f) {
+    protected void setRegion(AnimatedSpriteModel.Animation.Frame f) {
         sprite.setRegion(
                 f.x + (flipX ? spriteModel.frameWidth : 0),                 // x
                 f.y + (flipY ? spriteModel.frameHeight : 0),                // y

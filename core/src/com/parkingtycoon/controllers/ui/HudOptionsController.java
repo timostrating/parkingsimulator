@@ -36,7 +36,7 @@ public class HudOptionsController extends HudBaseController {
 
 
         // SLIDER
-        final VisSlider slider = new VisSlider(10, 100, 1, false);
+        final VisSlider slider = new VisSlider(10, 3000, 1, false);
         slider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
