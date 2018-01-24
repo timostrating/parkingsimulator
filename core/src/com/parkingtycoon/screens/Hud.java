@@ -23,7 +23,7 @@ import com.parkingtycoon.controllers.ui.HudTimeController;
 
 public class Hud implements Disposable {
 
-    private final static boolean DEBUG = true;
+    private final static boolean DEBUG = false;
 
 
     private final CompositionRoot root;
