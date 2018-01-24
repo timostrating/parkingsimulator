@@ -21,6 +21,10 @@ public class InputController implements com.badlogic.gdx.InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.F3) {
+            RenderController renderController = CompositionRoot.getInstance().renderController;
+            renderController.debug = !renderController.debug;
+        }
         return false;
     }
 

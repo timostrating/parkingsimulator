@@ -71,7 +71,7 @@ public class FloorsController extends UpdateableController {
                         floor.cars.add(car);
 
                         // send car to place:
-                        CompositionRoot.getInstance().pathFollowerController.sendTo(car, floor.carNavMap, x, y);
+                        CompositionRoot.getInstance().carsController.sendTo(car, floor.carNavMap, x, y);
 
                         Logger.info("Car parked at (" + x + ", " + y + ") on floor " + i);
                         return true;

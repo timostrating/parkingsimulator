@@ -47,6 +47,7 @@ public class SimulationScreen implements Screen {
 
         root.renderController.preRender();      // preRender views
         game.batch.setProjectionMatrix(worldCamera.combined);
+        game.shapeRenderer.setProjectionMatrix(worldCamera.combined);
         root.renderController.render();         // render views
         hud.render();                           // render UI
 

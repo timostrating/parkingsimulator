@@ -51,9 +51,8 @@ public class SimulationController extends BaseController {
             updatesSinceLastSecond++;
             updatables.notifyObjects(notifier);
 
-            long millis = System.currentTimeMillis();
-            millisTimer += millis - prevMillis;
-            prevMillis = millis;
+            millisTimer += time - prevMillis;
+            prevMillis = time;
 
             if (millisTimer >= 1000) {
 
@@ -104,7 +103,7 @@ public class SimulationController extends BaseController {
     }
 
     private void addCars() { // todo: remove to an appropriate controller
-        if (Math.random() > .96f) {
+        if (Math.random() > .99f) {
             CarModel car = CompositionRoot.getInstance().carsController.createCar();
             car.startTime = updates;
             car.endTime = updates + Random.randomInt(500000, 2000000);
