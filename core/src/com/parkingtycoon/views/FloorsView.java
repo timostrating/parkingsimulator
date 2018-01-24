@@ -75,11 +75,11 @@ public class FloorsView extends BaseView {
 
                 switch (floorType) {
                     case GRASS:
-                        tile = tileSets.getTile(13);
+                        tile = tileSets.getTile(78);
                         break;
 
                     case ROAD:
-                        tile = tileSets.getTile(78);
+                        tile = tileSets.getTile(13);
                         break;
 
                     case PARKABLE:

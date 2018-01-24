@@ -23,16 +23,25 @@ public class PathFollowerController<T extends PathFollowerModel> extends Updatea
             if (f.path == null)
                 continue;
 
-            if (f.currentNode + 1 == f.path.size()) {
+            if (f.currentNode + 1 >= f.path.size()) {
                 f.path = null;  // arrived at goal
                 continue;
             }
 
             PathFinder.Node next = f.path.get(f.currentNode + 1);
 
-            float diffX = f.position.x - next.x;
-            float diffY = f.position.y - next.y;
+            float diffX = f.position.x - next.actualX;
+            float diffY = f.position.y - next.actualY;
             float distanceToNext = (float) Math.sqrt(diffX * diffX + diffY * diffY);
+
+            if (f.pathSmoothing && f.currentNode + 2 < f.path.size()) {
+                float influence = Math.max(0,  1 - distanceToNext);
+
+                PathFinder.Node afterNext = f.path.get(f.currentNode + 2);
+
+                next.actualX = next.actualX * (1 - influence) + afterNext.x * influence;
+                next.actualY = next.actualY * (1 - influence) + afterNext.y * influence;
+            }
 
             float velocity = f.velocity;
 
@@ -41,7 +50,7 @@ public class PathFollowerController<T extends PathFollowerModel> extends Updatea
                 f.currentNode++;
             }
 
-            f.direction.set(next.x - f.position.x, next.y - f.position.y).nor().scl(velocity);
+            f.direction.set(next.actualX - f.position.x, next.actualY - f.position.y).nor().scl(velocity);
             f.position.add(f.direction);
 
         }
@@ -56,7 +65,7 @@ public class PathFollowerController<T extends PathFollowerModel> extends Updatea
                 x,                                  // to x
                 y                                   // to y
         );
-        pathFollower.currentNode = 0;
+        pathFollower.currentNode = 1;
     }
 
 }

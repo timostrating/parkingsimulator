@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
+import com.parkingtycoon.controllers.SimulationController;
 import com.parkingtycoon.views.EntranceView;
 
 public class SimulationScreen implements Screen {
@@ -49,7 +50,9 @@ public class SimulationScreen implements Screen {
         root.renderController.render();         // render views
         hud.render();                           // render UI
 
-        Gdx.graphics.setTitle("Parking Tycoon (fps: " + Gdx.graphics.getFramesPerSecond() + ")");
+        SimulationController simulationController = CompositionRoot.getInstance().simulationController;
+
+        Gdx.graphics.setTitle("Parking Tycoon (fps: " + Gdx.graphics.getFramesPerSecond() + ") (updates/sec: " + simulationController.getUpdatesPerSecond() + ") (real updates/sec: " + simulationController.realUpdatesPerSecond + ")");
     }
 
     @Override

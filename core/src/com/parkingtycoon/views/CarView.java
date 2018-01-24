@@ -9,6 +9,8 @@ import com.parkingtycoon.models.CarModel;
 public class CarView extends AnimatedSpriteView {
 
     private Vector2 spritePosition = new Vector2();
+    private Vector2 lastDirection = new Vector2();
+    private int lastFrame = -1;
 
     public CarView() {
         super("sprites/cars/pontiac", true);
@@ -17,11 +19,11 @@ public class CarView extends AnimatedSpriteView {
     @Override
     public void start() {
         super.start();
-        play("spin", true);
     }
 
     @Override
     public void updateView(BaseModel model) {
+
 
         if (model instanceof CarModel) {
 
@@ -30,6 +32,21 @@ public class CarView extends AnimatedSpriteView {
             spritePosition.set(car.position);
             IsometricConverter.normalToIsometric(spritePosition);
             sprite.setPosition(spritePosition.x, spritePosition.y);
+
+            if (spriteModel != null && !lastDirection.equals(car.direction)) {
+
+                lastDirection.set(car.direction);
+
+                int frame = 33 - (int) ((car.direction.angle() / 360.01f) * 33) - 1;
+                Logger.info(car.direction + " " + car.direction.angle() + " frame = " + frame);
+                if (lastFrame != -1 && frame < lastFrame)
+                    frame = lastFrame - 1;
+                else if (lastFrame != -1 && frame > lastFrame)
+                    frame = lastFrame + 1;
+
+                setRegion(spriteModel.frames[frame]);
+                lastFrame = frame;
+            }
 
         }
 

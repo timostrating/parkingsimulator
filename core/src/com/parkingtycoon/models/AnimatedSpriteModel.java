@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class AnimatedSpriteModel extends BaseModel implements Named {
 
     public ArrayNamed<Animation> animations = new ArrayNamed<>();
+    public Animation.Frame[] frames;
     public int frameWidth, frameHeight;
     public float speedMultiplier;
 

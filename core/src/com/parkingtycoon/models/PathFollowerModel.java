@@ -12,5 +12,6 @@ public abstract class PathFollowerModel extends BaseModel {
     public int currentNode;
     public float velocity = 0.1f; // in meters per update
     public Vector2 direction = new Vector2();
+    public boolean pathSmoothing = true;
 
 }

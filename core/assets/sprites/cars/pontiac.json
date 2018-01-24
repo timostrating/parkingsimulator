@@ -1,5 +1,5 @@
 { "frames": {
-   "0000 0.png": {
+   "pontiac 0.ase": {
     "frame": { "x": 0, "y": 0, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 1.png": {
+   "pontiac 1.ase": {
     "frame": { "x": 128, "y": 0, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 2.png": {
+   "pontiac 2.ase": {
     "frame": { "x": 256, "y": 0, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -23,7 +23,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 3.png": {
+   "pontiac 3.ase": {
     "frame": { "x": 384, "y": 0, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -31,7 +31,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 4.png": {
+   "pontiac 4.ase": {
     "frame": { "x": 512, "y": 0, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -39,7 +39,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 5.png": {
+   "pontiac 5.ase": {
     "frame": { "x": 640, "y": 0, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -47,7 +47,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 6.png": {
+   "pontiac 6.ase": {
     "frame": { "x": 768, "y": 0, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -55,7 +55,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 7.png": {
+   "pontiac 7.ase": {
     "frame": { "x": 896, "y": 0, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -63,7 +63,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 8.png": {
+   "pontiac 8.ase": {
     "frame": { "x": 0, "y": 128, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -71,7 +71,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 9.png": {
+   "pontiac 9.ase": {
     "frame": { "x": 128, "y": 128, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -79,7 +79,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 10.png": {
+   "pontiac 10.ase": {
     "frame": { "x": 256, "y": 128, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -87,7 +87,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 11.png": {
+   "pontiac 11.ase": {
     "frame": { "x": 384, "y": 128, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -95,7 +95,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 12.png": {
+   "pontiac 12.ase": {
     "frame": { "x": 512, "y": 128, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -103,7 +103,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 13.png": {
+   "pontiac 13.ase": {
     "frame": { "x": 640, "y": 128, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -111,7 +111,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 14.png": {
+   "pontiac 14.ase": {
     "frame": { "x": 768, "y": 128, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -119,7 +119,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 15.png": {
+   "pontiac 15.ase": {
     "frame": { "x": 896, "y": 128, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -127,7 +127,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 16.png": {
+   "pontiac 16.ase": {
     "frame": { "x": 0, "y": 256, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -135,7 +135,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 17.png": {
+   "pontiac 17.ase": {
     "frame": { "x": 128, "y": 256, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -143,7 +143,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 18.png": {
+   "pontiac 18.ase": {
     "frame": { "x": 256, "y": 256, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -151,7 +151,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 19.png": {
+   "pontiac 19.ase": {
     "frame": { "x": 384, "y": 256, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -159,7 +159,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 20.png": {
+   "pontiac 20.ase": {
     "frame": { "x": 512, "y": 256, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -167,7 +167,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 21.png": {
+   "pontiac 21.ase": {
     "frame": { "x": 640, "y": 256, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -175,7 +175,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 22.png": {
+   "pontiac 22.ase": {
     "frame": { "x": 768, "y": 256, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -183,7 +183,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 23.png": {
+   "pontiac 23.ase": {
     "frame": { "x": 896, "y": 256, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -191,7 +191,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 24.png": {
+   "pontiac 24.ase": {
     "frame": { "x": 0, "y": 384, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -199,7 +199,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 25.png": {
+   "pontiac 25.ase": {
     "frame": { "x": 128, "y": 384, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -207,7 +207,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 26.png": {
+   "pontiac 26.ase": {
     "frame": { "x": 256, "y": 384, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -215,7 +215,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 27.png": {
+   "pontiac 27.ase": {
     "frame": { "x": 384, "y": 384, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -223,7 +223,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 28.png": {
+   "pontiac 28.ase": {
     "frame": { "x": 512, "y": 384, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -231,7 +231,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 29.png": {
+   "pontiac 29.ase": {
     "frame": { "x": 640, "y": 384, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -239,7 +239,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 30.png": {
+   "pontiac 30.ase": {
     "frame": { "x": 768, "y": 384, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -247,7 +247,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 31.png": {
+   "pontiac 31.ase": {
     "frame": { "x": 896, "y": 384, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
@@ -255,7 +255,7 @@
     "sourceSize": { "w": 128, "h": 128 },
     "duration": 100
    },
-   "0000 32.png": {
+   "pontiac 32.ase": {
     "frame": { "x": 0, "y": 512, "w": 128, "h": 128 },
     "rotated": false,
     "trimmed": false,
