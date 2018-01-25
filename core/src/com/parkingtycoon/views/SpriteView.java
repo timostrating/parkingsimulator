@@ -1,9 +1,11 @@
 package com.parkingtycoon.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.models.BaseModel;
@@ -52,4 +54,10 @@ public class SpriteView extends BaseView {
         return (sprite.getY() + Game.WORLD_HEIGHT) / (Game.WORLD_HEIGHT * 2f);
     }
 
+    @Override
+    public void debugRender(ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.ORANGE);
+        shapeRenderer.line(sprite.getX(), sprite.getY(), sprite.getX(), sprite.getY() + sprite.getHeight());
+        shapeRenderer.line(sprite.getX() + sprite.getWidth(), sprite.getY(), sprite.getX() + sprite.getWidth(), sprite.getY() + sprite.getHeight());
+    }
 }

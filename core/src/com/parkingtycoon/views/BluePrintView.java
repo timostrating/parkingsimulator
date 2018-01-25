@@ -2,6 +2,7 @@ package com.parkingtycoon.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.BluePrintModel;
@@ -40,23 +41,31 @@ public class BluePrintView extends AnimatedSpriteView {
     public void preRender() {
 
         if (canBuild) {
-            float delta = Gdx.graphics.getDeltaTime();
+            float delta = Gdx.graphics.getDeltaTime() * 2;
             if (fadingIn) {
                 color.a = Math.min(1, color.a + delta);
                 if (color.a == 1) fadingIn = false;
             } else {
-                color.a = Math.max(0, color.a - delta);
-                if (color.a == 0) fadingIn = true;
+                color.a = Math.max(.5f, color.a - delta);
+                if (color.a == .5f) fadingIn = true;
             }
         } else color.a = 1;
 
         color.set(1, canBuild ? 1 : .2f, canBuild ? 1 : .2f, color.a);
 
-        sprite.setPosition((sprite.getX() * 2 + spritePosition.x) / 3f, (sprite.getY() * 2 + spritePosition.y) / 3f);
+        sprite.setPosition((sprite.getX() + spritePosition.x) / 2f, (sprite.getY() + spritePosition.y) / 2f);
 
         sprite.setColor(color);
 
         if (currentAnimation == null || !currentAnimation.name().equals(animationName))
             play(animationName, true);
     }
+
+    @Override
+    public void debugRender(ShapeRenderer shapeRenderer) {
+        shapeRenderer.line(spritePosition.x - .1f, spritePosition.y - .1f, spritePosition.x + .1f, spritePosition.y + .1f);
+        shapeRenderer.line(spritePosition.x - .1f, spritePosition.y + .1f, spritePosition.x + .1f, spritePosition.y - .1f);
+        super.debugRender(shapeRenderer);
+    }
 }
+

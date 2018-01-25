@@ -1,7 +1,6 @@
 package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.CompositionRoot;
-import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.PathFollowerModel;
 import com.parkingtycoon.pathfinding.NavMap;
@@ -66,7 +65,6 @@ public class PathFollowerController<T extends PathFollowerModel> extends Updatea
     }
 
     public void sendTo(PathFollowerModel pathFollower, NavMap navMap, int x, int y) {
-        Logger.info("hoi");
         pathFollower.path = PathFinder.calcPath(
                 navMap,
                 (int) pathFollower.position.x,      // from x

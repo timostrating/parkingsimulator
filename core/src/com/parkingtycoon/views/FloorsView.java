@@ -93,10 +93,10 @@ public class FloorsView extends BaseView {
 
                 }
 
-                TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+                TiledMapTileLayer.Cell cell = layer.getCell(x, Game.WORLD_HEIGHT - y - 1);
                 if (cell == null) {
                     cell = new TiledMapTileLayer.Cell();
-                    layer.setCell(x, y, cell);
+                    layer.setCell(x, Game.WORLD_HEIGHT - y - 1, cell);
                 }
 
                 cell.setTile(tile);

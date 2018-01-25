@@ -40,6 +40,10 @@ public class FloorsController extends UpdateableController {
         CompositionRoot.getInstance().carsController.sendTo(car, floors.get(floor).carNavMap, x, y);
     }
 
+    public void sendCarAway(CarModel car) {
+        CompositionRoot.getInstance().carsController.sendTo(car, floors.get(0).carNavMap, 0, 0);
+    }
+
     @Override
     public void update() {
 
@@ -49,7 +53,7 @@ public class FloorsController extends UpdateableController {
 
                 CarModel car = carIterator.next();
 
-                if (car.timer++ >= car.endTime - car.startTime) {
+                if (car.path == null && car.timer++ >= car.endTime - car.startTime) {
 
                     // time for this car to leave
                     if (sendCarToExit(car)) {

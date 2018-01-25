@@ -15,6 +15,7 @@ public class CarModel extends PathFollowerModel {
      * Standard constructor
      */
     public CarModel() {
+        velocity = .2f;
         Random random = new Random();
         license = "test_"+random.nextInt(); // TODO: generate realistic license plate String
     }

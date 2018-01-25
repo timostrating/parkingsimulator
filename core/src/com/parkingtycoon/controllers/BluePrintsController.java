@@ -20,7 +20,7 @@ public class BluePrintsController extends UpdateableController {
     private BluePrintModel toBeBuilt;
     private BluePrintView bluePrintView;
 
-    private ArrayList<BluePrintModel> bluePrints = new ArrayList<BluePrintModel>() {{
+    public ArrayList<BluePrintModel> bluePrints = new ArrayList<BluePrintModel>() {{
 
         add(new BluePrintModel(
                 // title:
@@ -37,13 +37,28 @@ public class BluePrintsController extends UpdateableController {
                 (x, y) -> CompositionRoot.getInstance().entrancesController.createEntrance(x, y)
         ));
 
+        add(new BluePrintModel(
+                // title:
+                "Exit",
+                // description:
+                "This is where customers pay and leave",
+                // sprite path:
+                "sprites/entrance",
+                // price:
+                200,
+                // FloorTypes that this building can be build on:
+                EnumSet.of(FloorModel.FloorType.ROAD),
+                // builder:
+                (x, y) -> CompositionRoot.getInstance().exitsController.createExit(x, y)
+        ));
+
     }};
 
     public BluePrintsController() {
         CompositionRoot root = CompositionRoot.getInstance();
         root.simulationController.registerUpdatable(this);
 
-        setToBeBuilt();
+        setToBeBuilt(bluePrints.get(0));
     }
 
     public void unsetToBeBuilt() {
@@ -55,10 +70,10 @@ public class BluePrintsController extends UpdateableController {
         }
     }
 
-    public void setToBeBuilt() {
+    public void setToBeBuilt(BluePrintModel bluePrint) {
 
         unsetToBeBuilt();
-        toBeBuilt = bluePrints.get(0); // todo: temporary
+        toBeBuilt = bluePrint;
         bluePrintView = new BluePrintView(toBeBuilt.spritePath);
         toBeBuilt.registerView(bluePrintView);
         toBeBuilt.setAngle(0);
@@ -92,6 +107,7 @@ public class BluePrintsController extends UpdateableController {
                 Logger.info("building!!!!!!!!!!!!!!!!!!!");
 
                 build(x, y);
+                setToBeBuilt(bluePrints.get(1));
             }
 
         }
@@ -100,7 +116,7 @@ public class BluePrintsController extends UpdateableController {
     private void build(int x, int y) {
 
 
-        BuildableModel building = bluePrints.get(0).builder.build(x, y);
+        BuildableModel building = toBeBuilt.builder.build(x, y);
         CompositionRoot.getInstance().floorsController.build(building);
     }
 }

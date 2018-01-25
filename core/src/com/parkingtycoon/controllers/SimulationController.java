@@ -106,7 +106,7 @@ public class SimulationController extends BaseController {
         if (Math.random() > .99f) {
             CarModel car = CompositionRoot.getInstance().carsController.createCar();
             car.startTime = updates;
-            car.endTime = updates + Random.randomInt(500000, 2000000);
+            car.endTime = updates + Random.randomInt(5000, 10000);
             car.registerView(new CarView());
             CompositionRoot.getInstance().entrancesController.addToQueue(car);
         }

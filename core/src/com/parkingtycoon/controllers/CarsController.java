@@ -1,7 +1,6 @@
 package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.math.Vector2;
-import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.PathFollowerModel;
 import com.parkingtycoon.pathfinding.NavMap;
@@ -27,7 +26,6 @@ public class CarsController extends PathFollowerController<CarModel> {
 
     @Override
     public void sendTo(PathFollowerModel pathFollower, NavMap navMap, int x, int y) {
-        Logger.info("hoi override");
         super.sendTo(pathFollower, navMap, x, y);
 
         if (pathFollower.path != null) {

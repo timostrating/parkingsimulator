@@ -90,6 +90,8 @@ public class CarView extends AnimatedSpriteView {
             shapeRenderer.line(gridPos.x, gridPos.y, node.actualX, node.actualY);
 
         }
+
+        super.debugRender(shapeRenderer);
     }
 }
 
