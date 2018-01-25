@@ -8,7 +8,7 @@ import com.parkingtycoon.helpers.Delegate;
 import com.parkingtycoon.views.BaseView;
 
 /**
- * This Class is responsible for enabling View to be called every frame.
+ * This Class is responsible for enabling Views to be called every frame.
  */
 public class RenderController extends BaseController {
 
@@ -20,6 +20,7 @@ public class RenderController extends BaseController {
     private Delegate.Notifier<BaseView> renderer;
     private Delegate.Sorter<BaseView> sorter = BaseView::renderIndex;
     private Delegate.Starter<BaseView> starter = BaseView::start;
+
 
     public RenderController(Game game) {
         super();
@@ -34,7 +35,7 @@ public class RenderController extends BaseController {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         views.sort(sorter);                     // sort the views so that the render-order is correct
-        views.notifyObjects(preRenderer);
+        views.notifyObjects(preRenderer);       // for every view -> call preRender()
     }
 
     public void render() {

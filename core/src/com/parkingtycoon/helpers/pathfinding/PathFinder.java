@@ -1,10 +1,13 @@
-package com.parkingtycoon.pathfinding;
+package com.parkingtycoon.helpers.pathfinding;
 
 import com.parkingtycoon.Game;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This Class is responsible for providing the ability to find a good path to your destination.
+ */
 public class PathFinder {
 
     public static class Node {

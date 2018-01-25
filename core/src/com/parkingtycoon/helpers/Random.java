@@ -2,6 +2,10 @@ package com.parkingtycoon.helpers;
 
 import java.util.List;
 
+
+/**
+ * This Class helps getting random data.
+ */
 public class Random {
 
     private final static java.util.Random R = new java.util.Random();

@@ -3,13 +3,12 @@ package com.parkingtycoon.helpers;
 import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.Game;
 
-public class IsometricConverter {
 
-    /**
-     *
-     * This helper class is used to
-     *
-     */
+/**
+ * This Class provides help to the Controllers and Views who are working width isometric grid positions.
+ * An example would be the isometric map.
+ */
+public class IsometricConverter {
 
     public static Vector2 normalToIsometric(Vector2 convert) {
 

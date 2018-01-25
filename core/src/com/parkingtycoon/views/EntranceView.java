@@ -2,6 +2,9 @@ package com.parkingtycoon.views;
 
 import com.parkingtycoon.models.BaseModel;
 
+/**
+ * This Class is responsible for showing an entrance.
+ */
 public class EntranceView extends AnimatedSpriteView {
 
     public EntranceView() {

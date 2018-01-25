@@ -1,4 +1,4 @@
-package com.parkingtycoon.screens;
+package com.parkingtycoon.levels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,13 +8,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 
+
+/**
+ * This Class is responsible for setting up the Main Menu level.
+ */
 public class MainMenuScreen implements Screen {
 
     private final Game game;
     private final CompositionRoot root;
 
     private OrthographicCamera camera;
-
 
 
     public MainMenuScreen(final Game game) {

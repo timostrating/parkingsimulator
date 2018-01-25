@@ -17,7 +17,9 @@ import com.kotcrab.vis.ui.widget.ListView.UpdatePolicy;
 
 import java.util.Comparator;
 
-/** @author Kotcrab */
+/**
+ * This Class is a temporary class for testing the possibilities of a lists and windows.  TODO: Change into a usable class
+ */
 public class TestListView extends VisWindow {
     public TestListView () {
         super("listview");

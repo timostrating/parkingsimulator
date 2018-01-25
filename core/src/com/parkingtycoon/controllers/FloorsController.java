@@ -3,17 +3,16 @@ package com.parkingtycoon.controllers;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.Logger;
-import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FloorModel;
-import com.parkingtycoon.pathfinding.PathFinder;
+import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.views.FloorsView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Created by Sneeuwpopsneeuw on 17-Jan-18.
+ * This class is responsible for providing the floor of te simulation world
  */
 public class FloorsController extends UpdateableController {
 

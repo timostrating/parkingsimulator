@@ -5,12 +5,16 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import com.parkingtycoon.CompositionRoot;
 
+/**
+ * This Class is a temporary class for testing the possibilities of a Graph using a shapeRenderer.  TODO: Change into a usable class
+ */
 public class TestGraphView extends VisWindow {
 
     private final ShapeRenderer shapeRenderer;
     private final CompositionRoot root;
     private float graphSize = 400;
     private int steps;
+
 
     public TestGraphView() {
         super("TestGraphView");

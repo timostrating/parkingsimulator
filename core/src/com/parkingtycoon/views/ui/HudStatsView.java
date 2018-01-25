@@ -7,18 +7,18 @@ import com.kotcrab.vis.ui.widget.VisWindow;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.views.BaseView;
 
+/**
+ * This Class is responsible for showing the stats of the simulation.
+ */
 public class HudStatsView extends BaseView {
 
     public HudStatsView(Stage stage) {
         super();
         stage.addActor(new HubStatsWindow());
-
     }
 
     @Override
-    public void updateView(BaseModel model) {
-
-    }
+    public void updateView(BaseModel model) { }
 
     @Override
     public float renderIndex() {
@@ -36,7 +36,7 @@ public class HudStatsView extends BaseView {
             add(new VisLabel("jammer"));
             row();
             add(new VisProgressBar(0, 100, 1, false));
-
         }
     }
+
 }

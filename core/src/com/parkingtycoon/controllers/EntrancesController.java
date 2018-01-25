@@ -7,6 +7,9 @@ import com.parkingtycoon.models.CarQueueModel;
 
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for providing a Queue that processes the new Cars that would like to park.
+ */
 public class EntrancesController extends CarQueuesController {
 
     private static final int POP_INTERVAL = 10;

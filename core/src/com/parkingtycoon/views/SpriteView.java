@@ -9,6 +9,9 @@ import com.parkingtycoon.models.BaseModel;
 
 import java.util.HashMap;
 
+/**
+ * This Class is responsible for showing a image containing multiple images as an single image.
+ */
 public class SpriteView extends BaseView {
 
     private static HashMap<String, Texture> textures = new HashMap<>();
@@ -16,6 +19,7 @@ public class SpriteView extends BaseView {
     protected Sprite sprite;
     protected boolean visible = true;
     protected String spritePath;
+
 
     public SpriteView(String spritePath) {
         super();

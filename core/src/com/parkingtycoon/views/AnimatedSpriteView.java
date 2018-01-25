@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.models.AnimatedSpriteModel;
 
+/**
+ * This Class is responsible for showing a sprite that is animated.
+ */
 public class AnimatedSpriteView extends SpriteView {
 
     private int currentFrame;
@@ -13,6 +16,7 @@ public class AnimatedSpriteView extends SpriteView {
     private AnimatedSpriteModel spriteModel;
     private AnimatedSpriteModel.Animation currentAnimation;
     private String jsonPath;
+
 
     public AnimatedSpriteView(String spritePath, boolean simulationSpeedDependent) {
         super(spritePath + ".png");

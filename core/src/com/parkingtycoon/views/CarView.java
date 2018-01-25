@@ -5,9 +5,13 @@ import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.CarModel;
 
+/**
+ * This Class is responsible for showing an animated sprite of a drivable car.
+ */
 public class CarView extends AnimatedSpriteView {
 
     private Vector2 spritePosition = new Vector2();
+
 
     public CarView() {
         super("sprites/cars/pontiac", true);
