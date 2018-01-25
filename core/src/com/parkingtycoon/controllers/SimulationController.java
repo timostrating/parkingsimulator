@@ -18,11 +18,17 @@ public class SimulationController extends BaseController {
     private Delegate<UpdateableController> updatables = new Delegate<>(false);
     private int updatesPerSecond = REAL_TIME_UPDATES_PER_SECOND;
     private long updates;
-    private float deltaTime;
+    private long deltaTime;
     private long prevTime;
     private boolean paused = false;
     private boolean pausedUpdate = false;
     private Delegate.Notifier<UpdateableController> notifier = UpdateableController::update;
+
+    private int updatesSinceLastSecond = 0;
+    private int millisTimer = 0;
+    private long prevMillis = 0;
+
+    public int realUpdatesPerSecond;
 
     public void startSimulation() {
         new Thread( () -> {
@@ -44,7 +50,19 @@ public class SimulationController extends BaseController {
 
             pausedUpdate = true; // only pause if there has been a new render
             updates++;
+            updatesSinceLastSecond++;
             updatables.notifyObjects(notifier);
+
+            millisTimer += time - prevMillis;
+            prevMillis = time;
+
+            if (millisTimer >= 1000) {
+
+                realUpdatesPerSecond = updatesSinceLastSecond;
+                millisTimer = 0;
+                updatesSinceLastSecond = 0;
+
+            }
 
             addCars();
 
@@ -87,10 +105,10 @@ public class SimulationController extends BaseController {
     }
 
     private void addCars() { // todo: remove to an appropriate controller
-        if (Math.random() > .96f) {
+        if (Math.random() > .99f) {
             CarModel car = CompositionRoot.getInstance().carsController.createCar();
             car.startTime = updates;
-            car.endTime = updates + Random.randomInt(50, 200);
+            car.endTime = updates + Random.randomInt(500000, 2000000);
             car.registerView(new CarView());
             CompositionRoot.getInstance().entrancesController.addToQueue(car);
         }

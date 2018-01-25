@@ -19,7 +19,7 @@ import com.parkingtycoon.controllers.InputController;
  */
 public class HudController implements Disposable {
 
-    private final static boolean DEBUG = false;
+    public boolean debug = false;
 
     private final CompositionRoot root;
 
@@ -30,6 +30,7 @@ public class HudController implements Disposable {
     private Viewport viewport;
 
     private SpriteBatch hudBatch;
+    private VisTable mainTable;
 
 
     public HudController(SpriteBatch batch) {
@@ -52,8 +53,8 @@ public class HudController implements Disposable {
     }
 
     private void setup(Stage stage) {
-        VisTable mainTable = new VisTable();
-        mainTable.setDebug(DEBUG);
+        mainTable = new VisTable();
+        mainTable.setDebug(debug);
         mainTable.setFillParent(true);
 
         mainTable.add(new HudOptionsController(stage).getTable()).expand().top().left();
@@ -84,5 +85,9 @@ public class HudController implements Disposable {
         stage.draw();
         hudBatch.end();
     }
-  
+
+    public void toggleDebug() {
+        debug = !debug;
+        mainTable.setDebug(debug);
+    }
 }

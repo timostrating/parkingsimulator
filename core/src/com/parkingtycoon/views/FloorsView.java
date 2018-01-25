@@ -1,7 +1,9 @@
 package com.parkingtycoon.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.parkingtycoon.CompositionRoot;
@@ -78,11 +80,10 @@ public class FloorsView extends BaseView {
                 TiledMapTile tile = null;
 
                 switch (floorType) {
-                    case GRASS: tile = tileSets.getTile(13); break;
-                    case ROAD:  tile = tileSets.getTile(78); break;
+                    case GRASS: tile = tileSets.getTile(78); break;
+                    case ROAD:  tile = tileSets.getTile(13); break;
                     case PARKABLE: tile = tileSets.getTile(174); break;
                     default: tile = tileSets.getTile(17);
-
                 }
 
                 TiledMapTileLayer.Cell cell = layer.getCell(x, y);
@@ -94,6 +95,18 @@ public class FloorsView extends BaseView {
                 cell.setTile(tile);
             }
         }
+    }
+
+
+    @Override
+    public void debugRender(ShapeRenderer shapeRenderer) {
+
+        shapeRenderer.setColor(Color.DARK_GRAY);
+        for (int x = 0; x < Game.WORLD_WIDTH; x++)
+            shapeRenderer.line(x, 0, x, Game.WORLD_HEIGHT);
+
+        for (int y = 0; y < Game.WORLD_HEIGHT; y++)
+            shapeRenderer.line(0, y, Game.WORLD_WIDTH, y);
     }
 
 }

@@ -1,11 +1,11 @@
 package com.parkingtycoon.controllers;
 
-import com.parkingtycoon.helpers.interfaces.Updatable;
+import com.parkingtycoon.controllers.UpdateableController;
 
 /**
  * TODO: start using it
  */
-public class ChartsController extends BaseController implements Updatable {
+public class ChartsController extends UpdateableController {
 
     public ChartsController() {
 

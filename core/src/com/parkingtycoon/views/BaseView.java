@@ -1,6 +1,7 @@
 package com.parkingtycoon.views;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.interfaces.Renderable;
 import com.parkingtycoon.models.BaseModel;
@@ -21,6 +22,8 @@ public abstract class BaseView implements Renderable {
     public void preRender() {}
 
     public void draw(SpriteBatch batch) {}
+
+    public void debugRender(ShapeRenderer shapeRenderer) {}
 
     public abstract float renderIndex();
 

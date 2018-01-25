@@ -1,6 +1,7 @@
 package com.parkingtycoon;
 
 import com.parkingtycoon.controllers.*;
+import com.parkingtycoon.controllers.ui.HudController;
 import com.parkingtycoon.helpers.Logger;
 
 /**
@@ -19,6 +20,7 @@ public class CompositionRoot {
     public ExitsController exitsController;
     public FloorsController floorsController;
     public FinancialController financialController;
+    public HudController hudController;
 
     private static CompositionRoot instance;
 
@@ -49,6 +51,7 @@ public class CompositionRoot {
         exitsController = new ExitsController();
         floorsController = new FloorsController();
         financialController = new FinancialController();
+        hudController = new HudController(game.batch);
     }
 
 }

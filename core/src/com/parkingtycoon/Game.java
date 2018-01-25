@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.parkingtycoon.levels.MainMenuScreen;
 import com.parkingtycoon.levels.SimulationScreen;
-
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -19,6 +19,7 @@ public class Game extends com.badlogic.gdx.Game {
     public static final int WORLD_WIDTH = 100, WORLD_HEIGHT = 100;
   
     public SpriteBatch batch;
+    public ShapeRenderer shapeRenderer;
     public BitmapFont font;
 
     private int currentScreenIndex = 0;
@@ -35,10 +36,13 @@ public class Game extends com.badlogic.gdx.Game {
     @Override
 	  public void create () {
 
+        batch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setAutoShapeType(true);
+        font = new BitmapFont();
+
         CompositionRoot.init(this);   // let's create a Composition root
 
-        batch = new SpriteBatch();
-        font = new BitmapFont();
         loadScreen(0);
     }
 

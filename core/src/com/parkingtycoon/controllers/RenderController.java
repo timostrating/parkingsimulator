@@ -18,14 +18,18 @@ public class RenderController extends BaseController {
 
     private Delegate.Notifier<BaseView> preRenderer = BaseView::preRender;
     private Delegate.Notifier<BaseView> renderer;
+    private Delegate.Notifier<BaseView> debugRenderer;
     private Delegate.Sorter<BaseView> sorter = BaseView::renderIndex;
     private Delegate.Starter<BaseView> starter = BaseView::start;
+
+    public boolean debug = false;
 
 
     public RenderController(Game game) {
         super();
         this.game = game;
         renderer = object -> object.draw(game.batch);
+        debugRenderer = object -> object.debugRender(game.shapeRenderer);
     }
 
     public void preRender() {
@@ -42,6 +46,13 @@ public class RenderController extends BaseController {
         game.batch.begin();
         views.notifyObjects(renderer);          // for every view -> call draw(game.batch)
         game.batch.end();
+
+        if (debug) {
+            Gdx.gl.glLineWidth(3);
+            game.shapeRenderer.begin();
+            views.notifyObjects(debugRenderer);
+            game.shapeRenderer.end();
+        }
     }
 
     public void registerView(BaseView view) {
