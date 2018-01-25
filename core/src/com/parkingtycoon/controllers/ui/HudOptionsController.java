@@ -1,31 +1,25 @@
 package com.parkingtycoon.controllers.ui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.kotcrab.vis.ui.widget.VisImageButton;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.parkingtycoon.CompositionRoot;
 
+/**
+ * This class is responsible for controlling the UI that allows the game to have options.
+ */
 public class HudOptionsController extends HudBaseController {
 
-    public HudOptionsController() {
-        super();
+    public HudOptionsController(Stage stage) {
+        super(stage);
         CompositionRoot root = CompositionRoot.getInstance();
 
         // BUTTON 1
-        Texture buttonTexture = new Texture(Gdx.files.internal("badlogic.jpg"));
-        Drawable drawable = new TextureRegionDrawable(new TextureRegion(buttonTexture));
-
-        final VisImageButton button = new VisImageButton(drawable);
-        button.setWidth(100);
-        button.setHeight(100);
+        final VisImageButton button = new VisImageButton(setupDrawable("ui/test.png"), setupDrawable("ui/test2.png"));
 
         button.addListener(new ClickListener() {
             @Override
@@ -48,4 +42,5 @@ public class HudOptionsController extends HudBaseController {
         table.add(button).expand().top().left();
         table.add(slider).expand().top().left();
     }
+
 }

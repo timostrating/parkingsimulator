@@ -2,14 +2,15 @@ package com.parkingtycoon.views;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.helpers.interfaces.Renderable;
 import com.parkingtycoon.models.BaseModel;
 
 /**
- * This class is responsible for adding the responbitities of a View in the MVC architechture.
+ * This class is responsible for adding the responsibilities of a View in the MVC architecture.
  */
-public abstract class BaseView {
+public abstract class BaseView implements Renderable {
 
-    BaseView() {
+    protected BaseView() {
         CompositionRoot.getInstance().renderController.registerView(this);
     }
 

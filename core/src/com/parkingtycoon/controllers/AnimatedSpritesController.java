@@ -5,12 +5,15 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.ArrayNamed;
-import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.AnimatedSpriteModel;
 
+/**
+ * This class is responsible for processing the data for the AnimatedSpriteView
+ */
 public class AnimatedSpritesController extends UpdateableController {
 
     private static ArrayNamed<AnimatedSpriteModel> models = new ArrayNamed<>();
+
 
     public AnimatedSpritesController() {
         CompositionRoot.getInstance().simulationController.registerUpdatable(this);
@@ -35,7 +38,7 @@ public class AnimatedSpritesController extends UpdateableController {
         return model;
     }
 
-    private AnimatedSpriteModel modelFromJson(String path) {
+    private AnimatedSpriteModel modelFromJson(String path) {  // TODO: to long
 
         AnimatedSpriteModel spriteModel = new AnimatedSpriteModel(path);
         models.add(spriteModel);
@@ -84,4 +87,5 @@ public class AnimatedSpritesController extends UpdateableController {
 
         return spriteModel;
     }
+
 }

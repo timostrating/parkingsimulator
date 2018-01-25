@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is responsible for adding the responbitities of a Model in the MVC architechture.
+ * This class is responsible for adding the responsibilities of a Model in the MVC architecture.
  */
 public abstract class BaseModel {
 

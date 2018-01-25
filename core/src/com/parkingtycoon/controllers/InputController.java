@@ -7,7 +7,7 @@ import com.parkingtycoon.CompositionRoot;
 
 
 /**
- * This Class is responsible for keyboard and mouse controllers that are applied to the GameWindow
+ * This Class is responsible for processing user input like keyboard and mouse input that are applied to the GameWindow
  */
 public class InputController implements com.badlogic.gdx.InputProcessor {
 

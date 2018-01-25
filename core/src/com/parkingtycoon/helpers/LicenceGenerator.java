@@ -1,9 +1,11 @@
 package com.parkingtycoon.helpers;
 
 import java.util.Random;
-import java.util.Arrays;
 
-public class LicenceGenerator{
+/**
+ * This Class provides help of getting a correct license plate number.
+ */
+public class LicenceGenerator {
 
     String[] mLetters = {"B","C","D","F","G","H","J","K","L","M","N","P","Q","R","S","T","V","W","X","Y","Z"};
 

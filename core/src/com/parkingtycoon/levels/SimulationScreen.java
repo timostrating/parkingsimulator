@@ -1,21 +1,25 @@
-package com.parkingtycoon.screens;
+package com.parkingtycoon.levels;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
+import com.parkingtycoon.controllers.ui.HudController;
 import com.parkingtycoon.views.EntranceView;
 import com.parkingtycoon.views.TestSpriteView;
 
-public class SimulationScreen implements Screen {
 
+/**
+ * This Class is responsible for setting up the 
+ */
+public class SimulationScreen implements Screen {
 
     final Game game;
     private CompositionRoot root;
 
     private OrthographicCamera worldCamera;
-    private Hud hud;
+    private HudController hud;
 
 
     public SimulationScreen(Game game) {
@@ -31,7 +35,7 @@ public class SimulationScreen implements Screen {
         root = CompositionRoot.getInstance();
         root.renderController.setMainCamera(worldCamera);
 
-        hud = new Hud(game.batch);
+        hud = new HudController(game.batch);
 
         for (int i = 0; i < 1000; i++)
             new TestSpriteView();

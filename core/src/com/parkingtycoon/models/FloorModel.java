@@ -1,12 +1,12 @@
 package com.parkingtycoon.models;
 
 import com.parkingtycoon.Game;
-import com.parkingtycoon.pathfinding.NavMap;
+import com.parkingtycoon.helpers.pathfinding.NavMap;
 
 import java.util.ArrayList;
 
 /**
- * Created by Sneeuwpopsneeuw on 17-Jan-18.
+ * This Class is responsible for storing all data of a floor.
  */
 public class FloorModel extends BaseModel {
 
