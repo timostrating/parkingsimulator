@@ -25,6 +25,7 @@ public class InputController implements com.badlogic.gdx.InputProcessor {
             RenderController renderController = CompositionRoot.getInstance().renderController;
             renderController.debug = !renderController.debug;
         }
+
         return false;
     }
 

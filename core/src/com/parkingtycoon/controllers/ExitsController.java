@@ -11,7 +11,7 @@ public class ExitsController extends CarQueuesController {
     private static final int POP_INTERVAL = 20;
 
     private ArrayList<CarQueueModel> exits = new ArrayList<CarQueueModel>() {{
-        add(new CarQueueModel());
+        add(new CarQueueModel(0, 0));
     }};
 
     @Override

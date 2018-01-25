@@ -13,7 +13,6 @@ import java.util.List;
 
 public class CarView extends AnimatedSpriteView {
 
-    private Vector2 spritePosition = new Vector2();
     private Vector2 lastDirection = new Vector2();
     private int lastFrame = -1;
     private List<PathFinder.Node> path;

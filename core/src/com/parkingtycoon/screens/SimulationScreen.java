@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.controllers.SimulationController;
-import com.parkingtycoon.views.EntranceView;
 
 public class SimulationScreen implements Screen {
 
@@ -33,10 +32,6 @@ public class SimulationScreen implements Screen {
 
         hud = new Hud(game.batch);
 
-//        for (int i = 0; i < 1000; i++)
-//            new TestSpriteView();
-
-        new EntranceView();
     }
 
     @Override

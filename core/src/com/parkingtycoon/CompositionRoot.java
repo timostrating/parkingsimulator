@@ -20,6 +20,7 @@ public class CompositionRoot {
     public ExitsController exitsController;
     public FloorsController floorsController;
     public FinancialController financialController;
+    public BluePrintsController bluePrintsController;
 
     private static CompositionRoot instance;
 
@@ -52,5 +53,6 @@ public class CompositionRoot {
         exitsController = new ExitsController();
         floorsController = new FloorsController();
         financialController = new FinancialController();
+        bluePrintsController = new BluePrintsController();
     }
 }

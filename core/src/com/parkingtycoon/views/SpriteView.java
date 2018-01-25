@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.models.BaseModel;
 
@@ -13,6 +14,7 @@ public class SpriteView extends BaseView {
 
     private static HashMap<String, Texture> textures = new HashMap<>();
 
+    protected Vector2 spritePosition = new Vector2();
     protected Sprite sprite = new Sprite();
     protected boolean visible = true;
     protected String spritePath;

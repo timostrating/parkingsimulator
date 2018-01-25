@@ -9,6 +9,7 @@ import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.views.FloorsView;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Iterator;
 
 /**
@@ -20,6 +21,8 @@ public class FloorsController extends UpdateableController {
     private FloorsView view;
     private int currentFloor = 0;
 
+    public static final int BUILD_MARGIN = 10;
+
     public FloorsController() {
 
         CompositionRoot.getInstance().simulationController.registerUpdatable(this);
@@ -30,6 +33,10 @@ public class FloorsController extends UpdateableController {
         floors.add(floor);
 
         setCurrentFloor(0);
+    }
+
+    public void sendCarTo(int floor, int x, int y, CarModel car) {
+        CompositionRoot.getInstance().carsController.sendTo(car, floors.get(floor).carNavMap, x, y);
     }
 
     @Override
@@ -71,7 +78,7 @@ public class FloorsController extends UpdateableController {
                         floor.cars.add(car);
 
                         // send car to place:
-                        CompositionRoot.getInstance().carsController.sendTo(car, floor.carNavMap, x, y);
+                        sendCarTo(i, x, y, car);
 
                         Logger.info("Car parked at (" + x + ", " + y + ") on floor " + i);
                         return true;
@@ -105,6 +112,15 @@ public class FloorsController extends UpdateableController {
         return CompositionRoot.getInstance().exitsController.addToQueue(car);
     }
 
+    public boolean canBuild(int x, int y, EnumSet<FloorModel.FloorType> floorTypes) {
+
+        // check if a buildable can be built here.
+
+        return x >= BUILD_MARGIN && x < Game.WORLD_WIDTH - BUILD_MARGIN
+                && y >= BUILD_MARGIN && y < Game.WORLD_HEIGHT - BUILD_MARGIN
+                && floorTypes.contains(floors.get(currentFloor).tiles[x][y]);
+    }
+
     public void setCurrentFloor(int currentFloor) {
         if (currentFloor < 0 || currentFloor >= floors.size())
             return;
@@ -124,7 +140,7 @@ public class FloorsController extends UpdateableController {
 
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
-                floor.tiles[x][y] = x % 2 == 0 || y % 2 == 0 ? FloorModel.FloorType.ROAD : FloorModel.FloorType.PARKABLE;
+                floor.tiles[x][y] = x % 2 == 0 || y % 10 == 0 ? FloorModel.FloorType.ROAD : FloorModel.FloorType.PARKABLE;
 
             }
         }
