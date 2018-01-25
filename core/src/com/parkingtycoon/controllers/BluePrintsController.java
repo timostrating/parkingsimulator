@@ -18,7 +18,7 @@ public class BluePrintsController extends UpdateableController {
 
     public BluePrintModel toBeBuilt;
 
-    private ArrayList<BluePrintModel> bluePrints = new ArrayList<BluePrintModel>(){{
+    private ArrayList<BluePrintModel> bluePrints = new ArrayList<BluePrintModel>() {{
 
         add(new BluePrintModel(
                 // title:
@@ -40,15 +40,10 @@ public class BluePrintsController extends UpdateableController {
         root.simulationController.registerUpdatable(this);
     }
 
-    private void build() {
+    private void build(int x, int y) {
 
-        Vector3 isometric = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-        CompositionRoot.getInstance().renderController.getMainCamera().unproject(isometric);
 
-        Vector2 normal = new Vector2(isometric.x, isometric.y);
-        IsometricConverter.isometricToNormal(normal);
-
-        BuildableModel building = bluePrints.get(0).builder.build((int) normal.x, (int) normal.y);
+        BuildableModel building = bluePrints.get(0).builder.build(x, y);
     }
 
     @Override
@@ -57,13 +52,26 @@ public class BluePrintsController extends UpdateableController {
         // TODO: Gdx.input not always working on seperate thread!!!
         toBeBuilt = bluePrints.get(0);
 
-        if (Gdx.input.isButtonPressed(0) && CompositionRoot.getInstance().financialController.spend(toBeBuilt.price)) {
+        CompositionRoot root = CompositionRoot.getInstance();
 
-            Logger.info("gggg");
+        Vector3 isometric = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+        CompositionRoot.getInstance().renderController.getMainCamera().unproject(isometric);
 
-            build();
+        Vector2 normal = new Vector2(isometric.x, isometric.y);
+        IsometricConverter.isometricToNormal(normal);
+
+        int x = (int) normal.x, y = (int) normal.y;
+
+        if (Gdx.input.isButtonPressed(0)) {
+            if (root.floorsController.canBuild(x, y, toBeBuilt.floorTypes)
+                && root.financialController.spend(toBeBuilt.price)){
+
+                    Logger.info("building!!!!!!!!!!!!!!!!!!!");
+
+                    build(x, y);
+                }
+            }
+
+
         }
-
-
     }
-}
