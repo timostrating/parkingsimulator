@@ -4,6 +4,7 @@ import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.helpers.UpdateableController;
+import com.parkingtycoon.models.BuildableModel;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.views.FloorsView;
@@ -115,10 +116,20 @@ public class FloorsController extends UpdateableController {
     public boolean canBuild(int x, int y, EnumSet<FloorModel.FloorType> floorTypes) {
 
         // check if a buildable can be built here.
+        FloorModel floor = floors.get(currentFloor);
 
         return x >= BUILD_MARGIN && x < Game.WORLD_WIDTH - BUILD_MARGIN
                 && y >= BUILD_MARGIN && y < Game.WORLD_HEIGHT - BUILD_MARGIN
-                && floorTypes.contains(floors.get(currentFloor).tiles[x][y]);
+                && floorTypes.contains(floor.tiles[x][y])
+                && (floor.buildings[x] == null || floor.buildings[x][y] == null);
+    }
+
+    public void build(BuildableModel building) {
+        FloorModel floor = floors.get(currentFloor);
+        if (floor.buildings[building.x] == null)
+            floor.buildings[building.x] = new BuildableModel[Game.WORLD_HEIGHT];
+
+        floor.buildings[building.x][building.y] = building;
     }
 
     public void setCurrentFloor(int currentFloor) {

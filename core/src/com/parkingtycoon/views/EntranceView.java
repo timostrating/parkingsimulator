@@ -18,7 +18,7 @@ public class EntranceView extends AnimatedSpriteView {
     @Override
     public void start() {
         super.start();
-        play("openAndClose", true);
+        play("test", true);
     }
 
     @Override
