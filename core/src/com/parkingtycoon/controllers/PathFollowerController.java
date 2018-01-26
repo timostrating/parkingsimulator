@@ -44,8 +44,8 @@ public class PathFollowerController<T extends PathFollowerModel> extends Updatea
 
             PathFinder.Node afterNext = f.getPath().get(f.currentNode + 2);
 
-            next.actualX = (next.actualX * 3 + afterNext.actualX) / 4f;
-            next.actualY = (next.actualY * 3 + afterNext.actualY) / 4f;
+            next.actualX = (next.actualX * 10 + afterNext.actualX) / 11f;
+            next.actualY = (next.actualY * 10 + afterNext.actualY) / 11f;
         }
 
         float diffX = f.position.x - next.actualX;

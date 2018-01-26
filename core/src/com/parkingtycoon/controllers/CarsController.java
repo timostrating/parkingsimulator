@@ -53,12 +53,14 @@ public class CarsController extends PathFollowerController<CarModel> {
 
             if (!car.direction.isZero()) {
 
-                if (Math.abs(car.direction.y) < .003f)
-                    car.aabb.halfSize.set(1, .1f);
-                else if (Math.abs(car.direction.x) < .03f)
-                    car.aabb.halfSize.set(.1f, 1);
-                else
-                    car.aabb.halfSize.set(.5f, .5f);
+                float xLen = Math.abs(car.direction.x);
+                float yLen = Math.abs(car.direction.y);
+
+                car.aabb.halfSize.set(
+                        Math.max(.2f, xLen / 1.1f / (xLen + yLen)),
+                        Math.max(.2f, yLen / 1.1f / (xLen + yLen))
+                );
+
             }
         }
 
@@ -69,7 +71,7 @@ public class CarsController extends PathFollowerController<CarModel> {
             if (car.waitingOn != null)
                 car.brake = 1;                              // brake
             else
-                car.brake = Math.max(0, car.brake - .04f);  // accelerate
+                car.brake = Math.max(0, car.brake - .01f);  // accelerate
 
 
         }
