@@ -1,6 +1,7 @@
 package com.parkingtycoon.views.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisProgressBar;
 import com.kotcrab.vis.ui.widget.VisWindow;
@@ -30,6 +31,8 @@ public class HudStatsView extends BaseView {
         HubStatsWindow() {
             super("Stats");
             setMovable(false);
+
+            TableUtils.setSpacingDefaults(this);
 
             setSize(200, 100);
 

@@ -1,0 +1,67 @@
+package com.parkingtycoon.views.ui;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisWindow;
+import com.parkingtycoon.models.BaseModel;
+import com.parkingtycoon.views.BaseView;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+/**
+ * This Class is responsible for showing the time of the simulation.
+ */
+public class HudTimeView extends BaseView {
+
+    private final HubTimeWindow window;
+
+    public HudTimeView(Stage stage) {
+        super();
+        window = new HudTimeView.HubTimeWindow();
+
+        stage.addActor(window);
+    }
+
+    @Override
+    public void updateView(BaseModel model) { }
+
+    @Override
+    public void draw(SpriteBatch batch) {
+        super.draw(batch);
+        window.reposition();
+    }
+
+    @Override
+    public float renderIndex() {
+        return 0;
+    }
+
+    class HubTimeWindow extends VisWindow {
+        final float WIDTH = 200;
+        final float HEIGHT = 100;
+        private final VisLabel label;
+
+        HubTimeWindow() {
+            super("Time");
+            setMovable(false);
+
+            setPosition(Gdx.graphics.getWidth() - WIDTH, 0);
+
+            setSize(WIDTH, HEIGHT);
+
+            DateFormat dateInstance = SimpleDateFormat.getDateInstance();
+            String date = dateInstance.format(Calendar.getInstance().getTime());
+            label = new VisLabel(date);
+            add(label);
+        }
+
+        void reposition() {
+            setPosition(Gdx.graphics.getWidth() - WIDTH, 0);
+        }
+    }
+
+}
