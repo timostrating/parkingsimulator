@@ -100,6 +100,9 @@ public class FloorsController extends UpdateableController {
 
     public boolean sendCarToExit(CarModel car) {
 
+        if (!CompositionRoot.getInstance().exitsController.addToQueue(car))
+            return false; // No exit found
+
         floorLoop:
         for (FloorModel floor : floors) {
 
@@ -114,7 +117,7 @@ public class FloorsController extends UpdateableController {
             }
         }
 
-        return CompositionRoot.getInstance().exitsController.addToQueue(car);
+        return true;
     }
 
     public boolean canBuild(int x, int y, EnumSet<FloorModel.FloorType> floorTypes) {

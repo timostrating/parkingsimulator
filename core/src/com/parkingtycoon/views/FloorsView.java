@@ -109,9 +109,9 @@ public class FloorsView extends BaseView {
 
         shapeRenderer.setColor(Color.DARK_GRAY);
         for (int x = 0; x < Game.WORLD_WIDTH; x++)
-            shapeRenderer.line(x, 0, x, Game.WORLD_HEIGHT);
+            shapeRenderer.line(x - .5f, -.5f, x - .5f, Game.WORLD_HEIGHT - .5f);
 
         for (int y = 0; y < Game.WORLD_HEIGHT; y++)
-            shapeRenderer.line(0, y, Game.WORLD_WIDTH, y);
+            shapeRenderer.line(-.5f, y - .5f, Game.WORLD_WIDTH - .5f, y - .5f);
     }
 }

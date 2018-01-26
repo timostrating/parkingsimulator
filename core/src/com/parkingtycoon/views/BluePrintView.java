@@ -32,7 +32,6 @@ public class BluePrintView extends AnimatedSpriteView {
             canBuild = bluePrint.canBuild();
             spritePosition.set(bluePrint.x, bluePrint.y);
             IsometricConverter.normalToIsometric(spritePosition);
-
         }
 
     }

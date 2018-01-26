@@ -24,8 +24,10 @@ public class PathFollowerController<T extends PathFollowerModel> extends Updatea
             float distanceTravelled = 0;
             while (distanceTravelled < f.velocity) {
 
-                if (f.path == null)
+                if (f.path == null) {
+                    f.direction.set(0, 0);
                     break;
+                }
 
                 if (f.currentNode + 1 >= f.path.size()) {
                     f.path = null;  // arrived at goal
@@ -55,7 +57,7 @@ public class PathFollowerController<T extends PathFollowerModel> extends Updatea
                 }
 
                 f.direction.set(next.actualX - f.position.x, next.actualY - f.position.y).nor().scl(velocity);
-                f.position.add(f.direction);
+                f.move();
 
                 distanceTravelled += f.direction.len();
 
