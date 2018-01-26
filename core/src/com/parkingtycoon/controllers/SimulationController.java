@@ -47,6 +47,9 @@ public class SimulationController extends BaseController {
         while (deltaTime >= timeStep) {
 
             pausedUpdate = true; // only pause if there has been a new render
+
+            if (paused) break;
+
             updates++;
             updatesSinceLastSecond++;
             updatables.notifyObjects(notifier);
