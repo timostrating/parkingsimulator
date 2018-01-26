@@ -1,6 +1,7 @@
 package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.math.Vector2;
+import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.PathFollowerModel;
 import com.parkingtycoon.pathfinding.NavMap;
@@ -54,6 +55,8 @@ public class CarsController extends PathFollowerController<CarModel> {
     public void update() {
         super.update();
 
+        Logger.info(pathFollowers.size());
+
         for (CarModel car : pathFollowers) {
 
             car.aabb.center.set(car.position);
@@ -86,16 +89,19 @@ public class CarsController extends PathFollowerController<CarModel> {
     }
 
     private void detectCollisions(CarModel car) {
-        if (car.waitingOn != null && (!car.aabb.overlaps(car.waitingOn.aabb) || car.floor != car.waitingOn.floor))
+        if (car.waitingOn != null && (!car.aabb.overlaps(car.waitingOn.aabb) || car.floor != car.waitingOn.floor || car.waitingOn.parked))
             car.waitingOn = null;
 
-        if (car.waitingOn != null)
+        if (car.waitingOn != null || car.parked)
             return;
 
         // check if car collides with other cars:
         for (CarModel otherCar : pathFollowers) {
-            if (car.floor != otherCar.floor || otherCar == car || !car.aabb.overlaps(otherCar.aabb))
-                continue;
+            if (car.floor != otherCar.floor                     // cannot collide with cars on another floor
+                    || otherCar.parked                          // cannot collide with parked cars
+                    || otherCar == car                          // cannot collide with itself
+                    || !car.aabb.overlaps(otherCar.aabb))       // does it collide?
+                continue;                                       // no.
 
             // the distance between the cars:
             float dist = diff.set(car.position).sub(otherCar.position).len();

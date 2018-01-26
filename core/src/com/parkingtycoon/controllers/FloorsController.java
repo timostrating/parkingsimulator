@@ -41,7 +41,7 @@ public class FloorsController extends UpdateableController {
     }
 
     public void sendCarAway(CarModel car) {
-        CompositionRoot.getInstance().carsController.sendTo(car, floors.get(0).carNavMap, 0, 0);
+        CompositionRoot.getInstance().carsController.sendTo(car, floors.get(0).carNavMap, 99, 0);
     }
 
     @Override
@@ -52,6 +52,9 @@ public class FloorsController extends UpdateableController {
             while (carIterator.hasNext()) {
 
                 CarModel car = carIterator.next();
+                car.parked = car.getPath() == null && !car.waitingInQueue;
+
+                floor.waitingTime[(int) car.position.x][(int) car.position.y]++;
 
                 if (car.getPath() == null && car.timer++ >= car.endTime - car.startTime) {
 
@@ -116,6 +119,7 @@ public class FloorsController extends UpdateableController {
                 }
             }
         }
+        car.parked = false;
 
         return true;
     }
@@ -155,6 +159,7 @@ public class FloorsController extends UpdateableController {
         for (int x = 0; x < Game.WORLD_WIDTH; x++) {
 
             floor.tiles[x] = new FloorModel.FloorType[Game.WORLD_HEIGHT];
+            floor.waitingTime[x] = new int[Game.WORLD_HEIGHT];
 
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
