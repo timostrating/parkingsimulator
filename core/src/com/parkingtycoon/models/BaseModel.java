@@ -14,6 +14,7 @@ public abstract class BaseModel {
 
     public void registerView(BaseView view) {
         views.add(view);
+        view.updateView(this);  // We do this for views who want to store the reference of model. If they do they need the updateView before the first render.
     }
 
     public void unregisterView(BaseView view) {

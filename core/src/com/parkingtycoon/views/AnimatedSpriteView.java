@@ -33,9 +33,9 @@ public class AnimatedSpriteView extends SpriteView {
     }
 
     @Override
-    public void draw(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
         updateAnimation();
-        super.draw(batch);
+        super.render(batch);
     }
 
     protected boolean play(String animationName, boolean loop) {

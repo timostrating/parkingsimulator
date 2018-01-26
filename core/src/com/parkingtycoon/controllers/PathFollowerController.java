@@ -1,6 +1,5 @@
 package com.parkingtycoon.controllers;
 
-import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.helpers.pathfinding.NavMap;
 import com.parkingtycoon.helpers.pathfinding.PathFinder;
@@ -15,10 +14,6 @@ public class PathFollowerController<T extends PathFollowerModel> extends Updatea
 
     ArrayList<T> pathFollowers = new ArrayList<>();
 
-
-    public PathFollowerController() {
-        CompositionRoot.getInstance().simulationController.registerUpdatable(this);
-    }
 
     @Override
     public void update() {

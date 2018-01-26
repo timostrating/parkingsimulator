@@ -1,6 +1,7 @@
 package com.parkingtycoon.controllers.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.models.ui.HudStatsModel;
 import com.parkingtycoon.views.ui.HudStatsView;
 
@@ -9,12 +10,15 @@ import com.parkingtycoon.views.ui.HudStatsView;
  */
 public class HudStatsController extends HudBaseController {
 
+    private final CompositionRoot root;
+
     public HudStatsController(Stage stage) {
         super(stage);
 
         HudStatsModel model = new HudStatsModel();
         HudStatsView view = new HudStatsView(stage);
-        model.registerView(view);
+        root = CompositionRoot.getInstance();
+        root.financialController.getModel().registerView(view);
 
 //        CompositionRoot root = CompositionRoot.getInstance();
 

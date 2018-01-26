@@ -43,6 +43,7 @@ public class CompositionRoot {
 
     private void start(Game game) {
         this.game = game;
+
         simulationController = new SimulationController();
         renderController = new RenderController(game);
         animatedSpritesController = new AnimatedSpritesController(); // TODO: looks strange

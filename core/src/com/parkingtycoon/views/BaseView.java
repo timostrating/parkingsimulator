@@ -21,7 +21,7 @@ public abstract class BaseView implements Renderable {
 
     public void preRender() {}
 
-    public void draw(SpriteBatch batch) {}
+    public void render(SpriteBatch batch) {}
 
     public void debugRender(ShapeRenderer shapeRenderer) {}
 

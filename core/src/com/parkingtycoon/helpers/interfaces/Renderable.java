@@ -9,6 +9,6 @@ public interface Renderable {
 
     void start();                       // before first frame is drawn
     void preRender();                   // every frame directly after the screen is cleared
-    void draw(SpriteBatch batch);       // draw the frame
+    void render(SpriteBatch batch);     // render the frame
 
 }

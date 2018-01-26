@@ -20,9 +20,6 @@ public class FloorsController extends UpdateableController {
     private int currentFloor = 0;
 
     public FloorsController() {
-
-        CompositionRoot.getInstance().simulationController.registerUpdatable(this);
-
         FloorModel floor = createFloor();
         view = new FloorsView();
         floor.registerView(view);

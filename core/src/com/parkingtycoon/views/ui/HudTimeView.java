@@ -30,8 +30,9 @@ public class HudTimeView extends BaseView {
     public void updateView(BaseModel model) { }
 
     @Override
-    public void draw(SpriteBatch batch) {
-        super.draw(batch);
+    public void render(SpriteBatch batch) {
+        super.render(batch);
+        window.updateTime();
         window.reposition();
     }
 
@@ -43,7 +44,7 @@ public class HudTimeView extends BaseView {
     class HubTimeWindow extends VisWindow {
         final float WIDTH = 200;
         final float HEIGHT = 100;
-        private final VisLabel label;
+        private final VisLabel timeLabel;
 
         HubTimeWindow() {
             super("Time");
@@ -53,14 +54,18 @@ public class HudTimeView extends BaseView {
 
             setSize(WIDTH, HEIGHT);
 
-            DateFormat dateInstance = SimpleDateFormat.getDateInstance();
-            String date = dateInstance.format(Calendar.getInstance().getTime());
-            label = new VisLabel(date);
-            add(label);
+            timeLabel = new VisLabel("TIME");
+            add(timeLabel);
         }
 
         void reposition() {
             setPosition(Gdx.graphics.getWidth() - WIDTH, 0);
+        }
+
+        void updateTime() {
+            DateFormat dateInstance = SimpleDateFormat.getDateInstance();
+            String date = dateInstance.format(Calendar.getInstance().getTime());
+            window.timeLabel.setText(date);
         }
     }
 

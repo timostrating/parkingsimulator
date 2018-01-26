@@ -43,7 +43,7 @@ public class SpriteView extends BaseView {
     public void updateView(BaseModel model) {}
 
     @Override
-    public void draw(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
         if (!visible) return;
 
         sprite.draw(batch);
