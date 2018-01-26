@@ -53,7 +53,7 @@ public class FloorsController extends UpdateableController {
 
                 CarModel car = carIterator.next();
 
-                if (car.path == null && car.timer++ >= car.endTime - car.startTime) {
+                if (car.getPath() == null && car.timer++ >= car.endTime - car.startTime) {
 
                     // time for this car to leave
                     if (sendCarToExit(car)) {

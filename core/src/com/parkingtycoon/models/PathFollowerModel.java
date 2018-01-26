@@ -7,13 +7,14 @@ import java.util.List;
 
 public abstract class PathFollowerModel extends BaseModel {
 
-    public List<PathFinder.Node> path;
     public int currentNode;
     public int floor;
-    public float velocity = 0.1f; // in meters per update
+    public float speed = 0.1f; // in meters per update
     public Vector2 direction = new Vector2();
     public Vector2 position = new Vector2();
     public boolean pathSmoothing = true;
+
+    private List<PathFinder.Node> path;
 
     public void move() {
 
@@ -22,4 +23,12 @@ public abstract class PathFollowerModel extends BaseModel {
 
     }
 
+    public List<PathFinder.Node> getPath() {
+        return path;
+    }
+
+    public void setPath(List<PathFinder.Node> path) {
+        this.path = path;
+        notifyViews();
+    }
 }

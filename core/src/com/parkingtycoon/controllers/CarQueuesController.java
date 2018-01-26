@@ -31,6 +31,7 @@ public abstract class CarQueuesController extends UpdateableController {
             if (q.cars.size() <= maxQueueSize && q.cars.add(car)) {
 
                 CompositionRoot.getInstance().floorsController.sendCarTo(0, q.x, q.y, car);
+                car.waitingInQueue = true;
 
                 return true;
             }
@@ -46,7 +47,8 @@ public abstract class CarQueuesController extends UpdateableController {
 
             for (CarModel car : queue.cars) {
 
-                if (car.path != null) continue;
+                if (car.getPath() != null)
+                    continue;
 
                 // this is the first car in the queue
 
@@ -55,7 +57,8 @@ public abstract class CarQueuesController extends UpdateableController {
                     if (nextAction(car)) {
 
                         // car has new action, now remove from queue
-                        queue.cars.remove(0);
+                        queue.cars.remove(car); // THIS IS THE BUGFIX, remove(0) != remove(car)
+                        car.waitingInQueue = false;
                         queue.notifyViews(); // play open animation
 
                         //reset popTimer

@@ -16,8 +16,9 @@ public class CarView extends AnimatedSpriteView {
 
     private List<PathFinder.Node> path;
     private Color pathColor = new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), 1);
-    private float extra = Random.randomInt(4, 10) / 100f;
+    private float extra = Random.randomInt(0, 10) / 100f;
     private AABB aabb;
+    private boolean waiting, inQueue;
 
     public CarView() {
         super("sprites/cars/pontiac", true);
@@ -35,8 +36,10 @@ public class CarView extends AnimatedSpriteView {
 
             CarModel car = (CarModel) model;
 
-            path = car.path;
+            path = car.getPath();
             aabb = car.aabb;
+            waiting = car.waitingOn != null;
+            inQueue = car.waitingInQueue;
 
             spritePosition.set(car.position);
             IsometricConverter.normalToIsometric(spritePosition);
@@ -84,7 +87,12 @@ public class CarView extends AnimatedSpriteView {
 
         }
 
-        super.debugRender(shapeRenderer);
+        shapeRenderer.setColor(waiting ? Color.RED : Color.GREEN);
+        shapeRenderer.line(sprite.getX(), sprite.getY(), sprite.getX(), sprite.getY() + sprite.getHeight());
+        shapeRenderer.setColor(inQueue ? Color.BLACK : Color.WHITE);
+        shapeRenderer.line(sprite.getX() + sprite.getWidth(), sprite.getY(), sprite.getX() + sprite.getWidth(), sprite.getY() + sprite.getHeight());
+
+//        super.debugRender(shapeRenderer);
     }
 }
 

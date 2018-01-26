@@ -30,7 +30,7 @@ public class IsometricConverter {
     public static Vector2 isometricToNormal(Vector2 convert) {
 
         float isoX = convert.x;
-        float isoY = convert.y - 1;
+        float isoY = convert.y;
 
         float xDiff = isoX - Game.WORLD_WIDTH * 2;
         float yDiff = -2 * (isoY - Game.WORLD_HEIGHT);

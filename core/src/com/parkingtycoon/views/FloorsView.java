@@ -17,9 +17,10 @@ public class FloorsView extends BaseView {
     private TiledMap tiledMap;
 
     public FloorsView() {
-        super();
         tiledMap = new TmxMapLoader().load("maps/default.tmx");
         renderer = new IsometricTiledMapRenderer(tiledMap, 1 / 16f);
+        tiledMap.getLayers().get(0).setOffsetY(16);
+        register();
     }
 
     @Override
@@ -73,7 +74,7 @@ public class FloorsView extends BaseView {
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
                 FloorModel.FloorType floorType = floor.tiles[x][y];
-                TiledMapTile tile = null;
+                TiledMapTile tile;
 
                 switch (floorType) {
                     case GRASS:
@@ -109,9 +110,9 @@ public class FloorsView extends BaseView {
 
         shapeRenderer.setColor(Color.DARK_GRAY);
         for (int x = 0; x < Game.WORLD_WIDTH; x++)
-            shapeRenderer.line(x - .5f, -.5f, x - .5f, Game.WORLD_HEIGHT - .5f);
+            shapeRenderer.line(x, 0, x, Game.WORLD_HEIGHT);
 
         for (int y = 0; y < Game.WORLD_HEIGHT; y++)
-            shapeRenderer.line(-.5f, y - .5f, Game.WORLD_WIDTH - .5f, y - .5f);
+            shapeRenderer.line(0, y, Game.WORLD_WIDTH, y);
     }
 }

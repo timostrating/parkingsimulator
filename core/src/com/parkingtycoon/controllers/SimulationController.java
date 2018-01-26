@@ -103,7 +103,7 @@ public class SimulationController extends BaseController {
     }
 
     private void addCars() { // todo: remove to an appropriate controller
-        if (Math.random() > .9f) {
+        if (Math.random() > .9f || true) {
             CarModel car = CompositionRoot.getInstance().carsController.createCar();
             car.startTime = updates;
             car.endTime = updates + Random.randomInt(5000, 10000);

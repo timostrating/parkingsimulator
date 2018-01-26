@@ -21,6 +21,19 @@ public class EntrancesController extends CarQueuesController {
         entrance.registerView(new EntranceView());
         entrance.notifyViews();
         queues.add(entrance);
+
+//        CarModel car = CompositionRoot.getInstance().carsController.createCar();
+//        car.startTime = 0;
+//        car.endTime = 66666666666666L;
+//        car.registerView(new CarView());
+//        CompositionRoot.getInstance().entrancesController.addToQueue(car);
+//
+//        car = CompositionRoot.getInstance().carsController.createCar();
+//        car.startTime = 0;
+//        car.endTime = 66666666666666L;
+//        car.registerView(new CarView());
+//        CompositionRoot.getInstance().entrancesController.addToQueue(car);
+
         return entrance;
     }
 

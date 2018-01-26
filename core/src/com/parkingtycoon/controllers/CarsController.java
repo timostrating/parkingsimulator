@@ -22,18 +22,18 @@ public class CarsController extends PathFollowerController<CarModel> {
     public void sendTo(PathFollowerModel pathFollower, NavMap navMap, int x, int y) {
         super.sendTo(pathFollower, navMap, x, y);
 
-        if (pathFollower.path != null) {
+        if (pathFollower.getPath() != null) {
             // move the nodes so that the cars drive on the right of the road
 
             PathFinder.Node prevNode = null;
-            for (PathFinder.Node n : pathFollower.path) {
+            for (PathFinder.Node n : pathFollower.getPath()) {
                 if (prevNode != null) {
 
                     Vector2 direction = new Vector2(n.actualX - prevNode.actualX, n.actualY - prevNode.actualY);
                     direction.rotate90(1);
                     direction.nor().scl(.25f);
-                    n.actualX += direction.x;
-                    n.actualY += direction.y;
+                    n.actualX += direction.x + .5f;
+                    n.actualY += direction.y + .5f;
 
                 }
 
@@ -53,10 +53,10 @@ public class CarsController extends PathFollowerController<CarModel> {
 
             if (!car.direction.isZero()) {
 
-                if (Math.abs(car.direction.y) < .01f)
-                    car.aabb.halfSize.set(1, .15f);
-                else if (Math.abs(car.direction.x) < .1f)
-                    car.aabb.halfSize.set(.15f, 1);
+                if (Math.abs(car.direction.y) < .003f)
+                    car.aabb.halfSize.set(1, .1f);
+                else if (Math.abs(car.direction.x) < .03f)
+                    car.aabb.halfSize.set(.1f, 1);
                 else
                     car.aabb.halfSize.set(.5f, .5f);
             }
@@ -96,7 +96,7 @@ public class CarsController extends PathFollowerController<CarModel> {
                     otherCar.position.x + otherCar.direction.x,
                     otherCar.position.y + otherCar.direction.y).len();
 
-            CarModel waiter = newDist > dist ? car : otherCar;
+            CarModel waiter = newDist > dist || (otherCar.waitingInQueue && otherCar.getPath() == null) ? car : otherCar;
             CarModel prior = waiter == car ? otherCar : car;
 
             boolean canWait = true;
@@ -106,6 +106,7 @@ public class CarsController extends PathFollowerController<CarModel> {
 
                 if (waitingOn == waiter) {
                     canWait = false;
+                    break;
                 }
                 waitingOn = waitingOn.waitingOn;
 

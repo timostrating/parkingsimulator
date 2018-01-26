@@ -14,6 +14,7 @@ public class CarModel extends PathFollowerModel {
     public long startTime, endTime, timer;
     public AABB aabb = new AABB(new Vector2(), new Vector2(.15f, .15f));
     public CarModel waitingOn;
+    public boolean waitingInQueue;
 
     private String license = "";
 
@@ -21,7 +22,7 @@ public class CarModel extends PathFollowerModel {
      * Standard constructor
      */
     public CarModel() {
-        velocity = .2f;
+        speed = .2f;
         Random random = new Random();
         license = "test_"+random.nextInt(); // TODO: generate realistic license plate String
     }
