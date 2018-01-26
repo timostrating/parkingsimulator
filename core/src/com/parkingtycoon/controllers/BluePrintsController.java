@@ -64,7 +64,7 @@ public class BluePrintsController extends UpdateableController {
     public void unsetToBeBuilt() {
         if (toBeBuilt != null) {
             toBeBuilt.unregisterView(bluePrintView);
-            CompositionRoot.getInstance().renderController.unregisterView(bluePrintView);
+            bluePrintView.hide();
             bluePrintView = null;
             toBeBuilt = null;
         }
@@ -75,6 +75,7 @@ public class BluePrintsController extends UpdateableController {
         unsetToBeBuilt();
         toBeBuilt = bluePrint;
         bluePrintView = new BluePrintView(toBeBuilt.spritePath);
+        bluePrintView.show();
         toBeBuilt.registerView(bluePrintView);
         toBeBuilt.setAngle(0);
 
@@ -107,7 +108,7 @@ public class BluePrintsController extends UpdateableController {
                 Logger.info("building!!!!!!!!!!!!!!!!!!!");
 
                 build(x, y);
-                setToBeBuilt(bluePrints.get(1));
+                setToBeBuilt(bluePrints.get(Math.random() > .5f ? 0 : 1));
             }
 
         }

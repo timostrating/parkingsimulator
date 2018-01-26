@@ -23,7 +23,6 @@ public class SpriteView extends BaseView {
 
     public SpriteView(String spritePath) {
         this.spritePath = spritePath;
-        register();
     }
 
     @Override

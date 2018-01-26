@@ -11,7 +11,7 @@ import com.parkingtycoon.Game;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.FloorModel;
 
-public class FloorsView extends BaseView {
+public final class FloorsView extends BaseView {
 
     private IsometricTiledMapRenderer renderer;
     private TiledMap tiledMap;
@@ -20,7 +20,7 @@ public class FloorsView extends BaseView {
         tiledMap = new TmxMapLoader().load("maps/default.tmx");
         renderer = new IsometricTiledMapRenderer(tiledMap, 1 / 16f);
         tiledMap.getLayers().get(0).setOffsetY(16);
-        register();
+        show();
     }
 
     @Override

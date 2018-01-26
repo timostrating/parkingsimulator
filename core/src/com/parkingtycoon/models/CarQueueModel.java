@@ -12,4 +12,9 @@ public class CarQueueModel extends BuildableModel {
         super(x, y);
     }
 
+    public boolean removeCar(CarModel car) {
+        notifyViews();
+        return cars.remove(car);
+    }
+
 }

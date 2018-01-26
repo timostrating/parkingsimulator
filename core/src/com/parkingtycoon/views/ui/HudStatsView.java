@@ -10,7 +10,6 @@ import com.parkingtycoon.views.BaseView;
 public class HudStatsView extends BaseView {
 
     public HudStatsView(Stage stage) {
-        super();
         stage.addActor(new HubStatsWindow());
 
     }

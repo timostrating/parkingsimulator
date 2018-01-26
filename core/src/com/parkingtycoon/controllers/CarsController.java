@@ -29,9 +29,16 @@ public class CarsController extends PathFollowerController<CarModel> {
             for (PathFinder.Node n : pathFollower.getPath()) {
                 if (prevNode != null) {
 
-                    Vector2 direction = new Vector2(n.actualX - prevNode.actualX, n.actualY - prevNode.actualY);
+                    Vector2 direction = new Vector2(n.x - prevNode.x, n.y - prevNode.y);
                     direction.rotate90(1);
                     direction.nor().scl(.25f);
+
+                    if (prevNode.actualY - .5f == prevNode.y)
+                        prevNode.actualY += direction.y;
+
+                    if (prevNode.actualX - .5f == prevNode.x)
+                        prevNode.actualX += direction.x;
+
                     n.actualX += direction.x + .5f;
                     n.actualY += direction.y + .5f;
 

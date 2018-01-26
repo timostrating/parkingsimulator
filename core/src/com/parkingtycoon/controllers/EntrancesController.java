@@ -18,8 +18,9 @@ public class EntrancesController extends CarQueuesController {
 
     public CarQueueModel createEntrance(int x, int y) {
         CarQueueModel entrance = new CarQueueModel(x, y);
-        entrance.registerView(new EntranceView());
-        entrance.notifyViews();
+        EntranceView entranceView = new EntranceView();
+        entranceView.show();
+        entrance.registerView(entranceView);
         queues.add(entrance);
 
 //        CarModel car = CompositionRoot.getInstance().carsController.createCar();

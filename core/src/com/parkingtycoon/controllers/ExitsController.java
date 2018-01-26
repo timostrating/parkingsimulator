@@ -19,8 +19,9 @@ public class ExitsController extends CarQueuesController {
 
     public CarQueueModel createExit(int x, int y) {
         CarQueueModel exit = new CarQueueModel(x, y);
-        exit.registerView(new EntranceView());
-        exit.notifyViews();
+        EntranceView view = new EntranceView(); // todo: make ExitView
+        view.show();
+        exit.registerView(view);
         queues.add(exit);
         return exit;
     }

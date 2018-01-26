@@ -14,6 +14,7 @@ public abstract class BaseModel {
 
     public void registerView(BaseView view) {
         views.add(view);
+        view.updateView(this);
     }
 
     public void unregisterView(BaseView view) {

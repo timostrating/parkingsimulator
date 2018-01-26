@@ -107,7 +107,9 @@ public class SimulationController extends BaseController {
             CarModel car = CompositionRoot.getInstance().carsController.createCar();
             car.startTime = updates;
             car.endTime = updates + Random.randomInt(5000, 10000);
-            car.registerView(new CarView());
+            CarView carView = new CarView();
+            carView.show();
+            car.registerView(carView);
             CompositionRoot.getInstance().entrancesController.addToQueue(car);
         }
     }

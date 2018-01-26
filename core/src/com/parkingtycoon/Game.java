@@ -14,7 +14,7 @@ public class Game extends com.badlogic.gdx.Game {
 
     public static final int VIEWPORT_WIDTH = 700, VIEWPORT_HEIGHT = 500;
     public static final int WORLD_WIDTH = 100, WORLD_HEIGHT = 100;
-  
+
     public SpriteBatch batch;
     public ShapeRenderer shapeRenderer;
     public BitmapFont font;
@@ -30,7 +30,7 @@ public class Game extends com.badlogic.gdx.Game {
     }
 
     @Override
-	  public void create () {
+    public void create() {
 
         CompositionRoot.init(this);   // let's create a Composition root
 

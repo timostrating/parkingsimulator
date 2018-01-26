@@ -47,7 +47,7 @@ public class Delegate<T> {
             list.addAll(toBeAdded);
             for (T object : list)   // do not loop toBeAdded because toBeAdded might be modified at the same time in another thread.
                 if (toBeAdded.contains(object))
-                    starter.start(object);
+                    starter.start(object); // todo nullpointer exception?
             toBeAdded.clear();
         }
 

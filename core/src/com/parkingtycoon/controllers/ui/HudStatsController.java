@@ -12,6 +12,7 @@ public class HudStatsController extends HudBaseController {
 
         HudStatsModel model = new HudStatsModel();
         HudStatsView view = new HudStatsView(stage);
+        view.show();
         model.registerView(view);
 
 //        CompositionRoot root = CompositionRoot.getInstance();

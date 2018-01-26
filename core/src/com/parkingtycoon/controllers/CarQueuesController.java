@@ -57,9 +57,8 @@ public abstract class CarQueuesController extends UpdateableController {
                     if (nextAction(car)) {
 
                         // car has new action, now remove from queue
-                        queue.cars.remove(car); // THIS IS THE BUGFIX, remove(0) != remove(car)
+                        queue.removeCar(car);
                         car.waitingInQueue = false;
-                        queue.notifyViews(); // play open animation
 
                         //reset popTimer
                         queue.popTimer = 0;
