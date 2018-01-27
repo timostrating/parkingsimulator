@@ -76,8 +76,13 @@ public class BluePrintsController extends UpdateableController {
         });
 
         root.inputController.onMouseButtonDown.add((screenX, screenY, button) -> {
-            if (button == 0 && toBeBuilt != null && !unset) {
-                clicked = true;
+            if (toBeBuilt != null && !unset) {
+                if (button == 0)
+                    clicked = true;
+                if (button == 1)
+                    unset = true;
+                else
+                    return false;
                 return true;
             }
             return false;
