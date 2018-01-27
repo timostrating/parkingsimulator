@@ -1,7 +1,6 @@
 package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.math.Vector2;
-import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.PathFollowerModel;
 import com.parkingtycoon.pathfinding.NavMap;
@@ -55,8 +54,6 @@ public class CarsController extends PathFollowerController<CarModel> {
     public void update() {
         super.update();
 
-        Logger.info(pathFollowers.size());
-
         for (CarModel car : pathFollowers) {
 
             car.aabb.center.set(car.position);
@@ -89,7 +86,8 @@ public class CarsController extends PathFollowerController<CarModel> {
     }
 
     private void detectCollisions(CarModel car) {
-        if (car.waitingOn != null && (!car.aabb.overlaps(car.waitingOn.aabb) || car.floor != car.waitingOn.floor || car.waitingOn.parked))
+        if (car.waitingOn != null
+                && (car.floor != car.waitingOn.floor || car.waitingOn.parked || !car.aabb.overlaps(car.waitingOn.aabb)))
             car.waitingOn = null;
 
         if (car.waitingOn != null || car.parked)

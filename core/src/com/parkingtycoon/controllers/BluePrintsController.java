@@ -1,11 +1,11 @@
 package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.IsometricConverter;
-import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.models.BuildableModel;
@@ -88,6 +88,11 @@ public class BluePrintsController extends UpdateableController {
 
         if (toBeBuilt != null) {
 
+            if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+                int newAngle = toBeBuilt.getAngle() + 1;
+                toBeBuilt.setAngle(newAngle >= 4 ? 0 : newAngle);
+            }
+
             CompositionRoot root = CompositionRoot.getInstance();
 
             Vector3 isometric = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -105,8 +110,6 @@ public class BluePrintsController extends UpdateableController {
 
             if (Gdx.input.isButtonPressed(0) && canBuild && root.financialController.spend(toBeBuilt.price)) {
 
-                Logger.info("building!!!!!!!!!!!!!!!!!!!");
-
                 build(x, y);
                 setToBeBuilt(bluePrints.get(Math.random() > .5f ? 0 : 1));
             }
@@ -115,8 +118,6 @@ public class BluePrintsController extends UpdateableController {
     }
 
     private void build(int x, int y) {
-
-
         BuildableModel building = toBeBuilt.builder.build(x, y);
         CompositionRoot.getInstance().floorsController.build(building);
     }
