@@ -2,6 +2,7 @@ package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.controllers.ui.HudController;
@@ -9,7 +10,7 @@ import com.parkingtycoon.controllers.ui.HudController;
 /**
  * This Class is responsible for processing user input like keyboard and mouse input that are applied to the GameWindow
  */
-public class InputController implements com.badlogic.gdx.InputProcessor {
+public class InputController implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
@@ -25,12 +26,10 @@ public class InputController implements com.badlogic.gdx.InputProcessor {
             RenderController renderController = CompositionRoot.getInstance().renderController;
             renderController.debug = !renderController.debug;
         }
-
         if (keycode == Input.Keys.F2) {
             HudController hudController = CompositionRoot.getInstance().hudController;
             hudController.toggleDebug();
         }
-
         return false;
     }
 
@@ -62,7 +61,8 @@ public class InputController implements com.badlogic.gdx.InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         OrthographicCamera camera = CompositionRoot.getInstance().renderController.getMainCamera();
-        camera.zoom = Math.max(1, Math.min(10, camera.zoom + amount * .2f));
+        camera.zoom = Math.max(1, Math.min(18, camera.zoom + amount * camera.zoom / 16f));
+
         return true;
     }
 }

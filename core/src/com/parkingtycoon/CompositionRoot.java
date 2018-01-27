@@ -21,6 +21,7 @@ public class CompositionRoot {
     public FloorsController floorsController;
     public FinancialController financialController;
     public HudController hudController;
+    public BluePrintsController bluePrintsController;
 
     private static CompositionRoot instance;
 
@@ -45,13 +46,14 @@ public class CompositionRoot {
         this.game = game;
         simulationController = new SimulationController();
         renderController = new RenderController(game);
-        animatedSpritesController = new AnimatedSpritesController(); // TODO: looks strange
+        animatedSpritesController = new AnimatedSpritesController();
         carsController = new CarsController();
         entrancesController = new EntrancesController();
         exitsController = new ExitsController();
         floorsController = new FloorsController();
         financialController = new FinancialController();
         hudController = new HudController(game.batch);
+        bluePrintsController = new BluePrintsController();
     }
 
 }

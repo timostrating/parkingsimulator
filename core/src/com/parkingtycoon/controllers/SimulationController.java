@@ -49,6 +49,9 @@ public class SimulationController extends BaseController {
         while (deltaTime >= timeStep) {
 
             pausedUpdate = true; // only pause if there has been a new render
+
+            if (paused) break;
+
             updates++;
             updatesSinceLastSecond++;
             updatables.notifyObjects(notifier);
@@ -105,11 +108,13 @@ public class SimulationController extends BaseController {
     }
 
     private void addCars() { // todo: remove to an appropriate controller
-        if (Math.random() > .99f) {
+        if (Math.random() > .9f) {
             CarModel car = CompositionRoot.getInstance().carsController.createCar();
             car.startTime = updates;
-            car.endTime = updates + Random.randomInt(500000, 2000000);
-            car.registerView(new CarView());
+            car.endTime = updates + Random.randomInt(5000, 10000);
+            CarView carView = new CarView();
+            carView.show();
+            car.registerView(carView);
             CompositionRoot.getInstance().entrancesController.addToQueue(car);
         }
     }

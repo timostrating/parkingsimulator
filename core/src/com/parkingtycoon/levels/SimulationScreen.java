@@ -7,7 +7,6 @@ import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.controllers.ui.HudController;
 import com.parkingtycoon.controllers.SimulationController;
-import com.parkingtycoon.views.EntranceView;
 
 
 /**
@@ -37,7 +36,6 @@ public class SimulationScreen implements Screen {
 
         hud = root.hudController;
 
-        new EntranceView();
     }
 
     @Override

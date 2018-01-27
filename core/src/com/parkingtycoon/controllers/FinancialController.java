@@ -13,7 +13,7 @@ public class FinancialController extends BaseController {
     }
 
     public boolean spend(float min) {
-        if (model.amount - min < 0) {
+        if (model.amount - min > 0) {
             model.amount -= min;
             return true;
         }

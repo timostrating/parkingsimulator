@@ -3,11 +3,13 @@ package com.parkingtycoon.controllers;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.Logger;
+import com.parkingtycoon.models.BuildableModel;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.views.FloorsView;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Iterator;
 
 /**
@@ -18,6 +20,8 @@ public class FloorsController extends UpdateableController {
     private ArrayList<FloorModel> floors = new ArrayList<>();
     private FloorsView view;
     private int currentFloor = 0;
+
+    public static final int BUILD_MARGIN = 10;
 
     public FloorsController() {
 
@@ -31,6 +35,14 @@ public class FloorsController extends UpdateableController {
         setCurrentFloor(0);
     }
 
+    public void sendCarTo(int floor, int x, int y, CarModel car) {
+        CompositionRoot.getInstance().carsController.sendTo(car, floors.get(floor).carNavMap, x, y);
+    }
+
+    public void sendCarAway(CarModel car) {
+        CompositionRoot.getInstance().carsController.sendTo(car, floors.get(0).carNavMap, 99, 0);
+    }
+
     @Override
     public void update() {
 
@@ -39,8 +51,11 @@ public class FloorsController extends UpdateableController {
             while (carIterator.hasNext()) {
 
                 CarModel car = carIterator.next();
+                car.parked = car.getPath() == null && !car.waitingInQueue;
 
-                if (car.timer++ >= car.endTime - car.startTime) {
+                floor.waitingTime[(int) car.position.x][(int) car.position.y]++;
+
+                if (car.getPath() == null && car.timer++ >= car.endTime - car.startTime) {
 
                     // time for this car to leave
                     if (sendCarToExit(car)) {
@@ -70,7 +85,7 @@ public class FloorsController extends UpdateableController {
                         floor.cars.add(car);
 
                         // send car to place:
-                        CompositionRoot.getInstance().carsController.sendTo(car, floor.carNavMap, x, y);
+                        sendCarTo(i, x, y, car);
 
                         Logger.info("Car parked at (" + x + ", " + y + ") on floor " + i);
                         return true;
@@ -87,6 +102,9 @@ public class FloorsController extends UpdateableController {
 
     public boolean sendCarToExit(CarModel car) {
 
+        if (!CompositionRoot.getInstance().exitsController.addToQueue(car))
+            return false; // No exit found
+
         floorLoop:
         for (FloorModel floor : floors) {
 
@@ -100,8 +118,28 @@ public class FloorsController extends UpdateableController {
                 }
             }
         }
+        car.parked = false;
 
-        return CompositionRoot.getInstance().exitsController.addToQueue(car);
+        return true;
+    }
+
+    public boolean canBuild(int x, int y, EnumSet<FloorModel.FloorType> floorTypes) {
+
+        // check if a buildable can be built here.
+        FloorModel floor = floors.get(currentFloor);
+
+        return x >= BUILD_MARGIN && x < Game.WORLD_WIDTH - BUILD_MARGIN
+                && y >= BUILD_MARGIN && y < Game.WORLD_HEIGHT - BUILD_MARGIN
+                && floorTypes.contains(floor.tiles[x][y])
+                && (floor.buildings[x] == null || floor.buildings[x][y] == null);
+    }
+
+    public void build(BuildableModel building) {
+        FloorModel floor = floors.get(currentFloor);
+        if (floor.buildings[building.x] == null)
+            floor.buildings[building.x] = new BuildableModel[Game.WORLD_HEIGHT];
+
+        floor.buildings[building.x][building.y] = building;
     }
 
     public void setCurrentFloor(int currentFloor) {
@@ -120,10 +158,11 @@ public class FloorsController extends UpdateableController {
         for (int x = 0; x < Game.WORLD_WIDTH; x++) {
 
             floor.tiles[x] = new FloorModel.FloorType[Game.WORLD_HEIGHT];
+            floor.waitingTime[x] = new int[Game.WORLD_HEIGHT];
 
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
-                floor.tiles[x][y] = x % 2 == 0 || y % 2 == 0 ? FloorModel.FloorType.ROAD : FloorModel.FloorType.PARKABLE;
+                floor.tiles[x][y] = x % 2 == 0 || y % 10 == 0 ? FloorModel.FloorType.ROAD : FloorModel.FloorType.PARKABLE;
 
             }
         }
