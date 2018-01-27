@@ -1,5 +1,7 @@
 package com.parkingtycoon;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +20,7 @@ public class Game extends com.badlogic.gdx.Game {
     public static final int VIEWPORT_WIDTH = 700, VIEWPORT_HEIGHT = 500;
     public static final int WORLD_WIDTH = 100, WORLD_HEIGHT = 100;
 
+    public InputMultiplexer inputMultiplexer;
     public SpriteBatch batch;
     public ShapeRenderer shapeRenderer;
     public BitmapFont font;
@@ -36,11 +39,13 @@ public class Game extends com.badlogic.gdx.Game {
     @Override
     public void create() {
 
+        inputMultiplexer = new InputMultiplexer();
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
         font = new BitmapFont();
 
+        Gdx.input.setInputProcessor(inputMultiplexer);
         CompositionRoot.init(this);   // let's create a Composition root
 
         loadScreen(0);

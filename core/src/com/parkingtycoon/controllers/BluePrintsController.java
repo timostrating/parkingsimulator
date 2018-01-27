@@ -18,6 +18,7 @@ public class BluePrintsController extends UpdateableController {
 
     private BluePrintModel toBeBuilt;
     private BluePrintView bluePrintView;
+    private boolean clicked, unset;
 
     public ArrayList<BluePrintModel> bluePrints = new ArrayList<BluePrintModel>() {{
 
@@ -57,7 +58,43 @@ public class BluePrintsController extends UpdateableController {
         CompositionRoot root = CompositionRoot.getInstance();
         root.simulationController.registerUpdatable(this);
 
-        setToBeBuilt(bluePrints.get(0));
+        root.inputController.onKeyDown.put(Input.Keys.R, () -> {
+            if (toBeBuilt == null || unset)
+                return false;
+
+            int newAngle = toBeBuilt.getAngle() + 1;
+            toBeBuilt.setAngle(newAngle >= 4 ? 0 : newAngle);
+            return true;
+        });
+
+        root.inputController.onKeyDown.put(Input.Keys.ESCAPE, () -> {
+            if (toBeBuilt == null || unset)
+                return false;
+
+            unset = true;
+            return true;
+        });
+
+        root.inputController.onMouseButtonDown.add((screenX, screenY, button) -> {
+            if (button == 0 && toBeBuilt != null && !unset) {
+                clicked = true;
+                return true;
+            }
+            return false;
+        });
+
+        // temporary:
+        root.inputController.onKeyDown.put(Input.Keys.NUM_1, () -> {
+            setToBeBuilt(bluePrints.get(0));
+            return true;
+        });
+
+        // temporary:
+        root.inputController.onKeyDown.put(Input.Keys.NUM_2, () -> {
+            setToBeBuilt(bluePrints.get(1));
+            return true;
+        });
+
     }
 
     public void unsetToBeBuilt() {
@@ -83,14 +120,7 @@ public class BluePrintsController extends UpdateableController {
     @Override
     public void update() {
 
-        // TODO: Gdx.input not always working on seperate thread!!!
-
         if (toBeBuilt != null) {
-
-            if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-                int newAngle = toBeBuilt.getAngle() + 1;
-                toBeBuilt.setAngle(newAngle >= 4 ? 0 : newAngle);
-            }
 
             CompositionRoot root = CompositionRoot.getInstance();
 
@@ -107,13 +137,21 @@ public class BluePrintsController extends UpdateableController {
             toBeBuilt.x = x;
             toBeBuilt.y = y;
 
-            if (Gdx.input.isButtonPressed(0) && canBuild && root.financialController.spend(toBeBuilt.price)) {
+            if (clicked && canBuild && root.financialController.spend(toBeBuilt.price)) {
 
                 build(x, y);
-                setToBeBuilt(bluePrints.get(Math.random() > .5f ? 0 : 1));
+
+            } else if (clicked && !canBuild) {
+                unsetToBeBuilt();
             }
 
         }
+
+        if (unset)
+            unsetToBeBuilt();
+
+        unset = false;
+        clicked = false;
     }
 
     private void build(int x, int y) {
