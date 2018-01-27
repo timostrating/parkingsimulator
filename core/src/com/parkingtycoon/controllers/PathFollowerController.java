@@ -1,16 +1,19 @@
 package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.CompositionRoot;
-import com.parkingtycoon.helpers.UpdateableController;
+import com.parkingtycoon.helpers.pathfinding.NavMap;
+import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.models.PathFollowerModel;
-import com.parkingtycoon.pathfinding.NavMap;
-import com.parkingtycoon.pathfinding.PathFinder;
 
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for providing a basic classes that would like to use a Path
+ */
 public class PathFollowerController<T extends PathFollowerModel> extends UpdateableController {
 
     ArrayList<T> pathFollowers = new ArrayList<>();
+
 
     public PathFollowerController() {
         CompositionRoot.getInstance().simulationController.registerUpdatable(this);

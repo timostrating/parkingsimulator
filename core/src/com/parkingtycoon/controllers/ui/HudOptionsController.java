@@ -9,6 +9,9 @@ import com.kotcrab.vis.ui.widget.VisImageButton;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.parkingtycoon.CompositionRoot;
 
+/**
+ * This class is responsible for controlling the UI that allows the game to have options.
+ */
 public class HudOptionsController extends HudBaseController {
 
     public HudOptionsController(Stage stage) {
@@ -39,4 +42,5 @@ public class HudOptionsController extends HudBaseController {
         table.add(button).expand().top().left();
         table.add(slider).expand().top().left();
     }
+
 }

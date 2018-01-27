@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.IsometricConverter;
-import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.models.BuildableModel;
 import com.parkingtycoon.models.FloorModel;

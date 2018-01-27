@@ -5,10 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
-
+import com.parkingtycoon.controllers.ui.HudController;
 
 /**
- * This Class is responsible for keyboard and mouse controllers that are applied to the GameWindow
+ * This Class is responsible for processing user input like keyboard and mouse input that are applied to the GameWindow
  */
 public class InputController implements InputProcessor {
 
@@ -26,7 +26,10 @@ public class InputController implements InputProcessor {
             RenderController renderController = CompositionRoot.getInstance().renderController;
             renderController.debug = !renderController.debug;
         }
-
+        if (keycode == Input.Keys.F2) {
+            HudController hudController = CompositionRoot.getInstance().hudController;
+            hudController.toggleDebug();
+        }
         return false;
     }
 

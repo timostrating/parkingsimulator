@@ -11,10 +11,14 @@ import com.parkingtycoon.Game;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.FloorModel;
 
+/**
+ * This Class is responsible for showing the floor as a map.
+ */
 public final class FloorsView extends BaseView {
 
     private IsometricTiledMapRenderer renderer;
     private TiledMap tiledMap;
+
 
     public FloorsView() {
         tiledMap = new TmxMapLoader().load("maps/default.tmx");
@@ -77,21 +81,10 @@ public final class FloorsView extends BaseView {
                 TiledMapTile tile;
 
                 switch (floorType) {
-                    case GRASS:
-                        tile = tileSets.getTile(78);
-                        break;
-
-                    case ROAD:
-                        tile = tileSets.getTile(13);
-                        break;
-
-                    case PARKABLE:
-                        tile = tileSets.getTile(174);
-                        break;
-
-                    default:
-                        tile = tileSets.getTile(17);
-
+                    case GRASS: tile = tileSets.getTile(78); break;
+                    case ROAD:  tile = tileSets.getTile(13); break;
+                    case PARKABLE: tile = tileSets.getTile(174); break;
+                    default: tile = tileSets.getTile(17);
                 }
 
                 TiledMapTileLayer.Cell cell = layer.getCell(x, Game.WORLD_HEIGHT - y - 1);
@@ -105,6 +98,7 @@ public final class FloorsView extends BaseView {
         }
     }
 
+
     @Override
     public void debugRender(ShapeRenderer shapeRenderer) {
 
@@ -115,4 +109,5 @@ public final class FloorsView extends BaseView {
         for (int y = 0; y < Game.WORLD_HEIGHT; y++)
             shapeRenderer.line(0, y, Game.WORLD_WIDTH, y);
     }
+
 }

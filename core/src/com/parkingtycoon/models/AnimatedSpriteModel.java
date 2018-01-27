@@ -1,10 +1,13 @@
 package com.parkingtycoon.models;
 
 import com.parkingtycoon.helpers.ArrayNamed;
-import com.parkingtycoon.interfaces.Named;
+import com.parkingtycoon.helpers.interfaces.Named;
 
 import java.util.ArrayList;
 
+/**
+ * This Class is responsible storing the animation frames for animated sprites.
+ */
 public class AnimatedSpriteModel extends BaseModel implements Named {
 
     public ArrayNamed<Animation> animations = new ArrayNamed<>();

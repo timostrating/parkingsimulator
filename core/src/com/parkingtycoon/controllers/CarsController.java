@@ -1,11 +1,15 @@
 package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.math.Vector2;
+import com.parkingtycoon.helpers.pathfinding.NavMap;
+import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.PathFollowerModel;
-import com.parkingtycoon.pathfinding.NavMap;
-import com.parkingtycoon.pathfinding.PathFinder;
 
+
+/**
+ * This class is responsible for controlling the Cars in the simulation.
+ */
 public class CarsController extends PathFollowerController<CarModel> {
 
     private final Vector2 diff = new Vector2(); // this vector is reused for calculations

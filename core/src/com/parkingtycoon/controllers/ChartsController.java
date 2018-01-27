@@ -1,9 +1,9 @@
 package com.parkingtycoon.controllers;
 
-import com.parkingtycoon.helpers.UpdateableController;
+import com.parkingtycoon.controllers.UpdateableController;
 
 /**
- * Created by Hilko on 17-1-2018.
+ * TODO: start using it
  */
 public class ChartsController extends UpdateableController {
 

@@ -2,6 +2,9 @@ package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.models.FinancialModel;
 
+/**
+ * This class is responsible for processing the money of the player.
+ */
 public class FinancialController extends BaseController {
     private FinancialModel model = new FinancialModel();
 

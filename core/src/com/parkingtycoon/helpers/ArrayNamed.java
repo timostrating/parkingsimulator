@@ -1,11 +1,11 @@
 package com.parkingtycoon.helpers;
 
-import com.parkingtycoon.interfaces.Named;
+import com.parkingtycoon.helpers.interfaces.Named;
 
 import java.util.ArrayList;
 
 /**
- * Created by hilkojj.
+ * This Class is responsible for providing a simple way of managing Named items
  */
 public class ArrayNamed<T extends Named> extends ArrayList<T> {
 

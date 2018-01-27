@@ -6,12 +6,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.helpers.AABB;
 import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.helpers.Random;
+import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.CarModel;
-import com.parkingtycoon.pathfinding.PathFinder;
 
 import java.util.List;
 
+
+/**
+ * This Class is responsible for showing an animated sprite of a drivable car.
+ */
 public class CarView extends AnimatedSpriteView {
 
     private List<PathFinder.Node> path;
@@ -19,6 +23,7 @@ public class CarView extends AnimatedSpriteView {
     private float extra = Random.randomInt(0, 10) / 100f;
     private AABB aabb;
     private boolean waiting, inQueue;
+
 
     public CarView() {
         super("sprites/cars/pontiac", true);

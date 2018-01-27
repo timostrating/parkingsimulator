@@ -2,13 +2,15 @@ package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.Random;
-import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This class is responsible for providing a blueprint for any kind of Queue.
+ */
 public abstract class CarQueuesController extends UpdateableController {
 
     protected ArrayList<CarQueueModel> queues = new ArrayList<CarQueueModel>();

@@ -9,13 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.parkingtycoon.controllers.BaseController;
 
-
 /**
  * This class is responsible for adding the responsibilities of a Controller in the MVC architecture.
  */
 public abstract class HudBaseController extends BaseController {
 
     protected final VisTable table;
+
 
     public HudBaseController(Stage stage) {
         table = new VisTable();
@@ -38,4 +38,5 @@ public abstract class HudBaseController extends BaseController {
 
         return drawable;
     }
+
 }

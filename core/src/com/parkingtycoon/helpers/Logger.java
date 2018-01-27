@@ -3,7 +3,7 @@ package com.parkingtycoon.helpers;
 import com.badlogic.gdx.Gdx;
 
 /**
- * Created by hilkojj.
+ * This Class helps with printing improved console massages
  */
 public class Logger {
 

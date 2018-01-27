@@ -1,5 +1,4 @@
-package com.parkingtycoon.screens;
-
+package com.parkingtycoon.controllers.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -14,14 +13,13 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.controllers.InputController;
-import com.parkingtycoon.controllers.ui.HudGameController;
-import com.parkingtycoon.controllers.ui.HudOptionsController;
-import com.parkingtycoon.controllers.ui.HudStatsController;
-import com.parkingtycoon.controllers.ui.HudTimeController;
 
-public class Hud implements Disposable {
+/**
+ * This class is responsible for setting up the UI.
+ */
+public class HudController implements Disposable {
 
-    private final static boolean DEBUG = false;
+    public boolean debug = false;
 
     private final CompositionRoot root;
 
@@ -32,9 +30,10 @@ public class Hud implements Disposable {
     private Viewport viewport;
 
     private SpriteBatch hudBatch;
+    private VisTable mainTable;
 
 
-    public Hud(SpriteBatch batch) {
+    public HudController(SpriteBatch batch) {
         root = CompositionRoot.getInstance();
         hudCamera = new OrthographicCamera(Gdx.graphics.getWidth() * scale,  Gdx.graphics.getHeight() * scale);
         hudCamera.setToOrtho(false, Game.VIEWPORT_WIDTH, Game.VIEWPORT_HEIGHT);
@@ -54,8 +53,8 @@ public class Hud implements Disposable {
     }
 
     private void setup(Stage stage) {
-        VisTable mainTable = new VisTable();
-        mainTable.setDebug(DEBUG);
+        mainTable = new VisTable();
+        mainTable.setDebug(debug);
         mainTable.setFillParent(true);
 
         mainTable.add(new HudOptionsController(stage).getTable()).expand().top().left();
@@ -66,7 +65,6 @@ public class Hud implements Disposable {
 
         stage.addActor(mainTable);
     }
-
 
     public void resize(int width, int height) {
         hudCamera.setToOrtho(false,  width, height);
@@ -87,5 +85,9 @@ public class Hud implements Disposable {
         stage.draw();
         hudBatch.end();
     }
-  
+
+    public void toggleDebug() {
+        debug = !debug;
+        mainTable.setDebug(debug);
+    }
 }

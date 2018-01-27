@@ -7,7 +7,11 @@ import com.kotcrab.vis.ui.widget.VisImageButton;
 import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.views.ui.TestListView;
 
+/**
+ * This class is responsible for the UI that changes the game.
+ */
 public class HudGameController extends HudBaseController {
+
     public HudGameController(Stage stage) {
         super(stage);
 
@@ -37,4 +41,5 @@ public class HudGameController extends HudBaseController {
         table.add(button2);
         table.add(button3);
     }
+
 }

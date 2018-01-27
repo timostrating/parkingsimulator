@@ -3,10 +3,12 @@ package com.parkingtycoon.controllers;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.Delegate;
 import com.parkingtycoon.helpers.Random;
-import com.parkingtycoon.helpers.UpdateableController;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.views.CarView;
 
+/**
+ * This Class is responsible for enabling Controllers to be called multiple times per frame depending on the speed of the simulation.
+ */
 public class SimulationController extends BaseController {
 
     public final static int REAL_TIME_UPDATES_PER_SECOND = 20;

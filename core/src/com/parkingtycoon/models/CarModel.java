@@ -6,7 +6,7 @@ import com.parkingtycoon.helpers.AABB;
 import java.util.Random;
 
 /**
- * Stores all data that is known to a CAR. This class is managed by CarController;
+ * This Class is responsible for storing all data that is known to a Car.
  */
 public class CarModel extends PathFollowerModel {
 
@@ -18,9 +18,7 @@ public class CarModel extends PathFollowerModel {
 
     private String license = "";
 
-    /**
-     * Standard constructor
-     */
+
     public CarModel() {
         speed = .2f;
         Random random = new Random();

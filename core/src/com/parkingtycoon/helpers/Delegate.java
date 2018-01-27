@@ -2,11 +2,18 @@ package com.parkingtycoon.helpers;
 
 import java.util.ArrayList;
 
+
+/**
+ * Tread safe implementation of C# delegates.
+ * 
+ * This class is a Helper to the Observer pattern - The old scenario would contain a ArrayList per Observable + the required functions
+ */
 public class Delegate<T> {
 
     protected ArrayList<T> list = new ArrayList<>();
     private ArrayList<T> toBeAdded, toBeRemoved;
     private boolean multiThreaded;
+
 
     public Delegate(boolean multiThreaded) {
         this.multiThreaded = multiThreaded;

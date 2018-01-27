@@ -5,6 +5,9 @@ import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.views.EntranceView;
 
+/**
+ * This class is responsible for providing a Queue that processes the new Cars that would like to park.
+ */
 public class EntrancesController extends CarQueuesController {
 
     public EntrancesController() {
@@ -22,19 +25,6 @@ public class EntrancesController extends CarQueuesController {
         entranceView.show();
         entrance.registerView(entranceView);
         queues.add(entrance);
-
-//        CarModel car = CompositionRoot.getInstance().carsController.createCar();
-//        car.startTime = 0;
-//        car.endTime = 66666666666666L;
-//        car.registerView(new CarView());
-//        CompositionRoot.getInstance().entrancesController.addToQueue(car);
-//
-//        car = CompositionRoot.getInstance().carsController.createCar();
-//        car.startTime = 0;
-//        car.endTime = 66666666666666L;
-//        car.registerView(new CarView());
-//        CompositionRoot.getInstance().entrancesController.addToQueue(car);
-
         return entrance;
     }
 

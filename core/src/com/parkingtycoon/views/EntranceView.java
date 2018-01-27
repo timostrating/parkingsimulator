@@ -7,6 +7,9 @@ import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.CarQueueModel;
 
+/**
+ * This Class is responsible for showing an entrance.
+ */
 public class EntranceView extends AnimatedSpriteView {
 
     private Vector2 normalPos = new Vector2();

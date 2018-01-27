@@ -5,6 +5,9 @@ import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.views.EntranceView;
 
+/**
+ * This class is responsible for providing a Queue that processes the Cars that would like to leave the park.
+ */
 public class ExitsController extends CarQueuesController {
 
     public ExitsController() {
