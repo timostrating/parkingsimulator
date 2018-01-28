@@ -12,8 +12,9 @@ This is an AWESOME parkingsimulator inspired by Rollercoaster Tycoon 2.
 
 ## Installation
 
+gradle.properties
 ```gradle.properties
-org.gradle.java.home=___URL_TOO_YOUR_JAVA_HOME___
+org.gradle.java.home=__URL_TO_YOUR_JAVA_HOME__
 ```
 
 Replace this with the url of your jdk installation. For example: if you have jdk version 1.8.0_73 installed on Windows.
