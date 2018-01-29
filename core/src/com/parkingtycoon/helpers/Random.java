@@ -1,5 +1,7 @@
 package com.parkingtycoon.helpers;
 
+import com.badlogic.gdx.graphics.Color;
+
 import java.util.List;
 
 
@@ -16,6 +18,10 @@ public class Random {
 
     public static int randomInt(int max) {
         return R.nextInt(max);
+    }
+
+    public static Color randomColor() {
+        return new Color(R.nextFloat(), R.nextFloat(), R.nextFloat(), 1);
     }
 
     public static float random() {

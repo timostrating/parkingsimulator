@@ -7,6 +7,8 @@ import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.PathFollowerModel;
 
+import java.util.ArrayList;
+
 
 /**
  * This class is responsible for controlling the Cars in the simulation.
@@ -28,7 +30,6 @@ public class CarsController extends PathFollowerController<CarModel> {
         return car;
 
     }
-
 
     @Override
     public void sendTo(PathFollowerModel pathFollower, NavMap navMap, int x, int y) {
@@ -58,6 +59,10 @@ public class CarsController extends PathFollowerController<CarModel> {
             }
 
         }
+    }
+
+    public ArrayList<CarModel> getCarModels() {
+        return pathFollowers;
     }
 
 }

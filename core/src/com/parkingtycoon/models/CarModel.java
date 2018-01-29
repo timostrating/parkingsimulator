@@ -1,6 +1,7 @@
 package com.parkingtycoon.models;
 
-import java.util.Random;
+import com.badlogic.gdx.graphics.Color;
+import com.parkingtycoon.helpers.Random;
 
 /**
  * This Class is responsible for storing all data that is known to a Car.
@@ -9,12 +10,13 @@ public class CarModel extends PathFollowerModel {
 
     public long startTime, endTime, timer;
 
-    private String license = "";
+    public String license = "";
+    public Color color;
 
 
     public CarModel() {
-        Random random = new Random();
-        license = "test_"+random.nextInt(); // TODO: generate realistic license plate String
+        license = "test_"+ Random.randomInt(99999); // TODO: generate realistic license plate String
+        color = Random.randomColor();
     }
 
     /**
