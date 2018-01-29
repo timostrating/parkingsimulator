@@ -1,6 +1,5 @@
 package com.parkingtycoon.controllers;
 
-import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.views.EntranceView;
@@ -16,12 +15,12 @@ public class ExitsController extends CarQueuesController {
 
     @Override
     protected boolean nextAction(CarModel car) {
-        CompositionRoot.getInstance().floorsController.sendCarAway(car);
+//        CompositionRoot.getInstance().carsController.sendCarAway(car);
         return true;
     }
 
-    public CarQueueModel createExit(int x, int y) {
-        CarQueueModel exit = new CarQueueModel(x, y);
+    public CarQueueModel createExit(int x, int y, int angle, int floor) {
+        CarQueueModel exit = new CarQueueModel(x, y, angle, floor);
         EntranceView view = new EntranceView(); // todo: make ExitView
         view.show();
         exit.registerView(view);

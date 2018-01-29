@@ -54,7 +54,7 @@ public class Delegate<T> {
             list.addAll(toBeAdded);
             for (T object : list)   // do not loop toBeAdded because toBeAdded might be modified at the same time in another thread.
                 if (toBeAdded.contains(object))
-                    starter.start(object); // todo nullpointer exception?
+                    starter.start(object); // todo nullpointer exception? renderController.preRender -> delegate.process():57. first check if null
             toBeAdded.clear();
         }
 

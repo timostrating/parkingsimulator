@@ -17,7 +17,31 @@ public abstract class PathFollowerModel extends BaseModel {
     public Vector2 position = new Vector2();
     public boolean pathSmoothing = true;
 
+    private Goal goal;
     private List<PathFinder.Node> path;
+
+    public Goal getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+        this.path = null;
+    }
+
+    public abstract static class Goal {
+
+        public int floor, toX, toY;
+
+        public Goal(int floor, int toX, int toY) {
+            this.floor = floor;
+            this.toX = toX;
+            this.toY = toY;
+        }
+
+        public abstract void arrived();
+        public abstract void failed();
+    }
 
     public void move() {
 

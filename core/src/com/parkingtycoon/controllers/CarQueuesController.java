@@ -1,9 +1,11 @@
 package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.Random;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
+import com.parkingtycoon.models.PathFollowerModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +26,7 @@ public abstract class CarQueuesController extends UpdateableController {
         if (queues.size() == 0)
             return false;
 
-        int maxQueueSize = Random.randomInt(8, 12); // some people don't like queues longer than 8, others 10 or 12
+        int maxQueueSize = Random.randomInt(3, 6); // some people don't like queues longer than 3, others 4 or 6
 
         // add car to random entrance queue
         Collections.shuffle(queues);
@@ -32,7 +34,20 @@ public abstract class CarQueuesController extends UpdateableController {
 
             if (q.cars.size() <= maxQueueSize && q.cars.add(car)) {
 
-                CompositionRoot.getInstance().floorsController.sendCarTo(0, q.x, q.y, car);
+                int x = q.x + CoordinateRotater.rotate(2, 3, 1, 3, q.angle);
+                int y = q.y + CoordinateRotater.rotate(1, 3, 1, 3, q.angle);
+
+                car.setGoal(new PathFollowerModel.Goal(q.floor, x, y) {
+                    @Override
+                    public void arrived() {
+//                        car.position.set(q.x + .5f, q.y + .5f);
+                    }
+
+                    @Override
+                    public void failed() {
+                        addToQueue(car); // todo
+                    }
+                });
                 car.waitingInQueue = true;
 
                 return true;

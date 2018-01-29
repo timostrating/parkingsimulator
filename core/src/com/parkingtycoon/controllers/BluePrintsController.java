@@ -1,10 +1,10 @@
 package com.parkingtycoon.controllers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.Game;
+import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.models.BuildableModel;
@@ -14,6 +14,9 @@ import com.parkingtycoon.views.BluePrintView;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
+/**
+ * The responsibility of this class is to place buildings on the current floor.
+ */
 public class BluePrintsController extends UpdateableController {
 
     private BluePrintModel toBeBuilt;
@@ -27,14 +30,20 @@ public class BluePrintsController extends UpdateableController {
                 "Entrance barrier",
                 // description:
                 "Your garage needs at least one entrance.",
-                // sprite path:
-                "sprites/entrance",
+                // sprite:
+                "sprites/entrance", 0, 0,
                 // price:
                 100,
                 // FloorTypes that this building can be build on:
-                EnumSet.of(FloorModel.FloorType.ROAD),
+                EnumSet.of(FloorModel.FloorType.ROAD, FloorModel.FloorType.GRASS),
+                // Floor that will appear under the building:
+                new FloorModel.FloorType[][]{
+                        {null, FloorModel.FloorType.ROAD, null},
+                        {FloorModel.FloorType.GRASS, FloorModel.FloorType.ROAD, FloorModel.FloorType.GRASS},
+                        {null, FloorModel.FloorType.ROAD, null}
+                },
                 // builder:
-                (x, y) -> CompositionRoot.getInstance().entrancesController.createEntrance(x, y)
+                (x, y, angle, floor) -> CompositionRoot.getInstance().entrancesController.createEntrance(x, y, angle, floor)
         ));
 
         add(new BluePrintModel(
@@ -42,14 +51,18 @@ public class BluePrintsController extends UpdateableController {
                 "Exit",
                 // description:
                 "This is where customers pay and leave",
-                // sprite path:
-                "sprites/entrance",
+                // sprite:
+                "sprites/entrance", 0, 0,
                 // price:
                 200,
                 // FloorTypes that this building can be build on:
                 EnumSet.of(FloorModel.FloorType.ROAD),
+                // Floor that will appear under the building:
+                new FloorModel.FloorType[][]{
+                        {FloorModel.FloorType.GRASS, FloorModel.FloorType.ROAD, FloorModel.FloorType.GRASS},
+                },
                 // builder:
-                (x, y) -> CompositionRoot.getInstance().exitsController.createExit(x, y)
+                (x, y, angle, floor) -> CompositionRoot.getInstance().exitsController.createExit(x, y, angle, floor)
         ));
 
     }};
@@ -104,8 +117,9 @@ public class BluePrintsController extends UpdateableController {
 
     public void unsetToBeBuilt() {
         if (toBeBuilt != null) {
+            toBeBuilt.setActive(false);
             toBeBuilt.unregisterView(bluePrintView);
-            bluePrintView.hide();
+            toBeBuilt.unregisterView(CompositionRoot.getInstance().floorsController.view);
             bluePrintView = null;
             toBeBuilt = null;
         }
@@ -117,7 +131,9 @@ public class BluePrintsController extends UpdateableController {
         toBeBuilt = bluePrint;
         bluePrintView = new BluePrintView(toBeBuilt.spritePath);
         bluePrintView.show();
+        toBeBuilt.setActive(true);
         toBeBuilt.registerView(bluePrintView);
+        toBeBuilt.registerView(CompositionRoot.getInstance().floorsController.view);
         toBeBuilt.setAngle(0);
 
     }
@@ -129,25 +145,19 @@ public class BluePrintsController extends UpdateableController {
 
             CompositionRoot root = CompositionRoot.getInstance();
 
-            Vector3 isometric = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-            root.renderController.getMainCamera().unproject(isometric);
+            Vector2 cursor = IsometricConverter.cursorToNormal();
+            int x = (int) cursor.x, y = (int) cursor.y;
 
-            Vector2 normal = new Vector2(isometric.x, isometric.y);
-            IsometricConverter.isometricToNormal(normal);
-
-            int x = (int) normal.x, y = (int) normal.y;
-
-            boolean canBuild = root.floorsController.canBuild(x, y, toBeBuilt.floorTypes);
-            toBeBuilt.setCanBuild(canBuild);
+            boolean canBuild = canBuild(toBeBuilt, x, y);
             toBeBuilt.x = x;
             toBeBuilt.y = y;
 
             if (clicked && canBuild && root.financialController.spend(toBeBuilt.price)) {
 
-                build(x, y);
+                build(toBeBuilt, x, y);
 
             } else if (clicked && !canBuild) {
-                unsetToBeBuilt();
+                // todo: message: can't build here
             }
 
         }
@@ -159,8 +169,86 @@ public class BluePrintsController extends UpdateableController {
         clicked = false;
     }
 
-    private void build(int x, int y) {
-        BuildableModel building = toBeBuilt.builder.build(x, y);
-        CompositionRoot.getInstance().floorsController.build(building);
+    /**
+     * Checks if a building can be build on a given position
+     *
+     * @param bluePrint The bluePrint of the building
+     * @param originX   The x-position of the building
+     * @param originY   The y-position of the building
+     * @return Can the building be build here?
+     */
+    public boolean canBuild(BluePrintModel bluePrint, int originX, int originY) {
+
+        FloorsController floorsController = CompositionRoot.getInstance().floorsController;
+        FloorModel floor = floorsController.floors.get(floorsController.getCurrentFloor());
+
+        boolean canBuild = true;
+        int width = bluePrint.tiles.length, height = bluePrint.tiles[0].length;
+        bluePrint.validTiles = new boolean[width][];
+
+        for (int x = 0; x < width; x++) {
+
+            for (int y = 0; y < height; y++) {
+
+                if (bluePrint.tiles[x][y] == null)
+                    continue;
+
+                int worldX = CoordinateRotater.rotate(x, width, y, height, bluePrint.getAngle()) + originX;
+                int worldY = CoordinateRotater.rotate(y, height, x, width, bluePrint.getAngle()) + originY;
+
+                boolean canBuildHere =
+
+                        // cannot build in noBuildZone:
+                        FloorsController.inBuildZone(worldX, worldY)
+
+                            // can building be built on this floorType?
+                            && bluePrint.canBuildOn.contains(floor.tiles[worldX][worldY])
+
+                            // is there already another building here?
+                            && (floor.buildings[worldX] == null || floor.buildings[worldX][worldY] == null);
+
+                canBuild &= canBuildHere;
+
+                if (bluePrint.validTiles[x] == null)
+                    bluePrint.validTiles[x] = new boolean[height];
+
+                bluePrint.validTiles[x][y] = canBuildHere;
+            }
+        }
+
+        bluePrint.setCanBuild(canBuild);
+        return canBuild;
+    }
+
+    private void build(BluePrintModel bluePrint, int originX, int originY) {
+
+        FloorsController floorsController = CompositionRoot.getInstance().floorsController;
+        int floorIndex = floorsController.getCurrentFloor();
+        FloorModel floor = floorsController.floors.get(floorIndex);
+
+        BuildableModel building = bluePrint.builder.build(originX, originY, bluePrint.getAngle(), floorIndex);
+
+        int width = bluePrint.tiles.length, height = bluePrint.tiles[0].length;
+
+        for (int x = 0; x < width; x++) {
+
+            for (int y = 0; y < height; y++) {
+
+                FloorModel.FloorType floorType = bluePrint.tiles[x][y];
+                if (floorType == null)
+                    continue;
+
+                int worldX = CoordinateRotater.rotate(x, width, y, height, bluePrint.getAngle()) + originX;
+                int worldY = CoordinateRotater.rotate(y, height, x, width, bluePrint.getAngle()) + originY;
+
+                if (floor.buildings[worldX] == null)
+                    floor.buildings[worldX] = new BuildableModel[Game.WORLD_HEIGHT];
+
+                floor.buildings[worldX][worldY] = building;
+
+                floor.setTile(worldX, worldY, floorType);
+
+            }
+        }
     }
 }

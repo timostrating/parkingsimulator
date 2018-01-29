@@ -16,11 +16,11 @@ public class EntrancesController extends CarQueuesController {
 
     @Override
     protected boolean nextAction(CarModel car) {
-        return CompositionRoot.getInstance().floorsController.parkCar(car);
+        return CompositionRoot.getInstance().carsController.parkCar(car);
     }
 
-    public CarQueueModel createEntrance(int x, int y) {
-        CarQueueModel entrance = new CarQueueModel(x, y);
+    public CarQueueModel createEntrance(int x, int y, int angle, int floor) {
+        CarQueueModel entrance = new CarQueueModel(x, y, angle, floor);
         EntranceView entranceView = new EntranceView();
         entranceView.show();
         entrance.registerView(entranceView);

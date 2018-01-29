@@ -1,8 +1,6 @@
 package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 
 import java.util.ArrayList;
@@ -17,6 +15,8 @@ public class InputController extends BaseController implements InputProcessor {
     public ArrayList<MouseListener> onMouseButtonDown = new ArrayList<>();
     public ArrayList<MouseListener> onMouseButtonUp = new ArrayList<>();
 
+    public ArrayList<ScrollListener> scrollListeners = new ArrayList<>();
+
     public HashMap<Integer, KeyListener> onKeyDown = new HashMap<>();
     public HashMap<Integer, KeyListener> onKeyUp = new HashMap<>();
 
@@ -28,6 +28,11 @@ public class InputController extends BaseController implements InputProcessor {
     @FunctionalInterface
     public interface KeyListener {
         boolean action();
+    }
+
+    @FunctionalInterface
+    public interface ScrollListener {
+        boolean action(int amount);
     }
 
     public InputController(Game game) {
@@ -74,6 +79,15 @@ public class InputController extends BaseController implements InputProcessor {
     }
 
     @Override
+    public boolean scrolled(int amount) {
+        for (ScrollListener scrollListener : scrollListeners)
+            if (scrollListener.action(amount))
+                return true;
+
+        return false;
+    }
+
+    @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
@@ -83,11 +97,4 @@ public class InputController extends BaseController implements InputProcessor {
         return false;
     }
 
-    @Override
-    public boolean scrolled(int amount) {
-        OrthographicCamera camera = CompositionRoot.getInstance().renderController.getMainCamera();
-        camera.zoom = Math.max(1, Math.min(18, camera.zoom + amount * camera.zoom / 16f));
-
-        return false;
-    }
 }

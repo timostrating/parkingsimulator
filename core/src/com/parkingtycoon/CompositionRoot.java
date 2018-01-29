@@ -16,10 +16,10 @@ public class CompositionRoot {
     public SimulationController simulationController;
     public RenderController renderController;
     public AnimatedSpritesController animatedSpritesController;
-    public CarsController carsController;
     public EntrancesController entrancesController;
     public ExitsController exitsController;
     public FloorsController floorsController;
+    public CarsController carsController;
     public FinancialController financialController;
     public HudController hudController;
     public BluePrintsController bluePrintsController;
@@ -49,10 +49,10 @@ public class CompositionRoot {
         simulationController = new SimulationController();
         renderController = new RenderController(game);
         animatedSpritesController = new AnimatedSpritesController();
-        carsController = new CarsController();
         entrancesController = new EntrancesController();
         exitsController = new ExitsController();
         floorsController = new FloorsController();
+        carsController = new CarsController();
         financialController = new FinancialController();
         hudController = new HudController(game.batch);
         bluePrintsController = new BluePrintsController();

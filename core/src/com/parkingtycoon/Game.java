@@ -20,6 +20,11 @@ public class Game extends com.badlogic.gdx.Game {
     public static final int VIEWPORT_WIDTH = 700, VIEWPORT_HEIGHT = 500;
     public static final int WORLD_WIDTH = 100, WORLD_HEIGHT = 100;
 
+    public static boolean inWorld(int x, int y) {
+        return x >= 0 && x < Game.WORLD_WIDTH
+                && y >= 0 && y < Game.WORLD_HEIGHT;
+    }
+
     public InputMultiplexer inputMultiplexer;
     public SpriteBatch batch;
     public ShapeRenderer shapeRenderer;

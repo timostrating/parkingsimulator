@@ -16,8 +16,8 @@ public class CarModel extends PathFollowerModel {
     public CarModel waitingOn;
     public boolean waitingInQueue, parked;
 
+    private boolean disappear;
     private String license = "";
-
 
     public CarModel() {
         speed = .2f;
@@ -31,6 +31,15 @@ public class CarModel extends PathFollowerModel {
      */
     public CarModel(String license) {
         this.license = license;
+    }
+
+    public void disappear() {
+        disappear = true;
+        notifyViews();      // now the views know that the car is no longer in the game.
+    }
+
+    public boolean isDisappeared() {
+        return disappear;
     }
 
     public String getLicense() {
