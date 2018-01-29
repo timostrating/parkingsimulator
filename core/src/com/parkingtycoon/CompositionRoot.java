@@ -14,6 +14,7 @@ public class CompositionRoot {
     public Game game;
     public SimulationController simulationController;
     public RenderController renderController;
+    public TimeController timeController;
     public AnimatedSpritesController animatedSpritesController;
     public CarsController carsController;
     public EntrancesController entrancesController;
@@ -46,6 +47,7 @@ public class CompositionRoot {
 
         simulationController = new SimulationController();
         renderController = new RenderController(game);
+        timeController = new TimeController();
         animatedSpritesController = new AnimatedSpritesController(); // TODO: looks strange
         carsController = new CarsController();
         entrancesController = new EntrancesController();
