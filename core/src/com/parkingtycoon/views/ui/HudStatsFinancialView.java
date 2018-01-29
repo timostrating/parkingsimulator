@@ -1,10 +1,8 @@
 package com.parkingtycoon.views.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -18,30 +16,41 @@ import com.parkingtycoon.views.BaseView;
 
 public class HudStatsFinancialView extends BaseView {
 
+    private final HubStatsWindow window;
+    private OrthographicCamera camera;
+
     public HudStatsFinancialView(Stage stage) {
-        OrthographicCamera camera = new OrthographicCamera();
+        camera = new OrthographicCamera();
         camera.setToOrtho(true, 200, 200);
         camera.position.set(100,100,0);
         camera.update();
 
+        window = new HubStatsWindow(generateDiagramTexture(Color.WHITE));
+        stage.addActor(window);
+    }
+
+    private Texture generateDiagramTexture(Color color) {
         FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,200, 200, false);
 
         frameBuffer.begin();  // BEGIN
+        Gdx.gl.glClearColor(0,0,0,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        drawShapes(color);
+
+        frameBuffer.end();    // END
+        return frameBuffer.getColorBufferTexture();
+    }
+
+    private void drawShapes(Color color) {
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);  // BEGIN
+        shapeRenderer.setColor(color);
         shapeRenderer.rect(0, 0, 200, 200);
         shapeRenderer.line(0,0,200,200);
         shapeRenderer.circle(100,100,100);
-        shapeRenderer.end();
-
-        frameBuffer.end();    // end
-        Texture texture = frameBuffer.getColorBufferTexture();
-
-        HubStatsWindow window = new HubStatsWindow(texture);
-        stage.addActor(window);
+        shapeRenderer.end();                                // END
     }
 
     @Override
@@ -49,9 +58,23 @@ public class HudStatsFinancialView extends BaseView {
         super.start();
     }
 
+    private int flip = 1;
+    
+    @Override
+    public void render(SpriteBatch batch) {
+        super.render(batch);
+
+        if (flip % 60 == 0)
+            window.setDigram(generateDiagramTexture(Color.RED));
+        else if (flip % 60 == 30)
+            window.setDigram(generateDiagramTexture(Color.BLUE));
+
+        flip++;
+    }
+
     @Override
     public void updateView(BaseModel model) {
-
+        
     }
 
     @Override
@@ -61,18 +84,25 @@ public class HudStatsFinancialView extends BaseView {
 
 
     class HubStatsWindow extends VisWindow {
+        Image image;
 
         HubStatsWindow(Texture texture) {
             super("Stats");
             setSize(300, 300);
             addCloseButton();
 
-            Image image = new Image();
+            image = new Image();
             TextureRegion textureRegion = new TextureRegion(texture, 0, 0, 200, 200);
             Drawable drawable = new TextureRegionDrawable(textureRegion);
 
             image.setDrawable(drawable);
             add(image).expand();
+        }
+
+        public void setDigram(Texture texture) {
+            TextureRegion textureRegion = new TextureRegion(texture, 0, 0, 200, 200);
+            Drawable drawable = new TextureRegionDrawable(textureRegion);
+            image.setDrawable(drawable);
         }
     }
 }

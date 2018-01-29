@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.Logger;
+import com.parkingtycoon.views.ui.HudBuildView;
 import com.parkingtycoon.views.ui.TestListView;
 
 /**
@@ -38,8 +39,9 @@ public class HudGameController extends HudBaseController {
         buildButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Logger.info("TODO");
-                root.financialController.spend(1000);
+                Logger.info("WORK PLS");
+                HudBuildView view = new HudBuildView(stage);
+//                root.financialController.spend(1000);
             }
         });
 
