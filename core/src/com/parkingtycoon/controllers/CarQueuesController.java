@@ -3,6 +3,7 @@ package com.parkingtycoon.controllers;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.Random;
+
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.models.PathFollowerModel;

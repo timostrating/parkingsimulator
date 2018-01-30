@@ -58,7 +58,7 @@ public class HudController implements Disposable {
 
     private void setup(Stage stage) {
         mainTable = new VisTable();
-        mainTable.setDebug(debug);
+        mainTable.setDebug(debug, true);
         mainTable.setFillParent(true);
 
         mainTable.add(new HudOptionsController(stage).getTable()).expand().top().left();

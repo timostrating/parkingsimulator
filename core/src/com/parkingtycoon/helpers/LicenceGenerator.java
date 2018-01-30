@@ -1,41 +1,24 @@
 package com.parkingtycoon.helpers;
 
-import java.util.Random;
-
 /**
  * This Class provides help of getting a correct license plate number.
  */
 public class LicenceGenerator {
 
-    String[] mLetters = {"B","C","D","F","G","H","J","K","L","M","N","P","Q","R","S","T","V","W","X","Y","Z"};
+    static String[] mLetters = {"B","C","D","F","G","H","J","K","L","M","N","P","Q","R","S","T","V","W","X","Y","Z"};
 
-    public int randomNumberGenerator(int max){
-       Random r = new Random();
-       int getal = r.nextInt(max);
-       return getal;
+    public static String getRandomLicencePlate(){
+        String nummerBord = "";
+        nummerBord += Random.randomInt(10);
+        nummerBord += Random.randomInt(10);
+        nummerBord += "-";
+        nummerBord += mLetters[Random.randomInt(mLetters.length)];
+        nummerBord += mLetters[Random.randomInt(mLetters.length)];
+        nummerBord += mLetters[Random.randomInt(mLetters.length)];
+        nummerBord += "-";
+        nummerBord += Random.randomInt(10);
+        return nummerBord;
     }
-    public String getRandomLicencePlate(){
-       String nummerBord;
-       nummerBord = Integer.toString(randomNumberGenerator(10));
-       nummerBord += Integer.toString(randomNumberGenerator(10));
-       nummerBord += "-";
-       nummerBord += mLetters[randomNumberGenerator(21)];
-       nummerBord += mLetters[randomNumberGenerator(21)];
-       nummerBord += mLetters[randomNumberGenerator(21)];
-       nummerBord += "-";
-       nummerBord += Integer.toString(randomNumberGenerator(10));
-       return nummerBord;
-    }
-
-
-
-    public static void main(String[] args) {
-        LicenceGenerator licencePlate = new LicenceGenerator();
-        for (int i = 0; i < 100; i++){
-            System.out.println(licencePlate.getRandomLicencePlate());
-        }
-    }
-
 }
 
 

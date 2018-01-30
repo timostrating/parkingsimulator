@@ -33,8 +33,9 @@ public class FloorsController extends UpdateableController {
 
     public FloorsController() {
 
+        super();
+
         CompositionRoot root = CompositionRoot.getInstance();
-        root.simulationController.registerUpdatable(this);
 
         FloorModel floor = createFloor();
         view = new FloorsView();

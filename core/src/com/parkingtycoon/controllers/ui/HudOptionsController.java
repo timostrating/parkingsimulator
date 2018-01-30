@@ -5,8 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.kotcrab.vis.ui.widget.VisImageButton;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSlider;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.parkingtycoon.CompositionRoot;
 
 /**
@@ -18,8 +19,8 @@ public class HudOptionsController extends HudBaseController {
         super(stage);
         CompositionRoot root = CompositionRoot.getInstance();
 
-        // BUTTON 1
-        final VisImageButton button = new VisImageButton(setupDrawable("ui/test.png"), setupDrawable("ui/test2.png"));
+        // PAUSE
+        final VisTextButton button = new VisTextButton("Pause");
 
         button.addListener(new ClickListener() {
             @Override
@@ -30,17 +31,19 @@ public class HudOptionsController extends HudBaseController {
 
 
         // SLIDER
-        final VisSlider slider = new VisSlider(10, 3000, 1, false);
-        slider.addListener(new EventListener() {
+        final VisLabel speedLabel = new VisLabel("speed");
+        final VisSlider speedSlider = new VisSlider(10, 1000, 1, false);
+        speedSlider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                root.simulationController.setUpdatesPerSecond((int)(slider.getValue()));
+                root.simulationController.setUpdatesPerSecond((int)(speedSlider.getValue()));
                 return true;
             }
         });
 
-        table.add(button).expand().top().left();
-        table.add(slider).expand().top().left();
+        table.add(button).padRight(20);
+        table.add(speedLabel).padRight(5);
+        table.add(speedSlider).padRight(10);
     }
 
 }
