@@ -2,9 +2,6 @@ package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.Delegate;
-import com.parkingtycoon.helpers.Random;
-import com.parkingtycoon.models.CarModel;
-import com.parkingtycoon.views.CarView;
 
 /**
  * This Class is responsible for enabling Controllers to be called multiple times per frame depending on the speed of the simulation.
@@ -108,15 +105,12 @@ public class SimulationController extends BaseController {
     }
 
     private void addCars() { // todo: remove to an appropriate controller
-        if (Math.random() > .9f) {
-            CarModel car = CompositionRoot.getInstance().carsController.createCar();
-            car.startTime = updates;
-            car.endTime = updates + Random.randomInt(5000, 10000);
-            CarView carView = new CarView();
-            carView.show();
-            car.registerView(carView);
-            CompositionRoot.getInstance().entrancesController.addToQueue(car);
+        if (Math.random() > .97f) {
+            CompositionRoot.getInstance().carsController.spawnCar();
         }
     }
 
+    public long getUpdates() {
+        return updates;
+    }
 }

@@ -17,13 +17,25 @@ import java.util.HashMap;
  */
 public class SpriteView extends BaseView {
 
-    private static HashMap<String, Texture> textures = new HashMap<>();
+    public static final HashMap<String, Texture> TEXTURES = new HashMap<String, Texture>() {
+        @Override
+        public Texture get(Object key) {
+            Texture texture = super.get(key);
+
+            if (texture == null && key instanceof String) {
+                String path = (String) key;
+                texture = new Texture(Gdx.files.internal(path));
+                put(path, texture);
+            }
+
+            return texture;
+        }
+    };
 
     protected Vector2 spritePosition = new Vector2();
     protected Sprite sprite = new Sprite();
     protected boolean visible = true;
     protected String spritePath;
-
 
     public SpriteView(String spritePath) {
         this.spritePath = spritePath;
@@ -31,12 +43,7 @@ public class SpriteView extends BaseView {
 
     @Override
     public void start() {
-        Texture texture = textures.get(spritePath);
-        if (texture == null) {
-            texture = new Texture(Gdx.files.internal(spritePath));
-            textures.put(spritePath, texture);
-        }
-
+        Texture texture = TEXTURES.get(spritePath);
         sprite.setTexture(texture);
         sprite.setSize(sprite.getWidth() / 32f, sprite.getHeight() / 32f);
         super.start();

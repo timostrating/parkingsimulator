@@ -11,8 +11,8 @@ public class CarQueueModel extends BuildableModel {
 
     public ArrayList<CarModel> cars = new ArrayList<>();
 
-    public CarQueueModel(int x, int y) {
-        super(x, y);
+    public CarQueueModel(int x, int y, int angle, int floor) {
+        super(x, y, angle, floor);
     }
 
     public boolean removeCar(CarModel car) {

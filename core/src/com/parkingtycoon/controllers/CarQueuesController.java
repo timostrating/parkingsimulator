@@ -1,9 +1,11 @@
 package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.Random;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
+import com.parkingtycoon.models.PathFollowerModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,23 +26,51 @@ public abstract class CarQueuesController extends UpdateableController {
         if (queues.size() == 0)
             return false;
 
-        int maxQueueSize = Random.randomInt(8, 12); // some people don't like queues longer than 8, others 10 or 12
+        int maxQueueSize = Random.randomInt(3, 6); // some people don't like queues longer than 3, others 4 or 6
 
         // add car to random entrance queue
         Collections.shuffle(queues);
         for (CarQueueModel q : queues) {
 
-            if (q.cars.size() <= maxQueueSize && q.cars.add(car)) {
+            if (q.cars.size() <= maxQueueSize && sendCarToQueue(q, car) && q.cars.add(car)) {
 
-                CompositionRoot.getInstance().floorsController.sendCarTo(0, q.x, q.y, car);
                 car.waitingInQueue = true;
-
+                car.firstInQueue = false;
+                car.queue = q;
                 return true;
             }
-
         }
-
         return false;
+    }
+
+    private boolean sendCarToQueue(CarQueueModel queue, CarModel car) {
+
+        int x = queue.x + CoordinateRotater.rotate(2, 3, 1, 3, queue.angle);
+        int y = queue.y + CoordinateRotater.rotate(1, 3, 2, 3, queue.angle);
+
+        PathFollowerModel.Goal goal = new PathFollowerModel.Goal(
+                queue.floor, x, y,
+                (int) car.position.x, (int) car.position.y
+        ) {
+
+            @Override
+            public void arrived() {
+                car.firstInQueue = true;
+            }
+
+            @Override
+            public void failed() {
+                car.firstInQueue = false;
+                car.waitingInQueue = false;
+                queue.removeCar(car);
+
+                if (!addToQueue(car))
+                    CompositionRoot.getInstance().carsController.sendToEndOfTheWorld(car);
+            }
+
+        };
+
+        return CompositionRoot.getInstance().carsController.setGoal(car, goal);
     }
 
     @Override
@@ -49,7 +79,7 @@ public abstract class CarQueuesController extends UpdateableController {
 
             for (CarModel car : queue.cars) {
 
-                if (car.getPath() != null)
+                if (!car.firstInQueue)
                     continue;
 
                 // this is the first car in the queue
@@ -61,19 +91,19 @@ public abstract class CarQueuesController extends UpdateableController {
                         // car has new action, now remove from queue
                         queue.removeCar(car);
                         car.waitingInQueue = false;
+                        car.firstInQueue = false;
+                        car.queue = null;
 
                         //reset popTimer
                         queue.popTimer = 0;
-                    }
 
+                    } else queue.popTimer -= 5;
                 }
-
                 break;
             }
         }
     }
 
     protected abstract boolean nextAction(CarModel car);
-
 
 }

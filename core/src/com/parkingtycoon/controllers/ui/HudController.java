@@ -1,7 +1,7 @@
 package com.parkingtycoon.controllers.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,7 +12,6 @@ import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
-import com.parkingtycoon.controllers.InputController;
 
 /**
  * This class is responsible for setting up the UI.
@@ -49,7 +48,12 @@ public class HudController implements Disposable {
 
         setup(stage);
 
-        Gdx.input.setInputProcessor(new InputMultiplexer(new InputController(), stage));  // TODO: the Game class may should do this.
+        CompositionRoot.getInstance().game.inputMultiplexer.addProcessor(0, stage);
+
+        root.inputController.onKeyDown.put(Input.Keys.F2, () -> {
+            toggleDebug();
+            return true;
+        });
     }
 
     private void setup(Stage stage) {

@@ -1,8 +1,10 @@
 package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.Delegate;
 import com.parkingtycoon.views.BaseView;
@@ -30,6 +32,11 @@ public class RenderController extends BaseController {
         this.game = game;
         renderer = object -> object.draw(game.batch);
         debugRenderer = object -> object.debugRender(game.shapeRenderer);
+
+        CompositionRoot.getInstance().inputController.onKeyDown.put(Input.Keys.F3, () -> {
+            debug = !debug;
+            return true;
+        });
     }
 
     public void preRender() {

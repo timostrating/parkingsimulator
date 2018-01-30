@@ -12,13 +12,14 @@ import com.parkingtycoon.helpers.Logger;
 public class CompositionRoot {
 
     public Game game;
+    public InputController inputController;
     public SimulationController simulationController;
     public RenderController renderController;
     public AnimatedSpritesController animatedSpritesController;
-    public CarsController carsController;
     public EntrancesController entrancesController;
     public ExitsController exitsController;
     public FloorsController floorsController;
+    public CarsController carsController;
     public FinancialController financialController;
     public HudController hudController;
     public BluePrintsController bluePrintsController;
@@ -44,13 +45,14 @@ public class CompositionRoot {
 
     private void start(Game game) {
         this.game = game;
+        inputController = new InputController(game);
         simulationController = new SimulationController();
         renderController = new RenderController(game);
         animatedSpritesController = new AnimatedSpritesController();
-        carsController = new CarsController();
         entrancesController = new EntrancesController();
         exitsController = new ExitsController();
         floorsController = new FloorsController();
+        carsController = new CarsController();
         financialController = new FinancialController();
         hudController = new HudController(game.batch);
         bluePrintsController = new BluePrintsController();

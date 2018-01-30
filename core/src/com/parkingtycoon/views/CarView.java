@@ -22,16 +22,18 @@ public class CarView extends AnimatedSpriteView {
     private Color pathColor = new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), 1);
     private float extra = Random.randomInt(0, 10) / 100f;
     private AABB aabb;
-    private boolean waiting, inQueue;
+    private boolean waiting, inQueue, disappearing;
 
-
-    public CarView() {
+    public CarView(float appearX, float appearY) {
         super("sprites/cars/pontiac", true);
+        spritePosition.set(appearX, appearY);
     }
 
     @Override
     public void start() {
         super.start();
+        sprite.setOrigin(.5f, .5f);
+        sprite.setPosition(spritePosition.x, spritePosition.y);
     }
 
     @Override
@@ -41,14 +43,14 @@ public class CarView extends AnimatedSpriteView {
 
             CarModel car = (CarModel) model;
 
-            path = car.getPath();
+            path = car.getCurrentPath();
             aabb = car.aabb;
             waiting = car.waitingOn != null;
             inQueue = car.waitingInQueue;
+            disappearing = car.isDisappeared();
 
             spritePosition.set(car.position);
             IsometricConverter.normalToIsometric(spritePosition);
-            sprite.setCenter(spritePosition.x, spritePosition.y);
 
             if (spriteModel != null && !car.direction.isZero()) {
 
@@ -59,6 +61,24 @@ public class CarView extends AnimatedSpriteView {
 
         }
 
+    }
+
+    @Override
+    public void preRender() {
+        if (spriteModel.speedMultiplier <= 3) // smooth transition
+            sprite.setOriginBasedPosition(
+                    (spritePosition.x + sprite.getX() * 3) / 4f,
+                    (spritePosition.y + sprite.getY() * 3) / 4f
+            );
+        else
+            sprite.setOriginBasedPosition(spritePosition.x - 1.5f, spritePosition.y - 1.5f);
+
+        if (disappearing) {
+            float alpha = Math.max(0, sprite.getColor().a - .05f * spriteModel.speedMultiplier);
+            sprite.setColor(1, 1, 1, alpha);
+            if (alpha == 0)
+                hide();
+        }
     }
 
     @Override

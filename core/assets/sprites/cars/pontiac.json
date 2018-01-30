@@ -272,9 +272,7 @@
   "size": { "w": 1024, "h": 1024 },
   "scale": "1",
   "frameTags": [
-   { "name": "spin", "from": 0, "to": 32, "direction": "forward" },
-   { "name": "upRightToUpLeft", "from": 24, "to": 32, "direction": "forward" },
-   { "name": "upLeftToUpRight", "from": 24, "to": 32, "direction": "reverse" }
+   { "name": "spin", "from": 0, "to": 31, "direction": "forward" }
   ],
   "layers": [
    { "name": "Layer", "opacity": 255, "blendMode": "normal" }
