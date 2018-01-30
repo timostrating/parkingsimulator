@@ -27,14 +27,6 @@ public class CarModel extends PathFollowerModel {
         color = Random.randomColor();
     }
 
-    /**
-     * Optional constructor where you need to give me a license plate string
-     * @param license a string that is used as identifying the car
-     */
-    public CarModel(String license) {
-        this.license = license;
-    }
-
     public String getLicense() {
         return license;
     }
