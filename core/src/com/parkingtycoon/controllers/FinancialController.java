@@ -8,7 +8,7 @@ import com.parkingtycoon.models.ui.DiagramModel;
  */
 public class FinancialController extends UpdateableController {
     private FinancialModel model = new FinancialModel();
-    private DiagramModel diagram = new DiagramModel();
+    private DiagramModel diagram = new DiagramModel("Financial diagram");
 
     public FinancialController() {
         super();
