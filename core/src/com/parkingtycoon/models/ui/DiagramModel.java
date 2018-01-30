@@ -1,6 +1,5 @@
 package com.parkingtycoon.models.ui;
 
-import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.models.BaseModel;
 import java.util.ArrayList;
 
@@ -10,27 +9,19 @@ import java.util.ArrayList;
 public class DiagramModel extends BaseModel {
 
     private String name;
-    private float maxX;
     private float maxY;
-    private ArrayList<Vector2> history = new ArrayList<>();
+    private ArrayList<Float> history = new ArrayList<>();
 
 
     public DiagramModel(String name) {
         this.name = name;
     }
 
-    public void addToHistory(float itemX) {
-        history.add(new Vector2(itemX, maxY + 1));
-    }
+    public void addToHistory(float itemY) {
+        if (maxY < itemY)
+            maxY = itemY;
 
-    public void addToHistory(Vector2 item) {
-        if (maxX < item.x)
-            maxX = item.x;
-
-        if (maxY < item.y)
-            maxY = item.x;
-
-        history.add(item);
+        history.add(itemY);
         notifyViews();
     }
 
@@ -40,15 +31,15 @@ public class DiagramModel extends BaseModel {
     }
 
     public float getMaxX() {
-        return maxX;
+        return history.size();
     }
 
     public float getMaxY() {
         return maxY;
     }
 
-    public ArrayList<Vector2> getHistory() {
-        return history;
+    public Float[] getHistory() {
+        return history.toArray(new Float[history.size()]);
     }
 
 }
