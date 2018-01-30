@@ -5,7 +5,6 @@ import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.helpers.Random;
-import com.parkingtycoon.helpers.pathfinding.NavMap;
 import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FloorModel;
@@ -13,6 +12,7 @@ import com.parkingtycoon.models.PathFollowerModel;
 import com.parkingtycoon.views.CarView;
 
 import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -26,8 +26,7 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     private FloorsController floorsController = CompositionRoot.getInstance().floorsController;
 
-    public CarModel spawnCar() {
-
+    public void spawnCar() {
         CarModel car = new CarModel();
         car.position.set(Random.randomInt(10) * 9, 0);
         pathFollowers.add(car);
@@ -35,48 +34,9 @@ public class CarsController extends PathFollowersController<CarModel> {
         carView.show();
         car.registerView(carView);
 
-        CompositionRoot.getInstance().entrancesController.addToQueue(car);
+        if (!CompositionRoot.getInstance().entrancesController.addToQueue(car))
+            despawnCar(car);
 
-        return car;
-    }
-
-    @Override
-    protected boolean sendTo(CarModel pathFollower, int x, int y) {
-
-        if (!super.sendTo(pathFollower, x, y))
-            return false;
-
-        // move the nodes so that the cars drive on the right of the road
-
-        PathFinder.Node prevNode = null;
-        int i = 0;
-
-        for (PathFinder.Node n : pathFollower.getPath()) {
-
-            n.actualX += .5f;
-            n.actualY += .5f;
-
-            if (++i < pathFollower.getPath().size() && prevNode != null) {
-
-                Vector2 direction = new Vector2(n.x - prevNode.x, n.y - prevNode.y);
-                direction.rotate90(1);
-                direction.nor().scl(.3f);
-
-                if (prevNode.actualY - .5f == prevNode.y)
-                    prevNode.actualY += direction.y;
-
-                if (prevNode.actualX - .5f == prevNode.x)
-                    prevNode.actualX += direction.x;
-
-                n.actualX += direction.x;
-                n.actualY += direction.y;
-
-            }
-
-            prevNode = n;
-        }
-
-        return true;
     }
 
     @Override
@@ -88,21 +48,14 @@ public class CarsController extends PathFollowersController<CarModel> {
 
             CarModel car = carsIterator.next();
 
-            if ((int) car.position.x == DISAPPEAR_X && (int) car.position.y == DISAPPEAR_Y) {
-                car.disappear();
-                carsIterator.remove();
-                continue;
-            }
-
-            car.parked = car.getPath() == null && !car.waitingInQueue;
-
             if (car.waitingOn != null || car.waitingInQueue) // increase waitingTime so that cars will avoid this place
                 floorsController.floors.get(car.floor).waitingTime[(int) car.position.x][(int) car.position.y]++;
 
-            if (car.getPath() == null && car.timer++ >= car.endTime - car.startTime) {
+            if (car.parked && car.timer++ >= car.endTime - car.startTime) {
 
                 // time for this car to leave
-                if (unparkCar(car)) {
+
+                if (sendToExit(car)) {
                     Logger.info("Car at " + car.position + " sent to exit after staying " + car.timer + " updates.");
                     carsIterator.remove();
                 }
@@ -112,6 +65,10 @@ public class CarsController extends PathFollowersController<CarModel> {
             updateCarAABB(car);
         }
 
+        /*
+        In the previous loop the AABB (Axis aligned bounding box) of all cars were updated.
+        In this loop we will use those AABBs to check if a car is colliding and needs to brake.
+         */
         for (CarModel car : pathFollowers) {
 
             detectCollisions(car);
@@ -121,14 +78,24 @@ public class CarsController extends PathFollowersController<CarModel> {
             else
                 car.brake = Math.max(0, car.brake - .015f);  // accelerate
 
-
         }
 
     }
 
-    @Override
-    protected NavMap getNavMap(CarModel pathFollower) {
-        return floorsController.floors.get(pathFollower.floor).carNavMap;
+    private void updateCarAABB(CarModel car) {
+        car.aabb.center.set(car.position);
+
+        if (!car.direction.isZero()) {
+
+            float xLen = Math.abs(car.direction.x);
+            float yLen = Math.abs(car.direction.y);
+
+            car.aabb.halfSize.set(
+                    Math.max(.2f, xLen / (xLen + yLen)),
+                    Math.max(.2f, yLen / (xLen + yLen))
+            );
+
+        }
     }
 
     private void detectCollisions(CarModel car) {
@@ -183,22 +150,6 @@ public class CarsController extends PathFollowersController<CarModel> {
         }
     }
 
-    private void updateCarAABB(CarModel car) {
-        car.aabb.center.set(car.position);
-
-        if (!car.direction.isZero()) {
-
-            float xLen = Math.abs(car.direction.x);
-            float yLen = Math.abs(car.direction.y);
-
-            car.aabb.halfSize.set(
-                    Math.max(.2f, xLen / (xLen + yLen)),
-                    Math.max(.2f, yLen / (xLen + yLen))
-            );
-
-        }
-    }
-
     public boolean parkCar(CarModel car) {
 
         // check if there's an available place for the car.
@@ -207,60 +158,145 @@ public class CarsController extends PathFollowersController<CarModel> {
             for (int x = 0; x < Game.WORLD_WIDTH; x++) {
                 for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
-                    if (floor.tiles[x][y] == FloorModel.FloorType.PARKABLE
-                            && floor.parkedCars[x][y] == null) {
+                    if (floor.tiles[x][y] != FloorModel.FloorType.PARKABLE
+                            || floor.parkedCars[x][y] != null)
+                        continue;
 
-                        // available place found.
-                        floor.parkedCars[x][y] = car;
+                    // Available place found.
 
-                        // send car to place:
-                        car.setGoal(new PathFollowerModel.Goal(i, x, y) {
+                    if (!sendToParkingPlace(car, i, x, y))
+                        continue;   // Cannot reach this place -> search for another place.
 
-                            @Override
-                            public void arrived() {
+                    floor.parkedCars[x][y] = car;
 
-                            }
-
-                            @Override
-                            public void failed() {
-
-                            }
-                        });
-
-                        Logger.info("Car parked at (" + x + ", " + y + ") on floor " + i);
-                        return true;
-
-                    }
+                    Logger.info("Car parked at (" + x + ", " + y + ") on floor " + i);
+                    return true;
                 }
             }
-
             i++;
         }
-
         return false;
     }
 
-    private boolean unparkCar(CarModel car) {
+    private boolean sendToParkingPlace(CarModel car, int floor, int x, int y) {
+        PathFollowerModel.Goal goal = new PathFollowerModel.Goal(
+                floor, x, y,
+                (int) car.position.x, (int) car.position.y
+        ) {
 
-        if (!CompositionRoot.getInstance().exitsController.addToQueue(car))
-            return false; // No exit found
+            @Override
+            public void arrived() {
+                car.parked = true;
+                car.startTime = CompositionRoot.getInstance().simulationController.getUpdates();
+                car.endTime = car.startTime + Random.randomInt(200, 600);
+            }
 
-        floorLoop:
-        for (FloorModel floor : floorsController.floors) {
+            @Override
+            public void failed() {
+                parkCar(car);
+            }
 
-            for (int x = 0; x < Game.WORLD_WIDTH; x++) {
-                for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+        };
 
-                    if (floor.parkedCars[x][y] == car) {
-                        floor.parkedCars[x][y] = null;
-                        break floorLoop;
-                    }
+        return setGoal(car, goal);
+    }
+
+    public boolean sendToExit(CarModel car) {
+
+        clearParkingSpace(car);
+
+        return CompositionRoot.getInstance().exitsController.addToQueue(car);
+    }
+
+    public void despawnCar(CarModel car) {
+
+        clearParkingSpace(car);
+
+        setGoal(car, new PathFollowerModel.Goal(0, DISAPPEAR_X, DISAPPEAR_Y, (int) car.position.x, (int) car.position.y) {
+            @Override
+            public void arrived() {
+                car.disappear();
+            }
+
+            @Override
+            public void failed() {
+                car.disappear();
+            }
+        });
+    }
+
+    private void clearParkingSpace(CarModel car) {
+
+        FloorModel floor = floorsController.floors.get(car.floor);
+
+        for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+            for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+
+                if (floor.parkedCars[x][y] == car) {
+                    floor.parkedCars[x][y] = null;
                 }
             }
         }
         car.parked = false;
 
-        return true;
     }
 
+    @Override
+    protected List<PathFinder.Node> getPathToElevator(int floor, int fromX, int fromY) {
+        return null; // todo: implement elevators.
+    }
+
+    @Override
+    protected List<PathFinder.Node> getPath(int floor, int fromX, int fromY, int toX, int toY) {
+
+        List<PathFinder.Node> path = PathFinder.calcPath(
+                floorsController.floors.get(floor).carNavMap,   // The NavigationMap that is used to find a path
+                fromX, fromY,                                   // from coordinates
+                toX, toY                                        // to coordinates
+        );
+
+        repositionPath(path);
+        return path;
+    }
+
+
+    /**
+     * This method will move the nodes of a path to the right side of the road,
+     * so that cars always drive on the right.
+     *
+     * @param path The path you want to reposition.
+     */
+    private void repositionPath(List<PathFinder.Node> path) {
+
+        if (path == null)
+            return;
+
+        PathFinder.Node prevNode = null;
+        int i = 0;
+
+        for (PathFinder.Node n : path) {
+
+            n.actualX += .5f;
+            n.actualY += .5f;
+
+            if (++i < path.size() && prevNode != null) {
+
+                Vector2 direction = new Vector2(n.x - prevNode.x, n.y - prevNode.y);
+                direction.rotate90(1);
+                direction.nor().scl(.3f);
+
+                if (prevNode.actualY - .5f == prevNode.y)
+                    prevNode.actualY += direction.y;
+
+                if (prevNode.actualX - .5f == prevNode.x)
+                    prevNode.actualX += direction.x;
+
+                n.actualX += direction.x;
+                n.actualY += direction.y;
+
+            }
+
+            prevNode = n;
+        }
+    }
 }

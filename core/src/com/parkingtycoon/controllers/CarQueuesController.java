@@ -32,30 +32,44 @@ public abstract class CarQueuesController extends UpdateableController {
         Collections.shuffle(queues);
         for (CarQueueModel q : queues) {
 
-            if (q.cars.size() <= maxQueueSize && q.cars.add(car)) {
+            if (q.cars.size() <= maxQueueSize && sendCarToQueue(q, car) && q.cars.add(car)) {
 
-                int x = q.x + CoordinateRotater.rotate(2, 3, 1, 3, q.angle);
-                int y = q.y + CoordinateRotater.rotate(1, 3, 1, 3, q.angle);
-
-                car.setGoal(new PathFollowerModel.Goal(q.floor, x, y) {
-                    @Override
-                    public void arrived() {
-//                        car.position.set(q.x + .5f, q.y + .5f);
-                    }
-
-                    @Override
-                    public void failed() {
-                        addToQueue(car); // todo
-                    }
-                });
                 car.waitingInQueue = true;
-
+                car.firstInQueue = false;
                 return true;
             }
-
         }
-
         return false;
+    }
+
+    private boolean sendCarToQueue(CarQueueModel queue, CarModel car) {
+
+        int x = queue.x + CoordinateRotater.rotate(2, 3, 1, 3, queue.angle);
+        int y = queue.y + CoordinateRotater.rotate(1, 3, 1, 3, queue.angle);
+
+        PathFollowerModel.Goal goal = new PathFollowerModel.Goal(
+                queue.floor, x, y,
+                (int) car.position.x, (int) car.position.y
+        ) {
+
+            @Override
+            public void arrived() {
+                car.firstInQueue = true;
+            }
+
+            @Override
+            public void failed() {
+                car.firstInQueue = false;
+                car.waitingInQueue = false;
+                queue.removeCar(car);
+
+                if (!addToQueue(car))
+                    CompositionRoot.getInstance().carsController.despawnCar(car);
+            }
+
+        };
+
+        return CompositionRoot.getInstance().carsController.setGoal(car, goal);
     }
 
     @Override
@@ -64,7 +78,7 @@ public abstract class CarQueuesController extends UpdateableController {
 
             for (CarModel car : queue.cars) {
 
-                if (car.getPath() != null)
+                if (!car.firstInQueue)
                     continue;
 
                 // this is the first car in the queue
@@ -76,19 +90,18 @@ public abstract class CarQueuesController extends UpdateableController {
                         // car has new action, now remove from queue
                         queue.removeCar(car);
                         car.waitingInQueue = false;
+                        car.firstInQueue = false;
 
                         //reset popTimer
                         queue.popTimer = 0;
-                    }
 
+                    } else queue.popTimer -= 5;
                 }
-
                 break;
             }
         }
     }
 
     protected abstract boolean nextAction(CarModel car);
-
 
 }

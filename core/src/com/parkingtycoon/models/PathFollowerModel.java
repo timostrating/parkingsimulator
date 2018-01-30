@@ -6,7 +6,7 @@ import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import java.util.List;
 
 /**
- * This Class is responsible for storing all data that is necessary to follow a path.
+ * This Class is responsible for storing all data that is necessary to follow a currentPath.
  */
 public abstract class PathFollowerModel extends BaseModel {
 
@@ -17,30 +17,27 @@ public abstract class PathFollowerModel extends BaseModel {
     public Vector2 position = new Vector2();
     public boolean pathSmoothing = true;
 
-    private Goal goal;
-    private List<PathFinder.Node> path;
+    public Goal goal;
+    public List<PathFinder.Node> pathToElevator, pathToGoal;
+    public boolean goingToElevator, goingToGoal;
 
-    public Goal getGoal() {
-        return goal;
-    }
+    private List<PathFinder.Node> currentPath;
+    private boolean disappear;
 
-    public void setGoal(Goal goal) {
-        this.goal = goal;
-        this.path = null;
-    }
+    public static class Goal {
 
-    public abstract static class Goal {
+        public final int floor, toX, toY, fromX, fromY;
 
-        public int floor, toX, toY;
-
-        public Goal(int floor, int toX, int toY) {
+        public Goal(int floor, int toX, int toY, int fromX, int fromY) {
             this.floor = floor;
             this.toX = toX;
             this.toY = toY;
+            this.fromX = fromX;
+            this.fromY = fromY;
         }
 
-        public abstract void arrived();
-        public abstract void failed();
+        public void arrived() {}
+        public void failed() {}
     }
 
     public void move() {
@@ -50,12 +47,23 @@ public abstract class PathFollowerModel extends BaseModel {
 
     }
 
-    public List<PathFinder.Node> getPath() {
-        return path;
+    public List<PathFinder.Node> getCurrentPath() {
+        return currentPath;
     }
 
-    public void setPath(List<PathFinder.Node> path) {
-        this.path = path;
+    public void setCurrentPath(List<PathFinder.Node> currentPath) {
+        this.currentPath = currentPath;
+        this.currentNode = 0;
         notifyViews();
     }
+
+    public void disappear() {
+        disappear = true;
+        notifyViews();      // now the views know that the object is no longer in the game
+    }
+
+    public boolean isDisappeared() {
+        return disappear;
+    }
+
 }

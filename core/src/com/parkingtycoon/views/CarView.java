@@ -43,7 +43,7 @@ public class CarView extends AnimatedSpriteView {
 
             CarModel car = (CarModel) model;
 
-            path = car.getPath();
+            path = car.getCurrentPath();
             aabb = car.aabb;
             waiting = car.waitingOn != null;
             inQueue = car.waitingInQueue;

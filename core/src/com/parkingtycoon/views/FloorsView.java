@@ -67,6 +67,9 @@ public final class FloorsView extends BaseView {
         if (validTiles == null)
             return;
 
+        // keep reference to array because this.validTiles might be set to null by other thread
+        Boolean[][] validTiles = this.validTiles;
+
         for (int x = 0; x < Game.WORLD_WIDTH; x++) {
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
                 if (validTiles[x] == null)

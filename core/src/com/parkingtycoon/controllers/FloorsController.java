@@ -194,7 +194,11 @@ public class FloorsController extends UpdateableController {
             }
         }
 
+        // todo: do something with all cars that are (to be) parked on changed tiles.
+
         floor.setNewFloorType(null);
+
+        CompositionRoot.getInstance().carsController.onTerrainChange(floors.indexOf(floor), newFloorValid);
     }
 
 }

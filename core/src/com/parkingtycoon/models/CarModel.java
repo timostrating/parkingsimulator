@@ -14,9 +14,8 @@ public class CarModel extends PathFollowerModel {
     public long startTime, endTime, timer;
     public AABB aabb = new AABB(new Vector2(), new Vector2(.15f, .15f));
     public CarModel waitingOn;
-    public boolean waitingInQueue, parked;
+    public boolean waitingInQueue, firstInQueue, parked;
 
-    private boolean disappear;
     private String license = "";
 
     public CarModel() {
@@ -31,15 +30,6 @@ public class CarModel extends PathFollowerModel {
      */
     public CarModel(String license) {
         this.license = license;
-    }
-
-    public void disappear() {
-        disappear = true;
-        notifyViews();      // now the views know that the car is no longer in the game.
-    }
-
-    public boolean isDisappeared() {
-        return disappear;
     }
 
     public String getLicense() {

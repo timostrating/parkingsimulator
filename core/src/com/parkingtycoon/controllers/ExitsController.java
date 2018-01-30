@@ -1,5 +1,6 @@
 package com.parkingtycoon.controllers;
 
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.views.EntranceView;
@@ -15,7 +16,9 @@ public class ExitsController extends CarQueuesController {
 
     @Override
     protected boolean nextAction(CarModel car) {
-//        CompositionRoot.getInstance().carsController.sendCarAway(car);
+        CompositionRoot root = CompositionRoot.getInstance();
+        root.financialController.addAmount(100); // todo: change amount
+        root.carsController.despawnCar(car);
         return true;
     }
 
