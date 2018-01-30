@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.controllers.InputController;
-import com.parkingtycoon.controllers.ui.HudController;
 import com.parkingtycoon.controllers.SimulationController;
+import com.parkingtycoon.controllers.ui.HudController;
 
 
 /**

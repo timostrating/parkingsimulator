@@ -4,7 +4,6 @@ import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
-import com.parkingtycoon.views.EntranceView;
 
 /**
  * This class is responsible for providing a Queue that processes the Cars that would like to leave the park.
@@ -28,9 +27,9 @@ public class ExitsController extends CarQueuesController {
 
     public CarQueueModel createExit(int x, int y, int angle, int floor) {
         CarQueueModel exit = new CarQueueModel(x, y, angle, floor);
-        EntranceView view = new EntranceView(); // todo: make ExitView
-        view.show();
-        exit.registerView(view);
+//        QueueSignView view = new QueueSignView();
+//        view.show();
+//        exit.registerView(view);
         queues.add(exit);
         return exit;
     }

@@ -167,7 +167,6 @@ public class BluePrintsController extends UpdateableController {
             } else if (clicked && !canBuild) {
                 // todo: message: can't build here
             }
-
         }
 
         clicked = false;

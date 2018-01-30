@@ -172,6 +172,8 @@ public class FloorsController extends UpdateableController {
 
     private void placeNewFloorTiles(FloorModel floor) {
 
+        CarsController carsController = CompositionRoot.getInstance().carsController;
+
         FloorModel.FloorType floorType = floor.getNewFloorType();
         Boolean[][] newFloorValid = floor.getNewFloorValid();
 
@@ -190,15 +192,20 @@ public class FloorsController extends UpdateableController {
 
                     floor.setTile(x, y, floorType);
 
+                    CarModel parkedHere = floor.parkedCars[x][y];
+                    if (parkedHere != null
+                            && !carsController.sendToExit(parkedHere)
+                            && !carsController.sendToEndOfTheWorld(parkedHere)) {
+
+                        carsController.clearParkingSpace(parkedHere);
+                        parkedHere.setDisappeared();
+                    }
                 }
             }
         }
 
-        // todo: do something with all cars that are (to be) parked on changed tiles.
-
         floor.setNewFloorType(null);
-
-        CompositionRoot.getInstance().carsController.onTerrainChange(floors.indexOf(floor), newFloorValid);
+        carsController.onTerrainChange(floors.indexOf(floor), newFloorValid);
     }
 
 }

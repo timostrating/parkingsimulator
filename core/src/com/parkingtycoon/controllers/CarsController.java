@@ -195,8 +195,8 @@ public class CarsController extends PathFollowersController<CarModel> {
 
             @Override
             public void failed() {
-                if (!parkCar(car))
-                    sendToExit(car);
+                if (!parkCar(car) && !sendToExit(car))
+                    sendToEndOfTheWorld(car);
             }
 
         };
@@ -238,7 +238,7 @@ public class CarsController extends PathFollowersController<CarModel> {
         return false;
     }
 
-    private void clearParkingSpace(CarModel car) {
+    public void clearParkingSpace(CarModel car) {
 
         FloorModel floor = floorsController.floors.get(car.floor);
 
