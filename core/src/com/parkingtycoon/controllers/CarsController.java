@@ -33,8 +33,8 @@ public class CarsController extends PathFollowersController<CarModel> {
         carView.show();
         car.registerView(carView);
 
-        if (!CompositionRoot.getInstance().entrancesController.addToQueue(car))
-            despawnCar(car);
+        if (!CompositionRoot.getInstance().entrancesController.addToQueue(car) && !sendToEndOfTheWorld(car))
+            car.setDisappeared();
 
     }
 
@@ -95,7 +95,10 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     private void detectCollisions(CarModel car) {
         if (car.waitingOn != null
-                && (car.floor != car.waitingOn.floor || car.waitingOn.parked || !car.aabb.overlaps(car.waitingOn.aabb)))
+                && (car.floor != car.waitingOn.floor
+                || car.waitingOn.parked
+                || !car.aabb.overlaps(car.waitingOn.aabb)
+                || car.waitingOn.isDisappeared()))
             car.waitingOn = null;
 
         if (car.waitingOn != null || car.parked)
@@ -203,20 +206,20 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     public boolean sendToExit(CarModel car) {
 
-        clearParkingSpace(car);
-
-        return CompositionRoot.getInstance().exitsController.addToQueue(car);
+        if (CompositionRoot.getInstance().exitsController.addToQueue(car)) {
+            clearParkingSpace(car);
+            return true;
+        }
+        return false;
     }
 
-    public void despawnCar(CarModel car) {
-        despawnCar(car, (int) car.position.x, (int) car.position.y);
+    public boolean sendToEndOfTheWorld(CarModel car) {
+        return sendToEndOfTheWorld(car, (int) car.position.x, (int) car.position.y);
     }
 
-    public void despawnCar(CarModel car, int fromX, int fromY) {
+    public boolean sendToEndOfTheWorld(CarModel car, int fromX, int fromY) {
 
-        clearParkingSpace(car);
-
-        setGoal(car, new PathFollowerModel.Goal(0, DISAPPEAR_X, DISAPPEAR_Y, fromX, fromY) {
+        if (setGoal(car, new PathFollowerModel.Goal(0, DISAPPEAR_X, DISAPPEAR_Y, fromX, fromY) {
             @Override
             public void arrived() {
                 car.setDisappeared();
@@ -226,7 +229,13 @@ public class CarsController extends PathFollowersController<CarModel> {
             public void failed() {
                 car.setDisappeared();
             }
-        });
+        })) {
+
+            clearParkingSpace(car);
+            return true;
+        }
+
+        return false;
     }
 
     private void clearParkingSpace(CarModel car) {

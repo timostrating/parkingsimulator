@@ -17,8 +17,8 @@ public class EntrancesController extends CarQueuesController {
 
     @Override
     protected boolean nextAction(CarModel car) {
-        int fromX = car.queue.x + CoordinateRotater.rotate(2, 3, 1, 3, car.queue.angle);
-        int fromY = car.queue.y + CoordinateRotater.rotate(1, 3, 2, 3, car.queue.angle);
+        int fromX = car.queue.x + CoordinateRotater.rotate(0, 3, 1, 3, car.queue.angle);
+        int fromY = car.queue.y + CoordinateRotater.rotate(1, 3, 0, 3, car.queue.angle);
         return CompositionRoot.getInstance().carsController.parkCar(car, fromX, fromY);
     }
 

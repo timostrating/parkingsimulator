@@ -1,6 +1,7 @@
 package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.views.EntranceView;
@@ -18,8 +19,11 @@ public class ExitsController extends CarQueuesController {
     protected boolean nextAction(CarModel car) {
         CompositionRoot root = CompositionRoot.getInstance();
         root.financialController.addAmount(100); // todo: change amount
-        root.carsController.despawnCar(car);
-        return true;
+
+        int fromX = car.queue.x + CoordinateRotater.rotate(0, 3, 1, 3, car.queue.angle);
+        int fromY = car.queue.y + CoordinateRotater.rotate(1, 3, 0, 3, car.queue.angle);
+
+        return root.carsController.sendToEndOfTheWorld(car, fromX, fromY);
     }
 
     public CarQueueModel createExit(int x, int y, int angle, int floor) {

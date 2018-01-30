@@ -40,7 +40,7 @@ public class BluePrintsController extends UpdateableController {
                 EnumSet.of(FloorModel.FloorType.ROAD, FloorModel.FloorType.GRASS),
                 // Floor that will appear under the building:
                 new FloorModel.FloorType[][]{
-                        {null, FloorModel.FloorType.PARKABLE, null},
+                        {null, FloorModel.FloorType.ROAD, null},
                         {FloorModel.FloorType.GRASS, FloorModel.FloorType.BARRIER, FloorModel.FloorType.GRASS},
                         {null, FloorModel.FloorType.ROAD, null}
                 },

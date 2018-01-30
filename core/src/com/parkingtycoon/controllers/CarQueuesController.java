@@ -48,9 +48,6 @@ public abstract class CarQueuesController extends UpdateableController {
         int x = queue.x + CoordinateRotater.rotate(2, 3, 1, 3, queue.angle);
         int y = queue.y + CoordinateRotater.rotate(1, 3, 2, 3, queue.angle);
 
-        int fromX = queue.x + CoordinateRotater.rotate(0, 3, 1, 3, queue.angle);
-        int fromY = queue.y + CoordinateRotater.rotate(1, 3, 0, 3, queue.angle);
-
         PathFollowerModel.Goal goal = new PathFollowerModel.Goal(
                 queue.floor, x, y,
                 (int) car.position.x, (int) car.position.y
@@ -68,7 +65,7 @@ public abstract class CarQueuesController extends UpdateableController {
                 queue.removeCar(car);
 
                 if (!addToQueue(car))
-                    CompositionRoot.getInstance().carsController.despawnCar(car);
+                    CompositionRoot.getInstance().carsController.sendToEndOfTheWorld(car);
             }
 
         };
