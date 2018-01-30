@@ -10,8 +10,8 @@ import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.views.BaseView;
-import com.parkingtycoon.views.ui.diagrams.HudDiagram;
-import com.parkingtycoon.views.ui.diagrams.HudLineDiagram;
+import com.parkingtycoon.views.components.HudDiagram;
+import com.parkingtycoon.views.components.HudLineDiagram;
 
 public class HudStatsFinancialView extends BaseView {
 
@@ -36,8 +36,12 @@ public class HudStatsFinancialView extends BaseView {
 
     @Override
     public void preRender() {
-        if (flip % 30 == 0)
+        if (flip % 30 == 0) {
+            if (diagram instanceof HudLineDiagram)
+                ((HudLineDiagram) diagram).setStartPoint(diagram.getDataLength() - sliderOption[window.getSliderIndex()]);
+
             window.setDiagram(diagram.generateDiagramTexture());
+        }
 
         flip++;
     }
@@ -49,9 +53,6 @@ public class HudStatsFinancialView extends BaseView {
 
     @Override
     public void updateView(BaseModel model) {
-        if (diagram instanceof HudLineDiagram)
-            ((HudLineDiagram)diagram).setStartPoint(diagram.getDataLength() - sliderOption[window.getSliderIndex()]);
-
         diagram.update(model);
     }
 

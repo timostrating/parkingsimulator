@@ -4,7 +4,7 @@ import com.parkingtycoon.models.BaseModel;
 import java.util.ArrayList;
 
 /**
- * This Class is responsible storing the X and Y data of the diagrams.
+ * This Class is responsible storing the X and Y data of the components.
  */
 public class DiagramModel extends BaseModel {
 
@@ -24,7 +24,6 @@ public class DiagramModel extends BaseModel {
         history.add(itemY);
         notifyViews();
     }
-
 
     public String getName() {
         return name;

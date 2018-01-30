@@ -1,4 +1,4 @@
-package com.parkingtycoon.views.ui.diagrams;
+package com.parkingtycoon.views.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
