@@ -1,11 +1,8 @@
 package com.parkingtycoon.views.ui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -43,8 +40,8 @@ public class HudStatsFinancialView extends BaseView {
         FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,200, 200, false);
 
         frameBuffer.begin();  // BEGIN
-        Gdx.gl.glClearColor(0,0,0,0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//        Gdx.gl.glClearColor(0,0,0,0);
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         drawShapes();
 
@@ -83,9 +80,7 @@ public class HudStatsFinancialView extends BaseView {
     private int flip = 0;
     
     @Override
-    public void render(SpriteBatch batch) {
-        super.render(batch);
-
+    public void preRender() {
         if (flip % 30 == 0)
             window.setDigram(generateDiagramTexture());
 
@@ -104,7 +99,6 @@ public class HudStatsFinancialView extends BaseView {
     public float renderIndex() {
         return 0;
     }
-
 
     class HubStatsWindow extends VisWindow {
         Image image;

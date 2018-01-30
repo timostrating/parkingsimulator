@@ -72,8 +72,8 @@ public class BluePrintsController extends UpdateableController {
     }};
 
     public BluePrintsController() {
+        super();
         CompositionRoot root = CompositionRoot.getInstance();
-        root.simulationController.registerUpdatable(this);
 
         root.inputController.onKeyDown.put(Input.Keys.R, () -> {
             if (nextToBeBuilt == null)
