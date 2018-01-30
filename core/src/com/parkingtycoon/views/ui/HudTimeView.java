@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import com.parkingtycoon.models.BaseModel;
+import com.parkingtycoon.models.ui.TimeModel;
 import com.parkingtycoon.views.BaseView;
 
 import java.text.DateFormat;
@@ -27,12 +28,14 @@ public class HudTimeView extends BaseView {
     }
 
     @Override
-    public void updateView(BaseModel model) { }
+    public void updateView(BaseModel model) {
+        if (model instanceof TimeModel)
+            window.updateTime(((TimeModel)model).getTime());
+    }
 
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);
-        window.updateTime();
         window.reposition();
     }
 
@@ -62,9 +65,11 @@ public class HudTimeView extends BaseView {
             setPosition(Gdx.graphics.getWidth() - WIDTH, 0);
         }
 
-        void updateTime() {
-            DateFormat dateInstance = SimpleDateFormat.getDateInstance();
-            String date = dateInstance.format(Calendar.getInstance().getTime());
+        void updateTime(long minutesPassedUntilNow) {
+            DateFormat dateInstance = new SimpleDateFormat("yyyy MMMMM dd hh:mm");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, (int)minutesPassedUntilNow);
+            String date = dateInstance.format(calendar.getTime());
             window.timeLabel.setText(date);
         }
     }

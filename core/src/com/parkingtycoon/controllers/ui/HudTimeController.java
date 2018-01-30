@@ -1,34 +1,31 @@
 package com.parkingtycoon.controllers.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.parkingtycoon.models.HudTimeModel;
+import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.controllers.TimeController;
+import com.parkingtycoon.helpers.interfaces.Updatable;
+import com.parkingtycoon.models.ui.TimeModel;
 import com.parkingtycoon.views.ui.HudTimeView;
 
 /**
  * This class is responsible for controlling the UI that allows the game to have options.
  */
-public class HudTimeController extends HudBaseController {
+public class HudTimeController extends HudBaseController implements Updatable{
+
+    private final TimeModel model;
 
     public HudTimeController(Stage stage) {
         super(stage);
 
-        HudTimeModel model = new HudTimeModel();
+        CompositionRoot.getInstance().timeController.registerUpdatable(this, TimeController.TimeUpdate.MINUTELY);
+
+        model = new TimeModel();
         HudTimeView view = new HudTimeView(stage);
         model.registerView(view);
-
-//        CompositionRoot root = CompositionRoot.getInstance();
-//
-//        // BUTTON 1
-//        final VisTextButton button = new VisTextButton("nice");
-//
-//        button.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                root.simulationController.togglePaused();
-//            }
-//        });
-//
-//        table.add(button).expand().bottom().right();
     }
 
+    @Override
+    public void update() {
+        model.increaseTime();
+    }
 }
