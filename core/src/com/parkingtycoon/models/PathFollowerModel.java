@@ -57,7 +57,7 @@ public abstract class PathFollowerModel extends BaseModel {
         notifyViews();
     }
 
-    public void disappear() {
+    public void setDisappeared() {
         disappear = true;
         notifyViews();      // now the views know that the object is no longer in the game
     }

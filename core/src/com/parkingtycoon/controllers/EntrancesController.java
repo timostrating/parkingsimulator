@@ -1,6 +1,7 @@
 package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.views.EntranceView;
@@ -11,12 +12,14 @@ import com.parkingtycoon.views.EntranceView;
 public class EntrancesController extends CarQueuesController {
 
     public EntrancesController() {
-        popInterval = 200;
+        popInterval = 50;
     }
 
     @Override
     protected boolean nextAction(CarModel car) {
-        return CompositionRoot.getInstance().carsController.parkCar(car);
+        int fromX = car.queue.x + CoordinateRotater.rotate(2, 3, 1, 3, car.queue.angle);
+        int fromY = car.queue.y + CoordinateRotater.rotate(1, 3, 2, 3, car.queue.angle);
+        return CompositionRoot.getInstance().carsController.parkCar(car, fromX, fromY);
     }
 
     public CarQueueModel createEntrance(int x, int y, int angle, int floor) {

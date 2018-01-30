@@ -19,9 +19,11 @@ import java.util.EnumSet;
  */
 public class BluePrintsController extends UpdateableController {
 
+    public BluePrintModel nextToBeBuilt;
+
     private BluePrintModel toBeBuilt;
     private BluePrintView bluePrintView;
-    private boolean clicked, unset;
+    private boolean clicked;
 
     public ArrayList<BluePrintModel> bluePrints = new ArrayList<BluePrintModel>() {{
 
@@ -38,8 +40,8 @@ public class BluePrintsController extends UpdateableController {
                 EnumSet.of(FloorModel.FloorType.ROAD, FloorModel.FloorType.GRASS),
                 // Floor that will appear under the building:
                 new FloorModel.FloorType[][]{
-                        {null, FloorModel.FloorType.ROAD, null},
-                        {FloorModel.FloorType.GRASS, FloorModel.FloorType.ROAD, FloorModel.FloorType.GRASS},
+                        {null, FloorModel.FloorType.PARKABLE, null},
+                        {FloorModel.FloorType.GRASS, FloorModel.FloorType.BARRIER, FloorModel.FloorType.GRASS},
                         {null, FloorModel.FloorType.ROAD, null}
                 },
                 // builder:
@@ -56,10 +58,12 @@ public class BluePrintsController extends UpdateableController {
                 // price:
                 200,
                 // FloorTypes that this building can be build on:
-                EnumSet.of(FloorModel.FloorType.ROAD),
+                EnumSet.of(FloorModel.FloorType.ROAD, FloorModel.FloorType.GRASS),
                 // Floor that will appear under the building:
                 new FloorModel.FloorType[][]{
-                        {FloorModel.FloorType.GRASS, FloorModel.FloorType.ROAD, FloorModel.FloorType.GRASS},
+                        {null, FloorModel.FloorType.ROAD, null},
+                        {FloorModel.FloorType.GRASS, FloorModel.FloorType.BARRIER, FloorModel.FloorType.GRASS},
+                        {null, FloorModel.FloorType.ROAD, null}
                 },
                 // builder:
                 (x, y, angle, floor) -> CompositionRoot.getInstance().exitsController.createExit(x, y, angle, floor)
@@ -72,28 +76,27 @@ public class BluePrintsController extends UpdateableController {
         root.simulationController.registerUpdatable(this);
 
         root.inputController.onKeyDown.put(Input.Keys.R, () -> {
-            if (toBeBuilt == null || unset)
+            if (nextToBeBuilt == null)
                 return false;
 
-            int newAngle = toBeBuilt.getAngle() + 1;
-            toBeBuilt.setAngle(newAngle >= 4 ? 0 : newAngle);
+            toBeBuilt.setAngle((1 + toBeBuilt.getAngle()) % 4);
             return true;
         });
 
         root.inputController.onKeyDown.put(Input.Keys.ESCAPE, () -> {
-            if (toBeBuilt == null || unset)
+            if (nextToBeBuilt == null)
                 return false;
 
-            unset = true;
+            nextToBeBuilt = null;
             return true;
         });
 
         root.inputController.onMouseButtonDown.add((screenX, screenY, button) -> {
-            if (toBeBuilt != null && !unset) {
+            if (nextToBeBuilt != null) {
                 if (button == 0)
                     clicked = true;
                 if (button == 1)
-                    unset = true;
+                    nextToBeBuilt = null;
                 else
                     return false;
                 return true;
@@ -103,19 +106,19 @@ public class BluePrintsController extends UpdateableController {
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_1, () -> {
-            setToBeBuilt(bluePrints.get(0));
+            nextToBeBuilt = bluePrints.get(0);
             return true;
         });
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_2, () -> {
-            setToBeBuilt(bluePrints.get(1));
+            nextToBeBuilt = bluePrints.get(1);
             return true;
         });
 
     }
 
-    public void unsetToBeBuilt() {
+    private void unsetToBeBuilt() {
         if (toBeBuilt != null) {
             toBeBuilt.setActive(false);
             toBeBuilt.unregisterView(bluePrintView);
@@ -125,9 +128,8 @@ public class BluePrintsController extends UpdateableController {
         }
     }
 
-    public void setToBeBuilt(BluePrintModel bluePrint) {
+    private void setToBeBuilt(BluePrintModel bluePrint) {
 
-        unsetToBeBuilt();
         toBeBuilt = bluePrint;
         bluePrintView = new BluePrintView(toBeBuilt.spritePath);
         bluePrintView.show();
@@ -140,6 +142,12 @@ public class BluePrintsController extends UpdateableController {
 
     @Override
     public void update() {
+
+        if (nextToBeBuilt != toBeBuilt) {
+            unsetToBeBuilt();
+            if (nextToBeBuilt != null)
+                setToBeBuilt(nextToBeBuilt);
+        }
 
         if (toBeBuilt != null) {
 
@@ -162,10 +170,6 @@ public class BluePrintsController extends UpdateableController {
 
         }
 
-        if (unset)
-            unsetToBeBuilt();
-
-        unset = false;
         clicked = false;
     }
 

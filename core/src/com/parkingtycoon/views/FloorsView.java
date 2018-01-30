@@ -143,6 +143,9 @@ public final class FloorsView extends BaseView {
                     case PARKABLE:
                         tile = tileSets.getTile(4);
                         break;
+                    case BARRIER:
+                        tile = tileSets.getTile(3);
+                        break;
                     default:
                         tile = tileSets.getTile(6);
                 }

@@ -11,7 +11,6 @@ import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.models.PathFollowerModel;
 import com.parkingtycoon.views.CarView;
 
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -43,10 +42,7 @@ public class CarsController extends PathFollowersController<CarModel> {
     public void update() {
         super.update();
 
-        Iterator<CarModel> carsIterator = pathFollowers.iterator();
-        while (carsIterator.hasNext()) {
-
-            CarModel car = carsIterator.next();
+        for (CarModel car : pathFollowers) {
 
             if (car.waitingOn != null || car.waitingInQueue) // increase waitingTime so that cars will avoid this place
                 floorsController.floors.get(car.floor).waitingTime[(int) car.position.x][(int) car.position.y]++;
@@ -57,7 +53,6 @@ public class CarsController extends PathFollowersController<CarModel> {
 
                 if (sendToExit(car)) {
                     Logger.info("Car at " + car.position + " sent to exit after staying " + car.timer + " updates.");
-                    carsIterator.remove();
                 }
 
             }
@@ -151,6 +146,10 @@ public class CarsController extends PathFollowersController<CarModel> {
     }
 
     public boolean parkCar(CarModel car) {
+        return parkCar(car, (int) car.position.x, (int) car.position.y);
+    }
+
+    public boolean parkCar(CarModel car, int fromX, int fromY) {
 
         // check if there's an available place for the car.
         int i = 0;
@@ -164,7 +163,7 @@ public class CarsController extends PathFollowersController<CarModel> {
 
                     // Available place found.
 
-                    if (!sendToParkingPlace(car, i, x, y))
+                    if (!sendToParkingPlace(car, i, x, y, fromX, fromY))
                         continue;   // Cannot reach this place -> search for another place.
 
                     floor.parkedCars[x][y] = car;
@@ -178,10 +177,10 @@ public class CarsController extends PathFollowersController<CarModel> {
         return false;
     }
 
-    private boolean sendToParkingPlace(CarModel car, int floor, int x, int y) {
+    private boolean sendToParkingPlace(CarModel car, int floor, int x, int y, int fromX, int fromY) {
         PathFollowerModel.Goal goal = new PathFollowerModel.Goal(
                 floor, x, y,
-                (int) car.position.x, (int) car.position.y
+                fromX, fromY
         ) {
 
             @Override
@@ -193,7 +192,8 @@ public class CarsController extends PathFollowersController<CarModel> {
 
             @Override
             public void failed() {
-                parkCar(car);
+                if (!parkCar(car))
+                    sendToExit(car);
             }
 
         };
@@ -209,18 +209,22 @@ public class CarsController extends PathFollowersController<CarModel> {
     }
 
     public void despawnCar(CarModel car) {
+        despawnCar(car, (int) car.position.x, (int) car.position.y);
+    }
+
+    public void despawnCar(CarModel car, int fromX, int fromY) {
 
         clearParkingSpace(car);
 
-        setGoal(car, new PathFollowerModel.Goal(0, DISAPPEAR_X, DISAPPEAR_Y, (int) car.position.x, (int) car.position.y) {
+        setGoal(car, new PathFollowerModel.Goal(0, DISAPPEAR_X, DISAPPEAR_Y, fromX, fromY) {
             @Override
             public void arrived() {
-                car.disappear();
+                car.setDisappeared();
             }
 
             @Override
             public void failed() {
-                car.disappear();
+                car.setDisappeared();
             }
         });
     }

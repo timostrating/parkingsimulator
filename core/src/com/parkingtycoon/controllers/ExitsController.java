@@ -11,7 +11,7 @@ import com.parkingtycoon.views.EntranceView;
 public class ExitsController extends CarQueuesController {
 
     public ExitsController() {
-        popInterval = 450;
+        popInterval = 100;
     }
 
     @Override

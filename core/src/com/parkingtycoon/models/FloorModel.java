@@ -11,7 +11,8 @@ public class FloorModel extends BaseModel {
     public enum FloorType {
         ROAD,
         PARKABLE,
-        GRASS
+        GRASS,
+        BARRIER
     }
 
     public FloorType[][] tiles = new FloorType[Game.WORLD_WIDTH][];
