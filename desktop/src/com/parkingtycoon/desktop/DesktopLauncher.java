@@ -4,12 +4,16 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.parkingtycoon.Game;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * @author GGG
@@ -62,18 +66,24 @@ public class DesktopLauncher extends JComponent implements ActionListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		// image of the garage used as background of the splashscreen
-		Image background;
-		background = new ImageIcon("core/assets/splashscreen/garage-background.png").getImage();
+		BufferedImage background = null;
+		try {
+			background = ImageIO.read(new File("core/assets/splashscreen/garage-background.png"));
+		} catch (IOException e) { }
 		g.drawImage(background, 0, 0, this);
 
 		// image of the car that moves from right to left at the bottom of the screen
-		Image car;
-		car = new ImageIcon("core/assets/splashscreen/moving-car.png").getImage();
-		g.drawImage(car, xCoordinaat, yCoordinaat, this);
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File("core/assets/splashscreen/moving-car.png"));
+		} catch (IOException e) { }
+		g.drawImage(img, xCoordinaat, yCoordinaat, this);
 
 		//image of logo displayed in the top middle of the screen
-		Image logo;
-		logo = new ImageIcon("core/assets/splashscreen/parkingsimulatortycoon-logo.png").getImage();
+		BufferedImage logo = null;
+		try {
+			logo = ImageIO.read(new File("core/assets/splashscreen/parkingsimulatortycoon-logo.png"));
+		} catch (IOException e) { }
 		g.drawImage(logo, 190, 10, this);
 	}
 
@@ -81,6 +91,7 @@ public class DesktopLauncher extends JComponent implements ActionListener {
 	 * Method that starts or stop the timer depending if on is true or false
 	 * @param on true to turn on and false to turn off
 	 */
+
 	public static void startTimer(boolean on){
 		// Start Timer if boolean on is true
 		if(on == true){ t.start(); }
