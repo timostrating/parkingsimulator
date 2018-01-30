@@ -5,9 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
+import com.parkingtycoon.controllers.InputController;
 import com.parkingtycoon.controllers.ui.HudController;
 import com.parkingtycoon.controllers.SimulationController;
-import com.parkingtycoon.views.EntranceView;
 
 
 /**
@@ -21,6 +21,10 @@ public class SimulationScreen implements Screen {
     private OrthographicCamera worldCamera;
     private HudController hud;
 
+    private InputController.ScrollListener zoomer = amount -> {
+        worldCamera.zoom = Math.max(1, Math.min(18, worldCamera.zoom + amount * worldCamera.zoom / 16f));
+        return true;
+    };
 
     public SimulationScreen(Game game) {
 
@@ -37,7 +41,8 @@ public class SimulationScreen implements Screen {
 
         hud = root.hudController;
 
-        new EntranceView();
+        CompositionRoot.getInstance().inputController.scrollListeners.add(zoomer);
+
     }
 
     @Override
@@ -75,10 +80,6 @@ public class SimulationScreen implements Screen {
     @Override
     public void dispose() {
         hud.dispose();
-    }
-
-    public OrthographicCamera getWorldCamera() {
-        return worldCamera;
     }
   
 }

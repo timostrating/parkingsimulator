@@ -73,9 +73,9 @@ public class PathFinder {
                     if (navMap.open(x, y, false, x == toX && y == toY)) {
 
                         if (!navMap.allowDiagonalPaths && x != current.x && y != current.y)
-                            continue; // continue if diagonal path are not allowed
+                            continue; // continue if diagonal paths are not allowed
 
-                        int h = (Math.abs(x - toX) + Math.abs(y - toY)) * 10 + Random.randomInt(20);
+                        int h = (Math.abs(x - toX) + Math.abs(y - toY)) * 10 + Random.randomInt(0, 5) + navMap.avoidScore(x, y) * 50;
 
                         Node newNode = new Node(x, y, current, h);
 
