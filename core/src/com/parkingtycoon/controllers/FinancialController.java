@@ -1,14 +1,17 @@
 package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.models.FinancialModel;
+import com.parkingtycoon.models.ui.DiagramModel;
 
 /**
  * This class is responsible for processing the money of the player.
  */
-public class FinancialController extends BaseController {
+public class FinancialController extends UpdateableController {
     private FinancialModel model = new FinancialModel();
+    private DiagramModel diagram = new DiagramModel();
 
     public FinancialController() {
+        super();
         model.setAmount(10_000);
     }
 
@@ -31,5 +34,10 @@ public class FinancialController extends BaseController {
 
     public FinancialModel getModel() {
         return model;
+    }
+
+    @Override
+    public void update() {
+        diagram.addToHistory(model.getAmount());
     }
 }
