@@ -39,7 +39,6 @@ public class HudGameController extends HudBaseController {
         buildButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Logger.info("WORK PLS");
                 HudBuildView view = new HudBuildView(stage);
 //                root.financialController.spend(1000);
             }
@@ -52,7 +51,6 @@ public class HudGameController extends HudBaseController {
         carsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Logger.info("TODO");
                 stage.addActor(new TestListView());
             }
         });

@@ -7,7 +7,6 @@ import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisProgressBar;
 import com.kotcrab.vis.ui.widget.VisWindow;
-import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.FinancialModel;
 import com.parkingtycoon.views.BaseView;
@@ -32,7 +31,6 @@ public class HudStatsView extends BaseView {
         if (baseModel instanceof FinancialModel) {
             FinancialModel model = (FinancialModel) baseModel;
             moneys = model.getAmount();
-            Logger.info(moneys);
         }
     }
 
@@ -40,7 +38,6 @@ public class HudStatsView extends BaseView {
     public void render(SpriteBatch batch) {
         super.render(batch);
         window.updateFinances(moneys);
-        Logger.info(moneys);
     }
 
     @Override

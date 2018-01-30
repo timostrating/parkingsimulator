@@ -11,6 +11,7 @@ public class HudFinancialController extends UpdateableController {
     private final CompositionRoot root;
     private DiagramModel diagramModel;
 
+
     public HudFinancialController(Stage stage) {
         root = CompositionRoot.getInstance();
         diagramModel = new DiagramModel("Financial diagramModel");
@@ -22,4 +23,5 @@ public class HudFinancialController extends UpdateableController {
     public void update() {
         diagramModel.addToHistory(root.financialController.getAmount());
     }
+
 }
