@@ -9,12 +9,14 @@ public class FinancialController extends BaseController {
     private FinancialModel model = new FinancialModel();
 
     public FinancialController() {
-
+        super();
+        model.setAmount(10_000);
     }
 
     public boolean spend(float min) {
-        if (model.amount - min > 0) {
-            model.amount -= min;
+        if (model.getAmount() - min >= 0) {
+            model.setAmount(model.getAmount() - min); ;
+
             return true;
         }
 
@@ -22,10 +24,15 @@ public class FinancialController extends BaseController {
     }
 
     public float getAmount() {
-        return model.amount;
+        return model.getAmount();
     }
 
     public void addAmount(float add) {
-        model.amount += add;
+        model.setAmount(model.getAmount() + add);
     }
+
+    public FinancialModel getModel() {
+        return model;
+    }
+
 }

@@ -15,10 +15,6 @@ public class AnimatedSpritesController extends UpdateableController {
     private static ArrayNamed<AnimatedSpriteModel> models = new ArrayNamed<>();
 
 
-    public AnimatedSpritesController() {
-        CompositionRoot.getInstance().simulationController.registerUpdatable(this);
-    }
-
     @Override
     public void update() {
 

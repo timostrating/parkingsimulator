@@ -66,8 +66,8 @@ public class BluePrintView extends AnimatedSpriteView {
     }
 
     @Override
-    public void draw(SpriteBatch batch) {
-        super.draw(batch);
+    public void render(SpriteBatch batch) {
+        super.render(batch);
 
         for (int x = 0; x < width; x++) {
 

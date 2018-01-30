@@ -2,8 +2,9 @@ package com.parkingtycoon.models;
 
 import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.helpers.AABB;
-
-import java.util.Random;
+import com.badlogic.gdx.graphics.Color;
+import com.parkingtycoon.helpers.LicenceGenerator;
+import com.parkingtycoon.helpers.Random;
 
 /**
  * This Class is responsible for storing all data that is known to a Car.
@@ -17,12 +18,13 @@ public class CarModel extends PathFollowerModel {
     public boolean waitingInQueue, firstInQueue, parked;
     public CarQueueModel queue;
 
-    private String license = "";
+    public String license = "";
+    public Color color;
 
     public CarModel() {
         speed = .2f;
-        Random random = new Random();
-        license = "test_"+random.nextInt(); // TODO: generate realistic license plate String
+        license = LicenceGenerator.getRandomLicencePlate();
+        color = Random.randomColor();
     }
 
     /**

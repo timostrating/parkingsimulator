@@ -1,5 +1,6 @@
 package com.parkingtycoon.controllers;
 
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.interfaces.Updatable;
 
 /**
@@ -7,4 +8,7 @@ import com.parkingtycoon.helpers.interfaces.Updatable;
  */
 public abstract class UpdateableController extends BaseController implements Updatable {
 
+    public UpdateableController() {
+        CompositionRoot.getInstance().simulationController.registerUpdatable(this);
+    }
 }

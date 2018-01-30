@@ -30,7 +30,7 @@ public class RenderController extends BaseController {
     public RenderController(Game game) {
         super();
         this.game = game;
-        renderer = object -> object.draw(game.batch);
+        renderer = object -> object.render(game.batch);
         debugRenderer = object -> object.debugRender(game.shapeRenderer);
 
         CompositionRoot.getInstance().inputController.onKeyDown.put(Input.Keys.F3, () -> {
@@ -51,7 +51,7 @@ public class RenderController extends BaseController {
 
     public void render() {
         game.batch.begin();
-        views.notifyObjects(renderer);          // for every view -> call draw(game.batch)
+        views.notifyObjects(renderer);          // for every view -> call render(game.batch)
         game.batch.end();
 
         if (debug) {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import com.parkingtycoon.models.BaseModel;
+import com.parkingtycoon.models.ui.TimeModel;
 import com.parkingtycoon.views.BaseView;
 
 import java.text.DateFormat;
@@ -21,17 +22,22 @@ public class HudTimeView extends BaseView {
 
     public HudTimeView(Stage stage) {
         super();
+        show();
+
         window = new HudTimeView.HubTimeWindow();
 
         stage.addActor(window);
     }
 
     @Override
-    public void updateView(BaseModel model) { }
+    public void updateView(BaseModel model) {
+        if (model instanceof TimeModel)
+            window.updateTime(((TimeModel)model).getTime());
+    }
 
     @Override
-    public void draw(SpriteBatch batch) {
-        super.draw(batch);
+    public void render(SpriteBatch batch) {
+        super.render(batch);
         window.reposition();
     }
 
@@ -43,7 +49,7 @@ public class HudTimeView extends BaseView {
     class HubTimeWindow extends VisWindow {
         final float WIDTH = 200;
         final float HEIGHT = 100;
-        private final VisLabel label;
+        private final VisLabel timeLabel;
 
         HubTimeWindow() {
             super("Time");
@@ -53,14 +59,20 @@ public class HudTimeView extends BaseView {
 
             setSize(WIDTH, HEIGHT);
 
-            DateFormat dateInstance = SimpleDateFormat.getDateInstance();
-            String date = dateInstance.format(Calendar.getInstance().getTime());
-            label = new VisLabel(date);
-            add(label);
+            timeLabel = new VisLabel("TIME");
+            add(timeLabel);
         }
 
         void reposition() {
             setPosition(Gdx.graphics.getWidth() - WIDTH, 0);
+        }
+
+        void updateTime(long minutesPassedUntilNow) {
+            DateFormat dateInstance = new SimpleDateFormat("yyyy MMMMM dd hh:mm");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, (int)minutesPassedUntilNow);
+            String date = dateInstance.format(calendar.getTime());
+            window.timeLabel.setText(date);
         }
     }
 

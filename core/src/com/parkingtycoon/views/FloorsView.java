@@ -63,7 +63,7 @@ public final class FloorsView extends BaseView {
     }
 
     @Override
-    public void draw(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
         if (validTiles == null)
             return;
 
