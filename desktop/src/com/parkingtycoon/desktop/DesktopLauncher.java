@@ -22,7 +22,7 @@ public class DesktopLauncher extends JComponent implements ActionListener {
 
 	public static void main (String[] arg) {
 		DesktopLauncher h = new DesktopLauncher();
-		File Clap = new File("core/assets/honk-sound.wav");
+		File Clap = new File("core/assets/splashscreen/honk-sound.wav");
 		PlaySound(Clap);
 		window = new JFrame("Parking Simulator");
 		window.setPreferredSize(new Dimension(640,360));
@@ -41,17 +41,17 @@ public class DesktopLauncher extends JComponent implements ActionListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		Image background;
-		background = new ImageIcon("core/assets/garage-background.png").getImage();
+		background = new ImageIcon("core/assets/splashscreen/garage-background.png").getImage();
 		//image
 		g.drawImage(background, 0, 0, this);
 
 		Image car;
-		car = new ImageIcon("core/assets/moving-car.png").getImage();
+		car = new ImageIcon("core/assets/splashscreen/moving-car.png").getImage();
 		//image
 		g.drawImage(car, xCoordinaat, yCoordinaat, this);
 
 		Image logo;
-		logo = new ImageIcon("core/assets/parkingsimulatortycoon-logo.png").getImage();
+		logo = new ImageIcon("core/assets/splashscreen/parkingsimulatortycoon-logo.png").getImage();
 		//image
 		g.drawImage(logo, 190, 10, this);
 	}
