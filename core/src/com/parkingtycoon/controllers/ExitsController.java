@@ -22,7 +22,7 @@ public class ExitsController extends CarQueuesController {
         int fromX = car.queue.x + CoordinateRotater.rotate(0, 3, 1, 3, car.queue.angle);
         int fromY = car.queue.y + CoordinateRotater.rotate(1, 3, 0, 3, car.queue.angle);
 
-        return root.carsController.sendToEndOfTheWorld(car, fromX, fromY);
+        return root.carsController.sendToEndOfTheWorld(car, fromX, fromY, false);
     }
 
     public CarQueueModel createExit(int x, int y, int angle, int floor) {

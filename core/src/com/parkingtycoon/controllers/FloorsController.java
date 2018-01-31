@@ -100,6 +100,14 @@ public class FloorsController extends UpdateableController {
                 floor.setNewFloorType(null);
         }
 
+        for (FloorModel f : floors) {
+            for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+                for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+                    f.waitingTime[x][y] += f.waitingTime[x][y] > 0 ? -1 : 0;
+                }
+            }
+        }
+
     }
 
     public void setCurrentFloor(int currentFloor) {
@@ -189,17 +197,13 @@ public class FloorsController extends UpdateableController {
                  y <= Math.max(floor.getNewFloorTo()[1], floor.getNewFloorFrom()[1]);
                  y++) {
 
-                if (Boolean.TRUE.equals(newFloorValid[x][y]) && CompositionRoot.getInstance().financialController.spend(1)) {
-
+                if (Boolean.TRUE.equals(newFloorValid[x][y]) && CompositionRoot.getInstance().financialController.spend(10)) {
                     floor.setTile(x, y, floorType);
 
                     CarModel parkedHere = floor.parkedCars[x][y];
-                    if (parkedHere != null
-                            && !carsController.sendToExit(parkedHere)
-                            && !carsController.sendToEndOfTheWorld(parkedHere)) {
+                    if (parkedHere != null && !carsController.sendToExit(parkedHere)) {
 
-                        carsController.clearParkingSpace(parkedHere);
-                        parkedHere.setDisappeared();
+                        carsController.sendToEndOfTheWorld(parkedHere, true);
                     }
                 }
             }

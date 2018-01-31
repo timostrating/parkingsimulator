@@ -105,7 +105,7 @@ public class SimulationController extends BaseController {
     }
 
     private void addCars() { // todo: remove to an appropriate controller
-        if (Math.random() > .97f) {
+        if (Math.random() > .9f) {
             CompositionRoot.getInstance().carsController.spawnCar();
         }
     }

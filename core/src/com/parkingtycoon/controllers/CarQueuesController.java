@@ -66,7 +66,7 @@ public abstract class CarQueuesController extends UpdateableController {
                 queue.removeCar(car);
 
                 if (!addToQueue(car))
-                    CompositionRoot.getInstance().carsController.sendToEndOfTheWorld(car);
+                    CompositionRoot.getInstance().carsController.sendToEndOfTheWorld(car, true);
             }
 
         };
