@@ -1,4 +1,4 @@
-package com.parkingtycoon.views;
+package com.parkingtycoon.views.queue;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.CarQueueModel;
+import com.parkingtycoon.views.AnimatedSpriteView;
 
 /**
  * This Class is responsible for showing an entrance.
@@ -24,6 +25,7 @@ public class QueueSignView extends AnimatedSpriteView {
     public void start() {
         super.start();
         play(type, true);
+        sprite.setPosition(spritePosition.x - 2.6f, spritePosition.y - 4.3f);
     }
 
     @Override
@@ -41,8 +43,6 @@ public class QueueSignView extends AnimatedSpriteView {
 
             spritePosition.set(queue.x, queue.y);
             IsometricConverter.normalToIsometric(spritePosition);
-
-            sprite.setPosition(spritePosition.x - 2, spritePosition.y - 4);
         }
     }
 

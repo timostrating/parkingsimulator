@@ -1,8 +1,9 @@
-package com.parkingtycoon.views;
+package com.parkingtycoon.views.queue;
 
 import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.CarQueueModel;
+import com.parkingtycoon.views.AnimatedSpriteView;
 
 public class BarrierView extends AnimatedSpriteView {
 
@@ -37,6 +38,6 @@ public class BarrierView extends AnimatedSpriteView {
 
     @Override
     public float renderIndex() {
-        return super.renderIndex() - 2;
+        return super.renderIndex() - 3.5f;
     }
 }

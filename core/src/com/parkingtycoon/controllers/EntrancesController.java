@@ -4,8 +4,9 @@ import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
-import com.parkingtycoon.views.BarrierView;
-import com.parkingtycoon.views.QueueSignView;
+import com.parkingtycoon.views.queue.ArrowView;
+import com.parkingtycoon.views.queue.BarrierView;
+import com.parkingtycoon.views.queue.QueueSignView;
 
 /**
  * This class is responsible for providing a Queue that processes the new Cars that would like to park.
@@ -25,12 +26,15 @@ public class EntrancesController extends CarQueuesController {
 
     public CarQueueModel createEntrance(int x, int y, int angle, int floor) {
         CarQueueModel entrance = new CarQueueModel(x, y, angle, floor);
-        QueueSignView queueSignView = new QueueSignView("enter" + angle % 2);
-        queueSignView.show();
-        entrance.registerView(queueSignView);
-        BarrierView barrierView = new BarrierView();
-        barrierView.show();
-        entrance.registerView(barrierView);
+        QueueSignView queueSign = new QueueSignView("enter" + angle % 2);
+        queueSign.show();
+        entrance.registerView(queueSign);
+        BarrierView barrier = new BarrierView();
+        barrier.show();
+        entrance.registerView(barrier);
+        ArrowView arrow = new ArrowView();
+        entrance.registerView(arrow);
+        arrow.show();
         queues.add(entrance);
         return entrance;
     }

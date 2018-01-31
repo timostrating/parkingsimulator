@@ -33,7 +33,6 @@ public class SpriteView extends BaseView {
 
     protected Vector2 spritePosition = new Vector2();
     protected Sprite sprite = new Sprite();
-    protected boolean visible = true;
     protected String spritePath;
 
     public SpriteView(String spritePath) {
@@ -43,8 +42,8 @@ public class SpriteView extends BaseView {
     @Override
     public void start() {
         Texture texture = TEXTURES.get(spritePath);
-        sprite.setTexture(texture);
-        sprite.setSize(sprite.getWidth() / 32f, sprite.getHeight() / 32f);
+        sprite.setRegion(texture);
+        sprite.setSize(texture.getWidth() / 32f, texture.getHeight() / 32f);
         super.start();
     }
 
@@ -53,8 +52,6 @@ public class SpriteView extends BaseView {
 
     @Override
     public void render(SpriteBatch batch) {
-        if (!visible) return;
-
         sprite.draw(batch);
     }
 
