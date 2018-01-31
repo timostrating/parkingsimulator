@@ -41,7 +41,7 @@ public class BluePrintView extends AnimatedSpriteView {
             BluePrintModel bluePrint = (BluePrintModel) model;
 
             if (!bluePrint.isActive()) {
-                hide();
+                end();
                 return;
             }
 

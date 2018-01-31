@@ -3,6 +3,7 @@ package com.parkingtycoon.models;
 import com.parkingtycoon.views.BaseView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -22,8 +23,17 @@ public abstract class BaseModel {
     }
 
     public void notifyViews() {
-        for (BaseView v : views)
-            v.updateView(this);
+        Iterator<BaseView> viewIterator = views.iterator();
+
+        while (viewIterator.hasNext()){
+
+            BaseView v = viewIterator.next();
+
+            if (v.ended)
+                viewIterator.remove();
+            else
+                v.updateView(this);
+        }
     }
 
 }

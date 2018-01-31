@@ -9,6 +9,7 @@ import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FloorModel;
+import com.parkingtycoon.views.FlagView;
 import com.parkingtycoon.views.FloorsView;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class FloorsController extends UpdateableController {
 
     public FloorsView view;
+    public FlagView greenFlag, redFlag;
     public ArrayList<FloorModel> floors = new ArrayList<>();
 
     private int currentFloor = 0;
@@ -155,10 +157,17 @@ public class FloorsController extends UpdateableController {
                 Math.max(0, Math.min((int) cursor.y, Game.WORLD_HEIGHT - 1))
         };
 
+        if (floor.getNewFloorFrom() == null)
+            showFlag(floor, true);
+
         if (!floor.fromFlagPlaced)
             floor.setNewFloorFrom(flagCoordinates);
-        else
+        else {
+            if (floor.getNewFloorTo() == null)
+                showFlag(floor, false);
+
             floor.setNewFloorTo(flagCoordinates);
+        }
 
         Boolean[][] newFloorValid = new Boolean[Game.WORLD_WIDTH][];
 
@@ -179,6 +188,12 @@ public class FloorsController extends UpdateableController {
         }
 
         floor.setNewFloorValid(newFloorValid);
+    }
+
+    private void showFlag(FloorModel floor, boolean green) {
+        FlagView flag = new FlagView(green);
+        flag.show();
+        floor.registerView(flag);
     }
 
     private void placeNewFloorTiles(FloorModel floor) {

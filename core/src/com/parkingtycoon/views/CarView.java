@@ -77,7 +77,7 @@ public class CarView extends AnimatedSpriteView {
             float alpha = Math.max(0, sprite.getColor().a - .05f * spriteModel.speedMultiplier);
             sprite.setColor(1, 1, 1, alpha);
             if (alpha == 0)
-                hide();
+                end();
         }
     }
 
