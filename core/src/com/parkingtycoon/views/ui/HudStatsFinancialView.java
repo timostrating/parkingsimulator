@@ -1,98 +1,55 @@
 package com.parkingtycoon.views.ui;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisSlider;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
-import com.parkingtycoon.helpers.Remapper;
+import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
+import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
+import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 import com.parkingtycoon.models.BaseModel;
-import com.parkingtycoon.models.ui.DiagramModel;
 import com.parkingtycoon.views.BaseView;
+import com.parkingtycoon.views.components.HudDiagram;
+import com.parkingtycoon.views.components.HudLineDiagram;
 
 public class HudStatsFinancialView extends BaseView {
 
     private final HubStatsWindow window;
-    private OrthographicCamera camera;
-    private Float[] data;
-    private float dataMaxValue;
+    private final HudDiagram diagram;
+    private final int width = 500;
+    private final int height = 500;
+
+    private int[] sliderOption = new int[] {Integer.MAX_VALUE, 1_000_000, 100_000, 10_000, 1000, 200};
+
 
     public HudStatsFinancialView(Stage stage) {
         super();
         show();
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(true, 200, 200);
-        camera.position.set(100,100,0);
-        camera.update();
-
-        window = new HubStatsWindow(generateDiagramTexture());
+        diagram = new HudLineDiagram(width, height);
+        window = new HubStatsWindow(diagram.generateDiagramTexture());
         stage.addActor(window);
     }
 
-    private Texture generateDiagramTexture() {
-        FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,200, 200, false);
-
-        frameBuffer.begin();  // BEGIN
-//        Gdx.gl.glClearColor(0,0,0,0);
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        drawShapes();
-
-        frameBuffer.end();    // END
-        return frameBuffer.getColorBufferTexture();
-    }
-
-    private void drawShapes() {
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);  // BEGIN
-        shapeRenderer.rect(0, 0, 200, 200);
-
-        if (data != null && data.length > 5) {
-            int start = data.length-100;
-            if (start < 1)
-                start = 1;
-
-            for (int x=start; x<data.length; x++) {
-                float x1 = Remapper.map(x-1, start, data.length, 0, 200);
-                float x2 = Remapper.map(x, start, data.length, 0, 200);
-                float p1 = Remapper.map(data[x - 1], 0, dataMaxValue, 0, 200);
-                float p2 = Remapper.map(data[x], 0, dataMaxValue, 0, 200);
-                shapeRenderer.line(x1, p1, x2, p2);
-            }
-        }
-
-        shapeRenderer.end();                                // END
-    }
-
-    @Override
-    public void start() {
-        super.start();
-    }
-
     private int flip = 0;
-    
+
     @Override
     public void preRender() {
-        if (flip % 30 == 0)
-            window.setDigram(generateDiagramTexture());
+        if (flip % 1 == 0) {
+            if (diagram instanceof HudLineDiagram)
+                ((HudLineDiagram) diagram).setStartPoint(diagram.getDataLength() - sliderOption[window.getSliderIndex()]);
+
+            window.setDiagram(diagram.generateDiagramTexture());
+        }
 
         flip++;
-    }
-
-    @Override
-    public void updateView(BaseModel model) {
-        if (model instanceof DiagramModel) {
-            data = ((DiagramModel) model).getHistory();
-            dataMaxValue = ((DiagramModel) model).getMaxY() + 100;
-        }
     }
 
     @Override
@@ -100,26 +57,81 @@ public class HudStatsFinancialView extends BaseView {
         return 0;
     }
 
-    class HubStatsWindow extends VisWindow {
+    @Override
+    public void updateView(BaseModel model) {
+        diagram.update(model);
+    }
+
+
+    private class HubStatsWindow extends VisWindow {
+        private final VisSlider slider;
         Image image;
 
         HubStatsWindow(Texture texture) {
             super("Stats");
-            setSize(300, 300);
+            setSize(width, height);
+            setResizable(true);
             addCloseButton();
 
-            image = new Image();
-            TextureRegion textureRegion = new TextureRegion(texture, 0, 0, 200, 200);
-            Drawable drawable = new TextureRegionDrawable(textureRegion);
+            final VisTable container = new VisTable();
 
-            image.setDrawable(drawable);
-            add(image).expand();
+            TabbedPane tabbedPane = new TabbedPane();
+            tabbedPane.addListener(new TabbedPaneAdapter() {
+                @Override
+                public void switchedTab (Tab tab) {
+//                    container
+                }
+            });
+
+            tabbedPane.add(new TestTab("tab1"));
+            tabbedPane.add(new TestTab("tab2"));
+
+            add(tabbedPane.getTable()).expandX().fillX();
+            row();
+            add(container).expand().fill();
+
+            image = new Image();
+            setDiagram(texture);
+
+            slider = new VisSlider(0, 5, 1, false);
+            container.add(image).expand();
+            container.row();
+            container.add(slider);
         }
 
-        public void setDigram(Texture texture) {
-            TextureRegion textureRegion = new TextureRegion(texture, 0, 0, 200, 200);
+        public void setDiagram(Texture texture) {
+            TextureRegion textureRegion = new TextureRegion(texture, 0, 0, width, height);
             Drawable drawable = new TextureRegionDrawable(textureRegion);
             image.setDrawable(drawable);
+        }
+
+        public int getSliderIndex() {
+            return (int)slider.getValue();
+        }
+
+
+        private class TestTab extends Tab {
+            private String title;
+            private Table content;
+
+            public TestTab (String title) {
+                super(false, false);
+                this.title = title;
+
+                content = new VisTable();
+                content.add(new VisLabel(title));
+            }
+
+            @Override
+            public String getTabTitle () {
+                return title;
+            }
+
+            @Override
+            public Table getContentTable () {
+                return content;
+            }
         }
     }
+
 }

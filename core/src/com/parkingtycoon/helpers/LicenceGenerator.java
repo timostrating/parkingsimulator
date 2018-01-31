@@ -20,5 +20,3 @@ public class LicenceGenerator {
         return nummerBord;
     }
 }
-
-
