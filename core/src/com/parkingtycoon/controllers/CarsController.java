@@ -70,7 +70,7 @@ public class CarsController extends PathFollowersController<CarModel> {
 
             detectCollisions(car);
 
-            if (car.waitingOn != null)
+            if (car.waitingOn != null || car.direction.isZero())
                 car.brake = 1;                               // brake
             else
                 car.brake = Math.max(0, car.brake - .015f);  // accelerate
@@ -183,6 +183,10 @@ public class CarsController extends PathFollowersController<CarModel> {
     }
 
     private boolean sendToParkingPlace(CarModel car, int floor, int x, int y, int fromX, int fromY) {
+
+        if (!floorsController.floors.get(floor).accessibleParkables[x][y])
+            return false;
+
         PathFollowerModel.Goal goal = new PathFollowerModel.Goal(
                 floor, x, y,
                 fromX, fromY
@@ -192,7 +196,10 @@ public class CarsController extends PathFollowersController<CarModel> {
             public void arrived() {
                 car.parked = true;
                 car.startTime = CompositionRoot.getInstance().simulationController.getUpdates();
-                car.endTime = car.startTime + Random.randomInt(1000, 6000);
+                car.endTime = car.startTime + Random.randomInt(
+                        240 * SimulationController.REAL_TIME_UPDATES_PER_SECOND,
+                        500 * SimulationController.REAL_TIME_UPDATES_PER_SECOND
+                );
             }
 
             @Override

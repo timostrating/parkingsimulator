@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
+import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.models.CarModel;
@@ -130,6 +131,7 @@ public class FloorsController extends UpdateableController {
 
             floor.tiles[x] = new FloorModel.FloorType[Game.WORLD_HEIGHT];
             floor.waitingTime[x] = new int[Game.WORLD_HEIGHT];
+            floor.accessibleParkables[x] = new Boolean[Game.WORLD_HEIGHT];
 
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
@@ -210,7 +212,43 @@ public class FloorsController extends UpdateableController {
         }
 
         floor.setNewFloorType(null);
+        checkParkables(floor);
         carsController.onTerrainChange(floors.indexOf(floor), newFloorValid);
+    }
+
+    private void checkParkables(FloorModel floor) {
+
+        for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+
+            FloorModel.FloorType prevType = FloorModel.FloorType.GRASS;
+
+            for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+
+                FloorModel.FloorType type = floor.tiles[x][y];
+                floor.accessibleParkables[x][y] = type != FloorModel.FloorType.PARKABLE
+                        || prevType == FloorModel.FloorType.ROAD
+                        || isParkableAccessible(floor, x, y);
+
+                prevType = type;
+            }
+        }
+    }
+
+    private boolean isParkableAccessible(FloorModel floor, int parkableX, int parkableY) {
+
+        for (int angle = 0; angle < 4; angle++) {
+
+            int x = parkableX + CoordinateRotater.rotate(1, 1, 0, 1, angle);
+            int y = parkableY + CoordinateRotater.rotate(0, 1, 1, 1, angle);
+
+            if (x < 0 || x >= Game.WORLD_WIDTH || y < 0 || y >= Game.WORLD_HEIGHT)
+                continue;
+
+            if (floor.tiles[x][y] == FloorModel.FloorType.ROAD)
+                return true;
+
+        }
+        return false;
     }
 
 }

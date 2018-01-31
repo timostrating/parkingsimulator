@@ -25,7 +25,7 @@ public class CarView extends AnimatedSpriteView {
     private boolean waiting, inQueue, disappearing;
 
     public CarView(float appearX, float appearY) {
-        super("sprites/cars/pontiac", true);
+        super("sprites/cars/cadillac", true);
         spritePosition.set(appearX, appearY);
     }
 
@@ -71,7 +71,7 @@ public class CarView extends AnimatedSpriteView {
                     (spritePosition.y + sprite.getY() * 3) / 4f
             );
         else
-            sprite.setOriginBasedPosition(spritePosition.x - 1.5f, spritePosition.y - 1.5f);
+            sprite.setOriginBasedPosition(spritePosition.x - .8f, spritePosition.y - .8f);
 
         if (disappearing) {
             float alpha = Math.max(0, sprite.getColor().a - .05f * spriteModel.speedMultiplier);

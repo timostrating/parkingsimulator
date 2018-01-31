@@ -14,7 +14,6 @@ public class QueueSignView extends AnimatedSpriteView {
 
     private Vector2 normalPos = new Vector2();
     private String type;
-    private int angle;
 
     public QueueSignView(String type) {
         super("sprites/queueSigns", true);
@@ -25,6 +24,11 @@ public class QueueSignView extends AnimatedSpriteView {
     public void start() {
         super.start();
         play(type, true);
+    }
+
+    @Override
+    public float renderIndex() {
+        return super.renderIndex() - 3;
     }
 
     @Override

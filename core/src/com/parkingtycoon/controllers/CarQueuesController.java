@@ -98,7 +98,7 @@ public abstract class CarQueuesController extends UpdateableController {
                         //reset popTimer
                         queue.popTimer = 0;
 
-                    } else queue.popTimer -= 5;
+                    } else queue.popTimer -= 100;
                 }
                 break;
             }
