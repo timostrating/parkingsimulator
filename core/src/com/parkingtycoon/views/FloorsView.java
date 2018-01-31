@@ -108,11 +108,11 @@ public final class FloorsView extends BaseView {
         float x = Gdx.input.getX() / (float) Gdx.graphics.getWidth();
         float y = Gdx.input.getY() / (float) Gdx.graphics.getHeight();
 
-        if (x < .02f) camera.position.x -= .1f * camera.zoom;
-        else if (x > .98f) camera.position.x += .1f * camera.zoom;
+        if (x < .02f && camera.position.x > 0) camera.position.x -= .1f * camera.zoom;
+        else if (x > .98f && camera.position.x < 400) camera.position.x += .1f * camera.zoom;
 
-        if (y < .02f) camera.position.y += .1f * camera.zoom;
-        else if (y > .98f) camera.position.y -= .1f * camera.zoom;
+        if (y < .02f && camera.position.y < 100) camera.position.y += .1f * camera.zoom;
+        else if (y > .98f && camera.position.y > -100) camera.position.y -= .1f * camera.zoom;
 
         camera.update();
     }
