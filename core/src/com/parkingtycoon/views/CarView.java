@@ -67,11 +67,11 @@ public class CarView extends AnimatedSpriteView {
     public void preRender() {
         if (spriteModel.speedMultiplier <= 3) // smooth transition
             sprite.setOriginBasedPosition(
-                    (spritePosition.x + sprite.getX() * 3) / 4f,
-                    (spritePosition.y + sprite.getY() * 3) / 4f
+                    ((sprite.getX() + .5f) * 3 + spritePosition.x - 1) / 4f,
+                    ((sprite.getY() + .5f) * 3 + spritePosition.y - 1) / 4f
             );
         else
-            sprite.setOriginBasedPosition(spritePosition.x - .8f, spritePosition.y - .8f);
+            sprite.setOriginBasedPosition(spritePosition.x - 1, spritePosition.y - 1);
 
         if (disappearing) {
             float alpha = Math.max(0, sprite.getColor().a - .05f * spriteModel.speedMultiplier);
