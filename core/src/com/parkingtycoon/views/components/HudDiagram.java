@@ -19,6 +19,7 @@ public abstract class HudDiagram {
 
     protected int width;
     protected int height;
+    private FrameBuffer frameBuffer;
 
 
     public HudDiagram(int width, int height) {
@@ -29,11 +30,11 @@ public abstract class HudDiagram {
         camera.setToOrtho(true, width, height);
         camera.position.set((width/2),(height/2),0);
         camera.update();
+
+        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
     }
 
     public Texture generateDiagramTexture() {
-        FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
-
         frameBuffer.begin();  // BEGIN
         Gdx.gl.glClearColor(0,0,0,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -46,9 +47,9 @@ public abstract class HudDiagram {
 
     private void drawShapes() {
         ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setAutoShapeType(true);
         shapeRenderer.setProjectionMatrix(camera.combined);
-        Gdx.gl.glLineWidth(2);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);  // BEGIN
+        shapeRenderer.begin();  // BEGIN
 
         drawDiagram(shapeRenderer);
 
