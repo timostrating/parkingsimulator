@@ -17,6 +17,7 @@ public class FloorModel extends BaseModel {
 
     public FloorType[][] tiles = new FloorType[Game.WORLD_WIDTH][];
     public CarModel[][] parkedCars = new CarModel[Game.WORLD_WIDTH][];
+    public Boolean[][] accessibleParkables = new Boolean[Game.WORLD_WIDTH][];
     public int[][] waitingTime = new int[Game.WORLD_WIDTH][];
     public BuildableModel[][] buildings = new BuildableModel[Game.WORLD_WIDTH][];
 

@@ -138,7 +138,17 @@ public final class FloorsView extends BaseView {
                         tile = tileSets.getTile(6);
                         break;
                     case ROAD:
-                        tile = tileSets.getTile(1);
+                        boolean alongX = getFloorType(floor, x - 1, y) == FloorModel.FloorType.ROAD
+                                && getFloorType(floor, x + 1, y) == FloorModel.FloorType.ROAD;
+
+                        boolean alongY = getFloorType(floor, x, y - 1) == FloorModel.FloorType.ROAD
+                                && getFloorType(floor, x, y + 1) == FloorModel.FloorType.ROAD;
+
+                        if (alongX == alongY)
+                            tile = tileSets.getTile(3);
+                        else
+                            tile = tileSets.getTile(alongX ? 2 : 1);
+
                         break;
                     case PARKABLE:
                         tile = tileSets.getTile(4);
@@ -177,7 +187,7 @@ public final class FloorsView extends BaseView {
                 return floor.getNewFloorType();
         }
 
-        return floor.tiles[x][y];
+        return x >= 0 && x < Game.WORLD_WIDTH && y >= 0 && y < Game.WORLD_HEIGHT ? floor.tiles[x][y] : null;
     }
 
     @Override

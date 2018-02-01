@@ -47,8 +47,6 @@ public class SimulationController extends BaseController {
 
             pausedUpdate = true; // only pause if there has been a new render
 
-            if (paused) break;
-
             updates++;
             updatesSinceLastSecond++;
             updatables.notifyObjects(notifier);
@@ -67,6 +65,8 @@ public class SimulationController extends BaseController {
             addCars();
 
             deltaTime -= timeStep;
+
+            if (paused) break;
         }
 
         prevTime = time;
@@ -105,7 +105,7 @@ public class SimulationController extends BaseController {
     }
 
     private void addCars() { // todo: remove to an appropriate controller
-        if (Math.random() > .97f) {
+        if (Math.random() > .95f) {
             CompositionRoot.getInstance().carsController.spawnCar();
         }
     }

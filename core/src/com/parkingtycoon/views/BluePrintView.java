@@ -14,8 +14,6 @@ import com.parkingtycoon.models.FloorModel;
 
 public class BluePrintView extends AnimatedSpriteView {
 
-    // todo: should views store all data or reference to model?
-
     private String animationName;
     private boolean canBuild, fadingIn;
     private Color color = new Color();
@@ -43,7 +41,7 @@ public class BluePrintView extends AnimatedSpriteView {
             BluePrintModel bluePrint = (BluePrintModel) model;
 
             if (!bluePrint.isActive()) {
-                hide();
+                end();
                 return;
             }
 

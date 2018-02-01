@@ -11,6 +11,8 @@ import com.parkingtycoon.models.BaseModel;
  */
 public abstract class BaseView implements Renderable {
 
+    public boolean ended;
+
     /*
     The show method registers the View at the RenderController.
     This method should not be called before the constructor of the View is finished,
@@ -20,8 +22,9 @@ public abstract class BaseView implements Renderable {
         CompositionRoot.getInstance().renderController.registerView(this);
     }
 
-    public void hide() {
+    public void end() {
         CompositionRoot.getInstance().renderController.unregisterView(this);
+        ended = true;
     }
 
     public void start() {}

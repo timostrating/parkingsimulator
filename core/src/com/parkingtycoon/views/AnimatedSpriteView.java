@@ -76,7 +76,8 @@ public class AnimatedSpriteView extends SpriteView {
     protected void flip(boolean x, boolean y) {
         flipX = x;
         flipY = y;
-        setRegion(currentAnimation.get(currentFrame));
+        if (currentAnimation != null && currentFrame != -1)
+            setRegion(currentAnimation.get(currentFrame));
     }
 
     protected void setRegion(AnimatedSpriteModel.Animation.Frame f) {

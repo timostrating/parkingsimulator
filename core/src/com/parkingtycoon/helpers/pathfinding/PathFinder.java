@@ -1,7 +1,6 @@
 package com.parkingtycoon.helpers.pathfinding;
 
 import com.parkingtycoon.Game;
-import com.parkingtycoon.helpers.Random;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +74,7 @@ public class PathFinder {
                         if (!navMap.allowDiagonalPaths && x != current.x && y != current.y)
                             continue; // continue if diagonal paths are not allowed
 
-                        int h = (Math.abs(x - toX) + Math.abs(y - toY)) * 10 + Random.randomInt(0, 5) + navMap.avoidScore(x, y) * 50;
+                        int h = (Math.abs(x - toX) + Math.abs(y - toY)) * 10 + navMap.avoidScore(x, y) * 20;
 
                         Node newNode = new Node(x, y, current, h);
 

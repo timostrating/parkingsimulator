@@ -18,14 +18,16 @@ import java.util.List;
  */
 public class CarView extends AnimatedSpriteView {
 
+    private static final String[] CAR_VARIATIONS = {"pontiac", "pontiac_blue"};
+
     private List<PathFinder.Node> path;
     private Color pathColor = new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), 1);
     private float extra = Random.randomInt(0, 10) / 100f;
     private AABB aabb;
     private boolean waiting, inQueue, disappearing;
 
-    public CarView(float appearX, float appearY) {
-        super("sprites/cars/pontiac", true);
+    public CarView(float appearX, float appearY, boolean vip) {
+        super("sprites/cars/" + (vip ? "cadillac" : Random.choice(CAR_VARIATIONS)), true);
         spritePosition.set(appearX, appearY);
     }
 
@@ -67,17 +69,17 @@ public class CarView extends AnimatedSpriteView {
     public void preRender() {
         if (spriteModel.speedMultiplier <= 3) // smooth transition
             sprite.setOriginBasedPosition(
-                    (spritePosition.x + sprite.getX() * 3) / 4f,
-                    (spritePosition.y + sprite.getY() * 3) / 4f
+                    ((sprite.getX() + .5f) * 3 + spritePosition.x - 1) / 4f,
+                    ((sprite.getY() + .5f) * 3 + spritePosition.y - 1) / 4f
             );
         else
-            sprite.setOriginBasedPosition(spritePosition.x - 1.5f, spritePosition.y - 1.5f);
+            sprite.setOriginBasedPosition(spritePosition.x - 1, spritePosition.y - 1);
 
         if (disappearing) {
             float alpha = Math.max(0, sprite.getColor().a - .05f * spriteModel.speedMultiplier);
             sprite.setColor(1, 1, 1, alpha);
             if (alpha == 0)
-                hide();
+                end();
         }
     }
 

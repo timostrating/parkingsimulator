@@ -30,13 +30,6 @@ public class IntVector2 {
         return vector.x == x && vector.y == y;
     }
 
-    public int hashCode() {
-        if (y < 0 || x < 0) {
-            return 0;
-        }
-        return Integer.valueOf("1" + x + "0" + y);
-    }
-
     public String toString() {
         return "(" + x + ", " + y + ")";
     }

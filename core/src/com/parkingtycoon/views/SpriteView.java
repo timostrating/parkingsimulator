@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.parkingtycoon.Game;
 import com.parkingtycoon.models.BaseModel;
 
 import java.util.HashMap;
@@ -34,7 +33,6 @@ public class SpriteView extends BaseView {
 
     protected Vector2 spritePosition = new Vector2();
     protected Sprite sprite = new Sprite();
-    protected boolean visible = true;
     protected String spritePath;
 
     public SpriteView(String spritePath) {
@@ -44,8 +42,8 @@ public class SpriteView extends BaseView {
     @Override
     public void start() {
         Texture texture = TEXTURES.get(spritePath);
-        sprite.setTexture(texture);
-        sprite.setSize(sprite.getWidth() / 32f, sprite.getHeight() / 32f);
+        sprite.setRegion(texture);
+        sprite.setSize(texture.getWidth() / 32f, texture.getHeight() / 32f);
         super.start();
     }
 
@@ -54,14 +52,12 @@ public class SpriteView extends BaseView {
 
     @Override
     public void render(SpriteBatch batch) {
-        if (!visible) return;
-
         sprite.draw(batch);
     }
 
     @Override
     public float renderIndex() {
-        return (sprite.getY() + Game.WORLD_HEIGHT) / (Game.WORLD_HEIGHT * 2f);
+        return sprite.getY();
     }
 
     @Override

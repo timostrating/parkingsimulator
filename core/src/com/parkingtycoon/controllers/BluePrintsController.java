@@ -29,7 +29,7 @@ public class BluePrintsController extends UpdateableController {
 
         add(new BluePrintModel(
                 // title:
-                "Entrance barrier",
+                "Entrance",
                 // description:
                 "Your garage needs at least one entrance.",
                 // sprite:
@@ -45,7 +45,28 @@ public class BluePrintsController extends UpdateableController {
                         {null, FloorModel.FloorType.ROAD, null}
                 },
                 // builder:
-                (x, y, angle, floor) -> CompositionRoot.getInstance().entrancesController.createEntrance(x, y, angle, floor)
+                (x, y, angle, floor) -> CompositionRoot.getInstance().entrancesController.createEntrance(x, y, angle, floor, false)
+        ));
+
+        add(new BluePrintModel(
+                // title:
+                "V.I.P. Entrance",
+                // description:
+                "Build a special entrance for parking-subscribers.",
+                // sprite:
+                "sprites/entrance", 0, 0,
+                // price:
+                1000,
+                // FloorTypes that this building can be build on:
+                EnumSet.of(FloorModel.FloorType.ROAD, FloorModel.FloorType.GRASS),
+                // Floor that will appear under the building:
+                new FloorModel.FloorType[][]{
+                        {null, FloorModel.FloorType.ROAD, null},
+                        {FloorModel.FloorType.GRASS, FloorModel.FloorType.BARRIER, FloorModel.FloorType.GRASS},
+                        {null, FloorModel.FloorType.ROAD, null}
+                },
+                // builder:
+                (x, y, angle, floor) -> CompositionRoot.getInstance().entrancesController.createEntrance(x, y, angle, floor, true)
         ));
 
         add(new BluePrintModel(
@@ -112,6 +133,12 @@ public class BluePrintsController extends UpdateableController {
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_2, () -> {
+            nextToBeBuilt = bluePrints.get(2);
+            return true;
+        });
+
+        // temporary:
+        root.inputController.onKeyDown.put(Input.Keys.NUM_6, () -> {
             nextToBeBuilt = bluePrints.get(1);
             return true;
         });
@@ -167,7 +194,6 @@ public class BluePrintsController extends UpdateableController {
             } else if (clicked && !canBuild) {
                 // todo: message: can't build here
             }
-
         }
 
         clicked = false;

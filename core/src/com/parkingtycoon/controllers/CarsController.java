@@ -3,7 +3,6 @@ package com.parkingtycoon.controllers;
 import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
-import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.helpers.Random;
 import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.models.CarModel;
@@ -21,20 +20,24 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     private final Vector2 diff = new Vector2(); // this vector is reused for calculations
 
-    public static final int APPEAR_X = 0, APPEAR_Y = 0, DISAPPEAR_X = 99, DISAPPEAR_Y = 0;
-
     private FloorsController floorsController = CompositionRoot.getInstance().floorsController;
 
     public void spawnCar() {
         CarModel car = new CarModel();
-        car.position.set(Random.randomInt(10) * 9, 0);
+        car.vip = Math.random() > .7f; // todo: change with slider
+
+        if (Math.random() > .5f)
+            car.position.set(Random.randomInt(10) * 9, Math.random() > .5f ? 0 : Game.WORLD_HEIGHT - 1);
+        else
+            car.position.set(Random.randomInt(10) * 9, Math.random() > .5f ? 0 : Game.WORLD_HEIGHT - 1);
+
         pathFollowers.add(car);
-        CarView carView = new CarView(APPEAR_X, APPEAR_Y);
+        CarView carView = new CarView(car.position.x, car.position.y, car.vip);
         carView.show();
         car.registerView(carView);
 
-        if (!CompositionRoot.getInstance().entrancesController.addToQueue(car) && !sendToEndOfTheWorld(car))
-            car.setDisappeared();
+        if (!CompositionRoot.getInstance().entrancesController.addToQueue(car))
+            sendToEndOfTheWorld(car, true);
 
     }
 
@@ -45,14 +48,14 @@ public class CarsController extends PathFollowersController<CarModel> {
         for (CarModel car : pathFollowers) {
 
             if (car.waitingOn != null || car.waitingInQueue) // increase waitingTime so that cars will avoid this place
-                floorsController.floors.get(car.floor).waitingTime[(int) car.position.x][(int) car.position.y]++;
+                floorsController.floors.get(car.floor).waitingTime[(int) car.position.x][(int) car.position.y] += 5;
 
             if (car.parked && car.timer++ >= car.endTime - car.startTime) {
 
                 // time for this car to leave
 
-                if (sendToExit(car)) {
-                    Logger.info("Car at " + car.position + " sent to exit after staying " + car.timer + " updates.");
+                if (!sendToExit(car)) {
+                    car.timer -= 10; // try again after 10 updates. This to prevent extreme lag
                 }
 
             }
@@ -68,7 +71,7 @@ public class CarsController extends PathFollowersController<CarModel> {
 
             detectCollisions(car);
 
-            if (car.waitingOn != null)
+            if (car.waitingOn != null || car.direction.isZero())
                 car.brake = 1;                               // brake
             else
                 car.brake = Math.max(0, car.brake - .015f);  // accelerate
@@ -171,7 +174,7 @@ public class CarsController extends PathFollowersController<CarModel> {
 
                     floor.parkedCars[x][y] = car;
 
-                    Logger.info("Car parked at (" + x + ", " + y + ") on floor " + i);
+//                    Logger.info("Car parked at (" + x + ", " + y + ") on floor " + i);
                     return true;
                 }
             }
@@ -181,6 +184,10 @@ public class CarsController extends PathFollowersController<CarModel> {
     }
 
     private boolean sendToParkingPlace(CarModel car, int floor, int x, int y, int fromX, int fromY) {
+
+        if (!floorsController.floors.get(floor).accessibleParkables[x][y])
+            return false;
+
         PathFollowerModel.Goal goal = new PathFollowerModel.Goal(
                 floor, x, y,
                 fromX, fromY
@@ -190,13 +197,17 @@ public class CarsController extends PathFollowersController<CarModel> {
             public void arrived() {
                 car.parked = true;
                 car.startTime = CompositionRoot.getInstance().simulationController.getUpdates();
-                car.endTime = car.startTime + Random.randomInt(200, 600);
+                car.endTime = car.startTime + Random.randomInt(
+                        240 * SimulationController.REAL_TIME_UPDATES_PER_SECOND,
+                        500 * SimulationController.REAL_TIME_UPDATES_PER_SECOND
+                );
             }
 
             @Override
             public void failed() {
-                if (!parkCar(car))
-                    sendToExit(car);
+                clearParkingSpace(car);
+                if (!parkCar(car) && !sendToExit(car))
+                    sendToEndOfTheWorld(car, true);
             }
 
         };
@@ -213,13 +224,23 @@ public class CarsController extends PathFollowersController<CarModel> {
         return false;
     }
 
-    public boolean sendToEndOfTheWorld(CarModel car) {
-        return sendToEndOfTheWorld(car, (int) car.position.x, (int) car.position.y);
+    public boolean sendToEndOfTheWorld(CarModel car, boolean forced) {
+        return sendToEndOfTheWorld(car, (int) car.position.x, (int) car.position.y, forced);
     }
 
-    public boolean sendToEndOfTheWorld(CarModel car, int fromX, int fromY) {
+    public boolean sendToEndOfTheWorld(CarModel car, int fromX, int fromY, boolean forced) {
 
-        if (setGoal(car, new PathFollowerModel.Goal(0, DISAPPEAR_X, DISAPPEAR_Y, fromX, fromY) {
+        int toX = 0, toY = 0;
+        if (Math.random() > .5f) {
+            toX = Random.randomInt(10) * 9;
+            toY = Math.random() > .5f ? 0 : Game.WORLD_HEIGHT - 1;
+        } else {
+            toX = Random.randomInt(10) * 9;
+            toY = Math.random() > .5f ? 0 : Game.WORLD_HEIGHT - 1;
+        }
+
+        if (setGoal(car, new PathFollowerModel.Goal(0, toX, toY, fromX, fromY) {
+
             @Override
             public void arrived() {
                 car.setDisappeared();
@@ -229,16 +250,20 @@ public class CarsController extends PathFollowersController<CarModel> {
             public void failed() {
                 car.setDisappeared();
             }
-        })) {
 
+        })) {
             clearParkingSpace(car);
             return true;
-        }
 
+        } else if (forced) {
+            clearParkingSpace(car);
+            car.setDisappeared();
+            return true;
+        }
         return false;
     }
 
-    private void clearParkingSpace(CarModel car) {
+    public void clearParkingSpace(CarModel car) {
 
         FloorModel floor = floorsController.floors.get(car.floor);
 
