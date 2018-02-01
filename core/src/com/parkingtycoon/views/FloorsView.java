@@ -1,7 +1,9 @@
 package com.parkingtycoon.views;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
@@ -70,7 +72,7 @@ public final class FloorsView extends BaseView {
                 OrthographicCamera camera = CompositionRoot.getInstance().renderController.getMainCamera();
 
                 if (transitionIn) {
-                    camera.position.y += transitionDistance * transitionDirection;
+                    camera.position.y += transitionDistance * 2 * transitionDirection;
                     camera.update();
                 } else if (transitionOut)
                     transitionDistance = camera.zoom;
@@ -140,11 +142,15 @@ public final class FloorsView extends BaseView {
         float x = Gdx.input.getX() / (float) Gdx.graphics.getWidth();
         float y = Gdx.input.getY() / (float) Gdx.graphics.getHeight();
 
-        if (x < .02f && camera.position.x > 0) camera.position.x -= .1f * camera.zoom;
-        else if (x > .98f && camera.position.x < 400) camera.position.x += .1f * camera.zoom;
+        if (x < .02f && camera.position.x > 0)
+            camera.position.x -= .1f * camera.zoom;
+        else if (x > .98f && camera.position.x < 400)
+            camera.position.x += .1f * camera.zoom;
 
-        if (y < .02f && camera.position.y < 100) camera.position.y += .1f * camera.zoom;
-        else if (y > .98f && camera.position.y > -100) camera.position.y -= .1f * camera.zoom;
+        if (y < .02f && camera.position.y < 100)
+            camera.position.y += .1f * camera.zoom;
+        else if (y > .98f && camera.position.y > -100)
+            camera.position.y -= .1f * camera.zoom;
 
         if ((transitionIn || transitionOut) && transitionTimer <= TRANSITION_DURATION) {
             float deltaTime = Gdx.graphics.getDeltaTime();
@@ -174,33 +180,39 @@ public final class FloorsView extends BaseView {
         for (int x = 0; x < Game.WORLD_WIDTH; x++) {
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
-                TiledMapTile tile;
+                TiledMapTile tile = null;
 
-                switch (getFloorType(floor, x, y)) {
-                    case GRASS:
-                        tile = tileSets.getTile(6);
-                        break;
-                    case ROAD:
-                        boolean alongX = getFloorType(floor, x - 1, y) == FloorModel.FloorType.ROAD
-                                && getFloorType(floor, x + 1, y) == FloorModel.FloorType.ROAD;
+                FloorModel.FloorType type = getFloorType(floor, x, y);
+                if (type != null) {
+                    switch (type) {
+                        case GRASS:
+                            tile = tileSets.getTile(9);
+                            break;
+                        case ROAD:
+                            boolean alongX = getFloorType(floor, x - 1, y) == FloorModel.FloorType.ROAD
+                                    && getFloorType(floor, x + 1, y) == FloorModel.FloorType.ROAD;
 
-                        boolean alongY = getFloorType(floor, x, y - 1) == FloorModel.FloorType.ROAD
-                                && getFloorType(floor, x, y + 1) == FloorModel.FloorType.ROAD;
+                            boolean alongY = getFloorType(floor, x, y - 1) == FloorModel.FloorType.ROAD
+                                    && getFloorType(floor, x, y + 1) == FloorModel.FloorType.ROAD;
 
-                        if (alongX == alongY)
+                            if (alongX == alongY)
+                                tile = tileSets.getTile(3);
+                            else
+                                tile = tileSets.getTile(alongX ? 2 : 1);
+
+                            break;
+                        case PARKABLE:
+                            tile = tileSets.getTile(4);
+                            break;
+                        case BARRIER:
                             tile = tileSets.getTile(3);
-                        else
-                            tile = tileSets.getTile(alongX ? 2 : 1);
-
-                        break;
-                    case PARKABLE:
-                        tile = tileSets.getTile(4);
-                        break;
-                    case BARRIER:
-                        tile = tileSets.getTile(3);
-                        break;
-                    default:
-                        tile = tileSets.getTile(6);
+                            break;
+                        case CONCRETE:
+                            tile = tileSets.getTile(5);
+                            break;
+                        default:
+                            tile = tileSets.getTile(6);
+                    }
                 }
 
                 TiledMapTileLayer.Cell cell = layer.getCell(x, Game.WORLD_HEIGHT - y - 1);

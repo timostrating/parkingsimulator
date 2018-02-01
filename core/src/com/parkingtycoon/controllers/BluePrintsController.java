@@ -138,7 +138,7 @@ public class BluePrintsController extends UpdateableController {
         });
 
         // temporary:
-        root.inputController.onKeyDown.put(Input.Keys.NUM_6, () -> {
+        root.inputController.onKeyDown.put(Input.Keys.NUM_7, () -> {
             nextToBeBuilt = bluePrints.get(1);
             return true;
         });

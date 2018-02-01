@@ -46,7 +46,7 @@ public class FloorsController extends UpdateableController {
         view = new FloorsView();
 
         for (int i = 0; i < 10; i++)
-            createFloor();
+            createFloor(i == 0);
 
         setCurrentFloor(0);
 
@@ -64,6 +64,11 @@ public class FloorsController extends UpdateableController {
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_5, () -> {
+            nextFloorType = FloorModel.FloorType.CONCRETE;
+            return true;
+        });
+        // temporary:
+        root.inputController.onKeyDown.put(Input.Keys.NUM_6, () -> {
             nextFloorType = FloorModel.FloorType.GRASS;
             return true;
         });
@@ -197,7 +202,7 @@ public class FloorsController extends UpdateableController {
         }
     }
 
-    private FloorModel createFloor() {
+    private void createFloor(boolean first) {
         FloorModel floor = new FloorModel();
 
         for (int x = 0; x < Game.WORLD_WIDTH; x++) {
@@ -208,9 +213,12 @@ public class FloorsController extends UpdateableController {
 
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
-                floor.tiles[x][y] = inBuildZone(x, y) ?
-                        FloorModel.FloorType.GRASS :
-                        (x % 9 == 0 || y % 9 == 0 ? FloorModel.FloorType.ROAD : FloorModel.FloorType.GRASS);
+                if (first)
+                    floor.tiles[x][y] = inBuildZone(x, y) ?
+                            FloorModel.FloorType.GRASS :
+                            (x % 9 == 0 || y % 9 == 0 ? FloorModel.FloorType.ROAD : FloorModel.FloorType.GRASS);
+                else
+                    floor.tiles[x][y] = inBuildZone(x, y) ? FloorModel.FloorType.CONCRETE : null;
             }
         }
 
@@ -219,8 +227,6 @@ public class FloorsController extends UpdateableController {
 
         floor.registerView(view);
         floors.add(floor);
-
-        return floor;
     }
 
     private void setNewFloorFlag(FloorModel floor) {

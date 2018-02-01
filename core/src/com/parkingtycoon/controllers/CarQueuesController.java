@@ -73,7 +73,6 @@ public abstract class CarQueuesController extends UpdateableController {
                 if (!addToQueue(car))
                     CompositionRoot.getInstance().carsController.sendToEndOfTheWorld(car, true);
             }
-
         };
 
         return CompositionRoot.getInstance().carsController.setGoal(car, goal);

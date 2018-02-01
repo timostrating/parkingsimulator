@@ -12,7 +12,8 @@ public class FloorModel extends BaseModel {
         ROAD,
         PARKABLE,
         GRASS,
-        BARRIER
+        BARRIER,
+        CONCRETE
     }
 
     public FloorType[][] tiles = new FloorType[Game.WORLD_WIDTH][];

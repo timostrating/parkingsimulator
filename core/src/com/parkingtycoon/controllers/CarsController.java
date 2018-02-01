@@ -20,8 +20,6 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     private final Vector2 diff = new Vector2(); // this vector is reused for calculations
 
-    private FloorsController floorsController = CompositionRoot.getInstance().floorsController;
-
     public void spawnCar() {
         CarModel car = new CarModel();
         car.setOnActiveFloor(car.floor == floorsController.getCurrentFloor());
@@ -282,7 +280,7 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     @Override
     protected List<PathFinder.Node> getPathToElevator(int floor, int fromX, int fromY) {
-        return null; // todo: implement elevators.
+        return getPath(0, fromX, fromY, fromX, fromY); // todo: implement elevators.
     }
 
     @Override

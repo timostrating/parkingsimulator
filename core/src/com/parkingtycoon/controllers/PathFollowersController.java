@@ -15,6 +15,8 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
 
     public ArrayList<T> pathFollowers = new ArrayList<>();
 
+    protected FloorsController floorsController = CompositionRoot.getInstance().floorsController;
+
     @Override
     public void update() {
 
@@ -50,7 +52,7 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
 
                 // todo: play elevator animation etc.
                 f.floor = f.goal.floor;
-                f.setOnActiveFloor(f.floor == CompositionRoot.getInstance().floorsController.getCurrentFloor());
+                f.setOnActiveFloor(f.floor == floorsController.getCurrentFloor());
 
                 f.pathToElevator = null;
                 f.goingToElevator = false;
