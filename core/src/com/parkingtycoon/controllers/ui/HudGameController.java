@@ -7,7 +7,7 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.views.ui.HudBuildView;
-import com.parkingtycoon.views.ui.TestListView;
+import com.parkingtycoon.views.ui.HudCarsView;
 
 /**
  * This class is responsible for the UI that changes the game.
@@ -20,6 +20,7 @@ public class HudGameController extends HudBaseController {
         super(stage);
 
         root = CompositionRoot.getInstance();
+        HudCarsView hudCarsView = new HudCarsView();
 
         // DELETE
         final VisTextButton deletedButton = new VisTextButton("delete");
@@ -51,7 +52,7 @@ public class HudGameController extends HudBaseController {
         carsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                stage.addActor(new TestListView());
+//                hudCarsView.();
             }
         });
 

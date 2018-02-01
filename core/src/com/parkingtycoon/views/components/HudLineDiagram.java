@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.parkingtycoon.helpers.Remapper;
+import com.parkingtycoon.models.ui.DiagramModel;
 
 public class HudLineDiagram extends HudDiagram {
 
     private int start = 1;
     private int maxStepSize = 500;
+    private float dataMaxValue;
 
 
     public HudLineDiagram(int width, int height) {
@@ -69,4 +71,9 @@ public class HudLineDiagram extends HudDiagram {
         start = (value < 1)? 1 : value;
     }
 
+    @Override
+    public void update(DiagramModel model) {
+        super.update(model);
+        dataMaxValue = model.getMaxY() * 1.2f;
+    }
 }

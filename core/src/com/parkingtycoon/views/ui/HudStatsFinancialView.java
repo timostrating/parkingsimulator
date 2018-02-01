@@ -15,6 +15,7 @@ import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 import com.parkingtycoon.models.BaseModel;
+import com.parkingtycoon.models.ui.DiagramModel;
 import com.parkingtycoon.views.BaseView;
 import com.parkingtycoon.views.components.HudDiagram;
 import com.parkingtycoon.views.components.HudLineDiagram;
@@ -59,7 +60,7 @@ public class HudStatsFinancialView extends BaseView {
 
     @Override
     public void updateView(BaseModel model) {
-        diagram.update(model);
+        diagram.update((DiagramModel) model);
     }
 
 

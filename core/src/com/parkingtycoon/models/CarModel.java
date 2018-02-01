@@ -18,8 +18,9 @@ public class CarModel extends PathFollowerModel {
     public boolean waitingInQueue, firstInQueue, parked;
     public CarQueueModel queue;
 
-    public String license = "";
-    public Color color;
+    private CarType carType = CarType.AD_HOC;
+
+    private String license;
 
     public CarModel() {
         speed = .2f;
@@ -36,4 +37,10 @@ public class CarModel extends PathFollowerModel {
         position.add(direction.x * (1 - brake), direction.y * (1 - brake));
         notifyViews();
     }
+
+    public enum CarType {
+        AD_HOC,
+        RESERVED
+    }
+
 }
