@@ -4,10 +4,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
+import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FloorModel;
+import com.parkingtycoon.views.FlagView;
 import com.parkingtycoon.views.FloorsView;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class FloorsController extends UpdateableController {
 
     public FloorsView view;
     public ArrayList<FloorModel> floors = new ArrayList<>();
+    public FloorModel.FloorType nextFloorType;
 
     private int currentFloor = 0;
 
@@ -46,19 +49,19 @@ public class FloorsController extends UpdateableController {
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_3, () -> {
-            floors.get(currentFloor).setNewFloorType(FloorModel.FloorType.ROAD);
+            nextFloorType = FloorModel.FloorType.ROAD;
             return true;
         });
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_4, () -> {
-            floors.get(currentFloor).setNewFloorType(FloorModel.FloorType.PARKABLE);
+            nextFloorType = FloorModel.FloorType.PARKABLE;
             return true;
         });
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_5, () -> {
-            floors.get(currentFloor).setNewFloorType(FloorModel.FloorType.GRASS);
+            nextFloorType = FloorModel.FloorType.GRASS;
             return true;
         });
 
@@ -92,12 +95,25 @@ public class FloorsController extends UpdateableController {
 
         FloorModel floor = floors.get(currentFloor);
 
+        if (nextFloorType != null) {
+            floor.setNewFloorType(nextFloorType);
+            nextFloorType = null;
+        }
+
         if (floor.getNewFloorType() != null) {
             setNewFloorFlag(floor);
             if (floor.toFlagPlaced)
                 placeNewFloorTiles(floor);
             if (floor.stopPlacing)
                 floor.setNewFloorType(null);
+        }
+
+        for (FloorModel f : floors) {
+            for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+                for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+                    f.waitingTime[x][y] += f.waitingTime[x][y] > 0 ? -1 : 0;
+                }
+            }
         }
 
     }
@@ -122,6 +138,7 @@ public class FloorsController extends UpdateableController {
 
             floor.tiles[x] = new FloorModel.FloorType[Game.WORLD_HEIGHT];
             floor.waitingTime[x] = new int[Game.WORLD_HEIGHT];
+            floor.accessibleParkables[x] = new Boolean[Game.WORLD_HEIGHT];
 
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
@@ -145,10 +162,17 @@ public class FloorsController extends UpdateableController {
                 Math.max(0, Math.min((int) cursor.y, Game.WORLD_HEIGHT - 1))
         };
 
+        if (floor.getNewFloorFrom() == null)
+            showFlag(floor, true);
+
         if (!floor.fromFlagPlaced)
             floor.setNewFloorFrom(flagCoordinates);
-        else
+        else {
+            if (floor.getNewFloorTo() == null)
+                showFlag(floor, false);
+
             floor.setNewFloorTo(flagCoordinates);
+        }
 
         Boolean[][] newFloorValid = new Boolean[Game.WORLD_WIDTH][];
 
@@ -171,7 +195,15 @@ public class FloorsController extends UpdateableController {
         floor.setNewFloorValid(newFloorValid);
     }
 
+    private void showFlag(FloorModel floor, boolean green) {
+        FlagView flag = new FlagView(green);
+        flag.show();
+        floor.registerView(flag);
+    }
+
     private void placeNewFloorTiles(FloorModel floor) {
+
+        CarsController carsController = CompositionRoot.getInstance().carsController;
 
         FloorModel.FloorType floorType = floor.getNewFloorType();
         Boolean[][] newFloorValid = floor.getNewFloorValid();
@@ -187,19 +219,56 @@ public class FloorsController extends UpdateableController {
                  y <= Math.max(floor.getNewFloorTo()[1], floor.getNewFloorFrom()[1]);
                  y++) {
 
-                if (Boolean.TRUE.equals(newFloorValid[x][y]) && CompositionRoot.getInstance().financialController.spend(1)) {
-
+                if (Boolean.TRUE.equals(newFloorValid[x][y]) && CompositionRoot.getInstance().financialController.spend(10)) {
                     floor.setTile(x, y, floorType);
 
+                    CarModel parkedHere = floor.parkedCars[x][y];
+                    if (parkedHere != null && !carsController.sendToExit(parkedHere)) {
+
+                        carsController.sendToEndOfTheWorld(parkedHere, true);
+                    }
                 }
             }
         }
 
-        // todo: do something with all cars that are (to be) parked on changed tiles.
-
         floor.setNewFloorType(null);
+        checkParkables(floor);
+        carsController.onTerrainChange(floors.indexOf(floor), newFloorValid);
+    }
 
-        CompositionRoot.getInstance().carsController.onTerrainChange(floors.indexOf(floor), newFloorValid);
+    private void checkParkables(FloorModel floor) {
+
+        for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+
+            FloorModel.FloorType prevType = FloorModel.FloorType.GRASS;
+
+            for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+
+                FloorModel.FloorType type = floor.tiles[x][y];
+                floor.accessibleParkables[x][y] = type != FloorModel.FloorType.PARKABLE
+                        || prevType == FloorModel.FloorType.ROAD
+                        || isParkableAccessible(floor, x, y);
+
+                prevType = type;
+            }
+        }
+    }
+
+    private boolean isParkableAccessible(FloorModel floor, int parkableX, int parkableY) {
+
+        for (int angle = 0; angle < 4; angle++) {
+
+            int x = parkableX + CoordinateRotater.rotate(1, 1, 0, 1, angle);
+            int y = parkableY + CoordinateRotater.rotate(0, 1, 1, 1, angle);
+
+            if (x < 0 || x >= Game.WORLD_WIDTH || y < 0 || y >= Game.WORLD_HEIGHT)
+                continue;
+
+            if (floor.tiles[x][y] == FloorModel.FloorType.ROAD)
+                return true;
+
+        }
+        return false;
     }
 
 }

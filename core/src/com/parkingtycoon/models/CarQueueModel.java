@@ -8,11 +8,14 @@ import java.util.ArrayList;
 public class CarQueueModel extends BuildableModel {
 
     public int popTimer; // when popTimer == POP_INTERVAL -> pop car
+    public final boolean normal, vip;
 
     public ArrayList<CarModel> cars = new ArrayList<>();
 
-    public CarQueueModel(int x, int y, int angle, int floor) {
+    public CarQueueModel(int x, int y, int angle, int floor, boolean normal, boolean vip) {
         super(x, y, angle, floor);
+        this.normal = normal;
+        this.vip = vip;
     }
 
     public boolean removeCar(CarModel car) {

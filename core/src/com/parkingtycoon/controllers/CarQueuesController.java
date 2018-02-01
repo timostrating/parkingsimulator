@@ -3,10 +3,12 @@ package com.parkingtycoon.controllers;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.Random;
-
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.models.PathFollowerModel;
+import com.parkingtycoon.views.queue.ArrowView;
+import com.parkingtycoon.views.queue.BarrierView;
+import com.parkingtycoon.views.queue.QueueSignView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +35,10 @@ public abstract class CarQueuesController extends UpdateableController {
         Collections.shuffle(queues);
         for (CarQueueModel q : queues) {
 
-            if (q.cars.size() <= maxQueueSize && sendCarToQueue(q, car) && q.cars.add(car)) {
+            if (((q.vip && car.vip) || (q.normal && !car.vip))
+                    && q.cars.size() <= maxQueueSize
+                    && sendCarToQueue(q, car)
+                    && q.cars.add(car)) {
 
                 car.waitingInQueue = true;
                 car.firstInQueue = false;
@@ -66,7 +71,7 @@ public abstract class CarQueuesController extends UpdateableController {
                 queue.removeCar(car);
 
                 if (!addToQueue(car))
-                    CompositionRoot.getInstance().carsController.sendToEndOfTheWorld(car);
+                    CompositionRoot.getInstance().carsController.sendToEndOfTheWorld(car, true);
             }
 
         };
@@ -98,7 +103,7 @@ public abstract class CarQueuesController extends UpdateableController {
                         //reset popTimer
                         queue.popTimer = 0;
 
-                    } else queue.popTimer -= 5;
+                    } else queue.popTimer -= 100;
                 }
                 break;
             }
@@ -106,5 +111,17 @@ public abstract class CarQueuesController extends UpdateableController {
     }
 
     protected abstract boolean nextAction(CarModel car);
+
+    protected void createViews(CarQueueModel queue, String type) {
+        QueueSignView queueSign = new QueueSignView(type + queue.angle % 2);
+        queueSign.show();
+        queue.registerView(queueSign);
+        BarrierView barrier = new BarrierView();
+        barrier.show();
+        queue.registerView(barrier);
+        ArrowView arrow = new ArrowView();
+        queue.registerView(arrow);
+        arrow.show();
+    }
 
 }
