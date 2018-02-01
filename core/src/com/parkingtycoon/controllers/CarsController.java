@@ -24,6 +24,7 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     public void spawnCar() {
         CarModel car = new CarModel();
+        car.setOnActiveFloor(car.floor == floorsController.getCurrentFloor());
         car.vip = Math.random() > .7f; // todo: change with slider
 
         if (Math.random() > .5f)

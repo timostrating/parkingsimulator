@@ -48,6 +48,7 @@ public class Game extends com.badlogic.gdx.Game {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
+
         font = new BitmapFont();
 
         Gdx.input.setInputProcessor(inputMultiplexer);

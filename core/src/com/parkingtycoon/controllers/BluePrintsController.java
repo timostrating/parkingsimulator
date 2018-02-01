@@ -280,5 +280,7 @@ public class BluePrintsController extends UpdateableController {
 
             }
         }
+
+        floorsController.updateBuildings(floorIndex);
     }
 }

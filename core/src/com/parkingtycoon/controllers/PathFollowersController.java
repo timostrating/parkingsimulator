@@ -1,5 +1,6 @@
 package com.parkingtycoon.controllers;
 
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.models.PathFollowerModel;
 
@@ -49,6 +50,7 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
 
                 // todo: play elevator animation etc.
                 f.floor = f.goal.floor;
+                f.setOnActiveFloor(f.floor == CompositionRoot.getInstance().floorsController.getCurrentFloor());
 
                 f.pathToElevator = null;
                 f.goingToElevator = false;
@@ -133,6 +135,11 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
                 }
             }
         }
+    }
+
+    public void onFloorSwitch(int floor) {
+        for (T f : pathFollowers)
+            f.setOnActiveFloor(f.floor == floor);
     }
 
     public boolean setGoal(T pathFollower, PathFollowerModel.Goal goal) {

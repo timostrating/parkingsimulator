@@ -22,9 +22,16 @@ public class FloorModel extends BaseModel {
     public BuildableModel[][] buildings = new BuildableModel[Game.WORLD_WIDTH][];
 
     public boolean fromFlagPlaced, toFlagPlaced, stopPlacing;
+
     private Boolean[][] newFloorValid;
     private int[] newFloorFrom, newFloorTo;
     private FloorType newFloorType;
+
+    private boolean transitionIn, transitionOut;
+
+    public int transitionDirection;
+
+    public static final float TRANSITION_DURATION = .15f;
 
     public NavMap carNavMap = new NavMap() {
         @Override
@@ -97,5 +104,21 @@ public class FloorModel extends BaseModel {
         this.newFloorValid = newFloorValid;
         notifyViews();
     }
+
+    public boolean getTransitionIn() {
+        return transitionIn;
+    }
+
+    public boolean getTransitionOut() {
+        return transitionOut;
+    }
+
+    public void setTransition(boolean in, int direction) {
+        this.transitionIn = in;
+        this.transitionOut = !in;
+        this.transitionDirection = direction;
+        notifyViews();
+    }
+
 
 }

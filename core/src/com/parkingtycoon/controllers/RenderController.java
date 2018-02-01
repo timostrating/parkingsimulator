@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.Delegate;
@@ -20,6 +21,7 @@ public class RenderController extends BaseController {
 
     private Delegate.Notifier<BaseView> preRenderer = BaseView::preRender;
     private Delegate.Notifier<BaseView> renderer;
+    private Delegate.Notifier<BaseView> shapeRenderer;
     private Delegate.Notifier<BaseView> debugRenderer;
     private Delegate.Sorter<BaseView> sorter = BaseView::renderIndex;
     private Delegate.Starter<BaseView> starter = BaseView::start;
@@ -31,6 +33,7 @@ public class RenderController extends BaseController {
         super();
         this.game = game;
         renderer = object -> object.render(game.batch);
+        shapeRenderer = object -> object.renderShapes(game.shapeRenderer);
         debugRenderer = object -> object.debugRender(game.shapeRenderer);
 
         CompositionRoot.getInstance().inputController.onKeyDown.put(Input.Keys.F3, () -> {
@@ -53,6 +56,13 @@ public class RenderController extends BaseController {
         game.batch.begin();
         views.notifyObjects(renderer);          // for every view -> call render(game.batch)
         game.batch.end();
+
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        views.notifyObjects(shapeRenderer);
+        game.shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
 
         if (debug) {
             Gdx.gl.glLineWidth(3);

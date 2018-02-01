@@ -2,11 +2,13 @@ package com.parkingtycoon.controllers;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.helpers.Logger;
+import com.parkingtycoon.models.BuildableModel;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.views.FlagView;
@@ -23,7 +25,8 @@ public class FloorsController extends UpdateableController {
     public ArrayList<FloorModel> floors = new ArrayList<>();
     public FloorModel.FloorType nextFloorType;
 
-    private int currentFloor = 0;
+    private int currentFloor = 0, nextFloor;
+    private boolean up, down;
 
     public static final int BUILD_MARGIN = 15;
 
@@ -40,10 +43,10 @@ public class FloorsController extends UpdateableController {
 
         CompositionRoot root = CompositionRoot.getInstance();
 
-        FloorModel floor = createFloor();
         view = new FloorsView();
-        floor.registerView(view);
-        floors.add(floor);
+
+        for (int i = 0; i < 10; i++)
+            createFloor();
 
         setCurrentFloor(0);
 
@@ -62,6 +65,16 @@ public class FloorsController extends UpdateableController {
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_5, () -> {
             nextFloorType = FloorModel.FloorType.GRASS;
+            return true;
+        });
+
+        root.inputController.onKeyDown.put(Input.Keys.UP, () -> {
+            up = true;
+            return true;
+        });
+
+        root.inputController.onKeyDown.put(Input.Keys.DOWN, () -> {
+            down = true;
             return true;
         });
 
@@ -95,6 +108,35 @@ public class FloorsController extends UpdateableController {
 
         FloorModel floor = floors.get(currentFloor);
 
+        if (up || down) {
+            int toBeNext = currentFloor + (up ? 1 : -1);
+
+            if (floorExists(toBeNext)) {
+
+                floor.setTransition(false, up ? -1 : 1);
+                new Timer().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        nextFloor = toBeNext;
+                    }
+                }, FloorModel.TRANSITION_DURATION);
+            }
+
+            up = false;
+            down = false;
+        }
+
+        if (nextFloor != currentFloor) {
+            int prevIndex = currentFloor;
+            setCurrentFloor(nextFloor);
+
+            if (nextFloor != currentFloor) // the floor was just removed
+                nextFloor = currentFloor;
+
+            floor = floors.get(currentFloor);
+            floor.setTransition(true, prevIndex <= currentFloor ? -1 : 1);
+        }
+
         if (nextFloorType != null) {
             floor.setNewFloorType(nextFloorType);
             nextFloorType = null;
@@ -118,17 +160,41 @@ public class FloorsController extends UpdateableController {
 
     }
 
-    public void setCurrentFloor(int currentFloor) {
-        if (currentFloor < 0 || currentFloor >= floors.size())
+    private boolean floorExists(int index) {
+        return index >= 0 && index < floors.size();
+    }
+
+    public void setCurrentFloor(int index) {
+        if (!floorExists(index))
             return;
 
-        this.currentFloor = currentFloor;
+        int prevFloor = currentFloor;
+        currentFloor = index;
+
+        updateBuildings(prevFloor);
+        updateBuildings(currentFloor);
+
         for (int i = 0; i < floors.size(); i++)
-            floors.get(i).setCurrentFloor(i == currentFloor);
+            floors.get(i).setCurrentFloor(i == index);
+
+        CompositionRoot.getInstance().carsController.onFloorSwitch(index);
     }
 
     public int getCurrentFloor() {
         return currentFloor;
+    }
+
+    public void updateBuildings(int floorIndex) {
+        FloorModel floor = floors.get(floorIndex);
+        for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+            for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+                if (floor.buildings[x] != null
+                        && floor.buildings[x][y] != null) {
+                    BuildableModel building = floor.buildings[x][y];
+                    building.setOnActiveFloor(building.floor == currentFloor);
+                }
+            }
+        }
     }
 
     private FloorModel createFloor() {
@@ -150,6 +216,9 @@ public class FloorsController extends UpdateableController {
 
         for (int x = 0; x < Game.WORLD_WIDTH; x++)
             floor.parkedCars[x] = new CarModel[Game.WORLD_HEIGHT];
+
+        floor.registerView(view);
+        floors.add(floor);
 
         return floor;
     }
