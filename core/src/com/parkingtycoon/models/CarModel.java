@@ -2,14 +2,17 @@ package com.parkingtycoon.models;
 
 import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.helpers.AABB;
-import com.badlogic.gdx.graphics.Color;
 import com.parkingtycoon.helpers.LicenceGenerator;
-import com.parkingtycoon.helpers.Random;
 
 /**
  * This Class is responsible for storing all data that is known to a Car.
  */
 public class CarModel extends PathFollowerModel {
+  
+    public enum CarType {
+        AD_HOC,
+        RESERVED
+    }
 
     public float brake = 0;
     public long startTime, endTime, timer;
@@ -18,21 +21,13 @@ public class CarModel extends PathFollowerModel {
     public boolean waitingInQueue, firstInQueue, parked, vip;
     public CarQueueModel queue;
 
-    public String license;
-    public Color color;
+    private CarType carType = CarType.AD_HOC;
+    private String license;
 
+  
     public CarModel() {
         speed = .2f;
         license = LicenceGenerator.getRandomLicencePlate();
-        color = Random.randomColor();
-    }
-
-    /**
-     * Optional constructor where you need to give me a license plate string
-     * @param license a string that is used as identifying the car
-     */
-    public CarModel(String license) {
-        this.license = license;
     }
 
     public String getLicense() {
@@ -44,4 +39,5 @@ public class CarModel extends PathFollowerModel {
         position.add(direction.x * (1 - brake), direction.y * (1 - brake));
         notifyViews();
     }
+
 }

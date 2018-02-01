@@ -12,7 +12,7 @@ public class HudFinancialController extends UpdateableController {
     private DiagramModel diagramModel;
 
 
-    public HudFinancialController(Stage stage) {
+    public HudFinancialController(Stage stage) { // TODO: Clean up the naming
         root = CompositionRoot.getInstance();
         diagramModel = new DiagramModel("Financial diagramModel");
         HudStatsFinancialView windowView = new HudStatsFinancialView(stage);
