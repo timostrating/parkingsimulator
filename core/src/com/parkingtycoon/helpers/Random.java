@@ -32,4 +32,8 @@ public class Random {
         return list.get(R.nextInt(list.size()));
     }
 
+    public static <T> T choice(T[] list) {
+        return list[R.nextInt(list.length)];
+    }
+
 }

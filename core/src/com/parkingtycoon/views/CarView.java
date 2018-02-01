@@ -18,14 +18,16 @@ import java.util.List;
  */
 public class CarView extends AnimatedSpriteView {
 
+    private static final String[] CAR_VARIATIONS = {"pontiac", "pontiac_blue"};
+
     private List<PathFinder.Node> path;
     private Color pathColor = new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), 1);
     private float extra = Random.randomInt(0, 10) / 100f;
     private AABB aabb;
     private boolean waiting, inQueue, disappearing;
 
-    public CarView(float appearX, float appearY) {
-        super("sprites/cars/cadillac", true);
+    public CarView(float appearX, float appearY, boolean vip) {
+        super("sprites/cars/" + (vip ? "cadillac" : Random.choice(CAR_VARIATIONS)), true);
         spritePosition.set(appearX, appearY);
     }
 

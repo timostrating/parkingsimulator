@@ -17,7 +17,7 @@ public class ExitsController extends CarQueuesController {
     @Override
     protected boolean nextAction(CarModel car) {
         CompositionRoot root = CompositionRoot.getInstance();
-        root.financialController.addAmount(100); // todo: change amount
+        root.financialController.addAmount(car.vip ? 200 : 100); // todo: change amount
 
         int fromX = car.queue.x + CoordinateRotater.rotate(0, 3, 1, 3, car.queue.angle);
         int fromY = car.queue.y + CoordinateRotater.rotate(1, 3, 0, 3, car.queue.angle);
@@ -26,10 +26,8 @@ public class ExitsController extends CarQueuesController {
     }
 
     public CarQueueModel createExit(int x, int y, int angle, int floor) {
-        CarQueueModel exit = new CarQueueModel(x, y, angle, floor);
-//        QueueSignView view = new QueueSignView();
-//        view.show();
-//        exit.registerView(view);
+        CarQueueModel exit = new CarQueueModel(x, y, angle, floor, true, true);
+        createViews(exit, "exit");
         queues.add(exit);
         return exit;
     }

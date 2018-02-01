@@ -20,8 +20,8 @@ import java.util.ArrayList;
 public class FloorsController extends UpdateableController {
 
     public FloorsView view;
-    public FlagView greenFlag, redFlag;
     public ArrayList<FloorModel> floors = new ArrayList<>();
+    public FloorModel.FloorType nextFloorType;
 
     private int currentFloor = 0;
 
@@ -49,19 +49,19 @@ public class FloorsController extends UpdateableController {
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_3, () -> {
-            floors.get(currentFloor).setNewFloorType(FloorModel.FloorType.ROAD);
+            nextFloorType = FloorModel.FloorType.ROAD;
             return true;
         });
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_4, () -> {
-            floors.get(currentFloor).setNewFloorType(FloorModel.FloorType.PARKABLE);
+            nextFloorType = FloorModel.FloorType.PARKABLE;
             return true;
         });
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_5, () -> {
-            floors.get(currentFloor).setNewFloorType(FloorModel.FloorType.GRASS);
+            nextFloorType = FloorModel.FloorType.GRASS;
             return true;
         });
 
@@ -94,6 +94,11 @@ public class FloorsController extends UpdateableController {
     public void update() {
 
         FloorModel floor = floors.get(currentFloor);
+
+        if (nextFloorType != null) {
+            floor.setNewFloorType(nextFloorType);
+            nextFloorType = null;
+        }
 
         if (floor.getNewFloorType() != null) {
             setNewFloorFlag(floor);

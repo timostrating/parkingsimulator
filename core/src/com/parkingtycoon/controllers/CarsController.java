@@ -24,6 +24,7 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     public void spawnCar() {
         CarModel car = new CarModel();
+        car.vip = Math.random() > .7f; // todo: change with slider
 
         if (Math.random() > .5f)
             car.position.set(Random.randomInt(10) * 9, Math.random() > .5f ? 0 : Game.WORLD_HEIGHT - 1);
@@ -31,7 +32,7 @@ public class CarsController extends PathFollowersController<CarModel> {
             car.position.set(Random.randomInt(10) * 9, Math.random() > .5f ? 0 : Game.WORLD_HEIGHT - 1);
 
         pathFollowers.add(car);
-        CarView carView = new CarView(car.position.x, car.position.y);
+        CarView carView = new CarView(car.position.x, car.position.y, car.vip);
         carView.show();
         car.registerView(carView);
 
