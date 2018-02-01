@@ -86,7 +86,6 @@ public class TestListView extends VisWindow {
         @Override
         protected VisTable createView (CarModel item) {
             VisLabel label = new VisLabel(item.getLicense());
-            label.setColor(item.getColor());
 
             VisTable table = new VisTable();
             table.left();
