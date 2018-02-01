@@ -51,7 +51,7 @@ public abstract class HudDiagram {
 
         drawDiagram(shapeRenderer);
 
-        shapeRenderer.end();                                // END
+        shapeRenderer.end();    // END
     }
 
     public abstract void drawDiagram(ShapeRenderer shapeRenderer); // ABSTRACT
@@ -63,4 +63,5 @@ public abstract class HudDiagram {
     public int getDataLength() {
         return (data == null)? 0 : data.length;
     }
+
 }

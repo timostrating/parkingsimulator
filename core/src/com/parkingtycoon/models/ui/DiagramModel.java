@@ -10,6 +10,12 @@ import java.util.ArrayList;
  */
 public class DiagramModel extends BaseModel {
 
+    public enum DiagramModelType {
+        MONEY,
+        CARS
+    }
+
+    private DiagramModelType diagramModelType;
     private String name;
     private float maxY;
     private float totalValue;
@@ -19,16 +25,17 @@ public class DiagramModel extends BaseModel {
     private ArrayList<Float> history = new ArrayList<>();
 
 
-    public DiagramModel(String name) {
+    public DiagramModel(String name, DiagramModelType diagramModelType) {
         this.name = name;
+        this.diagramModelType = diagramModelType;
         color = Random.randomColor();
     }
 
-    public DiagramModel(String name, Color color) {
+    public DiagramModel(String name, DiagramModelType diagramModelType, Color color) {
         this.name = name;
+        this.diagramModelType = diagramModelType;
         this.color = color;
     }
-
 
     public void addToHistory(float itemY) {
         if (maxY < itemY)
@@ -43,6 +50,10 @@ public class DiagramModel extends BaseModel {
 
 
     // Getters
+    public DiagramModelType getDiagramModelType() {
+        return diagramModelType;
+    }
+
     public String getName() {
         return name;
     }

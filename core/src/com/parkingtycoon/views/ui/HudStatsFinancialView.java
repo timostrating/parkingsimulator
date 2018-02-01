@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
@@ -17,25 +16,36 @@ import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.ui.DiagramModel;
 import com.parkingtycoon.views.BaseView;
+import com.parkingtycoon.views.components.HudBarDiagram;
 import com.parkingtycoon.views.components.HudDiagram;
 import com.parkingtycoon.views.components.HudLineDiagram;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class HudStatsFinancialView extends BaseView {
 
     private final HubStatsWindow window;
-    private final HudDiagram diagram;
+    private final HudDiagram curDiagram;
+    private final HudLineDiagram lineDiagram;
+    private final HudBarDiagram barDiagram;
     private final int width = 500;
     private final int height = 500;
 
     private int[] sliderOption = new int[] {Integer.MAX_VALUE, 1_000_000, 100_000, 10_000, 1000, 200};
+
+    private ArrayList<DiagramModel.DiagramModelType> selectedDiagramsModels = new ArrayList<>();
 
 
     public HudStatsFinancialView(Stage stage) {
         super();
         show();
 
-        diagram = new HudLineDiagram(width, height);
-        window = new HubStatsWindow(diagram.generateDiagramTexture());
+        lineDiagram = new HudLineDiagram(width, height);
+        barDiagram = new HudBarDiagram(width, height);
+        curDiagram = lineDiagram;
+
+        window = new HubStatsWindow(curDiagram.generateDiagramTexture());
         stage.addActor(window);
     }
 
@@ -43,11 +53,11 @@ public class HudStatsFinancialView extends BaseView {
 
     @Override
     public void preRender() {
-        if (flip % 1 == 0) {
-            if (diagram instanceof HudLineDiagram)
-                ((HudLineDiagram) diagram).setStartPoint(diagram.getDataLength() - sliderOption[window.getSliderIndex()]);
+        if (flip % 1 == 0) {  // todo
+            if (curDiagram instanceof HudLineDiagram)
+                ((HudLineDiagram) curDiagram).setStartPoint(curDiagram.getDataLength() - sliderOption[window.getSliderIndex()]);
 
-            window.setDiagram(diagram.generateDiagramTexture());
+            window.setDiagram(curDiagram.generateDiagramTexture());
         }
 
         flip++;
@@ -60,7 +70,10 @@ public class HudStatsFinancialView extends BaseView {
 
     @Override
     public void updateView(BaseModel model) {
-        diagram.update((DiagramModel) model);
+        DiagramModel diagramModel = (DiagramModel) model;
+        if (selectedDiagramsModels.contains(diagramModel.getDiagramModelType())) {  // ArrayList contains() uses equals() on the backend
+            curDiagram.update(diagramModel);
+        }
     }
 
 
@@ -80,12 +93,13 @@ public class HudStatsFinancialView extends BaseView {
             tabbedPane.addListener(new TabbedPaneAdapter() {
                 @Override
                 public void switchedTab (Tab tab) {
-//                    container
+                    selectedDiagramsModels.clear();
+                    Collections.addAll(selectedDiagramsModels, ((DiagramTab)tab).getDiagramModelTypes());
                 }
             });
 
-            tabbedPane.add(new TestTab("tab1"));
-            tabbedPane.add(new TestTab("tab2"));
+            tabbedPane.add(new DiagramTab("Financial", new DiagramModel.DiagramModelType[] {DiagramModel.DiagramModelType.MONEY}));
+            tabbedPane.add(new DiagramTab("Cars", new DiagramModel.DiagramModelType[] {DiagramModel.DiagramModelType.CARS}));
 
             add(tabbedPane.getTable()).expandX().fillX();
             row();
@@ -111,16 +125,14 @@ public class HudStatsFinancialView extends BaseView {
         }
 
 
-        private class TestTab extends Tab {
+        private class DiagramTab extends Tab {
             private String title;
-            private Table content;
+            private DiagramModel.DiagramModelType[] diagramModelTypes;
 
-            public TestTab (String title) {
+            public DiagramTab (String title, DiagramModel.DiagramModelType[] diagramModelTypes) {
                 super(false, false);
                 this.title = title;
-
-                content = new VisTable();
-                content.add(new VisLabel(title));
+                this.diagramModelTypes = diagramModelTypes;
             }
 
             @Override
@@ -129,8 +141,13 @@ public class HudStatsFinancialView extends BaseView {
             }
 
             @Override
-            public Table getContentTable () {
-                return content;
+            public Table getContentTable() {
+//                throw new NotImplementedException();
+                return null;
+            }
+
+            public DiagramModel.DiagramModelType[] getDiagramModelTypes() {
+                return diagramModelTypes;
             }
         }
     }

@@ -11,6 +11,7 @@ public class HudLineDiagram extends HudDiagram {
     private int start = 1;
     private int maxStepSize = 500;
     private float dataMaxValue;
+    private Color color = Color.BLACK;
 
 
     public HudLineDiagram(int width, int height) {
@@ -52,7 +53,7 @@ public class HudLineDiagram extends HudDiagram {
             }
         }
 
-        shapeRenderer.setColor(Color.YELLOW);
+        shapeRenderer.setColor(color);
         if (data != null && data.length > 5) {
 
             int prevX = 0;
@@ -75,5 +76,6 @@ public class HudLineDiagram extends HudDiagram {
     public void update(DiagramModel model) {
         super.update(model);
         dataMaxValue = model.getMaxY() * 1.2f;
+        color = model.getColor();
     }
 }

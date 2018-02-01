@@ -2,6 +2,7 @@ package com.parkingtycoon.controllers.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.controllers.DiagramsController;
 import com.parkingtycoon.views.ui.HudStatsView;
 
 /**
@@ -14,7 +15,7 @@ public class HudStatsController extends HudBaseController {
     public HudStatsController(Stage stage) {
         super(stage);
 
-        HudFinancialController controller = new HudFinancialController(stage);
+        DiagramsController controller = new DiagramsController(stage);
 
         HudStatsView view = new HudStatsView(stage);
         root = CompositionRoot.getInstance();
@@ -22,3 +23,4 @@ public class HudStatsController extends HudBaseController {
     }
 
 }
+
