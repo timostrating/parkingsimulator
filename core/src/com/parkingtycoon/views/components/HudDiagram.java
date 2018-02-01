@@ -9,20 +9,27 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.parkingtycoon.models.ui.DiagramModel;
 
+import java.util.ArrayList;
+
+import static com.parkingtycoon.models.ui.DiagramModel.DiagramModelType;
+
+
 public abstract class HudDiagram {
 
     private OrthographicCamera camera;
 
-    protected Float[] data;
+    private DiagramModel[] diagramModels;
+    private ArrayList<DiagramModelType> selectedDiagramsModels;
 
     protected int width;
     protected int height;
     private FrameBuffer frameBuffer;
 
 
-    public HudDiagram(int width, int height) {
+    public HudDiagram(int width, int height, DiagramModel... diagramModels) {
         this.width = width;
         this.height = height;
+        this.diagramModels = diagramModels;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(true, width, height);
@@ -32,7 +39,8 @@ public abstract class HudDiagram {
         frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
     }
 
-    public Texture generateDiagramTexture() {
+    public Texture generateDiagramTexture(ArrayList<DiagramModelType> selectedDiagramsModels) {
+        this.selectedDiagramsModels = selectedDiagramsModels;
         frameBuffer.begin();  // BEGIN
         Gdx.gl.glClearColor(0,0,0,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -49,19 +57,24 @@ public abstract class HudDiagram {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin();  // BEGIN
 
-        drawDiagram(shapeRenderer);
+        drawDiagram(shapeRenderer, getActiveDiagrams());
 
         shapeRenderer.end();    // END
     }
 
-    public abstract void drawDiagram(ShapeRenderer shapeRenderer); // ABSTRACT
+    private DiagramModel[] getActiveDiagrams() {
+        ArrayList<DiagramModel> returnValue = new ArrayList<>();
+        for (DiagramModel diagramModel : diagramModels)
+            if (selectedDiagramsModels.contains(diagramModel.getDiagramModelType()))
+                returnValue.add(diagramModel);
 
-    public void update(DiagramModel model) {
-        data = model.getHistory();
+//        Logger.info(diagramModels.length+" "+selectedDiagramsModels.size()+" "+returnValue.size());
+        return returnValue.toArray(new DiagramModel[returnValue.size()]);
     }
 
-    public int getDataLength() {
-        return (data == null)? 0 : data.length;
-    }
+    abstract void drawDiagram(ShapeRenderer shapeRenderer, DiagramModel[] diagramModels); // ABSTRACT
 
+    public void update(ArrayList<DiagramModelType> selectedDiagramsModels) {
+        this.selectedDiagramsModels = selectedDiagramsModels;
+    }
 }

@@ -12,7 +12,10 @@ public class DiagramModel extends BaseModel {
 
     public enum DiagramModelType {
         MONEY,
-        CARS
+        TOTAL_CARS,
+        ADHOC_CARS,
+        RESERVED_CARS,
+        VIP_CARS
     }
 
     private DiagramModelType diagramModelType;
@@ -78,8 +81,8 @@ public class DiagramModel extends BaseModel {
         return color;
     }
 
-    public Float[] getHistory() {
-        return history.toArray(new Float[history.size()]);
+    public ArrayList<Float> getHistory() {
+        return history;
     }
 
 }

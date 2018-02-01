@@ -16,64 +16,56 @@ import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.ui.DiagramModel;
 import com.parkingtycoon.views.BaseView;
-import com.parkingtycoon.views.components.HudBarDiagram;
 import com.parkingtycoon.views.components.HudDiagram;
 import com.parkingtycoon.views.components.HudLineDiagram;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.parkingtycoon.models.ui.DiagramModel.DiagramModelType;
+
 public class HudStatsFinancialView extends BaseView {
 
     private final HubStatsWindow window;
     private final HudDiagram curDiagram;
     private final HudLineDiagram lineDiagram;
-    private final HudBarDiagram barDiagram;
+//    private final HudBarDiagram barDiagram;
     private final int width = 500;
     private final int height = 500;
 
     private int[] sliderOption = new int[] {Integer.MAX_VALUE, 1_000_000, 100_000, 10_000, 1000, 200};
 
-    private ArrayList<DiagramModel.DiagramModelType> selectedDiagramsModels = new ArrayList<>();
+    private ArrayList<DiagramModelType> selectedDiagramsModels = new ArrayList<>();
 
 
-    public HudStatsFinancialView(Stage stage) {
+    public HudStatsFinancialView(Stage stage, DiagramModel... diagramModels) {
         super();
         show();
 
-        lineDiagram = new HudLineDiagram(width, height);
-        barDiagram = new HudBarDiagram(width, height);
+        lineDiagram = new HudLineDiagram(width, height, diagramModels);
+//        barDiagram = new HudBarDiagram(width, height);
         curDiagram = lineDiagram;
 
-        window = new HubStatsWindow(curDiagram.generateDiagramTexture());
+        window = new HubStatsWindow(curDiagram.generateDiagramTexture(selectedDiagramsModels));
         stage.addActor(window);
     }
 
-    private int flip = 0;
+    @Override
+    public void updateView(BaseModel model) {
+        curDiagram.update(selectedDiagramsModels);
+    }
 
     @Override
     public void preRender() {
-        if (flip % 1 == 0) {  // todo
-            if (curDiagram instanceof HudLineDiagram)
-                ((HudLineDiagram) curDiagram).setStartPoint(curDiagram.getDataLength() - sliderOption[window.getSliderIndex()]);
+//            if (curDiagram instanceof HudLineDiagram) TODO
+//                ((HudLineDiagram) curDiagram).setStartPoint(curDiagram.getDataLength() - sliderOption[window.getSliderIndex()]);
 
-            window.setDiagram(curDiagram.generateDiagramTexture());
-        }
-
-        flip++;
+        window.setDiagram(curDiagram.generateDiagramTexture(selectedDiagramsModels));
     }
 
     @Override
     public float renderIndex() {
         return 0;
-    }
-
-    @Override
-    public void updateView(BaseModel model) {
-        DiagramModel diagramModel = (DiagramModel) model;
-        if (selectedDiagramsModels.contains(diagramModel.getDiagramModelType())) {  // ArrayList contains() uses equals() on the backend
-            curDiagram.update(diagramModel);
-        }
     }
 
 
@@ -98,8 +90,10 @@ public class HudStatsFinancialView extends BaseView {
                 }
             });
 
-            tabbedPane.add(new DiagramTab("Financial", new DiagramModel.DiagramModelType[] {DiagramModel.DiagramModelType.MONEY}));
-            tabbedPane.add(new DiagramTab("Cars", new DiagramModel.DiagramModelType[] {DiagramModel.DiagramModelType.CARS}));
+            tabbedPane.add(new DiagramTab("Financial", DiagramModelType.MONEY));
+            tabbedPane.add(new DiagramTab("Total Cars", DiagramModelType.TOTAL_CARS));
+            tabbedPane.add(new DiagramTab("Cars", DiagramModelType.ADHOC_CARS, DiagramModelType.RESERVED_CARS, DiagramModelType.VIP_CARS ));
+            tabbedPane.add(new DiagramTab("Vip Cars", DiagramModelType.VIP_CARS));
 
             add(tabbedPane.getTable()).expandX().fillX();
             row();
@@ -127,9 +121,9 @@ public class HudStatsFinancialView extends BaseView {
 
         private class DiagramTab extends Tab {
             private String title;
-            private DiagramModel.DiagramModelType[] diagramModelTypes;
+            private DiagramModelType[] diagramModelTypes;
 
-            public DiagramTab (String title, DiagramModel.DiagramModelType[] diagramModelTypes) {
+            public DiagramTab (String title, DiagramModelType... diagramModelTypes) {
                 super(false, false);
                 this.title = title;
                 this.diagramModelTypes = diagramModelTypes;
@@ -146,7 +140,7 @@ public class HudStatsFinancialView extends BaseView {
                 return null;
             }
 
-            public DiagramModel.DiagramModelType[] getDiagramModelTypes() {
+            public DiagramModelType[] getDiagramModelTypes() {
                 return diagramModelTypes;
             }
         }
