@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.ui.DiagramModel;
 
 public abstract class HudDiagram {
@@ -15,7 +14,6 @@ public abstract class HudDiagram {
     private OrthographicCamera camera;
 
     protected Float[] data;
-    protected float dataMaxValue;
 
     protected int width;
     protected int height;
@@ -58,15 +56,11 @@ public abstract class HudDiagram {
 
     public abstract void drawDiagram(ShapeRenderer shapeRenderer); // ABSTRACT
 
-    public void update(BaseModel model) {
-        if (model instanceof DiagramModel) {
-            data = ((DiagramModel)model).getHistory();
-            dataMaxValue = ((DiagramModel)model).getMaxY() * 1.1f;
-        }
+    public void update(DiagramModel model) {
+        data = model.getHistory();
     }
 
     public int getDataLength() {
         return (data == null)? 0 : data.length;
     }
-
 }

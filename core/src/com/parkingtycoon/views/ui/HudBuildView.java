@@ -5,7 +5,6 @@ import com.kotcrab.vis.ui.layout.GridGroup;
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisScrollPane;
 import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.views.BaseView;
@@ -48,10 +47,10 @@ public class HudBuildView extends BaseView {
             VisTable table = new VisTable();
             table.setWidth(200);
 
-            GridGroup group = new GridGroup(100, 4); //item size 64px, spacing 4px
-            for (int i=0; i<10; i++) {
-                group.addActor(new VisTextButton("IMG + title"));
-            }
+            GridGroup group = new GridGroup(100, 4);
+//            for (int i=0; i<10; i++) {
+//                group.addActor(new VisTextButton("IMG + title"));
+//            }
 
             VisScrollPane scrollPane = new VisScrollPane(group);
             scrollPane.setFadeScrollBars(false);
@@ -60,7 +59,7 @@ public class HudBuildView extends BaseView {
             scrollPane.setScrollingDisabled(true, false); //disable X scrolling
 
 
-            table.add(scrollPane).top().growX();
+            table.add(scrollPane).top().grow();
             table.row();
 
             VisTable footerTable = new VisTable();
@@ -69,12 +68,12 @@ public class HudBuildView extends BaseView {
             footerTable.add("Price: ...").right().padRight(20);
             table.add(footerTable).bottom().growX();
 
-            add(table).growX();
+            add(table).grow();
 
 //            table.debugAll();
 //            debugAll();
 
-            setSize(200, 200);
+            setSize(500, 500);
             centerWindow();
         }
     }

@@ -18,8 +18,11 @@ public class CarModel extends PathFollowerModel {
     public boolean waitingInQueue, firstInQueue, parked;
     public CarQueueModel queue;
 
-    public String license = "";
-    public Color color;
+    private CarType carType = CarType.NORMAL;
+
+    private String license;
+    private Color color;
+
 
     public CarModel() {
         speed = .2f;
@@ -31,9 +34,20 @@ public class CarModel extends PathFollowerModel {
         return license;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     @Override
     public void move() {
         position.add(direction.x * (1 - brake), direction.y * (1 - brake));
         notifyViews();
     }
+
+    public enum CarType {
+        NORMAL,
+        RESERVED,
+        VIP
+    }
+
 }

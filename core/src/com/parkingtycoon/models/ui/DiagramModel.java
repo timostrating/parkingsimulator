@@ -12,6 +12,9 @@ public class DiagramModel extends BaseModel {
 
     private String name;
     private float maxY;
+    private float totalValue;
+    private float averageValue;
+
     private Color color;
     private ArrayList<Float> history = new ArrayList<>();
 
@@ -31,10 +34,15 @@ public class DiagramModel extends BaseModel {
         if (maxY < itemY)
             maxY = itemY;
 
+        totalValue += itemY;
+        averageValue = totalValue / (float)history.size();
+
         history.add(itemY);
         notifyViews();
     }
 
+
+    // Getters
     public String getName() {
         return name;
     }
@@ -45,6 +53,18 @@ public class DiagramModel extends BaseModel {
 
     public float getMaxY() {
         return maxY;
+    }
+
+    public float getTotalValue() {
+        return totalValue;
+    }
+
+    public float getAverageValue() {
+        return averageValue;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public Float[] getHistory() {

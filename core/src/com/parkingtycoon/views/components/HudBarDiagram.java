@@ -3,8 +3,12 @@ package com.parkingtycoon.views.components;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.parkingtycoon.helpers.Remapper;
+import com.parkingtycoon.models.ui.DiagramModel;
 
 public class HudBarDiagram extends HudDiagram {
+
+    private float dataMaxValue;
+
 
     public HudBarDiagram(int width, int height) {
         super(width, height);
@@ -25,6 +29,12 @@ public class HudBarDiagram extends HudDiagram {
                 shapeRenderer.rect(x, 0, 20-2, p2);
             }
         }
+    }
+
+    @Override
+    public void update(DiagramModel model) {
+        super.update(model);
+        dataMaxValue = model.getMaxY();
     }
 
 }
