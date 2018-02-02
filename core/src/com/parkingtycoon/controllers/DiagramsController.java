@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.ui.DiagramModel;
+import com.parkingtycoon.views.BaseView;
 import com.parkingtycoon.views.ui.HudStatsFinancialView;
 
 public class DiagramsController extends UpdateableController {
@@ -21,11 +22,20 @@ public class DiagramsController extends UpdateableController {
         root = CompositionRoot.getInstance();
 
         HudStatsFinancialView windowView = new HudStatsFinancialView(stage, diagramMoney, diagramTotalCars, diagramAdHocCars, diagramReservedCars, diagramVipCars);
-        diagramMoney.registerView(windowView);
-        diagramTotalCars.registerView(windowView);
-        diagramAdHocCars.registerView(windowView);
-        diagramReservedCars.registerView(windowView);
-        diagramVipCars.registerView(windowView);
+        HudStatsFinancialView windowView2 = new HudStatsFinancialView(stage, diagramMoney, diagramTotalCars, diagramAdHocCars, diagramReservedCars, diagramVipCars);
+        HudStatsFinancialView windowView3 = new HudStatsFinancialView(stage, diagramMoney, diagramTotalCars, diagramAdHocCars, diagramReservedCars, diagramVipCars);
+
+        registerToModels(windowView);
+        registerToModels(windowView2);
+        registerToModels(windowView3);
+    }
+
+    private void registerToModels(BaseView view) {
+        diagramMoney.registerView(view);
+        diagramTotalCars.registerView(view);
+        diagramAdHocCars.registerView(view);
+        diagramReservedCars.registerView(view);
+        diagramVipCars.registerView(view);
     }
 
     @Override

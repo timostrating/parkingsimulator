@@ -84,10 +84,6 @@ public abstract class HudDiagram {
 
     abstract void drawDiagram(ShapeRenderer shapeRenderer, DiagramModel[] diagramModels); // ABSTRACT
 
-    public void update(ArrayList<DiagramModelType> selectedDiagramsModels) {
-        this.selectedDiagramsModels = selectedDiagramsModels;
-    }
-
 
     public void setStartPercentage(float startPercentage) {
         this.startPercentage = startPercentage;

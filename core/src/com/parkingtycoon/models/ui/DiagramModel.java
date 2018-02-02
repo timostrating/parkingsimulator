@@ -27,7 +27,7 @@ public class DiagramModel extends BaseModel {
     private float averageValue;
 
     private Color color;
-    private FixedRingArray history = new FixedRingArray(100_000);
+    private FixedRingArray history = new FixedRingArray(20_000);
 
 
     public DiagramModel(String name, DiagramModelType diagramModelType) {
@@ -55,7 +55,7 @@ public class DiagramModel extends BaseModel {
 //            for (int i=0; i<MAX_SIZE/10; i++)
 //                history.remove(0);
 
-        notifyViews();
+//        notifyViews();
     }
 
 

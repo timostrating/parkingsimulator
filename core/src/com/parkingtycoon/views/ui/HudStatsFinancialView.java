@@ -57,9 +57,7 @@ public class HudStatsFinancialView extends BaseView {
     }
 
     @Override
-    public void updateView(BaseModel model) {
-        curDiagram.update(selectedDiagramsModels);
-    }
+    public void updateView(BaseModel model) { }
 
     @Override
     public void preRender() {
