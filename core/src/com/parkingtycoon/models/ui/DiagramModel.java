@@ -1,9 +1,9 @@
 package com.parkingtycoon.models.ui;
 
 import com.badlogic.gdx.graphics.Color;
+import com.parkingtycoon.helpers.FixedRingArray;
 import com.parkingtycoon.helpers.Random;
 import com.parkingtycoon.models.BaseModel;
-import java.util.ArrayList;
 
 /**
  * This Class is responsible storing the X and Y data of the components.
@@ -27,7 +27,7 @@ public class DiagramModel extends BaseModel {
     private float averageValue;
 
     private Color color;
-    private ArrayList<Float> history = new ArrayList<>();
+    private FixedRingArray history = new FixedRingArray(100_000);
 
 
     public DiagramModel(String name, DiagramModelType diagramModelType) {
@@ -49,7 +49,7 @@ public class DiagramModel extends BaseModel {
         totalValue += itemY;
         averageValue = totalValue / (float)history.size();
 
-        history.add(itemY);
+        history.put(itemY);
 
 //        if (history.size() > MAX_SIZE)
 //            for (int i=0; i<MAX_SIZE/10; i++)
@@ -88,7 +88,7 @@ public class DiagramModel extends BaseModel {
         return color;
     }
 
-    public ArrayList<Float> getHistory() {
+    public FixedRingArray getHistory() {
         return history;
     }
 

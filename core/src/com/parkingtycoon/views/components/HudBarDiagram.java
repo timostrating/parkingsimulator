@@ -3,15 +3,16 @@ package com.parkingtycoon.views.components;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.parkingtycoon.helpers.FixedRingArray;
 import com.parkingtycoon.helpers.Remapper;
 import com.parkingtycoon.models.ui.DiagramModel;
 
-import java.util.ArrayList;
-
 public class HudBarDiagram extends HudDiagram {
 
-    private int start = 1;
+    private int start;
     private int maxStepSize = 1000;
+    private Color gridColor = new Color(0.2f, 0.2f, 0.2f, 1);
+    private int gridStepSize = 50;
 
 
     public HudBarDiagram(int width, int height, DiagramModel... diagramModels) {
@@ -20,25 +21,29 @@ public class HudBarDiagram extends HudDiagram {
 
     @Override
     public void drawDiagram(ShapeRenderer shapeRenderer, DiagramModel[] diagramModels) {
+        if (diagramModels != null && diagramModels.length > 0)
+            start = (int)Remapper.map(startPercentage, 0, 1, 0, diagramModels[0].getMaxX());
+
         float dataMaxValue = 0;
         for (DiagramModel diagramModel : diagramModels)
             if (dataMaxValue < diagramModel.getMaxY())
                 dataMaxValue = diagramModel.getMaxY();
         dataMaxValue *= 1.1F;
 
+
         shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(new Color(0.2f, 0.2f, 0.2f, 1));
+        shapeRenderer.setColor(gridColor);
         shapeRenderer.rect(0, 0, width, height);
 
         Gdx.gl.glLineWidth(1);
         shapeRenderer.set(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.GRAY);
-        for (int x=1; x < 50; x++) {
-            shapeRenderer.line(x*(width/50), 0, x*(width/50), height);
+        for (int x=1; x < gridStepSize; x++) {
+            shapeRenderer.line(x*(width/gridStepSize), 0, x*(width/gridStepSize), height);
         }
 
-        for (int y=1; y < 50; y++) {
-            shapeRenderer.line(0, y*(height/50), width,  y*(height/50));
+        for (int y=1; y < gridStepSize; y++) {
+            shapeRenderer.line(0, y*(height/gridStepSize), width,  y*(height/gridStepSize));
         }
 
         shapeRenderer.end();
@@ -47,7 +52,7 @@ public class HudBarDiagram extends HudDiagram {
         Gdx.gl.glLineWidth(3);
         shapeRenderer.setColor(Color.GREEN);
         for (DiagramModel diagramModel : diagramModels) {
-            ArrayList<Float> data = diagramModel.getHistory();
+            FixedRingArray data = diagramModel.getHistory();
 
             int prevX = 0;
             for (int x = start; x < data.size(); x += Math.max(1, data.size() / (float) maxStepSize)) {
@@ -63,7 +68,7 @@ public class HudBarDiagram extends HudDiagram {
 
         shapeRenderer.setColor(Color.RED);
         for (DiagramModel diagramModel : diagramModels) {
-            ArrayList<Float> data = diagramModel.getHistory();
+            FixedRingArray data = diagramModel.getHistory();
 
             int prevX = 0;
             for (int x = start; x < data.size(); x += Math.max(1, data.size() / (float) maxStepSize)) {
@@ -77,14 +82,10 @@ public class HudBarDiagram extends HudDiagram {
             }
         }
 
-        shapeRenderer.setColor(Color.WHITE);
         for (DiagramModel diagramModel : diagramModels) {
+            shapeRenderer.setColor(diagramModel.getColor());
             float average = Remapper.map(diagramModel.getAverageValue(), 0, dataMaxValue, 0, height);
             shapeRenderer.line(0, average, width, average);
         }
-    }
-
-    public void setStartPoint(int value) {
-        start = (value < 1)? 1 : value;
     }
 }

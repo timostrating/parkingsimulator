@@ -23,7 +23,11 @@ public abstract class HudDiagram {
 
     protected int width;
     protected int height;
+    protected float startPercentage;
     private FrameBuffer frameBuffer;
+    private ShapeRenderer shapeRenderer;
+//    private SpriteBatch batch;
+//    BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
 
 
     public HudDiagram(int width, int height, DiagramModel... diagramModels) {
@@ -37,6 +41,8 @@ public abstract class HudDiagram {
         camera.update();
 
         frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
+        shapeRenderer = new ShapeRenderer();
+//        batch = new SpriteBatch();
     }
 
     public Texture generateDiagramTexture(ArrayList<DiagramModelType> selectedDiagramsModels) {
@@ -47,15 +53,19 @@ public abstract class HudDiagram {
 
         drawShapes();
 
+//        batch.begin();
+//        font.getData().setScale(10);
+//        font.draw(batch, "Hello World!", 100, 100);
+//        batch.end();
+
         frameBuffer.end();    // END
         return frameBuffer.getColorBufferTexture();
     }
 
     private void drawShapes() {
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
         shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin();  // BEGIN
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);  // BEGIN
 
         drawDiagram(shapeRenderer, getActiveDiagrams());
 
@@ -76,5 +86,10 @@ public abstract class HudDiagram {
 
     public void update(ArrayList<DiagramModelType> selectedDiagramsModels) {
         this.selectedDiagramsModels = selectedDiagramsModels;
+    }
+
+
+    public void setStartPercentage(float startPercentage) {
+        this.startPercentage = startPercentage;
     }
 }

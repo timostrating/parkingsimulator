@@ -40,8 +40,6 @@ public class HudStatsFinancialView extends BaseView {
     private final int width = 500;
     private final int height = 500;
 
-    private int[] sliderOption = new int[] {Integer.MAX_VALUE, 1_000_000, 100_000, 10_000, 1000, 200};
-
     private ArrayList<DiagramModelType> selectedDiagramsModels = new ArrayList<>();
 
 
@@ -65,10 +63,9 @@ public class HudStatsFinancialView extends BaseView {
 
     @Override
     public void preRender() {
-//            if (curDiagram instanceof HudLineDiagram) TODO
-//                ((HudLineDiagram) curDiagram).setStartPoint(curDiagram.getDataLength() - sliderOption[window.getSliderIndex()]);
-
-        window.setDiagram(curDiagram.generateDiagramTexture(selectedDiagramsModels));
+        curDiagram.setStartPercentage(window.getDiagramZoom());
+        for (int i=0; i<10; i++)
+            window.setDiagram(curDiagram.generateDiagramTexture(selectedDiagramsModels));
     }
 
     @Override
@@ -110,7 +107,7 @@ public class HudStatsFinancialView extends BaseView {
             image = new Image();
             setDiagram(texture);
 
-            slider = new VisSlider(0, 5, 1, false);
+            slider = new VisSlider(0, 0.9f, 0.01f, false);
 
             VisTextButton pieChartButton = new VisTextButton("Pie Chart");
             pieChartButton.addListener(new ChangeListener() {
@@ -149,12 +146,13 @@ public class HudStatsFinancialView extends BaseView {
 
         public void setDiagram(Texture texture) {
             TextureRegion textureRegion = new TextureRegion(texture, 0, 0, width, height);
+//            textureRegion.flip(false, true);
             Drawable drawable = new TextureRegionDrawable(textureRegion);
             image.setDrawable(drawable);
         }
 
-        public int getSliderIndex() {
-            return (int)slider.getValue();
+        public float getDiagramZoom() {
+            return slider.getValue();
         }
 
 

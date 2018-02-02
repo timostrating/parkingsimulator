@@ -7,6 +7,9 @@ import com.parkingtycoon.models.ui.DiagramModel;
 
 public class HudPieDiagram extends HudDiagram {
 
+    private float quality = 2;
+
+
     public HudPieDiagram(int width, int height, DiagramModel... diagramModels) {
         super(width, height, diagramModels);
     }
@@ -19,12 +22,28 @@ public class HudPieDiagram extends HudDiagram {
 
         Gdx.gl.glLineWidth(3);
         float prevAngle = 0;
+
         for (DiagramModel diagramModel : diagramModels) {
-            shapeRenderer.setColor(diagramModel.getColor());
             float angle = Remapper.map(diagramModel.getTotalValue(), 0, totalOfAllModels, 0, 360);
-            shapeRenderer.arc(width/2, height/2, width/2 -20, prevAngle,  angle);
+
+            shapeRenderer.setColor(diagramModel.getColor().mul(0.7f));
+            shapeRenderer.arc(width/2+7, height/2-7, width/2 -20, prevAngle, angle, getQuality(angle));
+            diagramModel.getColor().mul(1/ 0.7f);
+
             prevAngle += angle;
         }
+
+        for (DiagramModel diagramModel : diagramModels) {
+            float angle = Remapper.map(diagramModel.getTotalValue(), 0, totalOfAllModels, 0, 360);
+
+            shapeRenderer.setColor(diagramModel.getColor());
+            shapeRenderer.arc(width/2, height/2, width/2 -20, prevAngle, angle, getQuality(angle));
+            prevAngle += angle;
+        }
+    }
+
+    private int getQuality(float degrees) {
+        return Math.max(1, (int)(6 * (float)Math.cbrt(width/2 -20) * (degrees / (360.0f / quality))));
     }
 
 }
