@@ -5,9 +5,14 @@ import com.kotcrab.vis.ui.layout.GridGroup;
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisScrollPane;
 import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.models.BaseModel;
+import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.views.BaseView;
+
+import java.util.ArrayList;
 
 public class HudBuildView extends BaseView {
 
@@ -35,6 +40,8 @@ public class HudBuildView extends BaseView {
 
     class HudBuildWindow extends VisWindow {
 
+        private final ArrayList<BluePrintModel> bluePrints;
+
         HudBuildWindow() {
             super("Build");
 
@@ -44,13 +51,16 @@ public class HudBuildView extends BaseView {
             setResizable(true);
             addCloseButton();
 
+            bluePrints = CompositionRoot.getInstance().bluePrintsController.bluePrints;
+
             VisTable table = new VisTable();
             table.setWidth(200);
 
             GridGroup group = new GridGroup(100, 4);
-//            for (int i=0; i<10; i++) {
-//                group.addActor(new VisTextButton("IMG + title"));
-//            }
+
+            for (BluePrintModel bluePrint : bluePrints) {
+                group.addActor(new VisTextButton(bluePrint.title));
+            }
 
             VisScrollPane scrollPane = new VisScrollPane(group);
             scrollPane.setFadeScrollBars(false);
