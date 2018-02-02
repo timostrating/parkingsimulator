@@ -4,22 +4,25 @@ import java.util.EnumSet;
 
 public class BluePrintModel extends BaseModel {
 
-    public String title;
-    public String description;
-    public String spritePath;
-    public float spriteOriginX, spriteOriginY;
-    public float price;
-    public EnumSet<FloorModel.FloorType> canBuildOn;
-    public FloorModel.FloorType[][] tiles;
-    public Builder builder;
+    public final String title;
+    public final String description;
+    public final String spritePath;
+    public final float spriteOriginX, spriteOriginY;
+    public final float price;
+    public final EnumSet<FloorModel.FloorType> canBuildOn;
+    public final FloorModel.FloorType[][] tiles;
+    public final Builder builder;
+    public final boolean buildOnAllFloors;
+    public final int[] allowedAngles;
     public int x, y;
     public boolean[][] validTiles;
 
-    private int angle = 0;
+    private int angle;
     private boolean canBuild, active;
 
     public BluePrintModel(String title, String description, String spritePath, float spriteOriginX, float spriteOriginY,
-                          float price, EnumSet<FloorModel.FloorType> canBuildOn, FloorModel.FloorType[][] tiles, Builder builder) {
+                          float price, EnumSet<FloorModel.FloorType> canBuildOn, FloorModel.FloorType[][] tiles,
+                          Builder builder, boolean buildOnAllFloors, int... allowedAngles) {
 
         this.title = title;
         this.description = description;
@@ -30,6 +33,9 @@ public class BluePrintModel extends BaseModel {
         this.canBuildOn = canBuildOn;
         this.tiles = tiles;
         this.builder = builder;
+        this.buildOnAllFloors = buildOnAllFloors;
+        this.allowedAngles = allowedAngles.length == 0 ? new int[] {0, 1, 2, 3} : allowedAngles;
+        angle = this.allowedAngles[0];
     }
 
     public int getAngle() {

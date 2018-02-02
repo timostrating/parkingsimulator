@@ -229,7 +229,7 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     public boolean sendToEndOfTheWorld(CarModel car, int fromX, int fromY, boolean forced) {
 
-        int toX = 0, toY = 0;
+        int toX, toY;
         if (Math.random() > .5f) {
             toX = Random.randomInt(10) * 9;
             toY = Math.random() > .5f ? 0 : Game.WORLD_HEIGHT - 1;
@@ -296,6 +296,10 @@ public class CarsController extends PathFollowersController<CarModel> {
         return path;
     }
 
+    @Override
+    protected void onIdlesFloorChanged(CarModel pathfollower) {
+        sendToEndOfTheWorld(pathfollower, true);
+    }
 
     /**
      * This method will move the nodes of a path to the right side of the road,

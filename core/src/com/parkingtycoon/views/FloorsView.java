@@ -13,7 +13,6 @@ import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.controllers.FloorsController;
 import com.parkingtycoon.helpers.IsometricConverter;
-import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.models.FloorModel;
@@ -77,7 +76,6 @@ public final class FloorsView extends BaseView {
                 } else if (transitionOut)
                     transitionDistance = camera.zoom;
 
-                Logger.info(transitionOut ? "out" : (transitionIn ? "in" : ""));
             }
 
 

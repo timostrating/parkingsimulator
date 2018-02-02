@@ -28,7 +28,7 @@ public class FloorsController extends UpdateableController {
     private int currentFloor = 0, nextFloor;
     private boolean up, down;
 
-    public static final int BUILD_MARGIN = 15;
+    public static final int BUILD_MARGIN = 25;
 
     public static boolean inBuildZone(int x, int y) {
         return x >= BUILD_MARGIN

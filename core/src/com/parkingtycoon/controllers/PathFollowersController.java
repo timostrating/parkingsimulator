@@ -64,6 +64,7 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
                 f.pathToGoal = null;
                 f.goingToGoal = false;
                 f.goal.arrived();
+                f.goal = null;
 
             } else {
 
@@ -113,8 +114,14 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
         pathFollowers:
         for (T f : pathFollowers) {
 
-            if (f.goal == null)
+            if (f.goal == null) {
+                int x = (int) f.position.x;
+                int y = (int) f.position.y;
+
+                if (tilesChanged[x] != null && Boolean.TRUE.equals(tilesChanged[x][y]))
+                    onIdlesFloorChanged(f);
                 continue;
+            }
 
             for (int i = 0; i < 2; i++) {
 
@@ -187,5 +194,7 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
     protected abstract List<PathFinder.Node> getPathToElevator(int floor, int fromX, int fromY);
 
     protected abstract List<PathFinder.Node> getPath(int floor, int fromX, int fromY, int toX, int toY);
+
+    protected abstract void onIdlesFloorChanged(T pathfollower);
 
 }
