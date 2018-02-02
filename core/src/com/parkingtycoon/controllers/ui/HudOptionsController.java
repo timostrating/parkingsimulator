@@ -16,8 +16,9 @@ import com.parkingtycoon.helpers.Logger;
  */
 public class HudOptionsController extends HudBaseController {
 
-    private final VisLabel floorTitle;
+    private VisLabel floorTitle;
     private final CompositionRoot root;
+    private int oldFloorIndex = 99;
 
     public HudOptionsController(Stage stage) {
         super(stage);
@@ -74,7 +75,10 @@ public class HudOptionsController extends HudBaseController {
 
     @Override
     public void update() {
-        floorTitle.setText("Floor: "+root.floorsController.getCurrentFloor());
+        if (oldFloorIndex != root.floorsController.getCurrentFloor()) {
+            floorTitle.setText("Floor: " + root.floorsController.getCurrentFloor());
+            oldFloorIndex = root.floorsController.getCurrentFloor();
+        }
     }
 
 }

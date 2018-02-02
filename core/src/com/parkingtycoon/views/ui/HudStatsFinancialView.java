@@ -64,8 +64,7 @@ public class HudStatsFinancialView extends BaseView {
     @Override
     public void preRender() {
         curDiagram.setStartPercentage(window.getDiagramZoom());
-        for (int i=0; i<10; i++)
-            window.setDiagram(curDiagram.generateDiagramTexture(selectedDiagramsModels));
+        window.setDiagram(curDiagram.generateDiagramTexture(selectedDiagramsModels));
     }
 
     @Override
@@ -146,7 +145,7 @@ public class HudStatsFinancialView extends BaseView {
 
         public void setDiagram(Texture texture) {
             TextureRegion textureRegion = new TextureRegion(texture, 0, 0, width, height);
-//            textureRegion.flip(false, true);
+            textureRegion.flip(false, true);
             Drawable drawable = new TextureRegionDrawable(textureRegion);
             image.setDrawable(drawable);
         }
