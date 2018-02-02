@@ -10,6 +10,8 @@ import java.util.ArrayList;
  */
 public class DiagramModel extends BaseModel {
 
+//    public final static int MAX_SIZE = 20_000;
+
     public enum DiagramModelType {
         MONEY,
         TOTAL_CARS,
@@ -48,6 +50,11 @@ public class DiagramModel extends BaseModel {
         averageValue = totalValue / (float)history.size();
 
         history.add(itemY);
+
+//        if (history.size() > MAX_SIZE)
+//            for (int i=0; i<MAX_SIZE/10; i++)
+//                history.remove(0);
+
         notifyViews();
     }
 

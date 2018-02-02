@@ -1,38 +1,90 @@
-//package com.parkingtycoon.views.components;
-//
-//import com.badlogic.gdx.graphics.Color;
-//import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-//import com.parkingtycoon.helpers.Remapper;
-//import com.parkingtycoon.models.ui.DiagramModel;
-//
-//import java.util.ArrayList;
-//
-//public class HudBarDiagram extends HudDiagram {
-//
-//    private float dataMaxValue;
-//
-//
-//    public HudBarDiagram(int width, int height) {
-//        super(width, height);
-//    }
-//
-//    @Override
-//    public void drawDiagram(ShapeRenderer shapeRenderer, DiagramModel[] diagramModels) {
-//        DiagramModel data = diagramModels[0];
-//        shapeRenderer.setColor(Color.WHITE);
-//        shapeRenderer.circle(width/2, height/2, width/2, height/2);
-//
-//        shapeRenderer.setColor(Color.YELLOW);
-//        if (data != null && data.length > 5) {
-//            for (int x=0; x<data.length; x+=20) {
-////                float x1 = Remapper.map(x-1, start, data.length, 0, width);
-////                float x2 = Remapper.map(x, start, data.length, 0, width);
-////                float p1 = Remapper.map(data[x - 1], 0, dataMaxValue, 0, height);
-//                float p2 = Remapper.map(data[x], 0, dataMaxValue, 0, height);
-//                shapeRenderer.rect(x, 0, 20-2, p2);
-//            }
-//        }
-//    }
-//
-//
-//}
+package com.parkingtycoon.views.components;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.parkingtycoon.helpers.Remapper;
+import com.parkingtycoon.models.ui.DiagramModel;
+
+import java.util.ArrayList;
+
+public class HudBarDiagram extends HudDiagram {
+
+    private int start = 1;
+    private int maxStepSize = 1000;
+
+
+    public HudBarDiagram(int width, int height, DiagramModel... diagramModels) {
+        super(width, height, diagramModels);
+    }
+
+    @Override
+    public void drawDiagram(ShapeRenderer shapeRenderer, DiagramModel[] diagramModels) {
+        float dataMaxValue = 0;
+        for (DiagramModel diagramModel : diagramModels)
+            if (dataMaxValue < diagramModel.getMaxY())
+                dataMaxValue = diagramModel.getMaxY();
+        dataMaxValue *= 1.1F;
+
+        shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(new Color(0.2f, 0.2f, 0.2f, 1));
+        shapeRenderer.rect(0, 0, width, height);
+
+        Gdx.gl.glLineWidth(1);
+        shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.GRAY);
+        for (int x=1; x < 50; x++) {
+            shapeRenderer.line(x*(width/50), 0, x*(width/50), height);
+        }
+
+        for (int y=1; y < 50; y++) {
+            shapeRenderer.line(0, y*(height/50), width,  y*(height/50));
+        }
+
+        shapeRenderer.end();
+        shapeRenderer.begin();
+
+        Gdx.gl.glLineWidth(3);
+        shapeRenderer.setColor(Color.GREEN);
+        for (DiagramModel diagramModel : diagramModels) {
+            ArrayList<Float> data = diagramModel.getHistory();
+
+            int prevX = 0;
+            for (int x = start; x < data.size(); x += Math.max(1, data.size() / (float) maxStepSize)) {
+//                float x1 = Remapper.map(prevX, start, data.size(), 0, width);
+                float x2 = Remapper.map(x, start, data.size(), 0, width);
+                float p1 = Remapper.map(data.get(prevX), 0, dataMaxValue, 0, height);
+                float p2 = Remapper.map(data.get(x), 0, dataMaxValue, 0, height);
+                if (p1 < p2)
+                    shapeRenderer.line(x2, p1, x2, p2);
+                prevX = x;
+            }
+        }
+
+        shapeRenderer.setColor(Color.RED);
+        for (DiagramModel diagramModel : diagramModels) {
+            ArrayList<Float> data = diagramModel.getHistory();
+
+            int prevX = 0;
+            for (int x = start; x < data.size(); x += Math.max(1, data.size() / (float) maxStepSize)) {
+//                float x1 = Remapper.map(prevX, start, data.size(), 0, width);
+                float x2 = Remapper.map(x, start, data.size(), 0, width);
+                float p1 = Remapper.map(data.get(prevX), 0, dataMaxValue, 0, height);
+                float p2 = Remapper.map(data.get(x), 0, dataMaxValue, 0, height);
+                if (p1 > p2)
+                    shapeRenderer.line(x2, p1, x2, p2);
+                prevX = x;
+            }
+        }
+
+        shapeRenderer.setColor(Color.WHITE);
+        for (DiagramModel diagramModel : diagramModels) {
+            float average = Remapper.map(diagramModel.getAverageValue(), 0, dataMaxValue, 0, height);
+            shapeRenderer.line(0, average, width, average);
+        }
+    }
+
+    public void setStartPoint(int value) {
+        start = (value < 1)? 1 : value;
+    }
+}

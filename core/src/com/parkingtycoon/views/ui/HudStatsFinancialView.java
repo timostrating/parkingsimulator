@@ -2,13 +2,16 @@ package com.parkingtycoon.views.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
@@ -16,8 +19,10 @@ import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.ui.DiagramModel;
 import com.parkingtycoon.views.BaseView;
+import com.parkingtycoon.views.components.HudBarDiagram;
 import com.parkingtycoon.views.components.HudDiagram;
 import com.parkingtycoon.views.components.HudLineDiagram;
+import com.parkingtycoon.views.components.HudPieDiagram;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,10 +31,12 @@ import static com.parkingtycoon.models.ui.DiagramModel.DiagramModelType;
 
 public class HudStatsFinancialView extends BaseView {
 
-    private final HubStatsWindow window;
-    private final HudDiagram curDiagram;
-    private final HudLineDiagram lineDiagram;
-//    private final HudBarDiagram barDiagram;
+    private HubStatsWindow window;
+    private HudDiagram curDiagram;
+    private HudLineDiagram lineDiagram;
+    private HudPieDiagram pieDiagram;
+    private HudBarDiagram barDiagram;
+
     private final int width = 500;
     private final int height = 500;
 
@@ -43,7 +50,8 @@ public class HudStatsFinancialView extends BaseView {
         show();
 
         lineDiagram = new HudLineDiagram(width, height, diagramModels);
-//        barDiagram = new HudBarDiagram(width, height);
+        pieDiagram = new HudPieDiagram(width, height, diagramModels);
+        barDiagram = new HudBarDiagram(width, height, diagramModels);
         curDiagram = lineDiagram;
 
         window = new HubStatsWindow(curDiagram.generateDiagramTexture(selectedDiagramsModels));
@@ -103,9 +111,40 @@ public class HudStatsFinancialView extends BaseView {
             setDiagram(texture);
 
             slider = new VisSlider(0, 5, 1, false);
+
+            VisTextButton pieChartButton = new VisTextButton("Pie Chart");
+            pieChartButton.addListener(new ChangeListener() {
+                @Override
+                public void changed (ChangeEvent event, Actor actor) {
+                    curDiagram = pieDiagram;
+                }
+            });
+
+            VisTextButton barDiagramButton = new VisTextButton("Bar Chart");
+            barDiagramButton.addListener(new ChangeListener() {
+                @Override
+                public void changed (ChangeEvent event, Actor actor) {
+                    curDiagram = barDiagram;
+                }
+            });
+
+            VisTextButton lineDiagramButton = new VisTextButton("Line Diagram");
+            lineDiagramButton.addListener(new ChangeListener() {
+                @Override
+                public void changed (ChangeEvent event, Actor actor) {
+                    curDiagram = lineDiagram;
+                }
+            });
+
+            VisTable footerTable = new VisTable();
+            footerTable.add(lineDiagramButton).padRight(10);
+            footerTable.add(barDiagramButton).padRight(10);
+            footerTable.add(pieChartButton).padRight(50);
+            footerTable.add(slider);
+
             container.add(image).expand();
             container.row();
-            container.add(slider);
+            container.add(footerTable);
         }
 
         public void setDiagram(Texture texture) {

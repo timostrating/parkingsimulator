@@ -46,31 +46,29 @@ public class HudLineDiagram extends HudDiagram {
 
         Gdx.gl.glLineWidth(3);
 
-        if (diagramModels != null && diagramModels.length > 0) {
-            for (DiagramModel diagramModel : diagramModels) {
-                ArrayList<Float> data = diagramModel.getHistory();
+        for (DiagramModel diagramModel : diagramModels) {
+            ArrayList<Float> data = diagramModel.getHistory();
 
-                shapeRenderer.setColor(Color.BLACK);
-                int prevX = 0;
-                for (int x = start; x < data.size(); x += Math.max(1, data.size() / (float) maxStepSize)) {
-                    float x1 = Remapper.map(prevX, start, data.size(), 0, width);
-                    float x2 = Remapper.map(x, start, data.size(), 0, width);
-                    float p1 = Remapper.map(data.get(prevX), 0, dataMaxValue, 0, height);
-                    float p2 = Remapper.map(data.get(x), 0, dataMaxValue, 0, height);
-                    shapeRenderer.line(x1 + 3, p1 - 5, x2 + 3, p2 - 5);
-                    prevX = x;
-                }
+            shapeRenderer.setColor(Color.BLACK);
+            int prevX = 0;
+            for (int x = start; x < data.size(); x += Math.max(1, data.size() / (float) maxStepSize)) {
+                float x1 = Remapper.map(prevX, start, data.size(), 0, width);
+                float x2 = Remapper.map(x, start, data.size(), 0, width);
+                float p1 = Remapper.map(data.get(prevX), 0, dataMaxValue, 0, height);
+                float p2 = Remapper.map(data.get(x), 0, dataMaxValue, 0, height);
+                shapeRenderer.line(x1 + 3, p1 - 5, x2 + 3, p2 - 5);
+                prevX = x;
+            }
 
-                shapeRenderer.setColor(diagramModel.getColor());
-                prevX = 0;
-                for (int x = start; x < data.size(); x += Math.max(1, data.size() / (float) maxStepSize)) {
-                    float x1 = Remapper.map(prevX, start, data.size(), 0, width);
-                    float x2 = Remapper.map(x, start, data.size(), 0, width);
-                    float p1 = Remapper.map(data.get(prevX), 0, dataMaxValue, 0, height);
-                    float p2 = Remapper.map(data.get(x), 0, dataMaxValue, 0, height);
-                    shapeRenderer.line(x1, p1, x2, p2);
-                    prevX = x;
-                }
+            shapeRenderer.setColor(diagramModel.getColor());
+            prevX = 0;
+            for (int x = start; x < data.size(); x += Math.max(1, data.size() / (float) maxStepSize)) {
+                float x1 = Remapper.map(prevX, start, data.size(), 0, width);
+                float x2 = Remapper.map(x, start, data.size(), 0, width);
+                float p1 = Remapper.map(data.get(prevX), 0, dataMaxValue, 0, height);
+                float p2 = Remapper.map(data.get(x), 0, dataMaxValue, 0, height);
+                shapeRenderer.line(x1, p1, x2, p2);
+                prevX = x;
             }
         }
     }
