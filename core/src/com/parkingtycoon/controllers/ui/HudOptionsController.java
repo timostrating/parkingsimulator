@@ -9,19 +9,22 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.helpers.Logger;
 
 /**
  * This class is responsible for controlling the UI that allows the game to have options.
  */
 public class HudOptionsController extends HudBaseController {
 
+    private final VisLabel floorTitle;
+    private final CompositionRoot root;
+
     public HudOptionsController(Stage stage) {
         super(stage);
-        CompositionRoot root = CompositionRoot.getInstance();
+        root = CompositionRoot.getInstance();
 
         // PAUSE
         final VisTextButton button = new VisTextButton("Pause");
-
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -41,9 +44,37 @@ public class HudOptionsController extends HudBaseController {
             }
         });
 
+
+        final VisTextButton floorUp = new VisTextButton("^");
+        floorTitle = new VisLabel("Floor: XX");
+        final VisTextButton floorDown = new VisTextButton("v");
+
+        floorUp.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Logger.info("UP");
+            }
+        });
+
+        floorDown.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Logger.info("DOWN");
+            }
+        });
+
         table.add(button).padRight(20);
         table.add(speedLabel).padRight(5);
-        table.add(speedSlider).padRight(10);
+        table.add(speedSlider).padRight(50);
+
+        table.add(floorUp).padRight(10);
+        table.add(floorTitle).padRight(10);
+        table.add(floorDown);
+    }
+
+    @Override
+    public void update() {
+        floorTitle.setText("Floor: "+root.floorsController.getCurrentFloor());
     }
 
 }

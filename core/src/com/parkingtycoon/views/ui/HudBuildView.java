@@ -1,6 +1,8 @@
 package com.parkingtycoon.views.ui;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.layout.GridGroup;
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisScrollPane;
@@ -50,8 +52,8 @@ public class HudBuildView extends BaseView {
 
             setResizable(true);
             addCloseButton();
-
-            bluePrints = CompositionRoot.getInstance().bluePrintsController.bluePrints;
+            CompositionRoot root = CompositionRoot.getInstance();
+            bluePrints = root.bluePrintsController.bluePrints;
 
             VisTable table = new VisTable();
             table.setWidth(200);
@@ -59,7 +61,15 @@ public class HudBuildView extends BaseView {
             GridGroup group = new GridGroup(100, 4);
 
             for (BluePrintModel bluePrint : bluePrints) {
-                group.addActor(new VisTextButton(bluePrint.title));
+                VisTextButton button = new VisTextButton(bluePrint.title);
+                button.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        root.bluePrintsController.nextToBeBuilt = bluePrint;
+
+                    }
+                });
+                group.addActor(button);
             }
 
             VisScrollPane scrollPane = new VisScrollPane(group);

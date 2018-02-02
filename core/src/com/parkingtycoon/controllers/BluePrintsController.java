@@ -19,11 +19,15 @@ import java.util.EnumSet;
  */
 public class BluePrintsController extends UpdateableController {
 
+    // Threadsafe
     public BluePrintModel nextToBeBuilt;
 
     private BluePrintModel toBeBuilt;
     private BluePrintView bluePrintView;
     private boolean clicked;
+
+    private final CompositionRoot root = CompositionRoot.getInstance();
+
 
     public ArrayList<BluePrintModel> bluePrints = new ArrayList<BluePrintModel>() {{
 
@@ -45,7 +49,7 @@ public class BluePrintsController extends UpdateableController {
                         {null, FloorModel.FloorType.ROAD, null}
                 },
                 // builder:
-                (x, y, angle, floor) -> CompositionRoot.getInstance().entrancesController.createEntrance(x, y, angle, floor, false)
+                (x, y, angle, floor) -> root.entrancesController.createEntrance(x, y, angle, floor, false)
         ));
 
         add(new BluePrintModel(
@@ -66,7 +70,7 @@ public class BluePrintsController extends UpdateableController {
                         {null, FloorModel.FloorType.ROAD, null}
                 },
                 // builder:
-                (x, y, angle, floor) -> CompositionRoot.getInstance().entrancesController.createEntrance(x, y, angle, floor, true)
+                (x, y, angle, floor) -> root.entrancesController.createEntrance(x, y, angle, floor, true)
         ));
 
         add(new BluePrintModel(
@@ -87,14 +91,13 @@ public class BluePrintsController extends UpdateableController {
                         {null, FloorModel.FloorType.ROAD, null}
                 },
                 // builder:
-                (x, y, angle, floor) -> CompositionRoot.getInstance().exitsController.createExit(x, y, angle, floor)
+                (x, y, angle, floor) -> root.exitsController.createExit(x, y, angle, floor)
         ));
 
     }};
 
     public BluePrintsController() {
         super();
-        CompositionRoot root = CompositionRoot.getInstance();
 
         root.inputController.onKeyDown.put(Input.Keys.R, () -> {
             if (nextToBeBuilt == null)
@@ -149,7 +152,7 @@ public class BluePrintsController extends UpdateableController {
         if (toBeBuilt != null) {
             toBeBuilt.setActive(false);
             toBeBuilt.unregisterView(bluePrintView);
-            toBeBuilt.unregisterView(CompositionRoot.getInstance().floorsController.view);
+            toBeBuilt.unregisterView(root.floorsController.view);
             bluePrintView = null;
             toBeBuilt = null;
         }
@@ -162,7 +165,7 @@ public class BluePrintsController extends UpdateableController {
         bluePrintView.show();
         toBeBuilt.setActive(true);
         toBeBuilt.registerView(bluePrintView);
-        toBeBuilt.registerView(CompositionRoot.getInstance().floorsController.view);
+        toBeBuilt.registerView(root.floorsController.view);
         toBeBuilt.setAngle(0);
 
     }
@@ -177,8 +180,6 @@ public class BluePrintsController extends UpdateableController {
         }
 
         if (toBeBuilt != null) {
-
-            CompositionRoot root = CompositionRoot.getInstance();
 
             Vector2 cursor = IsometricConverter.cursorToNormal();
             int x = (int) cursor.x, y = (int) cursor.y;
@@ -209,7 +210,7 @@ public class BluePrintsController extends UpdateableController {
      */
     public boolean canBuild(BluePrintModel bluePrint, int originX, int originY) {
 
-        FloorsController floorsController = CompositionRoot.getInstance().floorsController;
+        FloorsController floorsController = root.floorsController;
         FloorModel floor = floorsController.floors.get(floorsController.getCurrentFloor());
 
         boolean canBuild = true;
@@ -252,7 +253,7 @@ public class BluePrintsController extends UpdateableController {
 
     private void build(BluePrintModel bluePrint, int originX, int originY) {
 
-        FloorsController floorsController = CompositionRoot.getInstance().floorsController;
+        FloorsController floorsController = root.floorsController;
         int floorIndex = floorsController.getCurrentFloor();
         FloorModel floor = floorsController.floors.get(floorIndex);
 
