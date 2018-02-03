@@ -36,8 +36,8 @@ public class HudStatsFinancialView extends BaseView {
     private HudPieDiagram pieDiagram;
     private HudBarDiagram barDiagram;
 
-    private final int width = 500;
-    private final int height = 500;
+    private int width = 1000;
+    private int height = 1000;
 
     private ArrayList<DiagramModelType> selectedDiagramsModels = new ArrayList<>();
 
@@ -76,7 +76,7 @@ public class HudStatsFinancialView extends BaseView {
 
         HubStatsWindow(Texture texture) {
             super("Stats");
-            setSize(width, height);
+            setSize(width/2, height/2);
             setResizable(true);
             addCloseButton();
 
@@ -120,6 +120,7 @@ public class HudStatsFinancialView extends BaseView {
             footerTable.add(pieChartButton).padRight(50);
             footerTable.add(slider);
 
+            container.row();
             container.add(image).expand();
             container.row();
             container.add(footerTable);

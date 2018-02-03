@@ -50,6 +50,7 @@ public abstract class HudDiagram {
 
     public Texture generateDiagramTexture(ArrayList<DiagramModelType> selectedDiagramsModels) {
         this.selectedDiagramsModels = selectedDiagramsModels;
+
         frameBuffer.begin();  // BEGIN
         Gdx.gl.glClearColor(0,0,0,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
