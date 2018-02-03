@@ -6,6 +6,7 @@ import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.Logger;
+import com.parkingtycoon.helpers.interfaces.ClickListener;
 
 /**
  * This class is responsible for controlling the UI that allows the game to have options.
@@ -22,7 +23,7 @@ public class HudOptionsController extends HudBaseController {
 
         // PAUSE
         final VisTextButton button = new VisTextButton("Pause");
-        button.addListener((com.parkingtycoon.helpers.interfaces.ClickListener) (event, actor) -> root.simulationController.togglePaused());
+        button.addListener((ClickListener) (event, actor) -> root.simulationController.togglePaused());
 
         // SLIDER
         final VisLabel speedLabel = new VisLabel("speed");
@@ -34,12 +35,12 @@ public class HudOptionsController extends HudBaseController {
 
 
         final VisTextButton floorUp = new VisTextButton("^");
-        floorUp.addListener((com.parkingtycoon.helpers.interfaces.ClickListener) (event, actor) -> Logger.info("UP"));
+        floorUp.addListener((ClickListener) (event, actor) -> Logger.info("UP"));
 
         floorTitle = new VisLabel("Floor: XX");
 
         final VisTextButton floorDown = new VisTextButton("v");
-        floorDown.addListener((com.parkingtycoon.helpers.interfaces.ClickListener) (event, actor) -> Logger.info("DOWN"));
+        floorDown.addListener((ClickListener) (event, actor) -> Logger.info("DOWN"));
 
 
         table.add(button).padRight(20);

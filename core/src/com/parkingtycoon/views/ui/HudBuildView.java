@@ -8,6 +8,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.helpers.interfaces.ClickListener;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.views.BaseView;
@@ -60,7 +61,7 @@ public class HudBuildView extends BaseView {
 
             for (BluePrintModel bluePrint : bluePrints) {
                 VisTextButton button = new VisTextButton(bluePrint.title);
-                button.addListener((com.parkingtycoon.helpers.interfaces.ClickListener) (event, actor) -> root.bluePrintsController.nextToBeBuilt = bluePrint);
+                button.addListener((ClickListener) (event, actor) -> root.bluePrintsController.nextToBeBuilt = bluePrint);
                 group.addActor(button);
             }
 
