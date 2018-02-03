@@ -22,12 +22,7 @@ public class DiagramsController extends UpdateableController {
         root = CompositionRoot.getInstance();
 
         HudStatsFinancialView windowView = new HudStatsFinancialView(stage, diagramMoney, diagramTotalCars, diagramAdHocCars, diagramReservedCars, diagramVipCars);
-        HudStatsFinancialView windowView2 = new HudStatsFinancialView(stage, diagramMoney, diagramTotalCars, diagramAdHocCars, diagramReservedCars, diagramVipCars);
-        HudStatsFinancialView windowView3 = new HudStatsFinancialView(stage, diagramMoney, diagramTotalCars, diagramAdHocCars, diagramReservedCars, diagramVipCars);
-
         registerToModels(windowView);
-        registerToModels(windowView2);
-        registerToModels(windowView3);
     }
 
     private void registerToModels(BaseView view) {

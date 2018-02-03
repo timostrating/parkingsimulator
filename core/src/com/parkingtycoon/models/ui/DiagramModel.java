@@ -25,6 +25,7 @@ public class DiagramModel extends BaseModel {
     private float maxY;
     private float totalValue;
     private float averageValue;
+    private long count;
 
     private Color color;
     private FixedRingArray history = new FixedRingArray(20_000);
@@ -43,11 +44,13 @@ public class DiagramModel extends BaseModel {
     }
 
     public void addToHistory(float itemY) {
+        count++;
+
         if (maxY < itemY)
             maxY = itemY;
 
         totalValue += itemY;
-        averageValue = totalValue / (float)history.size();
+        averageValue = totalValue / (float) count;
 
         history.put(itemY);
 
