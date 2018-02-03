@@ -1,7 +1,9 @@
 package com.parkingtycoon.views;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
@@ -15,6 +17,8 @@ import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.models.FloorModel;
 
+import static com.parkingtycoon.models.FloorModel.TRANSITION_DURATION;
+
 /**
  * This Class is responsible for showing the floor as a map.
  */
@@ -23,19 +27,21 @@ public final class FloorsView extends BaseView {
     private IsometricTiledMapRenderer renderer;
     private TiledMap tiledMap;
 
-    private ShapeRenderer shapeRenderer;
     private boolean showNoBuildZone;
     private Color noBuildZoneColor = new Color(.1f, 0, 0, 0);
 
     private Boolean[][] validTiles;
     private Texture invalidTileTexture = SpriteView.TEXTURES.get("sprites/blockedBluePrintTile.png");
 
+    private boolean transitionIn, transitionOut;
+    private float transitionTimer, transitionDistance;
+    private int transitionDirection;
+    private Color fadeColor = new Color();
+
     public FloorsView() {
         tiledMap = new TmxMapLoader().load("maps/default.tmx");
         renderer = new IsometricTiledMapRenderer(tiledMap, 1 / 32f);
         tiledMap.getLayers().get(0).setOffsetY(32);
-
-        shapeRenderer = new ShapeRenderer();
 
         show();
     }
@@ -48,11 +54,30 @@ public final class FloorsView extends BaseView {
 
         if (model instanceof FloorModel) {
             FloorModel floor = (FloorModel) model;
-            if (floor.isCurrentFloor())
-                setTiles(floor);
+            if (!floor.isCurrentFloor())
+                return;
 
+            setTiles(floor);
             showNoBuildZone = floor.getNewFloorType() != null;
             validTiles = floor.getNewFloorValid();
+
+            if (transitionIn != floor.getTransitionIn() || transitionOut != floor.getTransitionOut()) {
+
+                transitionIn = floor.getTransitionIn();
+                transitionOut = floor.getTransitionOut();
+                transitionDirection = floor.transitionDirection;
+                transitionTimer = 0;
+
+                OrthographicCamera camera = CompositionRoot.getInstance().renderController.getMainCamera();
+
+                if (transitionIn) {
+                    camera.position.y += transitionDistance * 2 * transitionDirection;
+                    camera.update();
+                } else if (transitionOut)
+                    transitionDistance = camera.zoom;
+
+            }
+
 
         } else if (model instanceof BluePrintModel) {
 
@@ -95,8 +120,15 @@ public final class FloorsView extends BaseView {
         OrthographicCamera camera = CompositionRoot.getInstance().renderController.getMainCamera();
         moveCamera(camera);
         renderMap(camera);
+    }
+
+    @Override
+    public void renderShapes(ShapeRenderer shapeRenderer) {
         if (showNoBuildZone)
-            renderNoBuildZone(camera);
+            renderNoBuildZone(shapeRenderer);
+
+        if (transitionIn || transitionOut)
+            renderFade(shapeRenderer, transitionTimer, transitionIn);
     }
 
     @Override
@@ -104,15 +136,30 @@ public final class FloorsView extends BaseView {
         return 9999;
     }
 
-    private void moveCamera(OrthographicCamera camera) {  // TODO: this is not the responsibility of this class
+    private void moveCamera(OrthographicCamera camera) {
         float x = Gdx.input.getX() / (float) Gdx.graphics.getWidth();
         float y = Gdx.input.getY() / (float) Gdx.graphics.getHeight();
 
-        if (x < .02f && camera.position.x > 0) camera.position.x -= .1f * camera.zoom;
-        else if (x > .98f && camera.position.x < 400) camera.position.x += .1f * camera.zoom;
+        if (x < .02f && camera.position.x > 0)
+            camera.position.x -= .1f * camera.zoom;
+        else if (x > .98f && camera.position.x < 400)
+            camera.position.x += .1f * camera.zoom;
 
-        if (y < .02f && camera.position.y < 100) camera.position.y += .1f * camera.zoom;
-        else if (y > .98f && camera.position.y > -100) camera.position.y -= .1f * camera.zoom;
+        if (y < .02f && camera.position.y < 100)
+            camera.position.y += .1f * camera.zoom;
+        else if (y > .98f && camera.position.y > -100)
+            camera.position.y -= .1f * camera.zoom;
+
+        if ((transitionIn || transitionOut) && transitionTimer <= TRANSITION_DURATION) {
+            float deltaTime = Gdx.graphics.getDeltaTime();
+
+            if (transitionTimer + deltaTime > TRANSITION_DURATION)
+                deltaTime = TRANSITION_DURATION - transitionTimer;
+
+            transitionTimer += deltaTime;
+            if (transitionTimer < TRANSITION_DURATION)
+                camera.position.y += (deltaTime / TRANSITION_DURATION) * -transitionDistance * transitionDirection;
+        }
 
         camera.update();
     }
@@ -131,33 +178,39 @@ public final class FloorsView extends BaseView {
         for (int x = 0; x < Game.WORLD_WIDTH; x++) {
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
-                TiledMapTile tile;
+                TiledMapTile tile = null;
 
-                switch (getFloorType(floor, x, y)) {
-                    case GRASS:
-                        tile = tileSets.getTile(6);
-                        break;
-                    case ROAD:
-                        boolean alongX = getFloorType(floor, x - 1, y) == FloorModel.FloorType.ROAD
-                                && getFloorType(floor, x + 1, y) == FloorModel.FloorType.ROAD;
+                FloorModel.FloorType type = getFloorType(floor, x, y);
+                if (type != null) {
+                    switch (type) {
+                        case GRASS:
+                            tile = tileSets.getTile(9);
+                            break;
+                        case ROAD:
+                            boolean alongX = getFloorType(floor, x - 1, y) == FloorModel.FloorType.ROAD
+                                    && getFloorType(floor, x + 1, y) == FloorModel.FloorType.ROAD;
 
-                        boolean alongY = getFloorType(floor, x, y - 1) == FloorModel.FloorType.ROAD
-                                && getFloorType(floor, x, y + 1) == FloorModel.FloorType.ROAD;
+                            boolean alongY = getFloorType(floor, x, y - 1) == FloorModel.FloorType.ROAD
+                                    && getFloorType(floor, x, y + 1) == FloorModel.FloorType.ROAD;
 
-                        if (alongX == alongY)
+                            if (alongX == alongY)
+                                tile = tileSets.getTile(3);
+                            else
+                                tile = tileSets.getTile(alongX ? 2 : 1);
+
+                            break;
+                        case PARKABLE:
+                            tile = tileSets.getTile(4);
+                            break;
+                        case BARRIER:
                             tile = tileSets.getTile(3);
-                        else
-                            tile = tileSets.getTile(alongX ? 2 : 1);
-
-                        break;
-                    case PARKABLE:
-                        tile = tileSets.getTile(4);
-                        break;
-                    case BARRIER:
-                        tile = tileSets.getTile(3);
-                        break;
-                    default:
-                        tile = tileSets.getTile(6);
+                            break;
+                        case CONCRETE:
+                            tile = tileSets.getTile(5);
+                            break;
+                        default:
+                            tile = tileSets.getTile(6);
+                    }
                 }
 
                 TiledMapTileLayer.Cell cell = layer.getCell(x, Game.WORLD_HEIGHT - y - 1);
@@ -201,35 +254,33 @@ public final class FloorsView extends BaseView {
             shapeRenderer.line(0, y, Game.WORLD_WIDTH, y);
     }
 
-    private void renderNoBuildZone(Camera camera) {
-
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+    private void renderNoBuildZone(ShapeRenderer shapeRenderer) {
 
         noBuildZoneColor.a = Math.min(.5f, noBuildZoneColor.a + .04f);
         shapeRenderer.setColor(noBuildZoneColor);
-
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         for (int x = 0; x < 2; x++) {
             for (int y = 0; y < 2; y++) {
                 shapeRenderer.triangle(
                         x == 0 ? Game.WORLD_WIDTH * 4 : 0, 0,
                         (x == 0 ? Game.WORLD_WIDTH * 4 : 0) + FloorsController.BUILD_MARGIN * (x == 0 ? -4 : 4), 0,
-                        Game.WORLD_WIDTH * 2, Game.WORLD_HEIGHT  * (y == 1 ? -1 : 1)
+                        Game.WORLD_WIDTH * 2, Game.WORLD_HEIGHT * (y == 1 ? -1 : 1)
                 );
                 shapeRenderer.triangle(
                         (x == 0 ? Game.WORLD_WIDTH * 4 : 0) + FloorsController.BUILD_MARGIN * (x == 0 ? -4 : 4), 0,
                         Game.WORLD_WIDTH * 2, (Game.WORLD_HEIGHT - FloorsController.BUILD_MARGIN * 2) * (y == 1 ? -1 : 1),
-                        Game.WORLD_WIDTH * 2, Game.WORLD_HEIGHT  * (y == 1 ? -1 : 1)
+                        Game.WORLD_WIDTH * 2, Game.WORLD_HEIGHT * (y == 1 ? -1 : 1)
                 );
             }
         }
+    }
 
-        shapeRenderer.end();
+    private void renderFade(ShapeRenderer shapeRenderer, float transitionTimer, boolean in) {
+        fadeColor.a = in ? TRANSITION_DURATION - transitionTimer : transitionTimer;
+        fadeColor.a *= 1 / TRANSITION_DURATION;
 
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        shapeRenderer.setColor(fadeColor);
+        shapeRenderer.rect(-50, -150, 500, 300);
     }
 
 }

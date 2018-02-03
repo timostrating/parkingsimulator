@@ -12,19 +12,27 @@ public class FloorModel extends BaseModel {
         ROAD,
         PARKABLE,
         GRASS,
-        BARRIER
+        BARRIER,
+        CONCRETE
     }
 
     public FloorType[][] tiles = new FloorType[Game.WORLD_WIDTH][];
     public CarModel[][] parkedCars = new CarModel[Game.WORLD_WIDTH][];
     public Boolean[][] accessibleParkables = new Boolean[Game.WORLD_WIDTH][];
     public int[][] waitingTime = new int[Game.WORLD_WIDTH][];
-    public BuildableModel[][] buildings = new BuildableModel[Game.WORLD_WIDTH][];
+    public BuildingModel[][] buildings = new BuildingModel[Game.WORLD_WIDTH][];
 
     public boolean fromFlagPlaced, toFlagPlaced, stopPlacing;
+
     private Boolean[][] newFloorValid;
     private int[] newFloorFrom, newFloorTo;
     private FloorType newFloorType;
+
+    private boolean transitionIn, transitionOut;
+
+    public int transitionDirection;
+
+    public static final float TRANSITION_DURATION = .15f;
 
     public NavMap carNavMap = new NavMap() {
         @Override
@@ -97,5 +105,21 @@ public class FloorModel extends BaseModel {
         this.newFloorValid = newFloorValid;
         notifyViews();
     }
+
+    public boolean getTransitionIn() {
+        return transitionIn;
+    }
+
+    public boolean getTransitionOut() {
+        return transitionOut;
+    }
+
+    public void setTransition(boolean in, int direction) {
+        this.transitionIn = in;
+        this.transitionOut = !in;
+        this.transitionDirection = direction;
+        notifyViews();
+    }
+
 
 }

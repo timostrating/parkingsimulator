@@ -30,6 +30,9 @@ public class ArrowView extends SpriteView {
 
     @Override
     public void updateView(BaseModel model) {
+
+        super.updateView(model);
+
         if (model instanceof CarQueueModel) {
 
             CarQueueModel queue = (CarQueueModel) model;

@@ -35,6 +35,8 @@ public abstract class BaseView implements Renderable {
 
     public void render(SpriteBatch batch) {}
 
+    public void renderShapes(ShapeRenderer shapeRenderer) {}
+
     public void debugRender(ShapeRenderer shapeRenderer) {}
 
     public abstract float renderIndex();

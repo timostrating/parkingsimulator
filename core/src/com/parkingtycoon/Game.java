@@ -5,9 +5,10 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.parkingtycoon.levels.MainMenuScreen;
 import com.parkingtycoon.levels.SimulationScreen;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class Game extends com.badlogic.gdx.Game {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setAutoShapeType(true);
+
         font = new BitmapFont();
 
         Gdx.input.setInputProcessor(inputMultiplexer);
@@ -68,9 +70,9 @@ public class Game extends com.badlogic.gdx.Game {
 
         this.currentScreenIndex = currentScreenIndex;
         try {
-            this.setScreen((Screen) (screens.get(currentScreenIndex).getConstructor(Game.class).newInstance(this)));
+            this.setScreen(screens.get(currentScreenIndex).getConstructor(Game.class).newInstance(this));
         } catch (InstantiationException | IllegalAccessException e) {
-            System.out.println("Only classes who implement Screen are allowed.");
+            System.out.println("Only classes that implement Screen are allowed.");
             e.printStackTrace();
         } catch (NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
@@ -83,9 +85,9 @@ public class Game extends com.badlogic.gdx.Game {
     }
 
     public void dispose() {
-
         batch.dispose();
         font.dispose();
+        CompositionRoot.getInstance().simulationController.pause();
     }
 
 }

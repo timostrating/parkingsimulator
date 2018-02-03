@@ -3,6 +3,7 @@ package com.parkingtycoon.controllers;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.Random;
+import com.parkingtycoon.models.BuildingModel;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.models.PathFollowerModel;
@@ -73,7 +74,6 @@ public abstract class CarQueuesController extends UpdateableController {
                 if (!addToQueue(car))
                     CompositionRoot.getInstance().carsController.sendToEndOfTheWorld(car, true);
             }
-
         };
 
         return CompositionRoot.getInstance().carsController.setGoal(car, goal);
@@ -122,6 +122,11 @@ public abstract class CarQueuesController extends UpdateableController {
         ArrowView arrow = new ArrowView();
         queue.registerView(arrow);
         arrow.show();
+    }
+
+    public void removeQueue(BuildingModel building) {
+        if (building instanceof CarQueueModel)
+            queues.remove(building);
     }
 
 }

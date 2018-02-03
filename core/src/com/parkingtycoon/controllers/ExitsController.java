@@ -17,12 +17,15 @@ public class ExitsController extends CarQueuesController {
     @Override
     protected boolean nextAction(CarModel car) {
         CompositionRoot root = CompositionRoot.getInstance();
-        root.financialController.addAmount(car.vip ? 200 : 100); // todo: change amount
 
         int fromX = car.queue.x + CoordinateRotater.rotate(0, 3, 1, 3, car.queue.angle);
         int fromY = car.queue.y + CoordinateRotater.rotate(1, 3, 0, 3, car.queue.angle);
 
-        return root.carsController.sendToEndOfTheWorld(car, fromX, fromY, false);
+        if (root.carsController.sendToEndOfTheWorld(car, fromX, fromY, false)) {
+            root.financialController.addAmount(car.vip ? 200 : 100); // todo: change amount
+            return true;
+        }
+        return false;
     }
 
     public CarQueueModel createExit(int x, int y, int angle, int floor) {

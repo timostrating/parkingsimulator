@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.parkingtycoon.helpers.interfaces.FloorDependable;
 import com.parkingtycoon.models.BaseModel;
+import com.parkingtycoon.models.BuildingModel;
 
 import java.util.HashMap;
 
@@ -31,6 +33,7 @@ public class SpriteView extends BaseView {
         }
     };
 
+    protected boolean visible = true;
     protected Vector2 spritePosition = new Vector2();
     protected Sprite sprite = new Sprite();
     protected String spritePath;
@@ -48,11 +51,24 @@ public class SpriteView extends BaseView {
     }
 
     @Override
-    public void updateView(BaseModel model) {}
+    public void updateView(BaseModel model) {
+
+        if (model instanceof FloorDependable)
+            visible = ((FloorDependable) model).isOnActiveFloor();
+
+        if (model instanceof BuildingModel) {
+
+            BuildingModel building = (BuildingModel) model;
+            sprite.setColor(building.isToBeDemolished() ? Color.RED : Color.WHITE);
+            if (building.isDemolished())
+                end();
+        }
+    }
 
     @Override
     public void render(SpriteBatch batch) {
-        sprite.draw(batch);
+        if (visible)
+            sprite.draw(batch);
     }
 
     @Override
@@ -62,6 +78,8 @@ public class SpriteView extends BaseView {
 
     @Override
     public void debugRender(ShapeRenderer shapeRenderer) {
+        if (!visible)
+            return;
         shapeRenderer.setColor(Color.ORANGE);
         shapeRenderer.line(sprite.getX(), sprite.getY(), sprite.getX(), sprite.getY() + sprite.getHeight());
         shapeRenderer.line(sprite.getX() + sprite.getWidth(), sprite.getY(), sprite.getX() + sprite.getWidth(), sprite.getY() + sprite.getHeight());

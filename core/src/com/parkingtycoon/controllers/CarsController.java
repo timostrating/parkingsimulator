@@ -6,10 +6,12 @@ import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.Random;
 import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.models.CarModel;
+import com.parkingtycoon.models.ElevatorModel;
 import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.models.PathFollowerModel;
 import com.parkingtycoon.views.CarView;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -20,10 +22,9 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     private final Vector2 diff = new Vector2(); // this vector is reused for calculations
 
-    private FloorsController floorsController = CompositionRoot.getInstance().floorsController;
-
     public void spawnCar() {
         CarModel car = new CarModel();
+        car.setOnActiveFloor(car.floor == floorsController.getCurrentFloor());
         car.vip = Math.random() > .7f; // todo: change with slider
 
         if (Math.random() > .5f)
@@ -99,6 +100,7 @@ public class CarsController extends PathFollowersController<CarModel> {
     private void detectCollisions(CarModel car) {
         if (car.waitingOn != null
                 && (car.floor != car.waitingOn.floor
+                || car.alwaysPrior
                 || car.waitingOn.parked
                 || !car.aabb.overlaps(car.waitingOn.aabb)
                 || car.waitingOn.isDisappeared()))
@@ -126,7 +128,7 @@ public class CarsController extends PathFollowersController<CarModel> {
             CarModel waiter = newDist >= dist ? car : otherCar;
             CarModel prior = waiter == car ? otherCar : car;
 
-            if (!waiter.waitingInQueue && prior.waitingInQueue) {
+            if ((!waiter.waitingInQueue && prior.waitingInQueue && !prior.alwaysPrior) || waiter.alwaysPrior) {
                 CarModel newWaiter = prior;
                 prior = waiter;
                 waiter = newWaiter;
@@ -230,7 +232,7 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     public boolean sendToEndOfTheWorld(CarModel car, int fromX, int fromY, boolean forced) {
 
-        int toX = 0, toY = 0;
+        int toX, toY;
         if (Math.random() > .5f) {
             toX = Random.randomInt(10) * 9;
             toY = Math.random() > .5f ? 0 : Game.WORLD_HEIGHT - 1;
@@ -280,8 +282,21 @@ public class CarsController extends PathFollowersController<CarModel> {
     }
 
     @Override
-    protected List<PathFinder.Node> getPathToElevator(int floor, int fromX, int fromY) {
-        return null; // todo: implement elevators.
+    protected List<PathFinder.Node> getPathToElevator(CarModel pathFollower, int fromX, int fromY) {
+
+        ElevatorsController elevatorsController = CompositionRoot.getInstance().elevatorsController;
+        Collections.shuffle(elevatorsController.elevators);
+
+        for (ElevatorModel elevator : elevatorsController.elevators) {
+
+            List<PathFinder.Node> path = getPath(pathFollower.floor, fromX, fromY, elevator.x + 1, elevator.y + 1);
+            if (path != null) {
+                elevator.cars.add(pathFollower);
+                return path;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -297,6 +312,10 @@ public class CarsController extends PathFollowersController<CarModel> {
         return path;
     }
 
+    @Override
+    protected void onIdlesFloorChanged(CarModel pathFollower) {
+        sendToEndOfTheWorld(pathFollower, true);
+    }
 
     /**
      * This method will move the nodes of a path to the right side of the road,

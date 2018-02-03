@@ -3,6 +3,7 @@ package com.parkingtycoon.controllers.ui;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.controllers.BluePrintsController;
 import com.parkingtycoon.helpers.interfaces.ClickListener;
 import com.parkingtycoon.views.ui.HudBuildView;
 import com.parkingtycoon.views.ui.HudCarsView;
@@ -19,8 +20,8 @@ public class HudGameController extends HudBaseController {
         root = CompositionRoot.getInstance();
 
         final VisTextButton deletedButton = new VisTextButton("delete");
-        deletedButton.addListener((ClickListener) (event, actor) -> root.financialController.spend(-1000));
-
+        deletedButton.addListener((ClickListener) (event, actor) -> { BluePrintsController c = CompositionRoot.getInstance().bluePrintsController; c.demolishMode = !c.demolishMode; });
+      
         final VisTextButton buildButton = new VisTextButton("build");
         buildButton.addListener((ClickListener) (event, actor) -> new HudBuildView(stage));
 

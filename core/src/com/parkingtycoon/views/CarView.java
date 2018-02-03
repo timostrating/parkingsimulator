@@ -41,6 +41,8 @@ public class CarView extends AnimatedSpriteView {
     @Override
     public void updateView(BaseModel model) {
 
+        super.updateView(model);
+
         if (model instanceof CarModel) {
 
             CarModel car = (CarModel) model;
@@ -85,6 +87,9 @@ public class CarView extends AnimatedSpriteView {
 
     @Override
     public void debugRender(ShapeRenderer shapeRenderer) {
+
+        if (!visible)
+            return;
 
         shapeRenderer.setColor(Color.RED);
 

@@ -20,6 +20,8 @@ public class BarrierView extends AnimatedSpriteView {
     @Override
     public void updateView(BaseModel model) {
 
+        super.updateView(model);
+
         if (model instanceof CarQueueModel) {
 
             if (currentAnimation != null)

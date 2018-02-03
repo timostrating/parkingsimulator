@@ -20,6 +20,11 @@ public class FlagView extends AnimatedSpriteView {
     }
 
     @Override
+    public float renderIndex() {
+        return -9999;
+    }
+
+    @Override
     public void updateView(BaseModel model) {
         if (model instanceof FloorModel) {
 

@@ -1,5 +1,6 @@
 package com.parkingtycoon.controllers;
 
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.models.PathFollowerModel;
 
@@ -13,6 +14,8 @@ import java.util.List;
 public abstract class PathFollowersController<T extends PathFollowerModel> extends UpdateableController {
 
     public ArrayList<T> pathFollowers = new ArrayList<>();
+
+    protected FloorsController floorsController = CompositionRoot.getInstance().floorsController;
 
     @Override
     public void update() {
@@ -47,19 +50,20 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
 
             if (f.goingToElevator) {
 
-                // todo: play elevator animation etc.
-                f.floor = f.goal.floor;
-
-                f.pathToElevator = null;
-                f.goingToElevator = false;
-                f.goingToGoal = true;
-                f.setCurrentPath(f.pathToGoal);
+                if (f.elevationDone) {
+                    f.elevationDone = false;
+                    f.pathToElevator = null;
+                    f.goingToElevator = false;
+                    f.goingToGoal = true;
+                    f.setCurrentPath(f.pathToGoal);
+                }
 
             } else if (f.goingToGoal) {
 
                 f.pathToGoal = null;
                 f.goingToGoal = false;
                 f.goal.arrived();
+                f.goal = null;
 
             } else {
 
@@ -109,8 +113,14 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
         pathFollowers:
         for (T f : pathFollowers) {
 
-            if (f.goal == null)
+            if (f.goal == null) {
+                int x = (int) f.position.x;
+                int y = (int) f.position.y;
+
+                if (tilesChanged[x] != null && Boolean.TRUE.equals(tilesChanged[x][y]))
+                    onIdlesFloorChanged(f);
                 continue;
+            }
 
             for (int i = 0; i < 2; i++) {
 
@@ -135,6 +145,11 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
         }
     }
 
+    public void onFloorSwitch(int floor) {
+        for (T f : pathFollowers)
+            f.setOnActiveFloor(f.floor == floor);
+    }
+
     public boolean setGoal(T pathFollower, PathFollowerModel.Goal goal) {
 
         List<PathFinder.Node> pathToElevator = null, pathToGoal;
@@ -142,7 +157,7 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
         int fromX = goal.fromX, fromY = goal.fromY;
 
         if (pathFollower.floor != goal.floor) {
-            pathToElevator = getPathToElevator(pathFollower.floor, fromX, fromY);
+            pathToElevator = getPathToElevator(pathFollower, fromX, fromY);
 
             if (pathToElevator == null)
                 return false;
@@ -159,6 +174,7 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
 
         pathFollower.pathToElevator = pathToElevator;
         pathFollower.goingToElevator = false;
+        pathFollower.elevationDone = false;
         pathFollower.pathToGoal = pathToGoal;
         pathFollower.goingToGoal = false;
         pathFollower.goal = goal;
@@ -175,8 +191,10 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
         f.goal = null;
     }
 
-    protected abstract List<PathFinder.Node> getPathToElevator(int floor, int fromX, int fromY);
+    protected abstract List<PathFinder.Node> getPathToElevator(T pathFollower, int fromX, int fromY);
 
     protected abstract List<PathFinder.Node> getPath(int floor, int fromX, int fromY, int toX, int toY);
+
+    protected abstract void onIdlesFloorChanged(T pathFollower);
 
 }

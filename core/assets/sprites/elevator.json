@@ -1,0 +1,146 @@
+{ "frames": {
+   "elevator 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 1.ase": {
+    "frame": { "x": 192, "y": 0, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 2.ase": {
+    "frame": { "x": 384, "y": 0, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 3.ase": {
+    "frame": { "x": 576, "y": 0, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 4.ase": {
+    "frame": { "x": 768, "y": 0, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 5.ase": {
+    "frame": { "x": 0, "y": 211, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 6.ase": {
+    "frame": { "x": 192, "y": 211, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 7.ase": {
+    "frame": { "x": 384, "y": 211, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 8.ase": {
+    "frame": { "x": 576, "y": 211, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 9.ase": {
+    "frame": { "x": 768, "y": 211, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 10.ase": {
+    "frame": { "x": 0, "y": 422, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 11.ase": {
+    "frame": { "x": 192, "y": 422, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 12.ase": {
+    "frame": { "x": 384, "y": 422, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 13.ase": {
+    "frame": { "x": 576, "y": 422, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 14.ase": {
+    "frame": { "x": 768, "y": 422, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator 15.ase": {
+    "frame": { "x": 0, "y": 633, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.1.13",
+  "image": "C:\\Users\\Hilko\\Documents\\GitHub\\parkeersimulator\\core\\assets\\sprites\\elevator.png",
+  "format": "RGBA8888",
+  "size": { "w": 1024, "h": 1024 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "close", "from": 0, "to": 15, "direction": "forward" },
+   { "name": "open", "from": 0, "to": 15, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
+}

@@ -19,7 +19,7 @@ public class CarModel extends PathFollowerModel {
     public long startTime, endTime, timer;
     public AABB aabb = new AABB(new Vector2(), new Vector2(.15f, .15f));
     public CarModel waitingOn;
-    public boolean waitingInQueue, firstInQueue, parked, vip;
+    public boolean waitingInQueue, firstInQueue, parked, vip, alwaysPrior;
     public CarQueueModel queue;
 
     private String license;
