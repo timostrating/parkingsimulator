@@ -16,6 +16,7 @@ public interface ClickListener extends EventListener {
     }
 
     /**
+     * @param event this is a standard ChangeEvent that would normally also be fired if you would use the ChangeListener.
      * @param actor The event target, which is the actor that emitted the change event.
      */
     public void changed(ChangeListener.ChangeEvent event, Actor actor);

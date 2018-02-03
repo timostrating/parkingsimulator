@@ -1,14 +1,18 @@
-package com.parkingtycoon.controllers;
+package com.parkingtycoon.controllers.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.controllers.UpdateableController;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.ui.DiagramModel;
 import com.parkingtycoon.views.BaseView;
-import com.parkingtycoon.views.ui.HudStatsFinancialView;
+import com.parkingtycoon.views.ui.HudDiagramsView;
 
-public class DiagramsController extends UpdateableController {
+/**
+ * This Controller is responsible for setting up diagrams
+ */
+public class HudDiagramsController extends UpdateableController {
 
     private final CompositionRoot root;
     private DiagramModel diagramMoney = new DiagramModel("Moneys diagram ???", DiagramModel.DiagramModelType.MONEY, Color.GREEN);
@@ -18,10 +22,10 @@ public class DiagramsController extends UpdateableController {
     private DiagramModel diagramVipCars = new DiagramModel("Cars diagram ???", DiagramModel.DiagramModelType.VIP_CARS, Color.PINK);
 
 
-    public DiagramsController(Stage stage) {
+    public HudDiagramsController(Stage stage) {
         root = CompositionRoot.getInstance();
 
-        HudStatsFinancialView windowView = new HudStatsFinancialView(stage, diagramMoney, diagramTotalCars, diagramAdHocCars, diagramReservedCars, diagramVipCars);
+        HudDiagramsView windowView = new HudDiagramsView(stage, diagramMoney, diagramTotalCars, diagramAdHocCars, diagramReservedCars, diagramVipCars);
         registerToModels(windowView);
     }
 

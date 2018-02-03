@@ -15,10 +15,13 @@ import com.parkingtycoon.views.BaseView;
 
 import java.util.ArrayList;
 
+/**
+ * This is the View that is responsible for showing the Build window
+ */
 public class HudBuildView extends BaseView {
 
-
     private final HudBuildWindow window;
+
 
     public HudBuildView(Stage stage) {
         super();
@@ -29,9 +32,7 @@ public class HudBuildView extends BaseView {
     }
 
     @Override
-    public void updateView(BaseModel model) {
-
-    }
+    public void updateView(BaseModel model) { }
 
     @Override
     public float renderIndex() {

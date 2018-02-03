@@ -12,7 +12,21 @@ import java.util.ArrayList;
 
 import static com.parkingtycoon.models.ui.DiagramModel.DiagramModelType;
 
-
+/**
+ * This class is responsible for setting up the required systems to show a diagram in the Hud.
+ *
+ * This is done be rendering the diagram in a separate buffer and returning a texture to the hud.
+ *
+ * _EXAMPLE_
+ * frameBuffer {
+ *   shapeRenderer {
+ *     abstract drawDiagram(shapeRenderer)
+ *   }
+ * }
+ *
+ * return frameBuffer.texture
+ *
+ */
 public abstract class HudDiagram {
 
     private OrthographicCamera camera;

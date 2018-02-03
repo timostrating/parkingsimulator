@@ -28,7 +28,7 @@ import java.util.Collections;
 
 import static com.parkingtycoon.models.ui.DiagramModel.DiagramModelType;
 
-public class HudStatsFinancialView extends BaseView {
+public class HudDiagramsView extends BaseView {
 
     private HubStatsWindow window;
     private HudDiagram curDiagram;
@@ -42,7 +42,7 @@ public class HudStatsFinancialView extends BaseView {
     private ArrayList<DiagramModelType> selectedDiagramsModels = new ArrayList<>();
 
 
-    public HudStatsFinancialView(Stage stage, DiagramModel... diagramModels) {
+    public HudDiagramsView(Stage stage, DiagramModel... diagramModels) {
         super();
         show();
 
