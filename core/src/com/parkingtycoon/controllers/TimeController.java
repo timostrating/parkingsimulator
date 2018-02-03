@@ -1,21 +1,21 @@
 package com.parkingtycoon.controllers;
 
 import com.parkingtycoon.helpers.Delegate;
-import com.parkingtycoon.helpers.interfaces.Updatable;
+import com.parkingtycoon.helpers.interfaces.TimedUpdatable;
 
 /**
  * This Class is responsible for enabling Controllers to be called every time when a amount of in game time has passes.
  */
 public class TimeController extends UpdateableController {
 
-    private Delegate<Updatable> minutelyUpdates = new Delegate<>(false);
-    private Delegate<Updatable> hourlyUpdates = new Delegate<>(false);
-    private Delegate<Updatable> dailyUpdates = new Delegate<>(false);
-    private Delegate<Updatable> weeklyUpdates = new Delegate<>(false);
-    private Delegate<Updatable> monthlyUpdates = new Delegate<>(false);
-    private Delegate<Updatable> yearlyUpdates = new Delegate<>(false);
+    private Delegate<TimedUpdatable> minutelyUpdates = new Delegate<>(false);
+    private Delegate<TimedUpdatable> hourlyUpdates = new Delegate<>(false);
+    private Delegate<TimedUpdatable> dailyUpdates = new Delegate<>(false);
+    private Delegate<TimedUpdatable> weeklyUpdates = new Delegate<>(false);
+    private Delegate<TimedUpdatable> monthlyUpdates = new Delegate<>(false);
+    private Delegate<TimedUpdatable> yearlyUpdates = new Delegate<>(false);
 
-    private Delegate.Notifier<Updatable> notifier = Updatable::update;
+    private Delegate.Notifier<TimedUpdatable> notifier = TimedUpdatable::timedUpdate;
 
     private long seconds = 0;    // We keep track of the data for easier calculations
     private long minutes = 0;
@@ -64,15 +64,15 @@ public class TimeController extends UpdateableController {
         }
     }
 
-    public boolean registerUpdatable(Updatable updatable, TimeUpdate atTime) {
+    public boolean registerTimedUpdatable(TimedUpdatable updatable, TimeUpdate atTime) {
         return getDelegate(atTime).register(updatable);
     }
 
-    public boolean unregisterUpdatable(Updatable updatable, TimeUpdate atTime) {
+    public boolean unregisterTimedUpdatable(TimedUpdatable updatable, TimeUpdate atTime) {
         return getDelegate(atTime).unregister(updatable);
     }
 
-    private Delegate<Updatable> getDelegate(TimeUpdate atTime) {
+    private Delegate<TimedUpdatable> getDelegate(TimeUpdate atTime) {
         switch (atTime) {
             case MINUTELY: return minutelyUpdates;
             case HOURLY: return hourlyUpdates;

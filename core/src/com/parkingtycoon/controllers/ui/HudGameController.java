@@ -1,11 +1,9 @@
 package com.parkingtycoon.controllers.ui;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.parkingtycoon.CompositionRoot;
-import com.parkingtycoon.helpers.Logger;
+import com.parkingtycoon.helpers.interfaces.ClickListener;
 import com.parkingtycoon.views.ui.HudBuildView;
 import com.parkingtycoon.views.ui.HudCarsView;
 
@@ -18,43 +16,16 @@ public class HudGameController extends HudBaseController {
 
     public HudGameController(Stage stage) {
         super(stage);
-
         root = CompositionRoot.getInstance();
-        HudCarsView hudCarsView = new HudCarsView();
 
-        // DELETE
         final VisTextButton deletedButton = new VisTextButton("delete");
+        deletedButton.addListener((ClickListener) (event, actor) -> root.financialController.spend(-1000));
 
-        deletedButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Logger.info("TODO");
-                root.financialController.spend(-1000);
-            }
-        });
-
-
-        // BUILD
         final VisTextButton buildButton = new VisTextButton("build");
+        buildButton.addListener((ClickListener) (event, actor) -> new HudBuildView(stage));
 
-        buildButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                HudBuildView view = new HudBuildView(stage);
-//                root.financialController.spend(1000);
-            }
-        });
-
-
-        // CARS
         final VisTextButton carsButton = new VisTextButton("Cars");
-
-        carsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-//                hudCarsView.();
-            }
-        });
+        carsButton.addListener((ClickListener) (event, actor) -> new HudCarsView());
 
         table.add(deletedButton).padLeft(10);
         table.add(buildButton).padLeft(10);

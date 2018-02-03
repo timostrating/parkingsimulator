@@ -14,7 +14,7 @@ public class HudStatsController extends HudBaseController {
     public HudStatsController(Stage stage) {
         super(stage);
 
-        HudFinancialController controller = new HudFinancialController(stage);
+        HudDiagramsController controller = new HudDiagramsController(stage);
 
         HudStatsView view = new HudStatsView(stage);
         root = CompositionRoot.getInstance();
@@ -22,3 +22,4 @@ public class HudStatsController extends HudBaseController {
     }
 
 }
+

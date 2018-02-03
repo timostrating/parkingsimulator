@@ -12,6 +12,7 @@ import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
+import com.parkingtycoon.helpers.ui.GameWindowResizeEvent;
 
 /**
  * This class is responsible for setting up the UI.
@@ -22,7 +23,6 @@ public class HudController implements Disposable {
 
     private final CompositionRoot root;
 
-    private float scale = 1f;
     private Stage stage;
 
     private OrthographicCamera hudCamera;
@@ -34,7 +34,7 @@ public class HudController implements Disposable {
 
     public HudController(SpriteBatch batch) {
         root = CompositionRoot.getInstance();
-        hudCamera = new OrthographicCamera(Gdx.graphics.getWidth() * scale,  Gdx.graphics.getHeight() * scale);
+        hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
         hudCamera.setToOrtho(false, Game.VIEWPORT_WIDTH, Game.VIEWPORT_HEIGHT);
 
         viewport = new ScreenViewport();
@@ -73,6 +73,10 @@ public class HudController implements Disposable {
     public void resize(int width, int height) {
         hudCamera.setToOrtho(false,  width, height);
         viewport.update(width, height);
+
+        GameWindowResizeEvent resizeEvent = new GameWindowResizeEvent();
+        for (int i=0; i<stage.getActors().size; i++)  // We can not use a iterator here because of Reentrancy thread locking https://stackoverflow.com/questions/16504231/reentrancy-in-java
+            stage.getActors().get(i).fire(resizeEvent);
     }
 
     @Override

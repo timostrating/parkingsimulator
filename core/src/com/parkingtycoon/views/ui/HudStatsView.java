@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisProgressBar;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.FinancialModel;
@@ -61,6 +62,8 @@ public class HudStatsView extends BaseView {
             moneyLabel = new VisLabel("MONEY");
             happynisBar = new VisProgressBar(0, 100, 1, false);
 
+            add(new VisTextButton("Show Stats"));
+            row();
             add(moneyLabel);
             row();
             add(happynisBar);
