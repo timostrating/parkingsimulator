@@ -1,8 +1,6 @@
 package com.parkingtycoon.views.ui;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.layout.GridGroup;
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisScrollPane;
@@ -62,13 +60,7 @@ public class HudBuildView extends BaseView {
 
             for (BluePrintModel bluePrint : bluePrints) {
                 VisTextButton button = new VisTextButton(bluePrint.title);
-                button.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        root.bluePrintsController.nextToBeBuilt = bluePrint;
-
-                    }
-                });
+                button.addListener((com.parkingtycoon.helpers.interfaces.ClickListener) (event, actor) -> root.bluePrintsController.nextToBeBuilt = bluePrint);
                 group.addActor(button);
             }
 

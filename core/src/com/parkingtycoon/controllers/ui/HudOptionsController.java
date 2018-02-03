@@ -1,10 +1,6 @@
 package com.parkingtycoon.controllers.ui;
 
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTextButton;
@@ -26,43 +22,25 @@ public class HudOptionsController extends HudBaseController {
 
         // PAUSE
         final VisTextButton button = new VisTextButton("Pause");
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                root.simulationController.togglePaused();
-            }
-        });
-
+        button.addListener((com.parkingtycoon.helpers.interfaces.ClickListener) (event, actor) -> root.simulationController.togglePaused());
 
         // SLIDER
         final VisLabel speedLabel = new VisLabel("speed");
         final VisSlider speedSlider = new VisSlider(10, 1000, 1, false);
-        speedSlider.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                root.simulationController.setUpdatesPerSecond((int)(speedSlider.getValue()));
-                return true;
-            }
+        speedSlider.addListener(event -> {
+            root.simulationController.setUpdatesPerSecond((int)(speedSlider.getValue()));
+            return true;
         });
 
 
         final VisTextButton floorUp = new VisTextButton("^");
+        floorUp.addListener((com.parkingtycoon.helpers.interfaces.ClickListener) (event, actor) -> Logger.info("UP"));
+
         floorTitle = new VisLabel("Floor: XX");
+
         final VisTextButton floorDown = new VisTextButton("v");
+        floorDown.addListener((com.parkingtycoon.helpers.interfaces.ClickListener) (event, actor) -> Logger.info("DOWN"));
 
-        floorUp.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Logger.info("UP");
-            }
-        });
-
-        floorDown.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Logger.info("DOWN");
-            }
-        });
 
         table.add(button).padRight(20);
         table.add(speedLabel).padRight(5);

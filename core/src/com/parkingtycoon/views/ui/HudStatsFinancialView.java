@@ -2,11 +2,9 @@ package com.parkingtycoon.views.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.kotcrab.vis.ui.widget.VisSlider;
@@ -16,6 +14,7 @@ import com.kotcrab.vis.ui.widget.VisWindow;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
+import com.parkingtycoon.helpers.interfaces.ClickListener;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.ui.DiagramModel;
 import com.parkingtycoon.views.BaseView;
@@ -107,28 +106,13 @@ public class HudStatsFinancialView extends BaseView {
             slider = new VisSlider(0, 0.9f, 0.01f, false);
 
             VisTextButton pieChartButton = new VisTextButton("Pie Chart");
-            pieChartButton.addListener(new ChangeListener() {
-                @Override
-                public void changed (ChangeEvent event, Actor actor) {
-                    curDiagram = pieDiagram;
-                }
-            });
+            pieChartButton.addListener((ClickListener) (event, actor) -> curDiagram = pieDiagram);
 
             VisTextButton barDiagramButton = new VisTextButton("Bar Chart");
-            barDiagramButton.addListener(new ChangeListener() {
-                @Override
-                public void changed (ChangeEvent event, Actor actor) {
-                    curDiagram = barDiagram;
-                }
-            });
+            barDiagramButton.addListener((ClickListener) (event, actor) -> curDiagram = barDiagram);
 
             VisTextButton lineDiagramButton = new VisTextButton("Line Diagram");
-            lineDiagramButton.addListener(new ChangeListener() {
-                @Override
-                public void changed (ChangeEvent event, Actor actor) {
-                    curDiagram = lineDiagram;
-                }
-            });
+            lineDiagramButton.addListener((ClickListener) (event, actor) -> curDiagram = lineDiagram);
 
             VisTable footerTable = new VisTable();
             footerTable.add(lineDiagramButton).padRight(10);

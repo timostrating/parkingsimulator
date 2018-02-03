@@ -2,6 +2,8 @@ package com.parkingtycoon.views.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.parkingtycoon.models.ui.DiagramModel;
@@ -27,8 +29,8 @@ public abstract class HudDiagram {
     private Color gridColor = new Color(0.2f, 0.2f, 0.2f, 1);
     private int gridStepSize = 50;
     private float dataMaxValue;
-//    private SpriteBatch batch;
-//    BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
+    private SpriteBatch batch;
+    BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
 
 
     public HudDiagram(int width, int height, DiagramModel... diagramModels) {
@@ -43,7 +45,7 @@ public abstract class HudDiagram {
 
         frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
         shapeRenderer = new ShapeRenderer();
-//        batch = new SpriteBatch();
+        batch = new SpriteBatch();
     }
 
     public Texture generateDiagramTexture(ArrayList<DiagramModelType> selectedDiagramsModels) {
@@ -54,10 +56,10 @@ public abstract class HudDiagram {
 
         drawShapes();
 
-//        batch.begin();
-//        font.getData().setScale(10);
-//        font.draw(batch, "Hello World!", 100, 100);
-//        batch.end();
+        batch.begin();
+        font.getData().setScale(5);
+        font.draw(batch, "Time ->", width*2, 100);
+        batch.end();
 
         frameBuffer.end();    // END
         return frameBuffer.getColorBufferTexture();
