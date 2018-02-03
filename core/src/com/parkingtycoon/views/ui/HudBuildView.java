@@ -5,20 +5,17 @@ import com.kotcrab.vis.ui.layout.GridGroup;
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisScrollPane;
 import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
-import com.parkingtycoon.CompositionRoot;
-import com.parkingtycoon.helpers.interfaces.ClickListener;
+import com.parkingtycoon.helpers.interfaces.Showable;
 import com.parkingtycoon.models.BaseModel;
-import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.views.BaseView;
-
-import java.util.ArrayList;
 
 /**
  * This is the View that is responsible for showing the Build window
  */
-public class HudBuildView extends BaseView {
+public class HudBuildView extends BaseView implements Showable {
+
+    public GridGroup group;
 
     private final HudBuildWindow window;
 
@@ -39,10 +36,13 @@ public class HudBuildView extends BaseView {
         return 0;
     }
 
+    @Override
+    public void show(Stage stage) {
+        stage.addActor(window);
+    }
 
-    class HudBuildWindow extends VisWindow {
 
-        private final ArrayList<BluePrintModel> bluePrints;
+    public class HudBuildWindow extends VisWindow {
 
         HudBuildWindow() {
             super("Build");
@@ -52,19 +52,11 @@ public class HudBuildView extends BaseView {
 
             setResizable(true);
             addCloseButton();
-            CompositionRoot root = CompositionRoot.getInstance();
-            bluePrints = root.bluePrintsController.bluePrints;
 
             VisTable table = new VisTable();
             table.setWidth(200);
 
-            GridGroup group = new GridGroup(100, 4);
-
-            for (BluePrintModel bluePrint : bluePrints) {
-                VisTextButton button = new VisTextButton(bluePrint.title);
-                button.addListener((ClickListener) (event, actor) -> root.bluePrintsController.setNextToBeBuilt(bluePrint));
-                group.addActor(button);
-            }
+            group = new GridGroup(100, 4);
 
             VisScrollPane scrollPane = new VisScrollPane(group);
             scrollPane.setFadeScrollBars(false);

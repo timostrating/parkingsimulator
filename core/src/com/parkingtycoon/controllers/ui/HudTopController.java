@@ -2,10 +2,8 @@ package com.parkingtycoon.controllers.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.parkingtycoon.CompositionRoot;
-import com.parkingtycoon.controllers.BaseController;
+import com.parkingtycoon.controllers.UpdateableController;
 import com.parkingtycoon.helpers.interfaces.ClickListener;
-import com.parkingtycoon.helpers.interfaces.TimedUpdatable;
-import com.parkingtycoon.views.ui.HudBuildView;
 import com.parkingtycoon.views.ui.HudCarsView;
 import com.parkingtycoon.views.ui.HudSettingsView;
 import com.parkingtycoon.views.ui.HudTopView;
@@ -13,15 +11,17 @@ import com.parkingtycoon.views.ui.HudTopView;
 /**
  * This class is responsible for the UI that changes the game.
  */
-public class HudTopController extends BaseController implements TimedUpdatable {
+public class HudTopController extends UpdateableController {
 
     public HudTopView view;
     private final CompositionRoot root;
-    private int oldFloorIndex = 0;
+    private int oldFloorIndex = -999;  // trigger a update directly
 
 
     public HudTopController(Stage stage) {
         root = CompositionRoot.getInstance();
+        HudBuildController hudBuildController = new HudBuildController(stage);
+
         view = new HudTopView(stage);
 
         // LEFT
@@ -35,13 +35,13 @@ public class HudTopController extends BaseController implements TimedUpdatable {
 
         // RIGHT
         view.deletedButton.addListener((ClickListener) (event, actor) -> root.bluePrintsController.toggleDemolishMode() );
-        view.buildButton.addListener((ClickListener) (event, actor) -> new HudBuildView(stage));
+        view.buildButton.addListener((ClickListener) (event, actor) -> hudBuildController.show(stage));
         view.carsButton.addListener((ClickListener) (event, actor) -> new HudCarsView());
         view.settings.addListener((ClickListener) (event, actor) -> new HudSettingsView(stage));
     }
 
     @Override
-    public void timedUpdate() {
+    public void update() {
         if (oldFloorIndex != root.floorsController.getCurrentFloor()) {
             view.floorTitle.setText("Floor: " + root.floorsController.getCurrentFloor());
             oldFloorIndex = root.floorsController.getCurrentFloor();

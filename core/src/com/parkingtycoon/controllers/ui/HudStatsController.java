@@ -3,6 +3,7 @@ package com.parkingtycoon.controllers.ui;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.controllers.BaseController;
+import com.parkingtycoon.helpers.interfaces.ClickListener;
 import com.parkingtycoon.views.ui.HudStatsView;
 
 /**
@@ -15,11 +16,13 @@ public class HudStatsController extends BaseController {
 
 
     public HudStatsController(Stage stage) {
-        HudDiagramsController controller = new HudDiagramsController(stage);
+        HudDiagramsController diagramController = new HudDiagramsController(stage);
 
         view = new HudStatsView(stage);
         root = CompositionRoot.getInstance();
         root.financialController.getModel().registerView(view);
+
+        view.showStatsButton.addListener((ClickListener) (event, actor) -> diagramController.show(stage));
     }
 
 }
