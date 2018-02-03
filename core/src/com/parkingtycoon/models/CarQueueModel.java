@@ -1,6 +1,7 @@
 package com.parkingtycoon.models;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 /**
  * This Class is responsible for storing a Queue of Cars.
@@ -8,14 +9,13 @@ import java.util.ArrayList;
 public class CarQueueModel extends BuildingModel {
 
     public int popTimer; // when popTimer == POP_INTERVAL -> pop car
-    public final boolean normal, vip;
+    public EnumSet<CarModel.CarType> carTypes;
 
     public ArrayList<CarModel> cars = new ArrayList<>();
 
-    public CarQueueModel(int x, int y, int angle, int floor, boolean normal, boolean vip) {
+    public CarQueueModel(int x, int y, int angle, int floor, EnumSet<CarModel.CarType> carTypes) {
         super(x, y, angle, floor);
-        this.normal = normal;
-        this.vip = vip;
+        this.carTypes = carTypes;
     }
 
     public boolean removeCar(CarModel car) {

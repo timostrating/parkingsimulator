@@ -47,7 +47,7 @@ public class HudDiagramsController extends UpdateableController {
                 adHocs++;
             if (carModel.carType == CarModel.CarType.RESERVED)
                 reserveds++;
-            if (carModel.vip)
+            if (carModel.carType == CarModel.CarType.VIP)
                 vips++;
         }
         diagramTotalCars.addToHistory(root.carsController.pathFollowers.size());

@@ -10,6 +10,7 @@ import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.CarModel;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -18,7 +19,13 @@ import java.util.List;
  */
 public class CarView extends AnimatedSpriteView {
 
-    private static final String[] CAR_VARIATIONS = {"pontiac", "pontiac_blue"};
+    private static final HashMap<CarModel.CarType, String> VARIATIONS = new HashMap<CarModel.CarType, String>() {
+        {
+            put(CarModel.CarType.AD_HOC, "pontiac");
+            put(CarModel.CarType.RESERVED, "pontiac_blue");
+            put(CarModel.CarType.VIP, "cadillac");
+        }
+    };
 
     private List<PathFinder.Node> path;
     private Color pathColor = new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), 1);
@@ -26,8 +33,8 @@ public class CarView extends AnimatedSpriteView {
     private AABB aabb;
     private boolean waiting, inQueue, disappearing;
 
-    public CarView(float appearX, float appearY, boolean vip) {
-        super("sprites/cars/" + (vip ? "cadillac" : Random.choice(CAR_VARIATIONS)), true);
+    public CarView(float appearX, float appearY, CarModel.CarType carType) {
+        super("sprites/cars/" + VARIATIONS.get(carType), true);
         spritePosition.set(appearX, appearY);
     }
 

@@ -36,7 +36,7 @@ public abstract class CarQueuesController extends UpdateableController {
         Collections.shuffle(queues);
         for (CarQueueModel q : queues) {
 
-            if (((q.vip && car.vip) || (q.normal && !car.vip))
+            if (q.carTypes.contains(car.carType)
                     && q.cars.size() <= maxQueueSize
                     && sendCarToQueue(q, car)
                     && q.cars.add(car)) {

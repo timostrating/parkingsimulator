@@ -11,7 +11,8 @@ public class CarModel extends PathFollowerModel {
   
     public enum CarType {
         AD_HOC,
-        RESERVED
+        RESERVED,
+        VIP
     }
 
     public CarType carType = CarType.AD_HOC;
@@ -19,7 +20,7 @@ public class CarModel extends PathFollowerModel {
     public long startTime, endTime, timer;
     public AABB aabb = new AABB(new Vector2(), new Vector2(.15f, .15f));
     public CarModel waitingOn;
-    public boolean waitingInQueue, firstInQueue, parked, vip, alwaysPrior;
+    public boolean waitingInQueue, firstInQueue, parked, alwaysPrior;
     public CarQueueModel queue;
 
     private String license;

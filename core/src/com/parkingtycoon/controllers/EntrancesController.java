@@ -5,6 +5,8 @@ import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.CarQueueModel;
 
+import java.util.EnumSet;
+
 /**
  * This class is responsible for providing a Queue that processes the new Cars that would like to park.
  */
@@ -21,9 +23,14 @@ public class EntrancesController extends CarQueuesController {
         return CompositionRoot.getInstance().carsController.parkCar(car, fromX, fromY);
     }
 
-    public CarQueueModel createEntrance(int x, int y, int angle, int floor, boolean vip) {
-        CarQueueModel entrance = new CarQueueModel(x, y, angle, floor, !vip, vip);
-        createViews(entrance, vip ? "vip" : "enter");
+    public CarQueueModel createEntrance(int x, int y, int angle, int floor, CarModel.CarType carType) {
+        CarQueueModel entrance = new CarQueueModel(x, y, angle, floor, EnumSet.of(carType));
+        createViews(
+                entrance,
+                carType == CarModel.CarType.AD_HOC ? "enter"
+                        : (carType == CarModel.CarType.VIP ? "vip"
+                        : "reserved")
+        );
         queues.add(entrance);
         return entrance;
     }
