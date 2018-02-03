@@ -20,8 +20,8 @@ public class HudController {
         view = new HudView();
 
         new HudTopController(view.stage);
-        new HudBottomLeftController(view.stage);
-        new HudBottomRightController(view.stage);
+        new HudStatsController(view.stage);
+        new HudTimeController(view.stage);
 
         root.inputController.onKeyDown.put(Input.Keys.F2, () -> {
             toggleDebug();
