@@ -122,6 +122,7 @@ public class BluePrintsController extends UpdateableController {
                         {FloorModel.FloorType.CONCRETE, FloorModel.FloorType.CONCRETE, FloorModel.FloorType.CONCRETE},
                         {FloorModel.FloorType.CONCRETE, FloorModel.FloorType.ROAD, FloorModel.FloorType.CONCRETE},
                         {FloorModel.FloorType.CONCRETE, FloorModel.FloorType.ROAD, FloorModel.FloorType.CONCRETE},
+                        {FloorModel.FloorType.CONCRETE, FloorModel.FloorType.ROAD, FloorModel.FloorType.CONCRETE},
                 },
                 // builder:
                 (x, y, angle, floor) -> root.elevatorsController.createElevator(x, y, angle),

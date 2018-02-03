@@ -100,6 +100,7 @@ public class CarsController extends PathFollowersController<CarModel> {
     private void detectCollisions(CarModel car) {
         if (car.waitingOn != null
                 && (car.floor != car.waitingOn.floor
+                || car.alwaysPrior
                 || car.waitingOn.parked
                 || !car.aabb.overlaps(car.waitingOn.aabb)
                 || car.waitingOn.isDisappeared()))
@@ -127,7 +128,7 @@ public class CarsController extends PathFollowersController<CarModel> {
             CarModel waiter = newDist >= dist ? car : otherCar;
             CarModel prior = waiter == car ? otherCar : car;
 
-            if (!waiter.waitingInQueue && prior.waitingInQueue) {
+            if ((!waiter.waitingInQueue && prior.waitingInQueue && !prior.alwaysPrior) || waiter.alwaysPrior) {
                 CarModel newWaiter = prior;
                 prior = waiter;
                 waiter = newWaiter;

@@ -174,6 +174,7 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
 
         pathFollower.pathToElevator = pathToElevator;
         pathFollower.goingToElevator = false;
+        pathFollower.elevationDone = false;
         pathFollower.pathToGoal = pathToGoal;
         pathFollower.goingToGoal = false;
         pathFollower.goal = goal;
