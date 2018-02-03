@@ -20,7 +20,7 @@ public abstract class PathFollowerModel extends BaseModel implements FloorDepend
 
     public Goal goal;
     public List<PathFinder.Node> pathToElevator, pathToGoal;
-    public boolean goingToElevator, goingToGoal;
+    public boolean elevationDone, goingToElevator, goingToGoal;
 
     private List<PathFinder.Node> currentPath;
     private boolean disappear;

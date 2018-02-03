@@ -8,7 +8,7 @@ import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.helpers.Logger;
-import com.parkingtycoon.models.BuildableModel;
+import com.parkingtycoon.models.BuildingModel;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.views.FlagView;
@@ -195,7 +195,7 @@ public class FloorsController extends UpdateableController {
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
                 if (floor.buildings[x] != null
                         && floor.buildings[x][y] != null) {
-                    BuildableModel building = floor.buildings[x][y];
+                    BuildingModel building = floor.buildings[x][y];
                     building.setOnActiveFloor(building.floor == currentFloor);
                 }
             }

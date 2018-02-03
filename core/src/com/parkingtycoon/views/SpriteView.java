@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.parkingtycoon.helpers.interfaces.FloorDependable;
 import com.parkingtycoon.models.BaseModel;
+import com.parkingtycoon.models.BuildingModel;
 
 import java.util.HashMap;
 
@@ -55,6 +56,13 @@ public class SpriteView extends BaseView {
         if (model instanceof FloorDependable)
             visible = ((FloorDependable) model).isOnActiveFloor();
 
+        if (model instanceof BuildingModel) {
+
+            BuildingModel building = (BuildingModel) model;
+            sprite.setColor(building.isToBeDemolished() ? Color.RED : Color.WHITE);
+            if (building.isDemolished())
+                end();
+        }
     }
 
     @Override

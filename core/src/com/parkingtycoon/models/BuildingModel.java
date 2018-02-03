@@ -2,19 +2,21 @@ package com.parkingtycoon.models;
 
 import com.parkingtycoon.helpers.interfaces.FloorDependable;
 
-public abstract class BuildableModel extends BaseModel implements FloorDependable {
+public abstract class BuildingModel extends BaseModel implements FloorDependable {
 
     public final int x, y, angle, floor;
     public final boolean onAllFloors;
 
-    private boolean onActiveFloor;
-    private boolean demolished;
+    public BluePrintModel.Demolisher demolisher;
 
-    public BuildableModel(int x, int y, int angle, int floor) {
+    private boolean demolished, toBeDemolished;
+    private boolean onActiveFloor;
+
+    public BuildingModel(int x, int y, int angle, int floor) {
         this(x, y, angle, floor, false);
     }
 
-    public BuildableModel(int x, int y, int angle, int floor, boolean onAllFloors) {
+    public BuildingModel(int x, int y, int angle, int floor, boolean onAllFloors) {
         this.x = x;
         this.y = y;
         this.angle = angle;
@@ -39,6 +41,15 @@ public abstract class BuildableModel extends BaseModel implements FloorDependabl
 
     public void setDemolished(boolean demolished) {
         this.demolished = demolished;
+        notifyViews();
+    }
+
+    public boolean isToBeDemolished() {
+        return toBeDemolished;
+    }
+
+    public void setToBeDemolished(boolean toBeDemolished) {
+        this.toBeDemolished = toBeDemolished;
         notifyViews();
     }
 }

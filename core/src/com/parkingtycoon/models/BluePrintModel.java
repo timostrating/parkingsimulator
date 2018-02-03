@@ -14,6 +14,7 @@ public class BluePrintModel extends BaseModel {
     public final Builder builder;
     public final boolean buildOnAllFloors;
     public final int[] allowedAngles;
+    public final Demolisher demolisher;
     public int x, y;
     public boolean[][] validTiles;
 
@@ -22,7 +23,7 @@ public class BluePrintModel extends BaseModel {
 
     public BluePrintModel(String title, String description, String spritePath, float spriteOriginX, float spriteOriginY,
                           float price, EnumSet<FloorModel.FloorType> canBuildOn, FloorModel.FloorType[][] tiles,
-                          Builder builder, boolean buildOnAllFloors, int... allowedAngles) {
+                          Builder builder, boolean buildOnAllFloors, Demolisher demolisher, int... allowedAngles) {
 
         this.title = title;
         this.description = description;
@@ -35,6 +36,7 @@ public class BluePrintModel extends BaseModel {
         this.builder = builder;
         this.buildOnAllFloors = buildOnAllFloors;
         this.allowedAngles = allowedAngles.length == 0 ? new int[] {0, 1, 2, 3} : allowedAngles;
+        this.demolisher = demolisher;
         angle = this.allowedAngles[0];
     }
 
@@ -67,7 +69,12 @@ public class BluePrintModel extends BaseModel {
 
     @FunctionalInterface
     public interface Builder {
-        BuildableModel build(int x, int y, int angle, int floor);
+        BuildingModel build(int x, int y, int angle, int floor);
+    }
+
+    @FunctionalInterface
+    public interface Demolisher {
+        void demolish(BuildingModel building);
     }
 
 }

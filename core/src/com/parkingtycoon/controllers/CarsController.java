@@ -6,10 +6,12 @@ import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.Random;
 import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import com.parkingtycoon.models.CarModel;
+import com.parkingtycoon.models.ElevatorModel;
 import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.models.PathFollowerModel;
 import com.parkingtycoon.views.CarView;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -279,8 +281,21 @@ public class CarsController extends PathFollowersController<CarModel> {
     }
 
     @Override
-    protected List<PathFinder.Node> getPathToElevator(int floor, int fromX, int fromY) {
-        return getPath(0, fromX, fromY, fromX, fromY); // todo: implement elevators.
+    protected List<PathFinder.Node> getPathToElevator(CarModel pathFollower, int fromX, int fromY) {
+
+        ElevatorsController elevatorsController = CompositionRoot.getInstance().elevatorsController;
+        Collections.shuffle(elevatorsController.elevators);
+
+        for (ElevatorModel elevator : elevatorsController.elevators) {
+
+            List<PathFinder.Node> path = getPath(pathFollower.floor, fromX, fromY, elevator.x + 1, elevator.y + 1);
+            if (path != null) {
+                elevator.cars.add(pathFollower);
+                return path;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -297,8 +312,8 @@ public class CarsController extends PathFollowersController<CarModel> {
     }
 
     @Override
-    protected void onIdlesFloorChanged(CarModel pathfollower) {
-        sendToEndOfTheWorld(pathfollower, true);
+    protected void onIdlesFloorChanged(CarModel pathFollower) {
+        sendToEndOfTheWorld(pathFollower, true);
     }
 
     /**

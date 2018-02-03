@@ -24,6 +24,7 @@ public class CompositionRoot {
     public FinancialController financialController;
     public HudController hudController;
     public BluePrintsController bluePrintsController;
+    public ElevatorsController elevatorsController;
 
     private static CompositionRoot instance;
 
@@ -59,6 +60,7 @@ public class CompositionRoot {
         financialController = new FinancialController();
         hudController = new HudController(game.batch);
         bluePrintsController = new BluePrintsController();
+        elevatorsController = new ElevatorsController();
     }
 
 }
