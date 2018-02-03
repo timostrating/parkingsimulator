@@ -14,6 +14,9 @@ import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.views.BaseView;
 
+/**
+ * This view is responsible for showing a window where the cars are visible in a list.
+ */
 public class HudCarsView extends BaseView {
 
     @Override

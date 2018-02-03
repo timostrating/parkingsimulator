@@ -19,6 +19,7 @@ import java.util.EnumSet;
  */
 public class BluePrintsController extends UpdateableController {
 
+    // Threadsafe
     public BluePrintModel nextToBeBuilt;
     public boolean demolishMode;
 
@@ -28,6 +29,7 @@ public class BluePrintsController extends UpdateableController {
     private boolean clicked;
 
     private final CompositionRoot root = CompositionRoot.getInstance();
+
 
     public ArrayList<BluePrintModel> bluePrints = new ArrayList<BluePrintModel>() {{
 
@@ -138,7 +140,6 @@ public class BluePrintsController extends UpdateableController {
 
     public BluePrintsController() {
         super();
-        CompositionRoot root = CompositionRoot.getInstance();
 
         root.inputController.onKeyDown.put(Input.Keys.R, () -> {
             if (nextToBeBuilt == null)
@@ -210,7 +211,7 @@ public class BluePrintsController extends UpdateableController {
         if (toBeBuilt != null) {
             toBeBuilt.setActive(false);
             toBeBuilt.unregisterView(bluePrintView);
-            toBeBuilt.unregisterView(CompositionRoot.getInstance().floorsController.view);
+            toBeBuilt.unregisterView(root.floorsController.view);
             bluePrintView = null;
             toBeBuilt = null;
         }
@@ -223,7 +224,7 @@ public class BluePrintsController extends UpdateableController {
         bluePrintView.show();
         toBeBuilt.setActive(true);
         toBeBuilt.registerView(bluePrintView);
-        toBeBuilt.registerView(CompositionRoot.getInstance().floorsController.view);
+        toBeBuilt.registerView(root.floorsController.view);
         toBeBuilt.setAngle(0);
 
     }
@@ -305,7 +306,7 @@ public class BluePrintsController extends UpdateableController {
      */
     public boolean canBuild(BluePrintModel bluePrint, int originX, int originY) {
 
-        FloorsController floorsController = CompositionRoot.getInstance().floorsController;
+        FloorsController floorsController = root.floorsController;
         FloorModel floor = floorsController.floors.get(floorsController.getCurrentFloor());
 
         boolean canBuild = true;
@@ -348,7 +349,7 @@ public class BluePrintsController extends UpdateableController {
 
     private void build(BluePrintModel bluePrint, int originX, int originY) {
 
-        FloorsController floorsController = CompositionRoot.getInstance().floorsController;
+        FloorsController floorsController = root.floorsController;
         int floorIndex = floorsController.getCurrentFloor();
 
         BuildingModel building = bluePrint.builder.build(originX, originY, bluePrint.getAngle(), floorIndex);

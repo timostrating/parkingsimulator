@@ -1,77 +1,49 @@
 package com.parkingtycoon.views.components;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.parkingtycoon.helpers.Remapper;
 import com.parkingtycoon.models.ui.DiagramModel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class HudPieDiagram extends HudDiagram {
 
-    private float totalOfAllValues;
+    private float quality = 2;
 
-    private ArrayList<PieModelAdapter> pieData = new ArrayList<>();
-    private HashMap<String, Integer> nameToPieIndex = new HashMap<>();
 
-    public HudPieDiagram(int width, int height) {
-        super(width, height);
+    public HudPieDiagram(int width, int height, DiagramModel... diagramModels) {
+        super(width, height, diagramModels);
     }
 
     @Override
-    public void drawDiagram(ShapeRenderer shapeRenderer) {
+    void drawDiagram(ShapeRenderer shapeRenderer, DiagramModel[] diagramModels) {
+        float totalOfAllModels = 0;
+        for (DiagramModel diagramModel : diagramModels)
+            totalOfAllModels += diagramModel.getTotalValue();
+
         Gdx.gl.glLineWidth(3);
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(width/2, height/2, width/2, height/2);
+        float prevAngle = 0;
 
-        shapeRenderer.setColor(Color.YELLOW);
-        if (pieData != null) {
-            float prevAngle = 0;
-            for (int x=0; x<pieData.size(); x++) {
-                float angle = Remapper.map(pieData.get(x).value, 0, totalOfAllValues, 0, 360);
-                shapeRenderer.arc(width/2, height/2, width/2, prevAngle, prevAngle + angle);
-                prevAngle += angle;
-            }
+        for (DiagramModel diagramModel : diagramModels) {
+            float angle = Remapper.map(diagramModel.getTotalValue(), 0, totalOfAllModels, 0, 360);
+
+            shapeRenderer.setColor(diagramModel.getColor().mul(0.7f));
+            shapeRenderer.arc(width/2+7, height/2-7, width/2 -20, prevAngle, angle, getQuality(angle));
+            diagramModel.getColor().mul(1/ 0.7f);
+
+            prevAngle += angle;
+        }
+
+        for (DiagramModel diagramModel : diagramModels) {
+            float angle = Remapper.map(diagramModel.getTotalValue(), 0, totalOfAllModels, 0, 360);
+
+            shapeRenderer.setColor(diagramModel.getColor());
+            shapeRenderer.arc(width/2, height/2, width/2 -20, prevAngle, angle, getQuality(angle));
+            prevAngle += angle;
         }
     }
 
-    @Override
-    public void update(DiagramModel model) {
-        // we don't call super because we do not want the data variable to be set by it.
-
-        if (nameToPieIndex.containsKey( model.getName() )) {
-            PieModelAdapter adapter = pieData.get( nameToPieIndex.get( model.getName() ) );
-            adapter.name = model.getName();
-            adapter.color = model.getColor();
-            totalOfAllValues -= adapter.value;
-            adapter.value = model.getTotalValue();
-            totalOfAllValues += adapter.value;
-
-        } else {
-            pieData.add(new PieModelAdapter(model.getName(), model.getColor(), model.getTotalValue()));
-            totalOfAllValues += model.getTotalValue();
-            nameToPieIndex.put(model.getName(), pieData.size()-1);
-        }
-    }
-
-
-    /**
-     * Java bean
-     *
-     * More info: https://nl.wikipedia.org/wiki/JavaBeans
-     */
-    private class PieModelAdapter {
-        private String name;
-        private Color color;
-        private float value;
-
-        public PieModelAdapter(String name, Color color, float value) {
-            this.name = name;
-            this.color = color;
-            this.value = value;
-        }
+    private int getQuality(float degrees) {
+        return Math.max(1, (int)(6 * (float)Math.cbrt(width/2 -20) * (degrees / (360.0f / quality))));
     }
 
 }

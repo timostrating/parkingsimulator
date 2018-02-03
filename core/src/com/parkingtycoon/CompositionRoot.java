@@ -47,17 +47,16 @@ public class CompositionRoot {
 
     private void start(Game game) {
         this.game = game;
-        inputController = new InputController(game);
+        inputController = new InputController(game);                     // Setup
         simulationController = new SimulationController();
         renderController = new RenderController(game);
         timeController = new TimeController();
-        animatedSpritesController = new AnimatedSpritesController();
-        carsController = new CarsController();
+        animatedSpritesController = new AnimatedSpritesController();     // Cars
         entrancesController = new EntrancesController();
         exitsController = new ExitsController();
         floorsController = new FloorsController();
         carsController = new CarsController();
-        financialController = new FinancialController();
+        financialController = new FinancialController();                 // UI
         hudController = new HudController(game.batch);
         bluePrintsController = new BluePrintsController();
         elevatorsController = new ElevatorsController();

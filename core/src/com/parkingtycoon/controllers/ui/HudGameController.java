@@ -1,11 +1,10 @@
 package com.parkingtycoon.controllers.ui;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.controllers.BluePrintsController;
+import com.parkingtycoon.helpers.interfaces.ClickListener;
 import com.parkingtycoon.views.ui.HudBuildView;
 import com.parkingtycoon.views.ui.HudCarsView;
 
@@ -18,43 +17,16 @@ public class HudGameController extends HudBaseController {
 
     public HudGameController(Stage stage) {
         super(stage);
-
         root = CompositionRoot.getInstance();
-        HudCarsView hudCarsView = new HudCarsView();
 
-        // DEMOLISH
-        final VisTextButton deletedButton = new VisTextButton("demolish");
-
-        deletedButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                BluePrintsController c = CompositionRoot.getInstance().bluePrintsController;
-                c.demolishMode = !c.demolishMode;
-            }
-        });
-
-
-        // BUILD
+        final VisTextButton deletedButton = new VisTextButton("delete");
+        deletedButton.addListener((ClickListener) (event, actor) -> { BluePrintsController c = CompositionRoot.getInstance().bluePrintsController; c.demolishMode = !c.demolishMode; });
+      
         final VisTextButton buildButton = new VisTextButton("build");
+        buildButton.addListener((ClickListener) (event, actor) -> new HudBuildView(stage));
 
-        buildButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                HudBuildView view = new HudBuildView(stage);
-//                root.financialController.spend(1000);
-            }
-        });
-
-
-        // CARS
         final VisTextButton carsButton = new VisTextButton("Cars");
-
-        carsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-//                hudCarsView.();
-            }
-        });
+        carsButton.addListener((ClickListener) (event, actor) -> new HudCarsView());
 
         table.add(deletedButton).padLeft(10);
         table.add(buildButton).padLeft(10);
