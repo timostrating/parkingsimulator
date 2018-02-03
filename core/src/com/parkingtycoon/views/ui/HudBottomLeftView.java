@@ -15,12 +15,12 @@ import com.parkingtycoon.views.BaseView;
 /**
  * This Class is responsible for showing the stats of the simulation.
  */
-public class HudStatsView extends BaseView {
+public class HudBottomLeftView extends BaseView {
 
     private final HubStatsWindow window = new HubStatsWindow();
     private float moneys;
 
-    public HudStatsView(Stage stage) {
+    public HudBottomLeftView(Stage stage) {
         super();
         show();
 

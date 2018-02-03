@@ -57,7 +57,7 @@ public class CompositionRoot {
         floorsController = new FloorsController();
         carsController = new CarsController();
         financialController = new FinancialController();                 // UI
-        hudController = new HudController(game.batch);
+        hudController = new HudController();
         bluePrintsController = new BluePrintsController();
         elevatorsController = new ElevatorsController();
     }

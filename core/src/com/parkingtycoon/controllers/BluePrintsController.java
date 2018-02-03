@@ -20,8 +20,8 @@ import java.util.EnumSet;
 public class BluePrintsController extends UpdateableController {
 
     // Threadsafe
-    public BluePrintModel nextToBeBuilt;
-    public boolean demolishMode;
+    private BluePrintModel nextToBeBuilt;
+    private boolean demolishMode;
 
     private BluePrintModel toBeBuilt;
     private BluePrintView bluePrintView;
@@ -227,6 +227,14 @@ public class BluePrintsController extends UpdateableController {
         toBeBuilt.registerView(root.floorsController.view);
         toBeBuilt.setAngle(0);
 
+    }
+
+    public void toggleDemolishMode() {
+        demolishMode = !demolishMode;
+    }
+
+    public void setNextToBeBuilt(BluePrintModel nextToBeBuilt) {
+        this.nextToBeBuilt = nextToBeBuilt;
     }
 
     @Override

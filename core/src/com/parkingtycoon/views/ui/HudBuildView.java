@@ -62,7 +62,7 @@ public class HudBuildView extends BaseView {
 
             for (BluePrintModel bluePrint : bluePrints) {
                 VisTextButton button = new VisTextButton(bluePrint.title);
-                button.addListener((ClickListener) (event, actor) -> root.bluePrintsController.nextToBeBuilt = bluePrint);
+                button.addListener((ClickListener) (event, actor) -> root.bluePrintsController.setNextToBeBuilt(bluePrint));
                 group.addActor(button);
             }
 

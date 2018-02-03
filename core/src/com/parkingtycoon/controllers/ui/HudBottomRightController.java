@@ -10,13 +10,11 @@ import com.parkingtycoon.views.ui.HudTimeView;
 /**
  * This class is responsible for controlling the UI that allows the game to have options.
  */
-public class HudTimeController extends HudBaseController implements TimedUpdatable {
+public class HudBottomRightController implements TimedUpdatable {
 
     private final TimeModel model;
 
-    public HudTimeController(Stage stage) {
-        super(stage);
-
+    public HudBottomRightController(Stage stage) {
         CompositionRoot.getInstance().timeController.registerTimedUpdatable(this, TimeController.TimeUpdate.MINUTELY);
 
         model = new TimeModel();

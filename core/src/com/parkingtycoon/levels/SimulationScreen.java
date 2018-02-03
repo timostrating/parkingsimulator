@@ -7,7 +7,7 @@ import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.controllers.InputController;
 import com.parkingtycoon.controllers.SimulationController;
-import com.parkingtycoon.controllers.ui.HudController;
+import com.parkingtycoon.views.ui.HudView;
 
 
 /**
@@ -19,7 +19,7 @@ public class SimulationScreen implements Screen {
     private CompositionRoot root;
 
     private OrthographicCamera worldCamera;
-    private HudController hud;
+    private HudView hud;
 
     private InputController.ScrollListener zoomer = amount -> {
         worldCamera.zoom = Math.max(1, Math.min(18, worldCamera.zoom + amount * worldCamera.zoom / 16f));
@@ -39,7 +39,7 @@ public class SimulationScreen implements Screen {
         root = CompositionRoot.getInstance();
         root.renderController.setMainCamera(worldCamera);
 
-        hud = root.hudController;
+        hud = root.hudController.view;
 
         CompositionRoot.getInstance().inputController.scrollListeners.add(zoomer);
 
