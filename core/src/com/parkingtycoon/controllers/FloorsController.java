@@ -182,7 +182,9 @@ public class FloorsController extends UpdateableController {
         for (int i = 0; i < floors.size(); i++)
             floors.get(i).setCurrentFloor(i == index);
 
-        CompositionRoot.getInstance().carsController.onFloorSwitch(index);
+        CarsController carsController = CompositionRoot.getInstance().carsController;
+        if (carsController != null)
+            carsController.onFloorSwitch(index);
     }
 
     public int getCurrentFloor() {
