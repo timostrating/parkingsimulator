@@ -5,7 +5,6 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.parkingtycoon.CompositionRoot;
-import com.parkingtycoon.helpers.Logger;
 import com.parkingtycoon.helpers.interfaces.ClickListener;
 
 /**
@@ -35,12 +34,12 @@ public class HudOptionsController extends HudBaseController {
 
 
         final VisTextButton floorUp = new VisTextButton("^");
-        floorUp.addListener((ClickListener) (event, actor) -> Logger.info("UP"));
+        floorUp.addListener((ClickListener) (event, actor) -> root.floorsController.up = true);
 
         floorTitle = new VisLabel("Floor: XX");
 
         final VisTextButton floorDown = new VisTextButton("v");
-        floorDown.addListener((ClickListener) (event, actor) -> Logger.info("DOWN"));
+        floorDown.addListener((ClickListener) (event, actor) -> root.floorsController.down = true);
 
 
         table.add(button).padRight(20);

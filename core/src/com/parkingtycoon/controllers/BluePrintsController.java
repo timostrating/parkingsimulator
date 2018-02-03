@@ -39,7 +39,7 @@ public class BluePrintsController extends UpdateableController {
                 // description:
                 "Your garage needs at least one entrance.",
                 // sprite:
-                "sprites/entrance", 0, 0,
+                "sprites/queueBluePrint", 4, 5,
                 // price:
                 100,
                 // FloorTypes that this building can be build on:
@@ -64,7 +64,7 @@ public class BluePrintsController extends UpdateableController {
                 // description:
                 "Build a special entrance for parking-subscribers.",
                 // sprite:
-                "sprites/entrance", 0, 0,
+                "sprites/queueBluePrint", 4, 5,
                 // price:
                 1000,
                 // FloorTypes that this building can be build on:
@@ -89,7 +89,7 @@ public class BluePrintsController extends UpdateableController {
                 // description:
                 "This is where customers pay and leave",
                 // sprite:
-                "sprites/entrance", 0, 0,
+                "sprites/queueBluePrint", 4, 5,
                 // price:
                 200,
                 // FloorTypes that this building can be build on:
@@ -114,7 +114,7 @@ public class BluePrintsController extends UpdateableController {
                 // description:
                 "With elevators cars can switch floors.",
                 // sprite:
-                "sprites/entrance", 0, 0,
+                "sprites/elevatorBluePrint", 3, 4,
                 // price:
                 200,
                 // FloorTypes that this building can be build on:
@@ -220,7 +220,7 @@ public class BluePrintsController extends UpdateableController {
     private void setToBeBuilt(BluePrintModel bluePrint) {
 
         toBeBuilt = bluePrint;
-        bluePrintView = new BluePrintView(toBeBuilt.spritePath);
+        bluePrintView = new BluePrintView(toBeBuilt.spritePath, bluePrint.spriteOriginX, bluePrint.spriteOriginY);
         bluePrintView.show();
         toBeBuilt.setActive(true);
         toBeBuilt.registerView(bluePrintView);

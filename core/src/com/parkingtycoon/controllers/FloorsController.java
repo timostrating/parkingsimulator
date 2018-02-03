@@ -24,9 +24,9 @@ public class FloorsController extends UpdateableController {
     public FloorsView view;
     public ArrayList<FloorModel> floors = new ArrayList<>();
     public FloorModel.FloorType nextFloorType;
+    public boolean up, down;
 
     private int currentFloor = 0, nextFloor;
-    private boolean up, down;
 
     public static final int BUILD_MARGIN = 25;
 

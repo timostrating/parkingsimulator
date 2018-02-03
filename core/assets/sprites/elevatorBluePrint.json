@@ -1,0 +1,34 @@
+{ "frames": {
+   "elevator_blueprint_ghost 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   },
+   "elevator_blueprint_ghost 1.ase": {
+    "frame": { "x": 192, "y": 0, "w": 192, "h": 211 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 192, "h": 211 },
+    "sourceSize": { "w": 192, "h": 211 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.1.13",
+  "image": "C:\\Users\\Hilko\\Documents\\GitHub\\parkeersimulator\\core\\assets\\sprites\\elevatorBluePrint.png",
+  "format": "RGBA8888",
+  "size": { "w": 512, "h": 256 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "bluePrintAngle3", "from": 0, "to": 0, "direction": "forward" },
+   { "name": "bluePrintAngle0", "from": 1, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
+}
