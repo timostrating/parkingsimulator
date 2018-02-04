@@ -32,7 +32,7 @@ public class DesktopLauncher extends JComponent implements ActionListener {
 	private static Timer t;
 	private static JFrame window;
 
-	private final static boolean DEBUG = true;
+	private final static boolean DEBUG = false;
 
 	/**
 	 * Painting the background image, moving car and the logo on the screen.
