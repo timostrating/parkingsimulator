@@ -16,7 +16,7 @@ public class TimeModel extends BaseModel {
         notifyViews();
     }
 
-    public void setTime(int time) {
+    public void setTime(long time) {
         this.time = time;
         notifyViews();
     }

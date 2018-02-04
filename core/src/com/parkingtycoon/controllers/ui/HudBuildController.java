@@ -16,8 +16,11 @@ public class HudBuildController extends BaseController implements Showable {
     private HudBuildView view;
 
     public HudBuildController(Stage stage) {
-        view = new HudBuildView(stage);
         CompositionRoot root = CompositionRoot.getInstance();
+
+        view = new HudBuildView(stage);
+        view.hide();
+
 
         for (BluePrintModel bluePrint : root.bluePrintsController.bluePrints) {
             VisImageButton button = new VisImageButton(TextureHelper.setupDrawable(bluePrint.uiImagePath+".jpg", 100, 100), bluePrint.title);

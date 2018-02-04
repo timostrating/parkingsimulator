@@ -8,6 +8,8 @@ import com.parkingtycoon.helpers.interfaces.TimedUpdatable;
  */
 public class TimeController extends UpdateableController {
 
+    private final static int SECONDS_PER_UPDATE = 20;
+
     private Delegate<TimedUpdatable> minutelyUpdates = new Delegate<>(false);
     private Delegate<TimedUpdatable> hourlyUpdates = new Delegate<>(false);
     private Delegate<TimedUpdatable> dailyUpdates = new Delegate<>(false);
@@ -31,7 +33,7 @@ public class TimeController extends UpdateableController {
     }
 
     private void advanceTime(){
-        seconds ++;
+        seconds += SECONDS_PER_UPDATE;
 
         if (seconds >= 60) {
             seconds -= 60;

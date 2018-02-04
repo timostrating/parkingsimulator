@@ -42,11 +42,13 @@ public class HudBuildView extends BaseView implements Showable {
     @Override
     public void show(Stage stage) {
         window.setVisible(true);
+        window.setZIndex(999);
         stage.addActor(window);
     }
 
     @Override
     public void hide() {
+        window.setZIndex(0);
         window.setVisible(false);
     }
 

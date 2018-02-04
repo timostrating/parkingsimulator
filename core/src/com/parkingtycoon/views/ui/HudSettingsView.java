@@ -6,19 +6,20 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
-import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
-import com.parkingtycoon.helpers.Logger;
+import com.parkingtycoon.helpers.interfaces.Showable;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.views.BaseView;
 
-public class HudSettingsView extends BaseView {
+public class HudSettingsView extends BaseView implements Showable {
+
+    public VisTable container;
+    public TabbedPane tabbedPane;
 
     private HudSettingsWindow window;
 
-    public HudSettingsView(Stage stage) {
-        Logger.info("oke");
 
-        window = new HudSettingsWindow();
+    public HudSettingsView(Stage stage, Tab... tabs) {
+        window = new HudSettingsWindow(tabs);
         stage.addActor(window);
     }
 
@@ -30,10 +31,23 @@ public class HudSettingsView extends BaseView {
         return 0;
     }
 
+    @Override
+    public void show(Stage stage) {
+        window.setVisible(true);
+        window.setZIndex(999);
+        stage.addActor(window);
+    }
+
+    @Override
+    public void hide() {
+        window.setZIndex(0);
+        window.setVisible(false);
+    }
+
 
     private class HudSettingsWindow extends VisWindow {
 
-        HudSettingsWindow() {
+        HudSettingsWindow(Tab... tabs) {
             super("Settings");
             TableUtils.setSpacingDefaults(this);
             columnDefaults(0).left();
@@ -41,18 +55,13 @@ public class HudSettingsView extends BaseView {
             setSize(300, 300);
             addCloseButton();
 
-            final VisTable container = new VisTable();
+            container = new VisTable();
 
-            TabbedPane tabbedPane = new TabbedPane();
-            tabbedPane.addListener(new TabbedPaneAdapter() {
-                @Override
-                public void switchedTab (Tab tab) {
-                    container.clearChildren();
-                    container.add(tab.getContentTable()).expand().fill();
-                }
-            });
+            tabbedPane = new TabbedPane();
+            for (Tab tab : tabs)
+                tabbedPane.add(tab);
 
-            tabbedPane.add(new HudSettingsEmployeeTab());
+            container.add(tabbedPane.getTabs().get(0).getContentTable()).expand().fill();
 
             add(tabbedPane.getTable()).expandX().fill();
             row();

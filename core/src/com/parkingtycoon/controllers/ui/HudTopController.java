@@ -5,7 +5,6 @@ import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.controllers.UpdateableController;
 import com.parkingtycoon.helpers.interfaces.ClickListener;
 import com.parkingtycoon.views.ui.HudCarsView;
-import com.parkingtycoon.views.ui.HudSettingsView;
 import com.parkingtycoon.views.ui.HudTopView;
 
 /**
@@ -21,6 +20,7 @@ public class HudTopController extends UpdateableController {
     public HudTopController(Stage stage) {
         root = CompositionRoot.getInstance();
         HudBuildController hudBuildController = new HudBuildController(stage);
+        HudSettingsController hudSettingsController = new HudSettingsController(stage);
 
         view = new HudTopView(stage);
 
@@ -37,7 +37,7 @@ public class HudTopController extends UpdateableController {
         view.deletedButton.addListener((ClickListener) (event, actor) -> root.bluePrintsController.toggleDemolishMode() );
         view.buildButton.addListener((ClickListener) (event, actor) -> hudBuildController.show(stage));
         view.carsButton.addListener((ClickListener) (event, actor) -> new HudCarsView());
-        view.settings.addListener((ClickListener) (event, actor) -> new HudSettingsView(stage));
+        view.settings.addListener((ClickListener) (event, actor) -> hudSettingsController.show(stage));
     }
 
     @Override

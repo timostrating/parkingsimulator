@@ -15,7 +15,7 @@ public class HudTimeController implements TimedUpdatable {
     private final TimeModel model;
 
     public HudTimeController(Stage stage) {
-        CompositionRoot.getInstance().timeController.registerTimedUpdatable(this, TimeController.TimeUpdate.MINUTELY);
+        CompositionRoot.getInstance().timeController.registerTimedUpdatable(this, TimeController.TimeUpdate.HOURLY);
 
         model = new TimeModel();
         HudTimeView view = new HudTimeView(stage);
@@ -24,7 +24,7 @@ public class HudTimeController implements TimedUpdatable {
 
     @Override
     public void timedUpdate() {
-        model.increaseTime();
+        model.setTime(model.getTime()+60);
     }
 
 }
