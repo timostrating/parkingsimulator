@@ -12,10 +12,6 @@ import java.util.EnumSet;
  */
 public class EntrancesController extends CarQueuesController {
 
-    public EntrancesController() {
-        popInterval = 50;
-    }
-
     @Override
     protected boolean nextAction(CarModel car) {
         int fromX = car.queue.x + CoordinateRotater.rotate(0, 3, 1, 3, car.queue.angle);
@@ -31,6 +27,9 @@ public class EntrancesController extends CarQueuesController {
                         : (carType == CarModel.CarType.VIP ? "vip"
                         : "reserved")
         );
+        // entrances for vips and reserved cars have licence plate recognition
+        entrance.popInterval = carType == CarModel.CarType.AD_HOC ? 50 : 5;
+        entrance.maxQueueLength = carType == CarModel.CarType.AD_HOC ? 6 : 30;
         queues.add(entrance);
         return entrance;
     }

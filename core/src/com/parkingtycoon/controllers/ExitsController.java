@@ -12,10 +12,6 @@ import java.util.EnumSet;
  */
 public class ExitsController extends CarQueuesController {
 
-    public ExitsController() {
-        popInterval = 100;
-    }
-
     @Override
     protected boolean nextAction(CarModel car) {
         CompositionRoot root = CompositionRoot.getInstance();
@@ -25,9 +21,9 @@ public class ExitsController extends CarQueuesController {
 
         if (root.carsController.sendToEndOfTheWorld(car, fromX, fromY, false)) {
             root.financialController.addAmount(
-                    car.carType == CarModel.CarType.AD_HOC ? 200
-                            : car.carType == CarModel.CarType.RESERVED ? 300
-                            : 0
+                    car.carType == CarModel.CarType.AD_HOC ? 200                // default
+                            : car.carType == CarModel.CarType.RESERVED ? 300    // reservations cost more
+                            : 0                                                 // vips pay monthly
             );
             return true;
         }
@@ -38,6 +34,8 @@ public class ExitsController extends CarQueuesController {
         CarQueueModel exit = new CarQueueModel(x, y, angle, floor,
                 EnumSet.of(CarModel.CarType.AD_HOC, CarModel.CarType.VIP, CarModel.CarType.RESERVED)
         );
+        exit.popInterval = 100;
+        exit.maxQueueLength = 15;
         createViews(exit, "exit");
         queues.add(exit);
         return exit;

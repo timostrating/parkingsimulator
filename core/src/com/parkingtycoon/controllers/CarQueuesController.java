@@ -20,7 +20,6 @@ import java.util.Collections;
 public abstract class CarQueuesController extends UpdateableController {
 
     protected ArrayList<CarQueueModel> queues = new ArrayList<CarQueueModel>();
-    protected int popInterval = 10;
 
     public CarQueuesController() {
         CompositionRoot.getInstance().simulationController.registerUpdatable(this);
@@ -30,14 +29,12 @@ public abstract class CarQueuesController extends UpdateableController {
         if (queues.size() == 0)
             return false;
 
-        int maxQueueSize = Random.randomInt(3, 6); // some people don't like queues longer than 3, others 4 or 6
-
         // add car to random entrance queue
         Collections.shuffle(queues);
         for (CarQueueModel q : queues) {
 
             if (q.carTypes.contains(car.carType)
-                    && q.cars.size() <= maxQueueSize
+                    && q.cars.size() <= Random.randomInt(q.maxQueueLength / 2, q.maxQueueLength)
                     && sendCarToQueue(q, car)
                     && q.cars.add(car)) {
 
@@ -90,7 +87,7 @@ public abstract class CarQueuesController extends UpdateableController {
 
                 // this is the first car in the queue
 
-                if (queue.popTimer++ >= popInterval) {
+                if (queue.popTimer++ >= queue.popInterval) {
 
                     if (nextAction(car)) {
 

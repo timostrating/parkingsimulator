@@ -15,13 +15,13 @@ public class CarModel extends PathFollowerModel {
         VIP
     }
 
-    public final CarType carType;
+    public CarType carType;
     public float brake = 0;
     public long startTime, endTime, timer;
     public int reservationTimer;
     public AABB aabb = new AABB(new Vector2(), new Vector2(.15f, .15f));
     public CarModel waitingOn;
-    public boolean waitingInQueue, firstInQueue, parked, alwaysPrior;
+    public boolean waitingInQueue, firstInQueue, parked, alwaysPrior, claimedReservedPlace;
     public CarQueueModel queue;
 
     private String license;

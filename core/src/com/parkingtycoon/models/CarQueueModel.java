@@ -8,9 +8,10 @@ import java.util.EnumSet;
  */
 public class CarQueueModel extends BuildingModel {
 
-    public int popTimer; // when popTimer == POP_INTERVAL -> pop car
+    public int popTimer; // when popTimer >= popInterval -> pop car
+    public int popInterval;
+    public int maxQueueLength = 6;
     public EnumSet<CarModel.CarType> carTypes;
-
     public ArrayList<CarModel> cars = new ArrayList<>();
 
     public CarQueueModel(int x, int y, int angle, int floor, EnumSet<CarModel.CarType> carTypes) {

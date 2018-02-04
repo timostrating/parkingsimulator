@@ -338,7 +338,7 @@ public class FloorsController extends UpdateableController {
             int x = parkableX + CoordinateRotater.rotate(1, 1, 0, 1, angle);
             int y = parkableY + CoordinateRotater.rotate(0, 1, 1, 1, angle);
 
-            if (x < 0 || x >= Game.WORLD_WIDTH || y < 0 || y >= Game.WORLD_HEIGHT)
+            if (!Game.inWorld(x, y))
                 continue;
 
             if (floor.tiles[x][y] == FloorModel.FloorType.ROAD)

@@ -19,12 +19,12 @@ public class FloorModel extends BaseModel {
     public FloorType[][] tiles = new FloorType[Game.WORLD_WIDTH][];
     public CarModel[][] parkedCars = new CarModel[Game.WORLD_WIDTH][];
     public Boolean[][] accessibleParkables = new Boolean[Game.WORLD_WIDTH][];
-    public Boolean[][] reserved = new Boolean[Game.WORLD_WIDTH][];
     public int[][] waitingTime = new int[Game.WORLD_WIDTH][];
     public BuildingModel[][] buildings = new BuildingModel[Game.WORLD_WIDTH][];
 
     public boolean fromFlagPlaced, toFlagPlaced, stopPlacing;
 
+    private Boolean[][] reserved = new Boolean[Game.WORLD_WIDTH][];
     private Boolean[][] newFloorValid;
     private int[] newFloorFrom, newFloorTo;
     private FloorType newFloorType;
@@ -52,6 +52,21 @@ public class FloorModel extends BaseModel {
 
     public boolean isCurrentFloor() {
         return isCurrentFloor;
+    }
+
+    public boolean isReserved(int x, int y) {
+        if (reserved[x] == null)
+            return false;
+
+        return Boolean.TRUE.equals(reserved[x][y]);
+    }
+
+    public void setReserved(int x, int y, boolean reserved) {
+        if (this.reserved[x] == null)
+            this.reserved[x] = new Boolean[Game.WORLD_HEIGHT];
+
+        this.reserved[x][y] = reserved;
+        notifyViews();
     }
 
     public void setCurrentFloor(boolean currentFloor) {
