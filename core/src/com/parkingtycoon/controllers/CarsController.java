@@ -132,6 +132,16 @@ public class CarsController extends PathFollowersController<CarModel> {
 
             }
 
+            // if there is a traffic jam somehow -> despawn cars that are stuck for a long time
+            if (car.waitingOn != null && !car.waitingInQueue) {
+
+                if (++car.waitingTooLongTimer > 1000) {
+                    clearParkingSpace(car);
+                    car.setDisappeared();
+                }
+
+            } else car.waitingTooLongTimer = Math.max(0, --car.waitingTooLongTimer);
+
             updateCarAABB(car);
         }
 
