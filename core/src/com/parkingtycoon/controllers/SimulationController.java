@@ -1,6 +1,5 @@
 package com.parkingtycoon.controllers;
 
-import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.Delegate;
 
 /**
@@ -61,9 +60,6 @@ public class SimulationController extends BaseController {
                 updatesSinceLastSecond = 0;
 
             }
-
-            addCars();
-
             deltaTime -= timeStep;
 
             if (paused) break;
@@ -102,12 +98,6 @@ public class SimulationController extends BaseController {
     public void togglePaused() {
         paused = !paused;
         pausedUpdate = false;
-    }
-
-    private void addCars() { // todo: remove to an appropriate controller
-        if (Math.random() > .95f) {
-            CompositionRoot.getInstance().carsController.spawnCar();
-        }
     }
 
     public long getUpdates() {

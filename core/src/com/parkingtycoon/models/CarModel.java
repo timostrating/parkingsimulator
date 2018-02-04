@@ -15,9 +15,10 @@ public class CarModel extends PathFollowerModel {
         VIP
     }
 
-    public CarType carType = CarType.AD_HOC;
+    public final CarType carType;
     public float brake = 0;
     public long startTime, endTime, timer;
+    public int reservationTimer;
     public AABB aabb = new AABB(new Vector2(), new Vector2(.15f, .15f));
     public CarModel waitingOn;
     public boolean waitingInQueue, firstInQueue, parked, alwaysPrior;
@@ -26,7 +27,8 @@ public class CarModel extends PathFollowerModel {
     private String license;
 
   
-    public CarModel() {
+    public CarModel(CarType type) {
+        carType = type;
         speed = .2f;
         license = LicenceGenerator.getRandomLicencePlate();
     }

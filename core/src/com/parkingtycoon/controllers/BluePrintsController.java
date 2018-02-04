@@ -454,6 +454,7 @@ public class BluePrintsController extends UpdateableController {
 
         building.demolisher.demolish(building);
         building.setDemolished(true);
+        demolishMode = false;
     }
 
     private void removeBuildingFromFloor(BuildingModel building, int floorIndex) {
