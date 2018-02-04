@@ -3,6 +3,7 @@ package com.parkingtycoon.views.ui;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.layout.GridGroup;
 import com.kotcrab.vis.ui.util.TableUtils;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisScrollPane;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
@@ -16,6 +17,8 @@ import com.parkingtycoon.views.BaseView;
 public class HudBuildView extends BaseView implements Showable {
 
     public GridGroup group;
+    public VisLabel description;
+    public VisLabel price;
 
     private final HudBuildWindow window;
 
@@ -38,9 +41,14 @@ public class HudBuildView extends BaseView implements Showable {
 
     @Override
     public void show(Stage stage) {
+        window.setVisible(true);
         stage.addActor(window);
     }
 
+    @Override
+    public void hide() {
+        window.setVisible(false);
+    }
 
     public class HudBuildWindow extends VisWindow {
 
@@ -64,20 +72,31 @@ public class HudBuildView extends BaseView implements Showable {
             scrollPane.setOverscroll(false, false);
             scrollPane.setScrollingDisabled(true, false); //disable X scrolling
 
-
             table.add(scrollPane).top().grow();
             table.row();
 
+            description = new VisLabel("...");
+//            description.setWrap(true);
+            price = new VisLabel("...");
+//            price.setWrap(true);
+
             VisTable footerTable = new VisTable();
             footerTable.addSeparator();
-            footerTable.add("Description: ...").left();
-            footerTable.add("Price: ...").right().padRight(20);
+            footerTable.row();
+
+            VisTable descriptionTable = new VisTable();  // Description
+            descriptionTable.add("Description:  ");
+            descriptionTable.add(description).padRight(20);
+            footerTable.add(descriptionTable).left();
+
+            VisTable PriceTable = new VisTable();  // Price
+            PriceTable.add("Price:  ").right();
+            PriceTable.add(price).right().padRight(20);
+            footerTable.add(PriceTable).right().padRight(20);
+
             table.add(footerTable).bottom().growX();
 
             add(table).grow();
-
-//            table.debugAll();
-//            debugAll();
 
             setSize(500, 500);
             centerWindow();
