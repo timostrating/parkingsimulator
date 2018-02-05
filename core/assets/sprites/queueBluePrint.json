@@ -1,0 +1,276 @@
+{ "frames": {
+   "queue_blueprint_ghost 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 1.ase": {
+    "frame": { "x": 256, "y": 0, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 2.ase": {
+    "frame": { "x": 512, "y": 0, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 3.ase": {
+    "frame": { "x": 768, "y": 0, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 4.ase": {
+    "frame": { "x": 1024, "y": 0, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 5.ase": {
+    "frame": { "x": 1280, "y": 0, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 6.ase": {
+    "frame": { "x": 1536, "y": 0, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 7.ase": {
+    "frame": { "x": 1792, "y": 0, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 8.ase": {
+    "frame": { "x": 0, "y": 137, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 9.ase": {
+    "frame": { "x": 256, "y": 137, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 10.ase": {
+    "frame": { "x": 512, "y": 137, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 11.ase": {
+    "frame": { "x": 768, "y": 137, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 12.ase": {
+    "frame": { "x": 1024, "y": 137, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 13.ase": {
+    "frame": { "x": 1280, "y": 137, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 14.ase": {
+    "frame": { "x": 1536, "y": 137, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 15.ase": {
+    "frame": { "x": 1792, "y": 137, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 16.ase": {
+    "frame": { "x": 0, "y": 274, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 17.ase": {
+    "frame": { "x": 256, "y": 274, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 18.ase": {
+    "frame": { "x": 512, "y": 274, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 19.ase": {
+    "frame": { "x": 768, "y": 274, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 20.ase": {
+    "frame": { "x": 1024, "y": 274, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 21.ase": {
+    "frame": { "x": 1280, "y": 274, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 22.ase": {
+    "frame": { "x": 1536, "y": 274, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 23.ase": {
+    "frame": { "x": 1792, "y": 274, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 24.ase": {
+    "frame": { "x": 0, "y": 411, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 25.ase": {
+    "frame": { "x": 256, "y": 411, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 26.ase": {
+    "frame": { "x": 512, "y": 411, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 27.ase": {
+    "frame": { "x": 768, "y": 411, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 28.ase": {
+    "frame": { "x": 1024, "y": 411, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 29.ase": {
+    "frame": { "x": 1280, "y": 411, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 30.ase": {
+    "frame": { "x": 1536, "y": 411, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   },
+   "queue_blueprint_ghost 31.ase": {
+    "frame": { "x": 1792, "y": 411, "w": 256, "h": 137 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 137 },
+    "sourceSize": { "w": 256, "h": 137 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.1.13",
+  "image": "C:\\Users\\Hilko\\Documents\\GitHub\\parkeersimulator\\core\\assets\\sprites\\queueBluePrint.png",
+  "format": "RGBA8888",
+  "size": { "w": 2048, "h": 1024 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "bluePrintAngle0", "from": 0, "to": 7, "direction": "forward" },
+   { "name": "bluePrintAngle1", "from": 8, "to": 15, "direction": "forward" },
+   { "name": "bluePrintAngle2", "from": 16, "to": 23, "direction": "forward" },
+   { "name": "bluePrintAngle3", "from": 24, "to": 31, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
+}

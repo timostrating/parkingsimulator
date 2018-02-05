@@ -22,8 +22,9 @@ public class BluePrintView extends AnimatedSpriteView {
     private FloorModel.FloorType[][] tiles;
     private boolean[][] validTiles;
 
-    public BluePrintView(String spritePath) {
+    public BluePrintView(String spritePath, float spriteOriginX, float spriteOriginY) {
         super(spritePath, false);
+        sprite.setOrigin(spriteOriginX, spriteOriginY);
     }
 
     @Override
@@ -50,6 +51,7 @@ public class BluePrintView extends AnimatedSpriteView {
             canBuild = bluePrint.canBuild();
             spritePosition.set(bluePrint.x, bluePrint.y);
             IsometricConverter.normalToIsometric(spritePosition);
+            sprite.setOriginBasedPosition(spritePosition.x, spritePosition.y);
 
             width = bluePrint.tiles.length;
             height = bluePrint.tiles[0].length;
@@ -65,7 +67,6 @@ public class BluePrintView extends AnimatedSpriteView {
 
     @Override
     public void render(SpriteBatch batch) {
-        super.render(batch);
 
         for (int x = 0; x < width; x++) {
 
@@ -88,6 +89,8 @@ public class BluePrintView extends AnimatedSpriteView {
 
         }
 
+        super.render(batch);
+
     }
 
     @Override
@@ -99,14 +102,12 @@ public class BluePrintView extends AnimatedSpriteView {
                 color.a = Math.min(1, color.a + delta);
                 if (color.a == 1) fadingIn = false;
             } else {
-                color.a = Math.max(.3f, color.a - delta);
-                if (color.a == .3f) fadingIn = true;
+                color.a = Math.max(.6f, color.a - delta);
+                if (color.a == .6f) fadingIn = true;
             }
         } else color.a = 1;
 
         color.set(1, canBuild ? 1 : .2f, canBuild ? 1 : .2f, color.a);
-
-        sprite.setOriginBasedPosition((sprite.getX() + spritePosition.x) / 2f, (sprite.getY() + spritePosition.y) / 2f);
 
         sprite.setColor(color);
 

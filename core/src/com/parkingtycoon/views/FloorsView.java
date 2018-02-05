@@ -200,7 +200,7 @@ public final class FloorsView extends BaseView {
 
                             break;
                         case PARKABLE:
-                            tile = tileSets.getTile(4);
+                            tile = tileSets.getTile(floor.isReserved(x, y) ? 11 : 4);
                             break;
                         case BARRIER:
                             tile = tileSets.getTile(3);

@@ -24,6 +24,7 @@ public class FloorModel extends BaseModel {
 
     public boolean fromFlagPlaced, toFlagPlaced, stopPlacing;
 
+    private Boolean[][] reserved = new Boolean[Game.WORLD_WIDTH][];
     private Boolean[][] newFloorValid;
     private int[] newFloorFrom, newFloorTo;
     private FloorType newFloorType;
@@ -51,6 +52,21 @@ public class FloorModel extends BaseModel {
 
     public boolean isCurrentFloor() {
         return isCurrentFloor;
+    }
+
+    public boolean isReserved(int x, int y) {
+        if (reserved[x] == null)
+            return false;
+
+        return Boolean.TRUE.equals(reserved[x][y]);
+    }
+
+    public void setReserved(int x, int y, boolean reserved) {
+        if (this.reserved[x] == null)
+            this.reserved[x] = new Boolean[Game.WORLD_HEIGHT];
+
+        this.reserved[x][y] = reserved;
+        notifyViews();
     }
 
     public void setCurrentFloor(boolean currentFloor) {

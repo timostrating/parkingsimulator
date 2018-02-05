@@ -9,6 +9,7 @@ import com.parkingtycoon.views.elevator.ElevatorBackgroundView;
 import com.parkingtycoon.views.elevator.ElevatorView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ElevatorsController extends UpdateableController {
 
@@ -49,7 +50,16 @@ public class ElevatorsController extends UpdateableController {
 
     private void updateElevator(ElevatorModel elevator) {
 
-        for (CarModel car : elevator.cars) {
+        Iterator<CarModel> it = elevator.cars.iterator();
+        while (it.hasNext()) {
+            CarModel car = it.next();
+
+            if (car.isDisappeared()) {
+                if (car == elevator.currentlyElevating)
+                    elevator.currentlyElevating = null;
+                it.remove();
+            }
+
             if (onWaitingPosition(elevator, car))
                 car.brake = 1;
         }

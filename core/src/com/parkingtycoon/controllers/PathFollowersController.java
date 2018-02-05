@@ -109,7 +109,7 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
         return travelDistance;
     }
 
-    public void onTerrainChange(int floor, Boolean[][] tilesChanged) {
+    public void onTerrainChange(int floorIndex, Boolean[][] tilesChanged) {
         pathFollowers:
         for (T f : pathFollowers) {
 
@@ -124,7 +124,7 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
 
             for (int i = 0; i < 2; i++) {
 
-                if (floor != (i == 0 ? f.floor : f.goal.floor)) // the terrain did not change on this floor
+                if (floorIndex != (i == 0 ? f.floor : f.goal.floor)) // the terrain did not change on this floor
                     continue;
 
                 List<PathFinder.Node> path = i == 0 ? f.pathToElevator : f.pathToGoal;

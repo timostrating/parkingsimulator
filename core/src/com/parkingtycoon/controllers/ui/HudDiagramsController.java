@@ -18,8 +18,8 @@ public class HudDiagramsController extends UpdateableController implements Showa
     private final CompositionRoot root;
     private DiagramModel diagramMoney = new DiagramModel("Moneys diagram ???", DiagramModel.DiagramModelType.MONEY, Color.GREEN);
     private DiagramModel diagramTotalCars = new DiagramModel("Cars diagram ???", DiagramModel.DiagramModelType.TOTAL_CARS, Color.RED);
-    private DiagramModel diagramAdHocCars = new DiagramModel("Cars diagram ???", DiagramModel.DiagramModelType.ADHOC_CARS, Color.BLUE);
-    private DiagramModel diagramReservedCars = new DiagramModel("Cars diagram ???", DiagramModel.DiagramModelType.RESERVED_CARS, Color.YELLOW);
+    private DiagramModel diagramAdHocCars = new DiagramModel("Cars diagram ???", DiagramModel.DiagramModelType.ADHOC_CARS, new Color(.1f, 1, .3f, 1));
+    private DiagramModel diagramReservedCars = new DiagramModel("Cars diagram ???", DiagramModel.DiagramModelType.RESERVED_CARS, new Color(.1f, .2f, 1, 1));
     private DiagramModel diagramVipCars = new DiagramModel("Cars diagram ???", DiagramModel.DiagramModelType.VIP_CARS, Color.PINK);
 
 
@@ -41,11 +41,13 @@ public class HudDiagramsController extends UpdateableController implements Showa
 
         long adHocs=0, reserveds=0, vips=0;
         for (CarModel carModel : root.carsController.pathFollowers) {
+            if (!carModel.parked)
+                continue;
             if (carModel.carType == CarModel.CarType.AD_HOC)
                 adHocs++;
             if (carModel.carType == CarModel.CarType.RESERVED)
                 reserveds++;
-            if (carModel.vip)
+            if (carModel.carType == CarModel.CarType.VIP)
                 vips++;
         }
         diagramTotalCars.addToHistory(root.carsController.pathFollowers.size());

@@ -8,6 +8,7 @@ import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.models.BuildingModel;
+import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.views.BluePrintView;
 
@@ -30,7 +31,7 @@ public class BluePrintsController extends UpdateableController {
 
     private final CompositionRoot root = CompositionRoot.getInstance();
 
-
+    public ArrayList<BuildingModel> buildings = new ArrayList<>();
     public ArrayList<BluePrintModel> bluePrints = new ArrayList<BluePrintModel>() {{
 
         add(new BluePrintModel(
@@ -41,7 +42,7 @@ public class BluePrintsController extends UpdateableController {
                 // uiImagePath
                 "sprites/entrance",
                 // sprite:
-                "sprites/entrance", 0, 0,
+                "sprites/queueBluePrint", 4, 5,
                 // price:
                 100,
                 // FloorTypes that this building can be build on:
@@ -53,7 +54,7 @@ public class BluePrintsController extends UpdateableController {
                         {null, FloorModel.FloorType.ROAD, null}
                 },
                 // builder:
-                (x, y, angle, floor) -> root.entrancesController.createEntrance(x, y, angle, floor, false),
+                (x, y, angle, floor) -> root.entrancesController.createEntrance(x, y, angle, floor, CarModel.CarType.AD_HOC),
                 // build on all floors at once:
                 false,
                 // on demolish:
@@ -68,7 +69,7 @@ public class BluePrintsController extends UpdateableController {
                 // uiImagePath
                 "sprites/vip",
                 // sprite:
-                "sprites/entrance", 0, 0,
+                "sprites/queueBluePrint", 4, 5,
                 // price:
                 1000,
                 // FloorTypes that this building can be build on:
@@ -80,7 +81,32 @@ public class BluePrintsController extends UpdateableController {
                         {null, FloorModel.FloorType.ROAD, null}
                 },
                 // builder:
-                (x, y, angle, floor) -> root.entrancesController.createEntrance(x, y, angle, floor, true),
+                (x, y, angle, floor) -> root.entrancesController.createEntrance(x, y, angle, floor, CarModel.CarType.VIP),
+                // build on all floors at once:
+                false,
+                // on demolish:
+                building -> root.entrancesController.removeQueue(building)
+        ));
+
+        add(new BluePrintModel(
+                // title:
+                "Reserved entrance",
+                // description:
+                "Build a special entrance for people who have reserved a place.",
+                // sprite:
+                "sprites/queueBluePrint", 4, 5,
+                // price:
+                1000,
+                // FloorTypes that this building can be build on:
+                EnumSet.of(FloorModel.FloorType.ROAD, FloorModel.FloorType.GRASS, FloorModel.FloorType.CONCRETE),
+                // Floor that will appear under the building:
+                new FloorModel.FloorType[][]{
+                        {null, FloorModel.FloorType.ROAD, null},
+                        {FloorModel.FloorType.GRASS, FloorModel.FloorType.BARRIER, FloorModel.FloorType.GRASS},
+                        {null, FloorModel.FloorType.ROAD, null}
+                },
+                // builder:
+                (x, y, angle, floor) -> root.entrancesController.createEntrance(x, y, angle, floor, CarModel.CarType.RESERVED),
                 // build on all floors at once:
                 false,
                 // on demolish:
@@ -95,7 +121,7 @@ public class BluePrintsController extends UpdateableController {
                 // uiImagePath
                 "sprites/exit",
                 // sprite:
-                "sprites/entrance", 0, 0,
+                "sprites/queueBluePrint", 4, 5,
                 // price:
                 200,
                 // FloorTypes that this building can be build on:
@@ -122,7 +148,7 @@ public class BluePrintsController extends UpdateableController {
                 // uiImagePath
                 "sprites/entrance",
                 // sprite:
-                "sprites/entrance", 0, 0,
+                "sprites/elevatorBluePrint", 3, 4,
                 // price:
                 200,
                 // FloorTypes that this building can be build on:
@@ -228,7 +254,7 @@ public class BluePrintsController extends UpdateableController {
     private void setToBeBuilt(BluePrintModel bluePrint) {
 
         toBeBuilt = bluePrint;
-        bluePrintView = new BluePrintView(toBeBuilt.spritePath);
+        bluePrintView = new BluePrintView(toBeBuilt.spritePath, bluePrint.spriteOriginX, bluePrint.spriteOriginY);
         bluePrintView.show();
         toBeBuilt.setActive(true);
         toBeBuilt.registerView(bluePrintView);
@@ -269,7 +295,9 @@ public class BluePrintsController extends UpdateableController {
 
             if (clicked && canBuild && root.financialController.spend(toBeBuilt.price)) {
 
-                build(toBeBuilt, x, y);
+                FloorsController floorsController = root.floorsController;
+                int floorIndex = floorsController.getCurrentFloor();
+                build(toBeBuilt, x, y, toBeBuilt.getAngle(), floorIndex);
 
             } else if (clicked && !canBuild) {
                 // todo: message: can't build here
@@ -363,13 +391,13 @@ public class BluePrintsController extends UpdateableController {
         return canBuild;
     }
 
-    private void build(BluePrintModel bluePrint, int originX, int originY) {
+    public void build(BluePrintModel bluePrint, int originX, int originY, int angle, int floorIndex) {
+
+        BuildingModel building = bluePrint.builder.build(originX, originY, angle, floorIndex);
+        building.bluePrint = bluePrint;
+        buildings.add(building);
 
         FloorsController floorsController = root.floorsController;
-        int floorIndex = floorsController.getCurrentFloor();
-
-        BuildingModel building = bluePrint.builder.build(originX, originY, bluePrint.getAngle(), floorIndex);
-        building.demolisher = bluePrint.demolisher;
 
         if (bluePrint.buildOnAllFloors)
             for (int i = 0; i < floorsController.floors.size(); i++)
@@ -442,8 +470,10 @@ public class BluePrintsController extends UpdateableController {
                     building.floor
             );
 
-        building.demolisher.demolish(building);
+        buildings.remove(building);
+        building.bluePrint.demolisher.demolish(building);
         building.setDemolished(true);
+        demolishMode = false;
     }
 
     private void removeBuildingFromFloor(BuildingModel building, int floorIndex) {
