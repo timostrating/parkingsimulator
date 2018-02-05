@@ -8,14 +8,19 @@ import com.parkingtycoon.views.ui.HudTopView;
 
 /**
  * This class is responsible for the UI that changes the game.
+ *
+ * @author Timo Strating
  */
 public class HudTopController extends UpdatableController {
 
-    public HudTopView view;
+    private HudTopView view;
     private final CompositionRoot root;
     private int oldFloorIndex = -999;  // trigger a update directly
 
-
+    /**
+     * Setup the view and register all action we wnat to the items of the view
+     * @param stage
+     */
     public HudTopController(Stage stage) {
         root = CompositionRoot.getInstance();
         HudBuildController hudBuildController = new HudBuildController(stage);
@@ -40,6 +45,9 @@ public class HudTopController extends UpdatableController {
         view.settings.addListener((ClickListener) (event, actor) -> hudSettingsController.show(stage));
     }
 
+    /**
+     * Update at witch floor we are now if it has changed.
+     */
     @Override
     public void update() {
         if (oldFloorIndex != root.floorsController.getCurrentFloor()) {
