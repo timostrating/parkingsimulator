@@ -54,11 +54,11 @@ public class CompositionRoot {
         animatedSpritesController = new AnimatedSpritesController();     // Cars
         entrancesController = new EntrancesController();
         exitsController = new ExitsController();
+        bluePrintsController = new BluePrintsController();
         floorsController = new FloorsController();
         carsController = new CarsController();
         financialController = new FinancialController();                 // UI
         hudController = new HudController(game.batch);
-        bluePrintsController = new BluePrintsController();
         elevatorsController = new ElevatorsController();
     }
 

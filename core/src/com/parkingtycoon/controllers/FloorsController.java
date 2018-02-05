@@ -1,20 +1,25 @@
 package com.parkingtycoon.controllers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.*;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.CoordinateRotater;
 import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.helpers.Logger;
+import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.models.BuildingModel;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.views.FlagView;
 import com.parkingtycoon.views.FloorsView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This class is responsible for providing the floor of te simulation world
@@ -40,15 +45,13 @@ public class FloorsController extends UpdateableController {
     public FloorsController() {
 
         super();
-
         CompositionRoot root = CompositionRoot.getInstance();
 
         view = new FloorsView();
 
-        for (int i = 0; i < 10; i++)
-            createFloor(i == 0);
-
-        setCurrentFloor(0);
+//        for (int i = 0; i < 10; i++)
+//            createFloor(i == 0);
+//        setCurrentFloor(0);
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_3, () -> {
@@ -73,6 +76,12 @@ public class FloorsController extends UpdateableController {
             return true;
         });
 
+        // temporary to output json:
+        root.inputController.onKeyDown.put(Input.Keys.J, () -> {
+            toJson();
+            return true;
+        });
+
         root.inputController.onKeyDown.put(Input.Keys.UP, () -> {
             up = true;
             return true;
@@ -84,6 +93,9 @@ public class FloorsController extends UpdateableController {
         });
 
         root.inputController.onMouseButtonDown.add((screenX, screenY, button) -> {
+
+            if (!floorExists(currentFloor))
+                return false;
 
             FloorModel f = floors.get(currentFloor);
             if (button == 0 && f.getNewFloorType() != null) {
@@ -97,15 +109,15 @@ public class FloorsController extends UpdateableController {
             }
             return false;
         });
-        root.inputController.onKeyDown.put(Input.Keys.ESCAPE, () -> { // TODO: cant bind multiple listeners to one key!!!
-            FloorModel f = floors.get(currentFloor);
-            if (f.getNewFloorType() != null) {
-                f.stopPlacing = true;
-                Logger.info("ggg");
-                return true;
-            }
-            return false;
-        });
+//        root.inputController.onKeyDown.put(Input.Keys.ESCAPE, () -> { // TODO: cant bind multiple listeners to one key!!!
+//            FloorModel f = floors.get(currentFloor);
+//            if (f.getNewFloorType() != null) {
+//                f.stopPlacing = true;
+//                Logger.info("ggg");
+//                return true;
+//            }
+//            return false;
+//        });
     }
 
     @Override
@@ -205,13 +217,9 @@ public class FloorsController extends UpdateableController {
     }
 
     private void createFloor(boolean first) {
-        FloorModel floor = new FloorModel();
+        FloorModel floor = createEmptyFloor();
 
         for (int x = 0; x < Game.WORLD_WIDTH; x++) {
-
-            floor.tiles[x] = new FloorModel.FloorType[Game.WORLD_HEIGHT];
-            floor.waitingTime[x] = new int[Game.WORLD_HEIGHT];
-            floor.accessibleParkables[x] = new Boolean[Game.WORLD_HEIGHT];
 
             for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
@@ -224,11 +232,20 @@ public class FloorsController extends UpdateableController {
             }
         }
 
-        for (int x = 0; x < Game.WORLD_WIDTH; x++)
-            floor.parkedCars[x] = new CarModel[Game.WORLD_HEIGHT];
-
         floor.registerView(view);
         floors.add(floor);
+    }
+
+    private FloorModel createEmptyFloor() {
+        FloorModel floor = new FloorModel();
+
+        for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+            floor.tiles[x] = new FloorModel.FloorType[Game.WORLD_HEIGHT];
+            floor.waitingTime[x] = new int[Game.WORLD_HEIGHT];
+            floor.accessibleParkables[x] = new Boolean[Game.WORLD_HEIGHT];
+            floor.parkedCars[x] = new CarModel[Game.WORLD_HEIGHT];
+        }
+        return floor;
     }
 
     private void setNewFloorFlag(FloorModel floor) {
@@ -346,6 +363,102 @@ public class FloorsController extends UpdateableController {
 
         }
         return false;
+    }
+
+    public void toJson() {
+
+        JsonValue json = new JsonValue(JsonValue.ValueType.object);
+        JsonValue jsonFloors = new JsonValue(JsonValue.ValueType.array);
+
+        for (FloorModel floor : floors) {
+
+            JsonValue floorArray = new JsonValue(JsonValue.ValueType.array);
+
+            for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+                for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+
+                    String floorType = floor.tiles[x][y] == null ? "null" : floor.tiles[x][y].toString();
+                    floorArray.addChild(new JsonValue(floorType));
+
+                }
+            }
+            jsonFloors.addChild(floorArray);
+        }
+
+        BluePrintsController bluePrintsController = CompositionRoot.getInstance().bluePrintsController;
+        JsonValue allBuildingsJson = new JsonValue(JsonValue.ValueType.array);
+
+        for (BuildingModel building : bluePrintsController.buildings) {
+
+            JsonValue buildingJson = new JsonValue(JsonValue.ValueType.object);
+            buildingJson.addChild("bluePrintID", new JsonValue(bluePrintsController.bluePrints.indexOf(building.bluePrint)));
+            buildingJson.addChild("angle", new JsonValue(building.angle));
+            buildingJson.addChild("floor", new JsonValue(building.floor));
+            buildingJson.addChild("x", new JsonValue(building.x));
+            buildingJson.addChild("y", new JsonValue(building.y));
+            allBuildingsJson.addChild(buildingJson);
+        }
+
+        json.addChild("buildings", allBuildingsJson);
+        json.addChild("floors", jsonFloors);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMM.yyyy HH.mm");
+        String savePath = "saves/" + dateFormat.format(new Date(System.currentTimeMillis())) + ".parkingsimulatortycoon";
+
+        FileHandle output = Gdx.files.local(savePath);
+        output.writeString(json.toJson(JsonWriter.OutputType.json), false);
+
+        Logger.info("Game saved to '" + savePath + "'");
+    }
+
+    public void fromJson(String savePath) {
+
+        JsonValue json = new JsonReader().parse(Gdx.files.local(savePath));
+        JsonValue jsonFloors = json.get("floors");
+
+        floorsLoop:
+        for (JsonValue jsonFloor = jsonFloors.child; jsonFloor != null; jsonFloor = jsonFloor.next) {
+
+            String[] floorTypeStrings = jsonFloor.asStringArray();
+            FloorModel floor = createEmptyFloor();
+
+            int x = 0;
+            int y = 0;
+            for (int i = 0; i < floorTypeStrings.length; i++) {
+
+                String floorTypeString = floorTypeStrings[i];
+                FloorModel.FloorType floorType = floorTypeString.equals("null") ?
+                        null : FloorModel.FloorType.valueOf(floorTypeStrings[i]);
+
+                floor.tiles[x][y] = floorType;
+
+                if (++y == Game.WORLD_HEIGHT) {
+                    if (++x == Game.WORLD_WIDTH) {
+                        floor.registerView(view);
+                        floors.add(floor);
+                        continue floorsLoop;
+                    }
+                    y = 0;
+                }
+            }
+        }
+
+        setCurrentFloor(0);
+
+        JsonValue jsonAllBuildings = json.get("buildings");
+        BluePrintsController bluePrintsController = CompositionRoot.getInstance().bluePrintsController;
+
+        for (JsonValue jsonBuilding = jsonAllBuildings.child; jsonBuilding != null; jsonBuilding = jsonBuilding.next) {
+
+            int id = jsonBuilding.getInt("bluePrintID");
+            int x = jsonBuilding.getInt("x");
+            int y = jsonBuilding.getInt("y");
+            int angle = jsonBuilding.getInt("angle");
+            int floorIndex = jsonBuilding.getInt("floor");
+
+            BluePrintModel bluePrint = bluePrintsController.bluePrints.get(id);
+            bluePrintsController.build(bluePrint, x, y, angle, floorIndex);
+        }
     }
 
 }

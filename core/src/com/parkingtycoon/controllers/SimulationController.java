@@ -1,5 +1,6 @@
 package com.parkingtycoon.controllers;
 
+import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.Delegate;
 
 /**
@@ -27,6 +28,7 @@ public class SimulationController extends BaseController {
     public int realUpdatesPerSecond;
 
     public void startSimulation() {
+        CompositionRoot.getInstance().floorsController.fromJson("saves/Demo.parkingsimulatortycoon");
         new Thread( () -> {
             while (isSimulatorRunning) update();
         }).start();

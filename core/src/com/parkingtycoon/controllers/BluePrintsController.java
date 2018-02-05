@@ -31,7 +31,7 @@ public class BluePrintsController extends UpdateableController {
 
     private final CompositionRoot root = CompositionRoot.getInstance();
 
-
+    public ArrayList<BuildingModel> buildings = new ArrayList<>();
     public ArrayList<BluePrintModel> bluePrints = new ArrayList<BluePrintModel>() {{
 
         add(new BluePrintModel(
@@ -279,7 +279,9 @@ public class BluePrintsController extends UpdateableController {
 
             if (clicked && canBuild && root.financialController.spend(toBeBuilt.price)) {
 
-                build(toBeBuilt, x, y);
+                FloorsController floorsController = root.floorsController;
+                int floorIndex = floorsController.getCurrentFloor();
+                build(toBeBuilt, x, y, toBeBuilt.getAngle(), floorIndex);
 
             } else if (clicked && !canBuild) {
                 // todo: message: can't build here
@@ -373,13 +375,13 @@ public class BluePrintsController extends UpdateableController {
         return canBuild;
     }
 
-    private void build(BluePrintModel bluePrint, int originX, int originY) {
+    public void build(BluePrintModel bluePrint, int originX, int originY, int angle, int floorIndex) {
+
+        BuildingModel building = bluePrint.builder.build(originX, originY, angle, floorIndex);
+        building.bluePrint = bluePrint;
+        buildings.add(building);
 
         FloorsController floorsController = root.floorsController;
-        int floorIndex = floorsController.getCurrentFloor();
-
-        BuildingModel building = bluePrint.builder.build(originX, originY, bluePrint.getAngle(), floorIndex);
-        building.demolisher = bluePrint.demolisher;
 
         if (bluePrint.buildOnAllFloors)
             for (int i = 0; i < floorsController.floors.size(); i++)
@@ -452,7 +454,8 @@ public class BluePrintsController extends UpdateableController {
                     building.floor
             );
 
-        building.demolisher.demolish(building);
+        buildings.remove(building);
+        building.bluePrint.demolisher.demolish(building);
         building.setDemolished(true);
         demolishMode = false;
     }

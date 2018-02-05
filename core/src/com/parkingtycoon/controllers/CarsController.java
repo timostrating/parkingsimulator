@@ -96,7 +96,7 @@ public class CarsController extends PathFollowersController<CarModel> {
 
                     if (floor.tiles[x][y] == FloorModel.FloorType.PARKABLE
                             && floor.accessibleParkables[x] != null
-                            && floor.accessibleParkables[x][y]
+                            && Boolean.TRUE.equals(floor.accessibleParkables[x][y])
                             && floor.parkedCars[x][y] == null
                             && !floor.isReserved(x, y)) {
 

@@ -7,7 +7,7 @@ public abstract class BuildingModel extends BaseModel implements FloorDependable
     public final int x, y, angle, floor;
     public final boolean onAllFloors;
 
-    public BluePrintModel.Demolisher demolisher;
+    public BluePrintModel bluePrint;
 
     private boolean demolished, toBeDemolished;
     private boolean onActiveFloor;
