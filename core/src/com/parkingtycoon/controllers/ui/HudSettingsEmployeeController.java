@@ -1,8 +1,6 @@
 package com.parkingtycoon.controllers.ui;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.controllers.TimeController;
 import com.parkingtycoon.helpers.Logger;
@@ -22,19 +20,19 @@ public class HudSettingsEmployeeController implements TimedUpdatable {
 
         view = new HudSettingsEmployeeTab();
 
-        view.employeesSpinner.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                Logger.info("changed employeesSpinner to: " + view.employeesAmount.getValue());
-            }
-        });
-
-        view.employeesPriceSpinner.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                Logger.info("changed employeesPriceSpinner to: " + view.employeesPrice.getValue());
-            }
-        });
+//        view.employeesSpinner.addListener(new ChangeListener() {
+//            @Override
+//            public void changed (ChangeEvent event, Actor actor) {
+//                Logger.info("changed employeesSpinner to: " + view.employeesAmount.getValue());
+//            }
+//        });
+//
+//        view.employeesPriceSpinner.addListener(new ChangeListener() {
+//            @Override
+//            public void changed (ChangeEvent event, Actor actor) {
+//                Logger.info("changed employeesPriceSpinner to: " + view.employeesPrice.getValue());
+//            }
+//        });
 
     }
 

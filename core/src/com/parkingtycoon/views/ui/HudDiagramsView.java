@@ -30,7 +30,7 @@ import static com.parkingtycoon.models.ui.DiagramModel.DiagramModelType;
 
 public class HudDiagramsView extends BaseView {
 
-    private HubStatsWindow window;
+    private HubDiagramsWindow window;
     private HudDiagram curDiagram;
     private HudLineDiagram lineDiagram;
     private HudPieDiagram pieDiagram;
@@ -51,7 +51,7 @@ public class HudDiagramsView extends BaseView {
         barDiagram = new HudBarDiagram(width, height, diagramModels);
         curDiagram = lineDiagram;
 
-        window = new HubStatsWindow(curDiagram.generateDiagramTexture(selectedDiagramsModels));
+        window = new HubDiagramsWindow(curDiagram.generateDiagramTexture(selectedDiagramsModels));
         stage.addActor(window);
     }
 
@@ -70,11 +70,11 @@ public class HudDiagramsView extends BaseView {
     }
 
 
-    private class HubStatsWindow extends VisWindow {
+    private class HubDiagramsWindow extends VisWindow {
         private final VisSlider slider;
         Image image;
 
-        HubStatsWindow(Texture texture) {
+        HubDiagramsWindow(Texture texture) {
             super("Stats");
             setSize(width/2, height/2);
             setResizable(true);
