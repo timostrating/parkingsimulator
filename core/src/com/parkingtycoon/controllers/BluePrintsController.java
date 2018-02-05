@@ -395,6 +395,7 @@ public class BluePrintsController extends UpdatableController {
 
     public void build(BluePrintModel bluePrint, int originX, int originY, int angle, int floorIndex) {
 
+        bluePrint.setAngle(angle);
         BuildingModel building = bluePrint.builder.build(originX, originY, angle, floorIndex);
         building.bluePrint = bluePrint;
         buildings.add(building);
