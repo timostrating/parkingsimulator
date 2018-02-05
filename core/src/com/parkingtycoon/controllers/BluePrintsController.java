@@ -93,6 +93,8 @@ public class BluePrintsController extends UpdateableController {
                 "Reserved entrance",
                 // description:
                 "Build a special entrance for people who have reserved a place.",
+                // uiImagePath
+                "sprites/vip",
                 // sprite:
                 "sprites/queueBluePrint", 4, 5,
                 // price:
