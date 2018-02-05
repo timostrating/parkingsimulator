@@ -6,6 +6,7 @@ public class BluePrintModel extends BaseModel {
 
     public final String title;
     public final String description;
+    public final String uiImagePath;
     public final String spritePath;
     public final float spriteOriginX, spriteOriginY;
     public final float price;
@@ -21,12 +22,13 @@ public class BluePrintModel extends BaseModel {
     private int angle;
     private boolean canBuild, active;
 
-    public BluePrintModel(String title, String description, String spritePath, float spriteOriginX, float spriteOriginY,
+    public BluePrintModel(String title, String description, String uiImagePath, String spritePath, float spriteOriginX, float spriteOriginY,
                           float price, EnumSet<FloorModel.FloorType> canBuildOn, FloorModel.FloorType[][] tiles,
                           Builder builder, boolean buildOnAllFloors, Demolisher demolisher, int... allowedAngles) {
 
         this.title = title;
         this.description = description;
+        this.uiImagePath = uiImagePath;
         this.spritePath = spritePath;
         this.spriteOriginX = spriteOriginX;
         this.spriteOriginY = spriteOriginY;

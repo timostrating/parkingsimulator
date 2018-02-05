@@ -17,8 +17,11 @@ import com.parkingtycoon.views.BaseView;
  */
 public class HudStatsView extends BaseView {
 
+    public VisTextButton showStatsButton;
+
     private final HubStatsWindow window = new HubStatsWindow();
     private float moneys;
+
 
     public HudStatsView(Stage stage) {
         super();
@@ -61,8 +64,9 @@ public class HudStatsView extends BaseView {
 
             moneyLabel = new VisLabel("MONEY");
             happynisBar = new VisProgressBar(0, 100, 1, false);
+            showStatsButton = new VisTextButton("Show Stats");
 
-            add(new VisTextButton("Show Stats"));
+            add(showStatsButton);
             row();
             add(moneyLabel);
             row();
@@ -70,7 +74,7 @@ public class HudStatsView extends BaseView {
         }
 
         public void updateFinances(Float amount) {
-            moneyLabel.setText(""+amount);
+            moneyLabel.setText("$"+amount);
             moneyLabel.setColor((amount < 0)? Color.RED : Color.WHITE);
         }
     }

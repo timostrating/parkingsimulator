@@ -12,7 +12,7 @@ import com.parkingtycoon.views.BaseView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  * This Class is responsible for showing the time of the simulation.
@@ -73,10 +73,11 @@ public class HudTimeView extends BaseView {
 
         void updateTime(long minutesPassedUntilNow) {
             DateFormat dateInstance = new SimpleDateFormat("yyyy MMMMM dd hh:mm");
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MINUTE, (int)minutesPassedUntilNow);
-            String date = dateInstance.format(calendar.getTime());
-            window.timeLabel.setText(date);
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.add(Calendar.MINUTE, (int)minutesPassedUntilNow);
+//            String date = dateInstance.format(calendar.getTime());
+            Date d = new Date(minutesPassedUntilNow * 1000 * 60);
+            window.timeLabel.setText(dateInstance.format(d));
         }
     }
 

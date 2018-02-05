@@ -30,7 +30,7 @@ import static com.parkingtycoon.models.ui.DiagramModel.DiagramModelType;
 
 public class HudDiagramsView extends BaseView {
 
-    private HubStatsWindow window;
+    private HubDiagramsWindow window;
     private HudDiagram curDiagram;
     private HudLineDiagram lineDiagram;
     private HudPieDiagram pieDiagram;
@@ -51,7 +51,7 @@ public class HudDiagramsView extends BaseView {
         barDiagram = new HudBarDiagram(width, height, diagramModels);
         curDiagram = lineDiagram;
 
-        window = new HubStatsWindow(curDiagram.generateDiagramTexture(selectedDiagramsModels));
+        window = new HubDiagramsWindow(curDiagram.generateDiagramTexture(selectedDiagramsModels));
         stage.addActor(window);
     }
 
@@ -70,17 +70,15 @@ public class HudDiagramsView extends BaseView {
     }
 
 
-    private class HubStatsWindow extends VisWindow {
+    private class HubDiagramsWindow extends VisWindow {
         private final VisSlider slider;
         Image image;
 
-        HubStatsWindow(Texture texture) {
+        HubDiagramsWindow(Texture texture) {
             super("Stats");
             setSize(width/2, height/2);
             setResizable(true);
             addCloseButton();
-
-            final VisTable container = new VisTable();
 
             TabbedPane tabbedPane = new TabbedPane();
             tabbedPane.addListener(new TabbedPaneAdapter() {
@@ -96,10 +94,6 @@ public class HudDiagramsView extends BaseView {
             tabbedPane.add(new DiagramTab("Cars", DiagramModelType.ADHOC_CARS, DiagramModelType.RESERVED_CARS, DiagramModelType.VIP_CARS ));
             tabbedPane.add(new DiagramTab("Vip Cars", DiagramModelType.VIP_CARS));
 
-            add(tabbedPane.getTable()).expandX().fillX();
-            row();
-            add(container).expand().fill();
-
             image = new Image();
             setDiagram(texture);
 
@@ -114,16 +108,21 @@ public class HudDiagramsView extends BaseView {
             VisTextButton lineDiagramButton = new VisTextButton("Line Diagram");
             lineDiagramButton.addListener((ClickListener) (event, actor) -> curDiagram = lineDiagram);
 
-            VisTable footerTable = new VisTable();
+            VisTable footerTable = new VisTable(true);
             footerTable.add(lineDiagramButton).padRight(10);
             footerTable.add(barDiagramButton).padRight(10);
             footerTable.add(pieChartButton).padRight(50);
             footerTable.add(slider);
 
+            final VisTable container = new VisTable(true);
             container.row();
             container.add(image).expand();
             container.row();
             container.add(footerTable);
+
+            add(tabbedPane.getTable()).expandX().fillX();
+            row();
+            add(container).expand().fill();
         }
 
         public void setDiagram(Texture texture) {

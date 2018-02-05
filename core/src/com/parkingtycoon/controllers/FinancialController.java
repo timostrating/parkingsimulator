@@ -23,6 +23,10 @@ public class FinancialController extends BaseController {
         return false;
     }
 
+    public void spend(float min, boolean canGoNegative) {
+        model.setAmount(model.getAmount() - min); ;
+    }
+
     public float getAmount() {
         return model.getAmount();
     }

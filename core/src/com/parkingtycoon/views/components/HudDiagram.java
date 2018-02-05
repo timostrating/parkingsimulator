@@ -46,7 +46,12 @@ public abstract class HudDiagram {
     private SpriteBatch batch;
     BitmapFont font = new BitmapFont(); //or use alex answer to use custom font
 
-
+    /**
+     * This is the standard constructor of the class
+     * @arg width This is the width that is used to calculate the scale of the diagram
+     * @arg height This is the height that is used to calculate the scale of the diagram
+     * @arg diagramModels We would like to know all the models before we srtart, later on you can specifie hat selection of models you want to show.
+     */
     public HudDiagram(int width, int height, DiagramModel... diagramModels) {
         this.width = width;
         this.height = height;
@@ -62,6 +67,10 @@ public abstract class HudDiagram {
         batch = new SpriteBatch();
     }
 
+    /**
+     * Generate the models you selected and return the data as a Texture.
+     * @arg selectedDiagramsModels Give a List of diagram types, Every diagram with the same type as one in your selection will be shown.
+     */
     public Texture generateDiagramTexture(ArrayList<DiagramModelType> selectedDiagramsModels) {
         this.selectedDiagramsModels = selectedDiagramsModels;
 
@@ -80,16 +89,37 @@ public abstract class HudDiagram {
         return frameBuffer.getColorBufferTexture();
     }
 
+    /**
+     * Setup a ShapeRenderer (this automaticly stores all the data in the framebuffer When this function is called while the framebuffer is active)
+     * 
+     */
     private void drawShapes() {
         shapeRenderer.setAutoShapeType(true);
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);  // BEGIN
 
-        drawDiagram(shapeRenderer, getActiveDiagrams());
+        drawDiagram(shapeRenderer, getSelectedDiagrams());
 
         shapeRenderer.end();    // END
     }
 
+    /**
+     * This is a helper for the Children. It returns the highest Y value of all the models you give him/
+     */
+    protected float getMaxYAllModels(DiagramModel[] models) {
+        float dataMaxValue = 0;
+        for (DiagramModel diagramModel : models)
+            if (dataMaxValue < diagramModel.getMaxY())
+                dataMaxValue = diagramModel.getMaxY();
+
+        return dataMaxValue;
+    }
+
+    /**
+     * This is a helper for the Children. This generates a nicly looking grid of lines.
+     *
+     * @arg shapeRenderer This is the renderer where the grid will be added.
+     */
     protected void generateShapeGrid(ShapeRenderer shapeRenderer) {
         shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(gridColor);
@@ -108,16 +138,10 @@ public abstract class HudDiagram {
         shapeRenderer.begin();
     }
 
-    protected float getMaxYAllModels(DiagramModel[] models) {
-        float dataMaxValue = 0;
-        for (DiagramModel diagramModel : models)
-            if (dataMaxValue < diagramModel.getMaxY())
-                dataMaxValue = diagramModel.getMaxY();
-
-        return dataMaxValue;
-    }
-
-    private DiagramModel[] getActiveDiagrams() {
+    /**
+     * Use our selection to get all the models that we have selected
+     */
+    private DiagramModel[] getSelectedDiagrams() {
         ArrayList<DiagramModel> returnValue = new ArrayList<>();
         for (DiagramModel diagramModel : diagramModels)
             if (selectedDiagramsModels.contains(diagramModel.getDiagramModelType()))
@@ -129,7 +153,11 @@ public abstract class HudDiagram {
 
     abstract void drawDiagram(ShapeRenderer shapeRenderer, DiagramModel[] diagramModels); // ABSTRACT
 
-
+    /**
+     * Setter for startPercentage
+     *
+     * @arg startPercentage The new value
+     */
     public void setStartPercentage(float startPercentage) {
         this.startPercentage = startPercentage;
     }

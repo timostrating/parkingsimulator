@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.controllers.UpdateableController;
+import com.parkingtycoon.helpers.interfaces.Showable;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.ui.DiagramModel;
 import com.parkingtycoon.views.BaseView;
@@ -12,7 +13,7 @@ import com.parkingtycoon.views.ui.HudDiagramsView;
 /**
  * This Controller is responsible for setting up diagrams
  */
-public class HudDiagramsController extends UpdateableController {
+public class HudDiagramsController extends UpdateableController implements Showable {
 
     private final CompositionRoot root;
     private DiagramModel diagramMoney = new DiagramModel("Moneys diagram ???", DiagramModel.DiagramModelType.MONEY, Color.GREEN);
@@ -24,9 +25,6 @@ public class HudDiagramsController extends UpdateableController {
 
     public HudDiagramsController(Stage stage) {
         root = CompositionRoot.getInstance();
-
-        HudDiagramsView windowView = new HudDiagramsView(stage, diagramMoney, diagramTotalCars, diagramAdHocCars, diagramReservedCars, diagramVipCars);
-        registerToModels(windowView);
     }
 
     private void registerToModels(BaseView view) {
@@ -58,4 +56,8 @@ public class HudDiagramsController extends UpdateableController {
         diagramVipCars.addToHistory(vips);
     }
 
+    @Override
+    public void show(Stage stage) {
+        registerToModels(new HudDiagramsView(stage, diagramMoney, diagramTotalCars, diagramAdHocCars, diagramReservedCars, diagramVipCars));
+    }
 }

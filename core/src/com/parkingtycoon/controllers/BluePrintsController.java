@@ -21,8 +21,8 @@ import java.util.EnumSet;
 public class BluePrintsController extends UpdateableController {
 
     // Threadsafe
-    public BluePrintModel nextToBeBuilt;
-    public boolean demolishMode;
+    private BluePrintModel nextToBeBuilt;
+    private boolean demolishMode;
 
     private BluePrintModel toBeBuilt;
     private BluePrintView bluePrintView;
@@ -39,6 +39,8 @@ public class BluePrintsController extends UpdateableController {
                 "Entrance",
                 // description:
                 "Your garage needs at least one entrance.",
+                // uiImagePath
+                "sprites/entrance",
                 // sprite:
                 "sprites/queueBluePrint", 4, 5,
                 // price:
@@ -64,6 +66,8 @@ public class BluePrintsController extends UpdateableController {
                 "V.I.P. Entrance",
                 // description:
                 "Build a special entrance for parking-subscribers.",
+                // uiImagePath
+                "sprites/vip",
                 // sprite:
                 "sprites/queueBluePrint", 4, 5,
                 // price:
@@ -114,6 +118,8 @@ public class BluePrintsController extends UpdateableController {
                 "Exit",
                 // description:
                 "This is where customers pay and leave",
+                // uiImagePath
+                "sprites/exit",
                 // sprite:
                 "sprites/queueBluePrint", 4, 5,
                 // price:
@@ -139,6 +145,8 @@ public class BluePrintsController extends UpdateableController {
                 "Car elevator",
                 // description:
                 "With elevators cars can switch floors.",
+                // uiImagePath
+                "sprites/entrance",
                 // sprite:
                 "sprites/elevatorBluePrint", 3, 4,
                 // price:
@@ -253,6 +261,14 @@ public class BluePrintsController extends UpdateableController {
         toBeBuilt.registerView(root.floorsController.view);
         toBeBuilt.setAngle(0);
 
+    }
+
+    public void toggleDemolishMode() {
+        demolishMode = !demolishMode;
+    }
+
+    public void setNextToBeBuilt(BluePrintModel nextToBeBuilt) {
+        this.nextToBeBuilt = nextToBeBuilt;
     }
 
     @Override

@@ -181,7 +181,7 @@ public class FloorsController extends UpdateableController {
         return index >= 0 && index < floors.size();
     }
 
-    public void setCurrentFloor(int index) {
+    private void setCurrentFloor(int index) {
         if (!floorExists(index))
             return;
 
@@ -197,6 +197,14 @@ public class FloorsController extends UpdateableController {
         CarsController carsController = CompositionRoot.getInstance().carsController;
         if (carsController != null)
             carsController.onFloorSwitch(index);
+    }
+
+    public void moveUpOneFloor() {
+        up = true;
+    }
+
+    public void moveDownOneFloor() {
+        down = true;
     }
 
     public int getCurrentFloor() {

@@ -3,22 +3,22 @@ package com.parkingtycoon.views.ui;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.layout.GridGroup;
 import com.kotcrab.vis.ui.util.TableUtils;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisScrollPane;
 import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
-import com.parkingtycoon.CompositionRoot;
-import com.parkingtycoon.helpers.interfaces.ClickListener;
+import com.parkingtycoon.helpers.interfaces.Showable;
 import com.parkingtycoon.models.BaseModel;
-import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.views.BaseView;
-
-import java.util.ArrayList;
 
 /**
  * This is the View that is responsible for showing the Build window
  */
-public class HudBuildView extends BaseView {
+public class HudBuildView extends BaseView implements Showable {
+
+    public GridGroup group;
+    public VisLabel description;
+    public VisLabel price;
 
     private final HudBuildWindow window;
 
@@ -39,10 +39,20 @@ public class HudBuildView extends BaseView {
         return 0;
     }
 
+    @Override
+    public void show(Stage stage) {
+        window.setVisible(true);
+        window.setZIndex(999);
+        stage.addActor(window);
+    }
 
-    class HudBuildWindow extends VisWindow {
+    @Override
+    public void hide() {
+        window.setZIndex(0);
+        window.setVisible(false);
+    }
 
-        private final ArrayList<BluePrintModel> bluePrints;
+    public class HudBuildWindow extends VisWindow {
 
         HudBuildWindow() {
             super("Build");
@@ -52,19 +62,11 @@ public class HudBuildView extends BaseView {
 
             setResizable(true);
             addCloseButton();
-            CompositionRoot root = CompositionRoot.getInstance();
-            bluePrints = root.bluePrintsController.bluePrints;
 
             VisTable table = new VisTable();
             table.setWidth(200);
 
-            GridGroup group = new GridGroup(100, 4);
-
-            for (BluePrintModel bluePrint : bluePrints) {
-                VisTextButton button = new VisTextButton(bluePrint.title);
-                button.addListener((ClickListener) (event, actor) -> root.bluePrintsController.nextToBeBuilt = bluePrint);
-                group.addActor(button);
-            }
+            group = new GridGroup(100, 4);
 
             VisScrollPane scrollPane = new VisScrollPane(group);
             scrollPane.setFadeScrollBars(false);
@@ -72,20 +74,31 @@ public class HudBuildView extends BaseView {
             scrollPane.setOverscroll(false, false);
             scrollPane.setScrollingDisabled(true, false); //disable X scrolling
 
-
             table.add(scrollPane).top().grow();
             table.row();
 
+            description = new VisLabel("...");
+//            description.setWrap(true);
+            price = new VisLabel("...");
+//            price.setWrap(true);
+
             VisTable footerTable = new VisTable();
             footerTable.addSeparator();
-            footerTable.add("Description: ...").left();
-            footerTable.add("Price: ...").right().padRight(20);
+            footerTable.row();
+
+            VisTable descriptionTable = new VisTable();  // Description
+            descriptionTable.add("Description:  ");
+            descriptionTable.add(description).padRight(20);
+            footerTable.add(descriptionTable).left();
+
+            VisTable PriceTable = new VisTable();  // Price
+            PriceTable.add("Price:  ").right();
+            PriceTable.add(price).right().padRight(20);
+            footerTable.add(PriceTable).right().padRight(20);
+
             table.add(footerTable).bottom().growX();
 
             add(table).grow();
-
-//            table.debugAll();
-//            debugAll();
 
             setSize(500, 500);
             centerWindow();

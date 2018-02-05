@@ -22,9 +22,9 @@ public class CompositionRoot {
     public FloorsController floorsController;
     public CarsController carsController;
     public FinancialController financialController;
-    public HudController hudController;
     public BluePrintsController bluePrintsController;
     public ElevatorsController elevatorsController;
+    public HudController hudController;
 
     private static CompositionRoot instance;
 
@@ -58,8 +58,9 @@ public class CompositionRoot {
         floorsController = new FloorsController();
         carsController = new CarsController();
         financialController = new FinancialController();                 // UI
-        hudController = new HudController(game.batch);
+        bluePrintsController = new BluePrintsController();
         elevatorsController = new ElevatorsController();
+        hudController = new HudController();
     }
 
 }
