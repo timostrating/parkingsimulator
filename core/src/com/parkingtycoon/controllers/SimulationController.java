@@ -1,7 +1,10 @@
 package com.parkingtycoon.controllers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.Delegate;
+import com.parkingtycoon.helpers.Logger;
 
 /**
  * This Class is responsible for enabling Controllers to be called multiple times per frame depending on the speed of the simulation.
@@ -28,7 +31,6 @@ public class SimulationController extends BaseController {
     public int realUpdatesPerSecond;
 
     public void startSimulation() {
-        CompositionRoot.getInstance().floorsController.fromJson("saves/Demo.parkingsimulatortycoon");
         new Thread( () -> {
             while (isSimulatorRunning) update();
         }).start();
