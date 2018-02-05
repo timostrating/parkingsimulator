@@ -24,7 +24,7 @@ import java.util.Date;
 /**
  * This class is responsible for providing the floor of te simulation world
  */
-public class FloorsController extends UpdateableController {
+public class FloorsController extends UpdatableController {
 
     public FloorsView view;
     public ArrayList<FloorModel> floors = new ArrayList<>();

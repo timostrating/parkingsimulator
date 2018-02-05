@@ -17,7 +17,7 @@ import java.util.Collections;
 /**
  * This class is responsible for providing a blueprint for any kind of Queue.
  */
-public abstract class CarQueuesController extends UpdateableController {
+public abstract class CarQueuesController extends UpdatableController {
 
     protected ArrayList<CarQueueModel> queues = new ArrayList<CarQueueModel>();
 

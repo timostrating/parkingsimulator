@@ -18,7 +18,7 @@ import java.util.EnumSet;
 /**
  * The responsibility of this class is to place buildings on the current floor.
  */
-public class BluePrintsController extends UpdateableController {
+public class BluePrintsController extends UpdatableController {
 
     // Threadsafe
     private BluePrintModel nextToBeBuilt;

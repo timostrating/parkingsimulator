@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * This class is responsible for providing a basic classes that would like to use a Path
  */
-public abstract class PathFollowersController<T extends PathFollowerModel> extends UpdateableController {
+public abstract class PathFollowersController<T extends PathFollowerModel> extends UpdatableController {
 
     public ArrayList<T> pathFollowers = new ArrayList<>();
 

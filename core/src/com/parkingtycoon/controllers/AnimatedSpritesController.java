@@ -10,7 +10,7 @@ import com.parkingtycoon.models.AnimatedSpriteModel;
 /**
  * This class is responsible for processing the data for the AnimatedSpriteView
  */
-public class AnimatedSpritesController extends UpdateableController {
+public class AnimatedSpritesController extends UpdatableController {
 
     private static ArrayNamed<AnimatedSpriteModel> models = new ArrayNamed<>();
 

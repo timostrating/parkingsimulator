@@ -2,14 +2,14 @@ package com.parkingtycoon.controllers.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.parkingtycoon.CompositionRoot;
-import com.parkingtycoon.controllers.UpdateableController;
+import com.parkingtycoon.controllers.UpdatableController;
 import com.parkingtycoon.helpers.interfaces.ClickListener;
 import com.parkingtycoon.views.ui.HudTopView;
 
 /**
  * This class is responsible for the UI that changes the game.
  */
-public class HudTopController extends UpdateableController {
+public class HudTopController extends UpdatableController {
 
     public HudTopView view;
     private final CompositionRoot root;

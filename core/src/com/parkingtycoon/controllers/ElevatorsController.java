@@ -11,7 +11,7 @@ import com.parkingtycoon.views.elevator.ElevatorView;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ElevatorsController extends UpdateableController {
+public class ElevatorsController extends UpdatableController {
 
     public ArrayList<ElevatorModel> elevators = new ArrayList<>();
 

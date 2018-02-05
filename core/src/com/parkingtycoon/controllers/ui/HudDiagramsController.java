@@ -3,7 +3,7 @@ package com.parkingtycoon.controllers.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.parkingtycoon.CompositionRoot;
-import com.parkingtycoon.controllers.UpdateableController;
+import com.parkingtycoon.controllers.UpdatableController;
 import com.parkingtycoon.helpers.interfaces.Showable;
 import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.ui.DiagramModel;
@@ -13,7 +13,7 @@ import com.parkingtycoon.views.ui.HudDiagramsView;
 /**
  * This Controller is responsible for setting up diagrams
  */
-public class HudDiagramsController extends UpdateableController implements Showable {
+public class HudDiagramsController extends UpdatableController implements Showable {
 
     private final CompositionRoot root;
     private DiagramModel diagramMoney = new DiagramModel("Moneys diagram ???", DiagramModel.DiagramModelType.MONEY, Color.GREEN);
