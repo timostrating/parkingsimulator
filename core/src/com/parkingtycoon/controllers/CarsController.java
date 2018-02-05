@@ -11,7 +11,9 @@ import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.models.PathFollowerModel;
 import com.parkingtycoon.views.CarView;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -20,12 +22,56 @@ import java.util.List;
  */
 public class CarsController extends PathFollowersController<CarModel> {
 
-    private final Vector2 diff = new Vector2(); // this vector is reused for calculations
+    // this vector is reused for calculations
+    private final Vector2 diff = new Vector2();
 
-    public void spawnCar() {
-        CarModel car = new CarModel();
+    // Cars that have reserved a place, but are not yet in the game-world
+    private final ArrayList<CarModel> reservedCarsToSpawn = new ArrayList<>();
+
+    private void addCars() {
+        SimulationController simulationController = CompositionRoot.getInstance().simulationController;
+        long updates = simulationController.getUpdates();
+
+        float sin = (float) (Math.sin(
+                (double) updates / (double) SimulationController.REAL_TIME_UPDATES_PER_SECOND / 300
+        ) + 1) / 2;
+
+        float spawnChance = .995f - (sin * .1f);
+
+        if (Math.random() > spawnChance) {
+
+            if (Math.random() > .2f) {
+                spawnCar(new CarModel(CarModel.CarType.AD_HOC));
+
+            } else if (Math.random() > .4f) {
+                spawnCar(new CarModel(CarModel.CarType.VIP));
+
+            } else if (reservePlace()) {
+                CarModel reserver = new CarModel(CarModel.CarType.RESERVED);
+                reservedCarsToSpawn.add(reserver);                              // do not spawn yet.
+                reserver.reservationTimer = Random.randomInt(                   // wait before spawning
+                        SimulationController.REAL_TIME_UPDATES_PER_SECOND * 15,
+                        SimulationController.REAL_TIME_UPDATES_PER_SECOND * 30
+                );
+                reserver.claimedReservedPlace = true;
+            }
+        }
+
+        Iterator<CarModel> it = reservedCarsToSpawn.iterator();
+        while (it.hasNext()) {
+
+            CarModel reserved = it.next();
+
+            if (--reserved.reservationTimer <= 0) {
+                it.remove();
+                spawnCar(reserved);                     // the car has waited, now spawn the car.
+            }
+        }
+    }
+
+    private void spawnCar(CarModel car) {
+
         car.setOnActiveFloor(car.floor == floorsController.getCurrentFloor());
-        car.vip = Math.random() > .7f; // todo: change with slider
 
         if (Math.random() > .5f)
             car.position.set(Random.randomInt(10) * 9, Math.random() > .5f ? 0 : Game.WORLD_HEIGHT - 1);
@@ -33,7 +79,7 @@ public class CarsController extends PathFollowersController<CarModel> {
             car.position.set(Random.randomInt(10) * 9, Math.random() > .5f ? 0 : Game.WORLD_HEIGHT - 1);
 
         pathFollowers.add(car);
-        CarView carView = new CarView(car.position.x, car.position.y, car.vip);
+        CarView carView = new CarView(car.position.x, car.position.y, car.carType);
         carView.show();
         car.registerView(carView);
 
@@ -42,9 +88,34 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     }
 
+    private boolean reservePlace() {
+
+        for (FloorModel floor : floorsController.floors) {
+            for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+                for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+
+                    if (floor.tiles[x][y] == FloorModel.FloorType.PARKABLE
+                            && floor.accessibleParkables[x] != null
+                            && Boolean.TRUE.equals(floor.accessibleParkables[x][y])
+                            && floor.parkedCars[x][y] == null
+                            && !floor.isReserved(x, y)) {
+
+                        // found a place that can be reserved
+
+                        floor.setReserved(x, y, true);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public void update() {
         super.update();
+
+        addCars();
 
         for (CarModel car : pathFollowers) {
 
@@ -56,10 +127,20 @@ public class CarsController extends PathFollowersController<CarModel> {
                 // time for this car to leave
 
                 if (!sendToExit(car)) {
-                    car.timer -= 10; // try again after 10 updates. This to prevent extreme lag
+                    car.timer -= Random.randomInt(20, 50); // try again after some updates. This to prevent extreme lag
                 }
 
             }
+
+            // if there is a traffic jam somehow -> despawn cars that are stuck for a long time
+            if (car.waitingOn != null && !car.waitingInQueue) {
+
+                if (++car.waitingTooLongTimer > 1000) {
+                    clearParkingSpace(car);
+                    car.setDisappeared();
+                }
+
+            } else car.waitingTooLongTimer = Math.max(0, --car.waitingTooLongTimer);
 
             updateCarAABB(car);
         }
@@ -159,6 +240,12 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     public boolean parkCar(CarModel car, int fromX, int fromY) {
 
+        if (car.carType == CarModel.CarType.RESERVED && !car.claimedReservedPlace) {
+            if (!reservePlace())
+                return false;
+            car.claimedReservedPlace = true;
+        }
+
         // check if there's an available place for the car.
         int i = 0;
         for (FloorModel floor : floorsController.floors) {
@@ -166,7 +253,8 @@ public class CarsController extends PathFollowersController<CarModel> {
                 for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
                     if (floor.tiles[x][y] != FloorModel.FloorType.PARKABLE
-                            || floor.parkedCars[x][y] != null)
+                            || floor.parkedCars[x][y] != null
+                            || (car.carType == CarModel.CarType.RESERVED) != floor.isReserved(x, y))
                         continue;
 
                     // Available place found.
@@ -267,18 +355,24 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     public void clearParkingSpace(CarModel car) {
 
-        FloorModel floor = floorsController.floors.get(car.floor);
+        for (FloorModel floor : floorsController.floors) {
+            for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+                for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
 
-        for (int x = 0; x < Game.WORLD_WIDTH; x++) {
-            for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+                    if (floor.parkedCars[x][y] == car)
+                        floor.parkedCars[x][y] = null;
 
-                if (floor.parkedCars[x][y] == car) {
-                    floor.parkedCars[x][y] = null;
+                    if (car.claimedReservedPlace && car.carType == CarModel.CarType.RESERVED
+                            && floor.isReserved(x, y)
+                            && floor.parkedCars[x][y] == null) {
+
+                        floor.setReserved(x, y, false);
+                        car.claimedReservedPlace = false;
+                    }
                 }
             }
         }
         car.parked = false;
-
     }
 
     @Override
@@ -315,6 +409,44 @@ public class CarsController extends PathFollowersController<CarModel> {
     @Override
     protected void onIdlesFloorChanged(CarModel pathFollower) {
         sendToEndOfTheWorld(pathFollower, true);
+    }
+
+    @Override
+    public void onTerrainChange(int floorIndex, Boolean[][] tilesChanged) {
+
+        FloorModel floor = floorsController.floors.get(floorIndex);
+
+        for (int x = 0; x < Game.WORLD_WIDTH; x++) {
+            for (int y = 0; y < Game.WORLD_HEIGHT; y++) {
+
+                if (floor.isReserved(x, y)
+                        && (floor.tiles[x][y] != FloorModel.FloorType.PARKABLE
+                        || !Boolean.TRUE.equals(floor.accessibleParkables[x][y]))) {
+
+                    floor.setReserved(x, y, false);
+
+                    CarModel parkedHere = floor.parkedCars[x][y];
+                    if (parkedHere != null) {
+
+                        parkedHere.claimedReservedPlace = false;
+
+                    } else if (reservedCarsToSpawn.size() > 0) {
+
+                        reservedCarsToSpawn.remove(0);
+
+                    } else {
+                        for (CarModel car : pathFollowers) {
+                            if (car.claimedReservedPlace && car.carType == CarModel.CarType.RESERVED) {
+                                car.claimedReservedPlace = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        super.onTerrainChange(floorIndex, tilesChanged);
     }
 
     /**
