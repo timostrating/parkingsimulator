@@ -72,6 +72,8 @@ public abstract class BaseView implements Renderable {
 
     /**
      * We sort the views based on this renderIndex.
+     *
+     * @return the render index as a float
      */
     public abstract float renderIndex();
 
