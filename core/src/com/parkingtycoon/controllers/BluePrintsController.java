@@ -438,6 +438,9 @@ public class BluePrintsController extends UpdatableController {
     public void build(BluePrintModel bluePrint, int originX, int originY, int angle, int floorIndex) {
 
         bluePrint.setAngle(angle);
+        bluePrint.x = originX;
+        bluePrint.y = originY;
+
         BuildingModel building = bluePrint.builder.build(originX, originY, angle, floorIndex);
         building.bluePrint = bluePrint;
         buildings.add(building);
@@ -481,7 +484,7 @@ public class BluePrintsController extends UpdatableController {
                     continue;
 
                 int worldX = CoordinateRotater.rotate(x, width, y, height, bluePrint.getAngle()) + building.x;
-                int worldY = CoordinateRotater.rotate(y, height, x, width, bluePrint.getAngle()) + bluePrint.y;
+                int worldY = CoordinateRotater.rotate(y, height, x, width, bluePrint.getAngle()) + building.y;
 
                 if (floor.buildings[worldX] == null)
                     floor.buildings[worldX] = new BuildingModel[Game.WORLD_HEIGHT];

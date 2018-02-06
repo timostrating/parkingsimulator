@@ -529,6 +529,7 @@ public class FloorsController extends UpdatableController {
                     if (++x == Game.WORLD_WIDTH) {
                         floor.registerView(view);
                         floors.add(floor);
+                        checkParkables(floor);
                         continue floorsLoop;
                     }
                     y = 0;
@@ -548,6 +549,8 @@ public class FloorsController extends UpdatableController {
             int y = jsonBuilding.getInt("y");
             int angle = jsonBuilding.getInt("angle");
             int floorIndex = jsonBuilding.getInt("floor");
+
+            Logger.info(jsonBuilding);
 
             BluePrintModel bluePrint = bluePrintsController.bluePrints.get(id);
             bluePrintsController.build(bluePrint, x, y, angle, floorIndex);
