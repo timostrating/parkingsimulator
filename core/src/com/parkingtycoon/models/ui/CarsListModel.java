@@ -1,20 +1,25 @@
 package com.parkingtycoon.models.ui;
 
 import com.parkingtycoon.models.BaseModel;
-import com.parkingtycoon.models.CarModel;
 
-import java.util.ArrayList;
-
+/**
+ * This class is responsible for holding the cars data
+ */
 public class CarsListModel extends BaseModel {
-    public String title = "";
-    public ArrayList<CarModel> carModels;
+    public int totalCars = 0;
+    public int maxCarsAtOnce = 0;
+    public long totalUpdates = 0;
+    public int parkedCars = 0;
 
-    public CarsListModel(String title, ArrayList<CarModel> carModels) {
-        this.title = title;
-        this.carModels = carModels;
-    }
 
-    public void redraw() {
+    public void setData(int totalCars, long totalUpdates, int parkedCars) {
+        this.totalCars = totalCars;
+        this.totalUpdates = totalUpdates;
+        this.parkedCars = parkedCars;
+
+        if (maxCarsAtOnce < totalCars)
+            maxCarsAtOnce = totalCars;
+
         notifyViews();
     }
 }

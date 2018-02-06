@@ -1,13 +1,13 @@
 package com.parkingtycoon.views.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import com.kotcrab.vis.ui.util.TableUtils;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
-import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.helpers.interfaces.Showable;
 import com.parkingtycoon.models.BaseModel;
-import com.parkingtycoon.models.CarModel;
+import com.parkingtycoon.models.ui.CarsListModel;
 import com.parkingtycoon.views.BaseView;
 
 /**
@@ -27,8 +27,8 @@ public class HudCarsView extends BaseView implements Showable {
 
     @Override
     public void updateView(BaseModel model) {
-//        if (model instanceof CarsListModel)
-//            window.update((CarsListModel)model);
+        if (model instanceof CarsListModel)
+            window.update((CarsListModel)model);
     }
 
     @Override
@@ -53,9 +53,14 @@ public class HudCarsView extends BaseView implements Showable {
     }
 
 
-
+    /**
+     * This is the class that shows the cars window.
+     */
     public class HudCarsWindowView extends VisWindow {
-        private final CompositionRoot root;
+        private final VisLabel totalCars;
+        private final VisLabel parkedCars;
+        private final VisLabel maxCarsAtOnce;
+        private final VisLabel totalUpdates;
 
         public HudCarsWindowView () {
             super("Cars");
@@ -67,14 +72,39 @@ public class HudCarsView extends BaseView implements Showable {
             setResizable(true);
             closeOnEscape();
 
-            Array<CarModel> genericArray = new Array<>();
-            root = CompositionRoot.getInstance();
-            genericArray.addAll(root.carsController.pathFollowers.toArray(new CarModel[root.carsController.pathFollowers.size()]), 0, 0);
+            VisTable table = new VisTable(true);
+            totalCars = new VisLabel("totalCars");
+            table.add(new VisLabel("TotalCars: ")).left();
+            table.add(totalCars).right();
+            table.row();
 
+            parkedCars = new VisLabel("maxCarsAtOnce");
+            table.add("Amount of parked Cars: ").left();
+            table.add(parkedCars).right();
+            table.row();
+
+            maxCarsAtOnce = new VisLabel("maxCarsAtOnce");
+            table.add("Maximum Cars at Once: ").left();
+            table.add(maxCarsAtOnce).right();
+            table.row();
+
+            totalUpdates = new VisLabel("totalUpdates");
+            table.add("Total Simulation Steps: ").left();
+            table.add(totalUpdates).right();
+            table.row();
+
+            add(table);
 
 
             setSize(300, 300);
             setPosition(458, 245);
+        }
+
+        public void update(CarsListModel model) {
+            totalCars.setText(""+model.totalCars);
+            parkedCars.setText(""+model.parkedCars);
+            maxCarsAtOnce.setText(""+model.maxCarsAtOnce);
+            totalUpdates.setText(""+model.totalUpdates);
         }
     }
 

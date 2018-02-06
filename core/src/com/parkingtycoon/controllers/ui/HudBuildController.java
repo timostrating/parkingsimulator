@@ -3,12 +3,14 @@ package com.parkingtycoon.controllers.ui;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kotcrab.vis.ui.widget.VisImageButton;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.controllers.BaseController;
 import com.parkingtycoon.helpers.TextureHelper;
 import com.parkingtycoon.helpers.interfaces.ClickListener;
 import com.parkingtycoon.helpers.interfaces.Showable;
 import com.parkingtycoon.models.BluePrintModel;
+import com.parkingtycoon.models.FloorModel;
 import com.parkingtycoon.views.ui.HudBuildView;
 
 /**
@@ -43,6 +45,20 @@ public class HudBuildController extends BaseController implements Showable {
             button.addListener((ClickListener) (event, actor) -> {  // click
                 view.hide();
                 root.bluePrintsController.setNextToBeBuilt(bluePrint);
+            });
+            view.group.addActor(button);
+        }
+
+        for (FloorModel.FloorType floorType : FloorModel.FloorType.values()) {
+            VisTextButton button = new VisTextButton(floorType.toString());
+            button.addListener((EventListener) (event) -> {  // hover
+                view.description.setText(floorType.toString());
+                view.price.setText("100");
+                return true;
+            });
+            button.addListener((ClickListener) (event, actor) -> {  // click
+                view.hide();
+                root.floorsController.nextFloorType = floorType;
             });
             view.group.addActor(button);
         }

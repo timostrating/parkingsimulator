@@ -104,8 +104,10 @@ public class HudBuildView extends BaseView implements Showable {
             footerTable.row();
 
             VisTable descriptionTable = new VisTable();  // Description
-            descriptionTable.add("Description:  ");
+            descriptionTable.add("Description:  ").left();
+            descriptionTable.row();
             descriptionTable.add(description).padRight(20);
+//            descriptionTable.set;
             footerTable.add(descriptionTable).left();
 
             VisTable PriceTable = new VisTable();  // Price
@@ -117,7 +119,7 @@ public class HudBuildView extends BaseView implements Showable {
 
             add(table).grow();
 
-            setSize(500, 500);
+            setSize(650, 500);
             centerWindow();
         }
     }

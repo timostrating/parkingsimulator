@@ -26,11 +26,7 @@ public class ExitsController extends CarQueuesController {
         int fromY = car.queue.y + CoordinateRotater.rotate(1, 3, 0, 3, car.queue.angle);
 
         if (root.carsController.sendToEndOfTheWorld(car, fromX, fromY, false)) {
-            root.financialController.addAmount(
-                    car.carType == CarModel.CarType.AD_HOC ? 200                // default
-                            : car.carType == CarModel.CarType.RESERVED ? 300    // reservations cost more
-                            : 0                                                 // vips pay monthly
-            );
+            root.financialController.addCarPayment(car.carType);
             return true;
         }
         return false;

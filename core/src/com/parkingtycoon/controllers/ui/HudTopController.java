@@ -39,7 +39,7 @@ public class HudTopController extends UpdatableController {
             root.floorsController.toJson();
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMM.yyyy HH.mm");
             String savePath = dateFormat.format(new Date(System.currentTimeMillis())) + ".parkingsimulatortycoon";
-            Dialogs.showOKDialog(stage, "Save Compleet", savePath);
+            Dialogs.showOKDialog(stage, "Save Complete", savePath);
         });
         view.speedSlider.addListener(event -> {
             root.simulationController.setUpdatesPerSecond((int)(view.speedSlider.getValue()));

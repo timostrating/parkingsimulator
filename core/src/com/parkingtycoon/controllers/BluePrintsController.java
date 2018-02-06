@@ -97,7 +97,7 @@ public class BluePrintsController extends UpdatableController {
                 // description:
                 "Build a special entrance for people who have reserved a place.",
                 // uiImagePath
-                "sprites/vip",
+                "sprites/reserved",
                 // sprite:
                 "sprites/queueBluePrint", 4, 5,
                 // price:
@@ -151,11 +151,11 @@ public class BluePrintsController extends UpdatableController {
                 // description:
                 "With elevators cars can switch floors.",
                 // uiImagePath
-                "sprites/entrance",
+                "sprites/elevator",
                 // sprite:
                 "sprites/elevatorBluePrint", 3, 4,
                 // price:
-                200,
+                2500,
                 // FloorTypes that this building can be build on:
                 EnumSet.of(FloorModel.FloorType.ROAD, FloorModel.FloorType.GRASS, FloorModel.FloorType.CONCRETE),
                 // Floor that will appear under the building:
