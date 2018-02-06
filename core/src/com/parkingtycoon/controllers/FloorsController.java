@@ -49,10 +49,6 @@ public class FloorsController extends UpdatableController {
 
         view = new FloorsView();
 
-//        for (int i = 0; i < 10; i++)
-//            createFloor(i == 0);
-//        setCurrentFloor(0);
-
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_3, () -> {
             nextFloorType = FloorModel.FloorType.ROAD;
@@ -222,6 +218,12 @@ public class FloorsController extends UpdatableController {
                 }
             }
         }
+    }
+
+    public void createFloors() {
+        for (int i = 0; i < 10; i++)
+            createFloor(i == 0);
+        setCurrentFloor(0);
     }
 
     private void createFloor(boolean first) {

@@ -11,7 +11,9 @@ import com.parkingtycoon.views.ui.HudView;
 
 
 /**
- * This Class is responsible for setting up the 
+ * This Class is responsible for setting up the
+ *
+ * @author Timo Strating
  */
 public class SimulationScreen implements Screen {
 
@@ -48,6 +50,10 @@ public class SimulationScreen implements Screen {
     @Override
     public void show() { }
 
+    /**
+     * start rendering using the RenderController.
+     * @param delta automatic given value.
+     */
     @Override
     public void render(float delta) {
 
@@ -62,6 +68,11 @@ public class SimulationScreen implements Screen {
         Gdx.graphics.setTitle("Parking Tycoon (fps: " + Gdx.graphics.getFramesPerSecond() + ") (updates/sec: " + simulationController.getUpdatesPerSecond() + ") (real updates/sec: " + simulationController.realUpdatesPerSecond + ")");
     }
 
+    /**
+     * When the Simulation Window changes in Size then this gets called automatic.
+     * @param width automatic given value.
+     * @param height automatic given value.
+     */
     @Override
     public void resize(int width, int height) {
         worldCamera.setToOrtho(false, 10f * width / height, 10);
