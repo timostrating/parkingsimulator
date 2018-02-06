@@ -1,0 +1,15 @@
+com.parkingtycoon
+com.parkingtycoon.controllers
+com.parkingtycoon.controllers.ui
+com.parkingtycoon.helpers
+com.parkingtycoon.helpers.interfaces
+com.parkingtycoon.helpers.pathfinding
+com.parkingtycoon.helpers.ui
+com.parkingtycoon.levels
+com.parkingtycoon.models
+com.parkingtycoon.models.ui
+com.parkingtycoon.views
+com.parkingtycoon.views.components
+com.parkingtycoon.views.elevator
+com.parkingtycoon.views.queue
+com.parkingtycoon.views.ui
