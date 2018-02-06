@@ -15,7 +15,7 @@ import java.util.List;
 
 
 /**
- * This Class is responsible for showing an animated sprite of a drivable car.
+ * The car view shows an animated car sprite on the correct position and angle.
  */
 public class CarView extends AnimatedSpriteView {
 
@@ -45,6 +45,10 @@ public class CarView extends AnimatedSpriteView {
         sprite.setPosition(spritePosition.x, spritePosition.y);
     }
 
+    /**
+     * This method will show the correct car-animation-frame depending on the direction of the car
+     * @param model
+     */
     @Override
     public void updateView(BaseModel model) {
 
@@ -74,6 +78,9 @@ public class CarView extends AnimatedSpriteView {
 
     }
 
+    /**
+     * The preRender will smooth out transitions
+     */
     @Override
     public void preRender() {
         if (spriteModel.speedMultiplier <= 3) // smooth transition
@@ -92,6 +99,10 @@ public class CarView extends AnimatedSpriteView {
         }
     }
 
+    /**
+     * The debugRender method of the CarView will show the currentPath of the car
+     * @param shapeRenderer
+     */
     @Override
     public void debugRender(ShapeRenderer shapeRenderer) {
 

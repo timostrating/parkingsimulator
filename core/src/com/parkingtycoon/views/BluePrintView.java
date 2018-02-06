@@ -12,6 +12,9 @@ import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.models.FloorModel;
 
+/**
+ * This View will show a Ghost-version of a building before the building is actually built.
+ */
 public class BluePrintView extends AnimatedSpriteView {
 
     private String animationName;
@@ -27,6 +30,9 @@ public class BluePrintView extends AnimatedSpriteView {
         sprite.setOrigin(spriteOriginX, spriteOriginY);
     }
 
+    /**
+     * Gather textures
+     */
     @Override
     public void start() {
         super.start();
@@ -34,6 +40,10 @@ public class BluePrintView extends AnimatedSpriteView {
         blockedTileTexture = TEXTURES.get("sprites/blockedBluePrintTile.png");
     }
 
+    /**
+     * Set positions of textures
+     * @param model BluePrint
+     */
     @Override
     public void updateView(BaseModel model) {
 
@@ -65,6 +75,10 @@ public class BluePrintView extends AnimatedSpriteView {
 
     }
 
+    /**
+     * This will render the ghost-textures
+     * @param batch
+     */
     @Override
     public void render(SpriteBatch batch) {
 
@@ -93,6 +107,9 @@ public class BluePrintView extends AnimatedSpriteView {
 
     }
 
+    /**
+     * This will update the animation of the ghost-textures
+     */
     @Override
     public void preRender() {
 

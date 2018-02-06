@@ -5,6 +5,9 @@ import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.views.SpriteView;
 
+/**
+ * This view will show 2 small arrows on the road
+ */
 public class ArrowView extends SpriteView {
 
     private int angle;

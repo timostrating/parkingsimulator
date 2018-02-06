@@ -6,6 +6,9 @@ import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.ElevatorModel;
 import com.parkingtycoon.views.AnimatedSpriteView;
 
+/**
+ * Shows the animated sprite of an elevator with opening and closing doors
+ */
 public class ElevatorView extends AnimatedSpriteView {
 
     private float doorsTimer;
@@ -23,6 +26,9 @@ public class ElevatorView extends AnimatedSpriteView {
         super.start();
     }
 
+    /**
+     * This method will set the frame of the sprite, according to the doorsTimer
+     */
     @Override
     public void preRender() {
         int frame = currentFloor == CompositionRoot.getInstance().floorsController.getCurrentFloor() ?
@@ -36,6 +42,10 @@ public class ElevatorView extends AnimatedSpriteView {
         return super.renderIndex() - 3.5f;
     }
 
+    /**
+     * This method will set position and rotation of the elevator view
+     * @param model
+     */
     @Override
     public void updateView(BaseModel model) {
         super.updateView(model);

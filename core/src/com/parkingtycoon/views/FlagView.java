@@ -4,6 +4,9 @@ import com.parkingtycoon.helpers.IsometricConverter;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.FloorModel;
 
+/**
+ * Flags will give the player a good indication where new floorTiles will be placed.
+ */
 public class FlagView extends AnimatedSpriteView {
 
     private boolean green, initialized;
@@ -24,6 +27,10 @@ public class FlagView extends AnimatedSpriteView {
         return -9999;
     }
 
+    /**
+     * Set position of the flag
+     * @param model
+     */
     @Override
     public void updateView(BaseModel model) {
         if (model instanceof FloorModel) {

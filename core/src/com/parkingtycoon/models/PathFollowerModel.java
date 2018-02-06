@@ -7,7 +7,7 @@ import com.parkingtycoon.helpers.pathfinding.PathFinder;
 import java.util.List;
 
 /**
- * This Class is responsible for storing all data that is necessary to follow a currentPath.
+ * This Class is responsible for storing all data that is necessary to follow a path.
  */
 public abstract class PathFollowerModel extends BaseModel implements FloorDependable {
 
@@ -26,10 +26,23 @@ public abstract class PathFollowerModel extends BaseModel implements FloorDepend
     private boolean disappear;
     private boolean onActiveFloor;
 
+    /**
+     * A goal describes where a PathFollower has to go to.
+     * A goal has an arrived() and a failed() method.
+     */
     public static class Goal {
 
         public final int floor, toX, toY, fromX, fromY;
 
+        /**
+         * Initializes the final variables of the goal
+         *
+         * @param floor Floor on which the goal is on
+         * @param toX   Goal x
+         * @param toY   Goal y
+         * @param fromX From x
+         * @param fromY From y
+         */
         public Goal(int floor, int toX, int toY, int fromX, int fromY) {
             this.floor = floor;
             this.toX = toX;
@@ -38,10 +51,20 @@ public abstract class PathFollowerModel extends BaseModel implements FloorDepend
             this.fromY = fromY;
         }
 
+        /**
+         * This method is called when the PathFollower successfully arrived at its goal.
+         */
         public void arrived() {}
+
+        /**
+         * This method is called when the PathFollower failed to arrive at its goal.
+         */
         public void failed() {}
     }
 
+    /**
+     * This method will change the position of the PathFollower according to its direction.
+     */
     public void move() {
 
         position.add(direction);
@@ -49,10 +72,18 @@ public abstract class PathFollowerModel extends BaseModel implements FloorDepend
 
     }
 
+    /**
+     * Returns the path the PathFollower is currently following
+     * @return The path the PathFollower is currently following
+     */
     public List<PathFinder.Node> getCurrentPath() {
         return currentPath;
     }
 
+    /**
+     * Sets the path the PathFollower will follow
+     * @param currentPath The path the PathFollower will follow
+     */
     public void setCurrentPath(List<PathFinder.Node> currentPath) {
         this.currentPath = currentPath;
         this.currentNode = 0;

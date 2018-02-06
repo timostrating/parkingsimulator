@@ -90,23 +90,33 @@ public class BluePrintModel extends BaseModel {
     }
 
     /**
-     *
-     * @return
+     * Is the bluePrint active?
+     * @return Whether the bluePrint is active
      */
     public boolean isActive() {
         return active;
     }
 
+    /**
+     * When active, the bluePrintView should be showed
+     * @param active Is bluePrint active
+     */
     public void setActive(boolean active) {
         this.active = active;
         notifyViews();
     }
 
+    /**
+     * Builders should create a Building on a given position
+     */
     @FunctionalInterface
     public interface Builder {
         BuildingModel build(int x, int y, int angle, int floor);
     }
 
+    /**
+     * Demolishers can take action when a building is removed
+     */
     @FunctionalInterface
     public interface Demolisher {
         void demolish(BuildingModel building);
