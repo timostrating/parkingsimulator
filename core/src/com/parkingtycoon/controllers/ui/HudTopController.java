@@ -1,10 +1,14 @@
 package com.parkingtycoon.controllers.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.kotcrab.vis.ui.util.dialog.Dialogs;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.controllers.UpdatableController;
 import com.parkingtycoon.helpers.interfaces.ClickListener;
 import com.parkingtycoon.views.ui.HudTopView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * This class is responsible for the UI that changes the game.
@@ -31,12 +35,12 @@ public class HudTopController extends UpdatableController {
 
         // LEFT
         view.pauseButton.addListener((ClickListener) (event, actor) -> root.simulationController.togglePaused());
-//        view.saveButton.addListener((ClickListener) (event, actor) -> {
-//            root.floorsController.toJson();
-////            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMM.yyyy HH.mm");
-////            String savePath = "saves/" + dateFormat.format(new Date(System.currentTimeMillis())) + ".parkingsimulatortycoon";
-//            stage.addActor(new VisDialog("saved"));
-//        });
+        view.saveButton.addListener((ClickListener) (event, actor) -> {
+            root.floorsController.toJson();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMM.yyyy HH.mm");
+            String savePath = dateFormat.format(new Date(System.currentTimeMillis())) + ".parkingsimulatortycoon";
+            Dialogs.showOKDialog(stage, "Save Compleet", savePath);
+        });
         view.speedSlider.addListener(event -> {
             root.simulationController.setUpdatesPerSecond((int)(view.speedSlider.getValue()));
             return true;

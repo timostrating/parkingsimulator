@@ -175,9 +175,10 @@ public class MainMenuScreen implements Screen {
                 Logger.info(file.toString());
                 VisTextButton button = new VisTextButton(file.toString().replace("saves/", ""));
                 button.addListener((ClickListener) (event, actor) -> {
-                    CompositionRoot.getInstance().floorsController.fromJson("saves/Demo.parkingsimulatortycoon");
+                    CompositionRoot.getInstance().floorsController.fromJson(file.toString());
                     game.setScreen(new SimulationScreen(game));
                 });
+                table.row();
                 table.add(button).growX().left().top();
             }
 
