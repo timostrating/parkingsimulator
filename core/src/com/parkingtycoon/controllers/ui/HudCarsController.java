@@ -43,9 +43,18 @@ public class HudCarsController extends BaseController implements Showable, Timed
 
     @Override
     public void timedUpdate() {
+
+        int parkedCars = 0;
+
+        for (int i=0; i < root.carsController.pathFollowers.size(); i++) {
+            if (root.carsController.pathFollowers.get(i).parked)
+                parkedCars++;
+        }
+
         model.setData(
                 root.carsController.pathFollowers.size(),
-                root.simulationController.getUpdates()
+                root.simulationController.getUpdates(),
+                parkedCars
         );
     }
 }

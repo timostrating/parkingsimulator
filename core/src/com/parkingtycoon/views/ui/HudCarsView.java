@@ -58,6 +58,7 @@ public class HudCarsView extends BaseView implements Showable {
      */
     public class HudCarsWindowView extends VisWindow {
         private final VisLabel totalCars;
+        private final VisLabel parkedCars;
         private final VisLabel maxCarsAtOnce;
         private final VisLabel totalUpdates;
 
@@ -75,6 +76,11 @@ public class HudCarsView extends BaseView implements Showable {
             totalCars = new VisLabel("totalCars");
             table.add(new VisLabel("TotalCars: ")).left();
             table.add(totalCars).right();
+            table.row();
+
+            parkedCars = new VisLabel("maxCarsAtOnce");
+            table.add("Amount of parked Cars: ").left();
+            table.add(parkedCars).right();
             table.row();
 
             maxCarsAtOnce = new VisLabel("maxCarsAtOnce");
@@ -96,6 +102,7 @@ public class HudCarsView extends BaseView implements Showable {
 
         public void update(CarsListModel model) {
             totalCars.setText(""+model.totalCars);
+            parkedCars.setText(""+model.parkedCars);
             maxCarsAtOnce.setText(""+model.maxCarsAtOnce);
             totalUpdates.setText(""+model.totalUpdates);
         }

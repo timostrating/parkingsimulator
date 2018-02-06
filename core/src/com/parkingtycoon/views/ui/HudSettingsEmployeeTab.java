@@ -12,9 +12,9 @@ import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 public class HudSettingsEmployeeTab extends Tab {
 
     public IntSpinnerModel employeesAmount = new IntSpinnerModel(15, 0, 999);
-    public Spinner employeesSpinner = new Spinner("Employees", employeesAmount);
+    public Spinner employeesSpinner = new Spinner("Employees amount", employeesAmount);
     public IntSpinnerModel employeesPrice = new IntSpinnerModel(5000, 0, 99999, 100);
-    public Spinner employeesPriceSpinner = new Spinner("Employees", employeesPrice);
+    public Spinner employeesPriceSpinner = new Spinner("Employee cost", employeesPrice);
 
 
     public HudSettingsEmployeeTab() {

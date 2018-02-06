@@ -101,12 +101,14 @@ public class HudDiagramsView extends BaseView {
             tabbedPane.add(new DiagramTab("Financial", DiagramModelType.MONEY));
             tabbedPane.add(new DiagramTab("Total Cars", DiagramModelType.TOTAL_CARS));
             tabbedPane.add(new DiagramTab("Cars", DiagramModelType.ADHOC_CARS, DiagramModelType.RESERVED_CARS, DiagramModelType.VIP_CARS ));
+            tabbedPane.add(new DiagramTab("Adhoc Cars", DiagramModelType.ADHOC_CARS));
+            tabbedPane.add(new DiagramTab("Reserved Cars", DiagramModelType.RESERVED_CARS));
             tabbedPane.add(new DiagramTab("Vip Cars", DiagramModelType.VIP_CARS));
 
             image = new Image();
             setDiagram(texture);
 
-            slider = new VisSlider(0, 0.9f, 0.01f, false);
+            slider = new VisSlider(0, 0.95f, 0.01f, false);
 
             VisTextButton pieChartButton = new VisTextButton("Pie Chart");
             pieChartButton.addListener((ClickListener) (event, actor) -> curDiagram = pieDiagram);

@@ -19,10 +19,10 @@ public class HudDiagramsController extends UpdatableController implements Showab
 
     private final CompositionRoot root;
     private DiagramModel diagramMoney = new DiagramModel("Moneys diagram ???", DiagramModel.DiagramModelType.MONEY, Color.GREEN);
-    private DiagramModel diagramTotalCars = new DiagramModel("Cars diagram ???", DiagramModel.DiagramModelType.TOTAL_CARS, Color.RED);
-    private DiagramModel diagramAdHocCars = new DiagramModel("Cars diagram ???", DiagramModel.DiagramModelType.ADHOC_CARS, new Color(.1f, 1, .3f, 1));
-    private DiagramModel diagramReservedCars = new DiagramModel("Cars diagram ???", DiagramModel.DiagramModelType.RESERVED_CARS, new Color(.1f, .2f, 1, 1));
-    private DiagramModel diagramVipCars = new DiagramModel("Cars diagram ???", DiagramModel.DiagramModelType.VIP_CARS, Color.PINK);
+    private DiagramModel diagramTotalCars = new DiagramModel("Total diagram ???", DiagramModel.DiagramModelType.TOTAL_CARS, Color.RED);
+    private DiagramModel diagramAdHocCars = new DiagramModel("Adhoc diagram ???", DiagramModel.DiagramModelType.ADHOC_CARS, new Color(.1f, 1, .3f, 1));
+    private DiagramModel diagramReservedCars = new DiagramModel("Reserved diagram ???", DiagramModel.DiagramModelType.RESERVED_CARS, new Color(.1f, .2f, 1, 1));
+    private DiagramModel diagramVipCars = new DiagramModel("Vip diagram ???", DiagramModel.DiagramModelType.VIP_CARS, Color.PINK);
 
 
     /**

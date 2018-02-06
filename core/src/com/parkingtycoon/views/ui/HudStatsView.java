@@ -19,6 +19,7 @@ import com.parkingtycoon.views.BaseView;
  */
 public class HudStatsView extends BaseView {
 
+    public VisProgressBar happynisBar;
     public VisTextButton showStatsButton;
 
     private final HubStatsWindow window = new HubStatsWindow();
@@ -61,7 +62,6 @@ public class HudStatsView extends BaseView {
      */
     class HubStatsWindow extends VisWindow {
         private final VisLabel moneyLabel;
-        private final VisProgressBar happynisBar;
 
         HubStatsWindow() {
             super("Stats");
@@ -72,7 +72,7 @@ public class HudStatsView extends BaseView {
             setSize(200, 100);
 
             moneyLabel = new VisLabel("MONEY");
-            happynisBar = new VisProgressBar(0, 100, 1, false);
+            happynisBar = new VisProgressBar(0, 1_000_000, 1, false);
             showStatsButton = new VisTextButton("Show Stats");
 
             add(showStatsButton);

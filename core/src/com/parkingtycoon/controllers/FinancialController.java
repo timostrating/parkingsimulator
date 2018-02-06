@@ -1,5 +1,6 @@
 package com.parkingtycoon.controllers;
 
+import com.parkingtycoon.models.CarModel;
 import com.parkingtycoon.models.FinancialModel;
 
 /**
@@ -9,6 +10,8 @@ import com.parkingtycoon.models.FinancialModel;
  */
 public class FinancialController extends BaseController {
     private FinancialModel model = new FinancialModel();
+    public float adhockTicketPrice = 200;
+    public float reservedTicketPrice = 300;
 
     /**
      * This is the default constructor.
@@ -59,6 +62,15 @@ public class FinancialController extends BaseController {
      */
     public void addAmount(float add) {
         model.setAmount(model.getAmount() + add);
+    }
+
+    public void addCarPayment(CarModel.CarType carType) {
+        if (carType == CarModel.CarType.AD_HOC)
+            addAmount(adhockTicketPrice);
+        if (carType == CarModel.CarType.RESERVED)
+            addAmount(reservedTicketPrice);
+
+        // vips pay monthly
     }
 
     /**

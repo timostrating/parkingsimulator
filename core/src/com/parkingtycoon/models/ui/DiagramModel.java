@@ -28,7 +28,7 @@ public class DiagramModel extends BaseModel {
     private long count;
 
     private Color color;
-    private FixedRingArray history = new FixedRingArray(20_000);
+    private FixedRingArray history = new FixedRingArray(100_000);
 
 
     public DiagramModel(String name, DiagramModelType diagramModelType) {

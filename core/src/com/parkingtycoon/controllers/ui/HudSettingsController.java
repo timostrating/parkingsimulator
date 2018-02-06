@@ -19,8 +19,9 @@ public class HudSettingsController extends BaseController implements Showable {
 
     public HudSettingsController(Stage stage) {
         HudSettingsEmployeeController employee = new HudSettingsEmployeeController(stage);
+        HudSettingsFinancialController financial = new HudSettingsFinancialController(stage);
 
-        view = new HudSettingsView(stage, employee.view);
+        view = new HudSettingsView(stage, employee.view, financial.view);
         view.hide();
 
         view.tabbedPane.addListener(new TabbedPaneAdapter() {
