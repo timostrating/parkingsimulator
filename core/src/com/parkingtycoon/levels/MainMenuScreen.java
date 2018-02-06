@@ -157,7 +157,7 @@ public class MainMenuScreen implements Screen {
             columnDefaults(0).left();
             addCloseButton();
 
-            setSize(400, 200);
+            setSize(400, 300);
             setPosition(234, 50);
 
 
