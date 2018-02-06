@@ -12,7 +12,7 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 public class HudTopView {
     public VisTextButton pauseButton = new VisTextButton("Pause", "toggle");
 //    public VisTextButton randombutton = new VisTextButton("I");
-    public VisTextButton save = new VisTextButton("save");
+    public VisTextButton saveButton = new VisTextButton("save");
     public VisSlider speedSlider = new VisSlider(10, 1000, 1, false);
     public VisTextButton floorUp = new VisTextButton("^");
     public VisLabel floorTitle = new VisLabel("Floor: XX");
@@ -71,7 +71,7 @@ public class HudTopView {
         table.add(deletedButton).padLeft(10);
         table.add(buildButton).padLeft(10);
         table.add(carsButton).padLeft(50);
-        table.add(save).padLeft(50);
+        table.add(saveButton).padLeft(50);
         table.add(settings).padLeft(10);
         return table;
     }
