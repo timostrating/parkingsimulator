@@ -22,7 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * This class is responsible for providing the floor of te simulation world
+ * This class is responsible for providing multiple floors of te simulation world.
+ * Also for changing, saving and loading the layout of the tiles of all floors.
  */
 public class FloorsController extends UpdateableController {
 
@@ -35,6 +36,13 @@ public class FloorsController extends UpdateableController {
 
     public static final int BUILD_MARGIN = 25;
 
+    /**
+     * This method will check if a given position is in the zone where the player is allowed to build.
+     *
+     * @param x X-coordinate
+     * @param y Y-coordinate
+     * @return  Whether or not the position is in the build zone
+     */
     public static boolean inBuildZone(int x, int y) {
         return x >= BUILD_MARGIN
                 && x < Game.WORLD_WIDTH - BUILD_MARGIN
@@ -42,6 +50,9 @@ public class FloorsController extends UpdateableController {
                 && y < Game.WORLD_HEIGHT - BUILD_MARGIN;
     }
 
+    /**
+     * This constructor will register keyListeners that are used to modify floors.
+     */
     public FloorsController() {
 
         super();
@@ -120,6 +131,10 @@ public class FloorsController extends UpdateableController {
 //        });
     }
 
+    /**
+     * This update method will make it possible to switch between floors.
+     * It is also used to process the players input to modify the layout.
+     */
     @Override
     public void update() {
 
@@ -177,10 +192,20 @@ public class FloorsController extends UpdateableController {
 
     }
 
+    /**
+     * This method checks if a floor exists
+     * @param index The index of the floor
+     * @return      Whether or not the floor exists
+     */
     private boolean floorExists(int index) {
         return index >= 0 && index < floors.size();
     }
 
+    /**
+     * This method will switch the floor that the player is building on and looking at.
+     *
+     * @param index The index of the floor
+     */
     private void setCurrentFloor(int index) {
         if (!floorExists(index))
             return;
@@ -207,10 +232,18 @@ public class FloorsController extends UpdateableController {
         down = true;
     }
 
+    /**
+     * Returns the index of the currently active floor
+     * @return the index of the currently active floor
+     */
     public int getCurrentFloor() {
         return currentFloor;
     }
 
+    /**
+     * This method will notify buildings when the player switched between floors.
+     * @param floorIndex The floorIndex of the buildings to notify
+     */
     public void updateBuildings(int floorIndex) {
         FloorModel floor = floors.get(floorIndex);
         for (int x = 0; x < Game.WORLD_WIDTH; x++) {
@@ -224,6 +257,11 @@ public class FloorsController extends UpdateableController {
         }
     }
 
+    /**
+     * This method can be used to create a new floor in the game.
+     *
+     * @param first Whether this should be a floor with grass, roads and trees, or a floor of concrete.
+     */
     private void createFloor(boolean first) {
         FloorModel floor = createEmptyFloor();
 
@@ -244,6 +282,10 @@ public class FloorsController extends UpdateableController {
         floors.add(floor);
     }
 
+    /**
+     * This method will return a new floor without layout.
+     * @return  The new empty floor
+     */
     private FloorModel createEmptyFloor() {
         FloorModel floor = new FloorModel();
 
@@ -256,6 +298,12 @@ public class FloorsController extends UpdateableController {
         return floor;
     }
 
+    /**
+     * This method will save the coordinates of where new floorTiles have to be placed.
+     * It'll also place a green or red flag.
+     *
+     * @param floor The floor the player wants to change the layout of
+     */
     private void setNewFloorFlag(FloorModel floor) {
         Vector2 cursor = IsometricConverter.cursorToNormal();
 
@@ -297,12 +345,23 @@ public class FloorsController extends UpdateableController {
         floor.setNewFloorValid(newFloorValid);
     }
 
+    /**
+     * This method will create a FlagView to visualize the placing of new floorTiles.
+     *
+     * @param floor The floor the flag has to be placed on
+     * @param green Whether the flag should be green or red.
+     */
     private void showFlag(FloorModel floor, boolean green) {
         FlagView flag = new FlagView(green);
         flag.show();
         floor.registerView(flag);
     }
 
+    /**
+     * This method will place new FloorTiles according to the positions of the flags.
+     *
+     * @param floor The floor the tiles have to be placed on
+     */
     private void placeNewFloorTiles(FloorModel floor) {
 
         CarsController carsController = CompositionRoot.getInstance().carsController;
@@ -338,6 +397,11 @@ public class FloorsController extends UpdateableController {
         carsController.onTerrainChange(floors.indexOf(floor), newFloorValid);
     }
 
+    /**
+     * This method will check for each PARKABLE tile if it is accessible.
+     *
+     * @param floor The floor to check on
+     */
     private void checkParkables(FloorModel floor) {
 
         for (int x = 0; x < Game.WORLD_WIDTH; x++) {
@@ -356,6 +420,14 @@ public class FloorsController extends UpdateableController {
         }
     }
 
+    /**
+     * This method will check if a individual PARKABLE tile is accessible
+     *
+     * @param floor     The floor of the tile
+     * @param parkableX The x-position of the tile
+     * @param parkableY The y-position of the tile
+     * @return          Whether the PARKABLE tile is accessible
+     */
     private boolean isParkableAccessible(FloorModel floor, int parkableX, int parkableY) {
 
         for (int angle = 0; angle < 4; angle++) {
@@ -373,6 +445,9 @@ public class FloorsController extends UpdateableController {
         return false;
     }
 
+    /**
+     * This method wil save the layouts of the floors and the buildings placed on them to a JSON file in the saves/ folder
+     */
     public void toJson() {
 
         JsonValue json = new JsonValue(JsonValue.ValueType.object);
@@ -419,6 +494,11 @@ public class FloorsController extends UpdateableController {
         Logger.info("Game saved to '" + savePath + "'");
     }
 
+    /**
+     * This method will load floor layouts and buildings from a JSON file.
+     *
+     * @param savePath The path of the local JSON file
+     */
     public void fromJson(String savePath) {
 
         JsonValue json = new JsonReader().parse(Gdx.files.local(savePath));

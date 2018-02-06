@@ -9,7 +9,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class is responsible for providing a basic classes that would like to use a Path
+ * This class is responsible for making PathFollowers follow a path, using goals and elevators.
+ *
+ * @author Hilko Janssen
  */
 public abstract class PathFollowersController<T extends PathFollowerModel> extends UpdateableController {
 
@@ -17,6 +19,10 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
 
     protected FloorsController floorsController = CompositionRoot.getInstance().floorsController;
 
+    /**
+     * This update method will check for each pathFollower if it has arrived on its destination
+     * Otherwise it will make the pathFollowers travel.
+     */
     @Override
     public void update() {
 
@@ -41,6 +47,11 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
 
     }
 
+    /**
+     * This method checks if a pathFollower has arrived at its goal.
+     *
+     * @param f The regarding PathFollower
+     */
     private void checkGoal(T f) {
 
         if (f.goal == null)
@@ -75,6 +86,13 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
         }
     }
 
+    /**
+     * This method will make a pathFollower travel
+     *
+     * @param f           The regarding PathFollower
+     * @param maxDistance The maximal distance the pathFollower is allowed to travel
+     * @return            The distance the pathFollower has travelled
+     */
     private float travel(PathFollowerModel f, float maxDistance) {
 
         if (f.currentNode + 1 >= f.getCurrentPath().size()) {
@@ -109,6 +127,12 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
         return travelDistance;
     }
 
+    /**
+     * This method checks if changes to the floor layout have interrupted a path of a PathFollower
+     *
+     * @param floorIndex   The floor the changes were made
+     * @param tilesChanged Which tiles are changed?
+     */
     public void onTerrainChange(int floorIndex, Boolean[][] tilesChanged) {
         pathFollowers:
         for (T f : pathFollowers) {
@@ -145,11 +169,24 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
         }
     }
 
+    /**
+     * This method is called when the player switches between floors.
+     * This is to notify every PathFollower.
+     *
+     * @param floor The new floorIndex
+     */
     public void onFloorSwitch(int floor) {
         for (T f : pathFollowers)
             f.setOnActiveFloor(f.floor == floor);
     }
 
+    /**
+     * This method will try to send a PathFollower to a new Goal.
+     *
+     * @param pathFollower The regarding PathFollower
+     * @param goal         The new Goal
+     * @return             Whether the goal is accessible
+     */
     public boolean setGoal(T pathFollower, PathFollowerModel.Goal goal) {
 
         List<PathFinder.Node> pathToElevator = null, pathToGoal;
@@ -182,6 +219,10 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
         return true;
     }
 
+    /**
+     * This method cancels the journey to a goal.
+     * @param f The regarding PathFollower
+     */
     public void cancelGoal(T f) {
         f.goingToElevator = false;
         f.goingToGoal = false;
@@ -191,10 +232,33 @@ public abstract class PathFollowersController<T extends PathFollowerModel> exten
         f.goal = null;
     }
 
+    /**
+     * This method should try to find a path to a elevator
+     *
+     * @param pathFollower  The pathFollower that has to go to an elevator
+     * @param fromX         From where to calculate the path
+     * @param fromY         From where to calculate the path
+     * @return              Whether or not a path was found to an elevator
+     */
     protected abstract List<PathFinder.Node> getPathToElevator(T pathFollower, int fromX, int fromY);
 
+    /**
+     * This method should ask the PathFinder for a path from point A to B
+     *
+     * @param floor On which floor
+     * @param fromX From where
+     * @param fromY From where
+     * @param toX   To where
+     * @param toY   To where
+     * @return      The found path
+     */
     protected abstract List<PathFinder.Node> getPath(int floor, int fromX, int fromY, int toX, int toY);
 
+    /**
+     * This method is called when the floor underneath an idle pathFollower has changed.
+     *
+     * @param pathFollower The regarding PathFollower
+     */
     protected abstract void onIdlesFloorChanged(T pathFollower);
 
 }

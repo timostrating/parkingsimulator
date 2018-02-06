@@ -7,6 +7,10 @@ import com.badlogic.gdx.Gdx;
  */
 public class Logger {
 
+	/**
+	 * This method prints info to the console with a little traceBack
+	 * @param info Information to print
+	 */
 	public static void info(Object info) {
 
 		if (info instanceof int[]) {

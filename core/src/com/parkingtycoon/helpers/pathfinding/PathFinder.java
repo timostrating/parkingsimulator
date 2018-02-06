@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This Class is responsible for providing the ability to find a good path to your destination.
+ * The PathFinder is a static class that uses the A*-algorithm to find a path between 2 points on a grid.
+ * It needs a NavMap to navigate.
  */
 public class PathFinder {
 
+    /**
+     * A node is where a Path consists of
+     */
     public static class Node {
         public int x, y;
         public float actualX, actualY;
@@ -18,6 +22,14 @@ public class PathFinder {
         private boolean open = true;
         private int h;
 
+        /**
+         * This constructor makes a Node that can be placed in a Path
+         *
+         * @param x      The x-position of the node
+         * @param y      The y-position of the node
+         * @param parent The node before this node
+         * @param h      Heuristic, the minimal estimated cost to travel from here to the goal
+         */
         private Node(int x, int y, Node parent, int h) {
             this.x = x;
             this.y = y;
@@ -27,6 +39,13 @@ public class PathFinder {
             this.h = h;
         }
 
+        /**
+         * The estimated cost of using this node in the path
+         *
+         * @param currentX The x-position of the current node
+         * @param currentY The y-position ot the current node
+         * @return
+         */
         private int cost(int currentX, int currentY) {
             int g = currentX != x && currentY != y ? 14 : 10;
             return h + g;
@@ -41,6 +60,17 @@ public class PathFinder {
     private PathFinder() {
     }
 
+    /**
+     * This method can calculate a path between 2 points using the A*-algorithm.
+     * It needs a navMap to navigate
+     *
+     * @param navMap    A map for navigating
+     * @param fromX     From x-coordinate
+     * @param fromY     From y-coordinate
+     * @param toX       To x-coordinate
+     * @param toY       To y-coordinate
+     * @return          The found path
+     */
     public static List<Node> calcPath(NavMap navMap, int fromX, int fromY, int toX, int toY) {
 
         if (!navMap.open(fromX, fromY, true, false) || !navMap.open(toX, toY, false, true))
