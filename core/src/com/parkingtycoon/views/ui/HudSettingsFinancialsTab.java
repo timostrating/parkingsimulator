@@ -11,10 +11,10 @@ import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
  */
 public class HudSettingsFinancialsTab extends Tab {
 
-    public IntSpinnerModel adhockTickedPrice = new IntSpinnerModel(100, 0, 999);
-    public Spinner adhockSpinner = new Spinner("Adhock ticked price", adhockTickedPrice);
-    public IntSpinnerModel reservedTickedPrice = new IntSpinnerModel(200, 0, 999);
-    public Spinner reservedSpinner = new Spinner("Reserved ticked price", reservedTickedPrice);
+    public IntSpinnerModel adhockTicketPrice = new IntSpinnerModel(100, 0, 999);
+    public Spinner adhockSpinner = new Spinner("Ad Hoc ticket price", adhockTicketPrice);
+    public IntSpinnerModel reservedTicketPrice = new IntSpinnerModel(200, 0, 999);
+    public Spinner reservedSpinner = new Spinner("Reserved ticket price", reservedTicketPrice);
     public IntSpinnerModel vipMembersAmount = new IntSpinnerModel(50, 0, 9999);
     public Spinner vipAmountSpinner = new Spinner("Amount of VIP memberships", vipMembersAmount);
     public IntSpinnerModel vipMemberPrice = new IntSpinnerModel(500, 0, 999);
