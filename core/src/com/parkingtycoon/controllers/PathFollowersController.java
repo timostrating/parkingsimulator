@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Hilko Janssen
  */
-public abstract class PathFollowersController<T extends PathFollowerModel> extends UpdateableController {
+public abstract class PathFollowersController<T extends PathFollowerModel> extends UpdatableController {
 
     public ArrayList<T> pathFollowers = new ArrayList<>();
 

@@ -6,6 +6,8 @@ import com.parkingtycoon.views.ui.HudView;
 
 /**
  * This class is responsible for setting up the UI.
+ *
+ * @author Timo Strating
  */
 public class HudController {
 
@@ -13,7 +15,9 @@ public class HudController {
 
     private boolean debug = false;
 
-
+    /**
+     * Setup the hud view and the other controllers
+     */
     public HudController() {
         CompositionRoot root = CompositionRoot.getInstance();
 

@@ -21,7 +21,7 @@ import java.util.EnumSet;
  *
  * @author Hilko Janssen
  */
-public class BluePrintsController extends UpdateableController {
+public class BluePrintsController extends UpdatableController {
 
     // Threadsafe
     private BluePrintModel nextToBeBuilt;

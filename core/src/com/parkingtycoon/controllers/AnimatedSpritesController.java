@@ -12,7 +12,7 @@ import com.parkingtycoon.models.AnimatedSpriteModel;
  *
  * @author Hilko Janssen
  */
-public class AnimatedSpritesController extends UpdateableController {
+public class AnimatedSpritesController extends UpdatableController {
 
     private static ArrayNamed<AnimatedSpriteModel> models = new ArrayNamed<>();
 

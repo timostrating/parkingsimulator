@@ -11,12 +11,13 @@ import com.parkingtycoon.views.elevator.ElevatorView;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+
 /**
  * This controller is responsible for processing cars through elevators.
  *
  * @author Hilko Janssen
  */
-public class ElevatorsController extends UpdateableController {
+public class ElevatorsController extends UpdatableController {
 
     public ArrayList<ElevatorModel> elevators = new ArrayList<>();
 

@@ -12,6 +12,11 @@ import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.helpers.ui.GameWindowResizeEvent;
 
+/**
+ * class is responsible for setting up an enviorment where the ui could be rendered.
+ *
+ * @author Timo Strating
+ */
 public class HudView implements Disposable {
     private final CompositionRoot root = CompositionRoot.getInstance();;
 
@@ -22,7 +27,9 @@ public class HudView implements Disposable {
 
     private SpriteBatch hudBatch;
 
-
+    /**
+     * standard constructor, we create a new camera, viewport and spriteBatch where we render the ui on.
+     */
     public HudView() {
         hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
         hudCamera.setToOrtho(false, Game.VIEWPORT_WIDTH, Game.VIEWPORT_HEIGHT);
@@ -39,6 +46,12 @@ public class HudView implements Disposable {
         root.game.inputMultiplexer.addProcessor(0, stage);
     }
 
+    /**
+     * When the Simulation Window changes in Size then this gets called automaticly.
+     *
+     * @param width automatic given value.
+     * @param height automatic given value.
+     */
     public void resize(int width, int height) {
         hudCamera.setToOrtho(false,  width, height);
         viewport.update(width, height);
@@ -48,12 +61,19 @@ public class HudView implements Disposable {
             stage.getActors().get(i).fire(resizeEvent);
     }
 
+    /**
+     * Dispose the things we created.
+     */
     @Override
     public void dispose() {
         VisUI.dispose();
         stage.dispose();
     }
 
+    /**
+     * Render the UI, This will be called as a special event in the renderController.
+     * This is done because the UI should always be on top. This way we can be sure of that.
+     */
     public void render() {
         hudCamera.update();
 

@@ -17,7 +17,7 @@ import java.util.Collections;
 /**
  * This class is responsible for adding and sending cars to an appropriate queue.
  */
-public abstract class CarQueuesController extends UpdateableController {
+public abstract class CarQueuesController extends UpdatableController {
 
     protected ArrayList<CarQueueModel> queues = new ArrayList<CarQueueModel>();
 

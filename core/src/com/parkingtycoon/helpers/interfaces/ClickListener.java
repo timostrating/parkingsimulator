@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 /**
  * This is a special Interface that allows us to write clickListeners as one liners using lambda's
+ *
+ * @author Timo Strating
  */
 public interface ClickListener extends EventListener {
     default public boolean handle (Event event) {  // We use default to get functional code into a interface
@@ -16,6 +18,8 @@ public interface ClickListener extends EventListener {
     }
 
     /**
+     * this is the method that we now can use as a lambda.
+     *
      * @param event this is a standard ChangeEvent that would normally also be fired if you would use the ChangeListener.
      * @param actor The event target, which is the actor that emitted the change event.
      */

@@ -18,11 +18,20 @@ public class FixedRingArray {
     private float[] elements;
     private boolean hasBeanRound = false;
 
-
+    /**
+     * The standard constructor for creating a FixedRingArray.
+     *
+     * @param length the length of the FixedArray.
+     */
     public FixedRingArray(int length) {
         elements = new float[length];
     }
 
+    /**
+     * Get the Length of the stored data. We use size because we need to calculate the value.
+     *
+     * @return the length of the stored data.
+     */
     public int size() {
         if (tail > head)
             return tail - head;
@@ -30,6 +39,10 @@ public class FixedRingArray {
             return elements.length - (tail - head);
     }
 
+    /**
+     * Add a value to the array, if there is no space left on the right side of the array than the array will start to loop around on itself
+     * In the case that the array has reached it maximum size than the array will override the fist value with the last.
+     */
     public void put(float value) {
         if (hasBeanRound) {
             if ((tail) % (elements.length) == head) {
@@ -44,10 +57,21 @@ public class FixedRingArray {
         if (debug) test(value);
     }
 
+    /**
+     * Get a value out of the float array.
+     *
+     * @param index the N item you want. may cause index out of range Exception, so check te size beforehand.
+     * @return the value out of the float array.
+     */
     public float get(int index) {
         return elements[(head + index) % elements.length];
     }
 
+    /**
+     * helper for converting the data to a string.
+     *
+     * @return the array as text.
+     */
     @Override
     public String toString() {
         return Arrays.toString(elements);
@@ -87,6 +111,10 @@ public class FixedRingArray {
         }
     }
 
+    /**
+     * test methode
+     * @param value the value that you are currently testing
+     */
     public void test(float value) {
         System.out.println("hasBeanRound: "+hasBeanRound+"\t\t value: "+value+"\t\t tail: "+tail + "\t\t head: "+head +"\t"+toString());
     }

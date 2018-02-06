@@ -25,7 +25,7 @@ import java.util.Date;
  * This class is responsible for providing multiple floors of te simulation world.
  * Also for changing, saving and loading the layout of the tiles of all floors.
  */
-public class FloorsController extends UpdateableController {
+public class FloorsController extends UpdatableController {
 
     public FloorsView view;
     public ArrayList<FloorModel> floors = new ArrayList<>();
@@ -59,10 +59,6 @@ public class FloorsController extends UpdateableController {
         CompositionRoot root = CompositionRoot.getInstance();
 
         view = new FloorsView();
-
-//        for (int i = 0; i < 10; i++)
-//            createFloor(i == 0);
-//        setCurrentFloor(0);
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_3, () -> {
@@ -257,7 +253,16 @@ public class FloorsController extends UpdateableController {
         }
     }
 
-    /**
+   /**
+     * Create some baisc starter floors.
+     */
+    public void createFloors() {
+        for (int i = 0; i < 10; i++)
+            createFloor(i == 0);
+        setCurrentFloor(0);
+    }
+
+   /**
      * This method can be used to create a new floor in the game.
      *
      * @param first Whether this should be a floor with grass, roads and trees, or a floor of concrete.

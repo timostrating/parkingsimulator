@@ -13,6 +13,8 @@ import com.parkingtycoon.views.BaseView;
 
 /**
  * This is the View that is responsible for showing the Build window
+ *
+ * @author Timo Strating
  */
 public class HudBuildView extends BaseView implements Showable {
 
@@ -22,7 +24,11 @@ public class HudBuildView extends BaseView implements Showable {
 
     private final HudBuildWindow window;
 
-
+    /**
+     * create the build window
+     *
+     * @param stage the stage where the window will be added to.
+     */
     public HudBuildView(Stage stage) {
         super();
         show();
@@ -39,6 +45,11 @@ public class HudBuildView extends BaseView implements Showable {
         return 0;
     }
 
+    /**
+     * Show only one window.
+     *
+     * @param stage the stage where the showed item should be added to
+     */
     @Override
     public void show(Stage stage) {
         window.setVisible(true);
@@ -46,12 +57,18 @@ public class HudBuildView extends BaseView implements Showable {
         stage.addActor(window);
     }
 
+    /**
+     * hide the window when building.
+     */
     @Override
     public void hide() {
         window.setZIndex(0);
         window.setVisible(false);
     }
 
+    /**
+     * This is the Window where you can build things.
+     */
     public class HudBuildWindow extends VisWindow {
 
         HudBuildWindow() {
