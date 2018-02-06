@@ -8,6 +8,11 @@ import com.parkingtycoon.helpers.FixedRingArray;
 import com.parkingtycoon.helpers.Remapper;
 import com.parkingtycoon.models.ui.DiagramModel;
 
+/**
+ * This class is responsible for extending the HudDiagram with a line diagram.
+ *
+ * @author Timo Strating
+ */
 public class HudLineDiagram extends HudDiagram {
 
     private int start = 1;
@@ -15,11 +20,22 @@ public class HudLineDiagram extends HudDiagram {
     private Vector2 shadowOffset = new Vector2(-3, 5);
     private float dataMaxValue;
 
-
+    /**
+     * The Standard Constructor for creating a Bar Diagram.
+     *
+     * @param width the width of the diagram.
+     * @param height the height of the diagram.
+     * @param diagramModels all the models where we later on select on
+     */
     public HudLineDiagram(int width, int height, DiagramModel... diagramModels) {
         super(width, height, diagramModels);
     }
 
+    /**
+     * Draw Line Diagrams
+     * @param shapeRenderer the renderer where we can draw on.
+     * @param diagramModels the selected models that we should draw.
+     */
     @Override
     public void drawDiagram(ShapeRenderer shapeRenderer, DiagramModel[] diagramModels) {
         dataMaxValue = getMaxYAllModels(diagramModels) * 1.1F;
@@ -37,6 +53,14 @@ public class HudLineDiagram extends HudDiagram {
         }
     }
 
+    /**
+     * Draw one line
+     *
+     * @param shapeRenderer the renderer where we can draw on.
+     * @param data the Ring array with data.
+     * @param color the color of the line.
+     * @param offset the offset of the line.
+     */
     private void drawDiagramLine(ShapeRenderer shapeRenderer, FixedRingArray data, Color color, Vector2 offset) {
         shapeRenderer.setColor(color);
         int prevX = 0;

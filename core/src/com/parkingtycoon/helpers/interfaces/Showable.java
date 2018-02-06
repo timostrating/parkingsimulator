@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 /**
  * This Class is responsible for providing a basic interface for items who would like to be showable in the UI.
  *
- * A scenario where you would use this is a button that opens a window.
+ * A scenario where you would use this is a pauseButton that opens a window.
  * The window implements Showable and by doing this it also makes the decision if it allows multiple window
  * open at the same time.
  *

@@ -28,6 +28,11 @@ public class SimulationScreen implements Screen {
         return true;
     };
 
+    /**
+     * The standard constructor for the simulation screen,
+     *
+     * @param game we require dat from the game, also probably should only the game create us.
+     */
     public SimulationScreen(Game game) {
 
         root = CompositionRoot.getInstance();

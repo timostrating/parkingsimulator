@@ -35,7 +35,11 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     private SpriteBatch hudBatch;
 
-
+    /**
+     * Setup the main menu
+     *
+     * @param game we require data from the game, also probably should only the game create us.
+     */
     public MainMenuScreen(final Game game) {
         this.game = game;
         root = CompositionRoot.getInstance();
@@ -55,6 +59,9 @@ public class MainMenuScreen implements Screen {
         create();
     }
 
+    /**
+     * Create the menu
+     */
     private void create() {
         root.game.inputMultiplexer.addProcessor(stage);
 
@@ -80,7 +87,6 @@ public class MainMenuScreen implements Screen {
         loadButton.addListener((ClickListener) (event, actor) -> { stage.addActor(new LoadWindow()); } );
 
 
-
         final VisTextButton exitButton = new VisTextButton("EXIT");
         table.add(exitButton).padRight(20).padLeft(20);
 
@@ -94,6 +100,11 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() { }
 
+    /**
+     * render 60 frames per second
+     *
+     * @param delta automatic value
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
@@ -108,6 +119,12 @@ public class MainMenuScreen implements Screen {
         hudBatch.end();
     }
 
+    /**
+     * resize event fired every time the game window is resized.
+     *
+     * @param width the actual width of the window.
+     * @param height the actual height of the window.
+     */
     @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false, width, height);
@@ -127,7 +144,14 @@ public class MainMenuScreen implements Screen {
     public void dispose() { }
 
 
+    /**
+     * This class is responsible for showing a window where the user can select his save game.
+     */
     private class LoadWindow extends VisWindow {
+
+        /**
+         * The standard constructor of the window.
+         */
         public LoadWindow() {
             super("load");
             columnDefaults(0).left();
@@ -138,7 +162,6 @@ public class MainMenuScreen implements Screen {
 
 
             VisTable table = new VisTable(true);
-//            table.setFillParent(true);
 
             if (!Gdx.files.local("saves/").isDirectory()) {
                 Logger.info("First time playing Parking Simulator Tycoon.\nsaves folder with demo will be generated");

@@ -14,6 +14,8 @@ import com.parkingtycoon.views.BaseView;
 
 /**
  * This Class is responsible for showing the stats of the simulation.
+ *
+ * @author Timo Strating
  */
 public class HudStatsView extends BaseView {
 
@@ -30,6 +32,11 @@ public class HudStatsView extends BaseView {
         stage.addActor(window);
     }
 
+    /**
+     * Get the data out of the model and send it to the window
+     *
+     * @param baseModel the model width the financial data.
+     */
     @Override
     public void updateView(BaseModel baseModel) {
         if (baseModel instanceof FinancialModel) {
@@ -49,7 +56,9 @@ public class HudStatsView extends BaseView {
         return 0;
     }
 
-
+    /**
+     * This is the window with all the stats that will be placed in the left bottom corner.
+     */
     class HubStatsWindow extends VisWindow {
         private final VisLabel moneyLabel;
         private final VisProgressBar happynisBar;

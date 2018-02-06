@@ -30,7 +30,13 @@ public class HudTopController extends UpdatableController {
         view = new HudTopView(stage);
 
         // LEFT
-        view.button.addListener((ClickListener) (event, actor) -> root.simulationController.togglePaused());
+        view.pauseButton.addListener((ClickListener) (event, actor) -> root.simulationController.togglePaused());
+//        view.saveButton.addListener((ClickListener) (event, actor) -> {
+//            root.floorsController.toJson();
+////            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMM.yyyy HH.mm");
+////            String savePath = "saves/" + dateFormat.format(new Date(System.currentTimeMillis())) + ".parkingsimulatortycoon";
+//            stage.addActor(new VisDialog("saved"));
+//        });
         view.speedSlider.addListener(event -> {
             root.simulationController.setUpdatesPerSecond((int)(view.speedSlider.getValue()));
             return true;

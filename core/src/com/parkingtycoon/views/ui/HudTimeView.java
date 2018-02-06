@@ -16,11 +16,19 @@ import java.util.Date;
 
 /**
  * This Class is responsible for showing the time of the simulation.
+ *
+ * @author Timo Strating
  */
 public class HudTimeView extends BaseView {
 
     private final HubTimeWindow window;
 
+
+    /**
+     * the standard constructor
+     *
+     * @param stage the stage where we add the window to
+     */
     public HudTimeView(Stage stage) {
         super();
         show();
@@ -30,12 +38,20 @@ public class HudTimeView extends BaseView {
         stage.addActor(window);
     }
 
+    /**
+     *
+     * @param model the Model gives his this to us. The BaseModel can be cast to the specific model type you are looking for.
+     */
     @Override
     public void updateView(BaseModel model) {
         if (model instanceof TimeModel)
             window.updateTime(((TimeModel)model).getTime());
     }
 
+    /**
+     *
+     * @param batch the batch where you cna render your data on.
+     */
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);

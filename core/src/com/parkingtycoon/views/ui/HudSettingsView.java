@@ -10,6 +10,9 @@ import com.parkingtycoon.helpers.interfaces.Showable;
 import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.views.BaseView;
 
+/**
+ * This class is responsible for showing the settings window.
+ */
 public class HudSettingsView extends BaseView implements Showable {
 
     public VisTable container;
@@ -17,7 +20,12 @@ public class HudSettingsView extends BaseView implements Showable {
 
     private HudSettingsWindow window;
 
-
+    /**
+     * the standard constructor to create the settings window.
+     *
+     * @param stage the stage where the window will be added.
+     * @param tabs an array of tabs that will be added to the settings menu.
+     */
     public HudSettingsView(Stage stage, Tab... tabs) {
         window = new HudSettingsWindow(tabs);
         stage.addActor(window);
@@ -31,6 +39,11 @@ public class HudSettingsView extends BaseView implements Showable {
         return 0;
     }
 
+    /**
+     * Show only one window
+     *
+     * @param stage the stage where the showed item should be added to
+     */
     @Override
     public void show(Stage stage) {
         window.setVisible(true);
@@ -38,13 +51,18 @@ public class HudSettingsView extends BaseView implements Showable {
         stage.addActor(window);
     }
 
+    /**
+     * Hide the window
+     */
     @Override
     public void hide() {
         window.setZIndex(0);
         window.setVisible(false);
     }
 
-
+    /**
+     * this is the class that creates the settings window.
+     */
     private class HudSettingsWindow extends VisWindow {
 
         HudSettingsWindow(Tab... tabs) {

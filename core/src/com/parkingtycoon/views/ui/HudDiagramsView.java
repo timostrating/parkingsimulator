@@ -28,6 +28,9 @@ import java.util.Collections;
 
 import static com.parkingtycoon.models.ui.DiagramModel.DiagramModelType;
 
+/**
+ * This Class is responsible for showing the Diagrams.
+ */
 public class HudDiagramsView extends BaseView {
 
     private HubDiagramsWindow window;
@@ -41,7 +44,11 @@ public class HudDiagramsView extends BaseView {
 
     private ArrayList<DiagramModelType> selectedDiagramsModels = new ArrayList<>();
 
-
+    /**
+     * Standard Constructor
+     * @param stage the stage where the window will be added.
+     * @param diagramModels all the diagram models that will be shown.
+     */
     public HudDiagramsView(Stage stage, DiagramModel... diagramModels) {
         super();
         show();
@@ -69,7 +76,9 @@ public class HudDiagramsView extends BaseView {
         return 0;
     }
 
-
+    /**
+     * this class is responsible for showing the diagrams window.
+     */
     private class HubDiagramsWindow extends VisWindow {
         private final VisSlider slider;
         Image image;
@@ -136,7 +145,9 @@ public class HudDiagramsView extends BaseView {
             return slider.getValue();
         }
 
-
+        /**
+         * This class is responsible for showing a tab in the header of the diagrams window.
+         */
         private class DiagramTab extends Tab {
             private String title;
             private DiagramModelType[] diagramModelTypes;
