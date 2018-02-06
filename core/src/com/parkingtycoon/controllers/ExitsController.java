@@ -12,6 +12,12 @@ import java.util.EnumSet;
  */
 public class ExitsController extends CarQueuesController {
 
+    /**
+     * This method will make cars drive away to the end of the world after they have paid.
+     *
+     * @param car   The car that has waited long enough
+     * @return      Whether or not the car is able to drive away
+     */
     @Override
     protected boolean nextAction(CarModel car) {
         CompositionRoot root = CompositionRoot.getInstance();
@@ -30,6 +36,15 @@ public class ExitsController extends CarQueuesController {
         return false;
     }
 
+    /**
+     * This method will create a new exit that can be used by cars
+     *
+     * @param x       The x-position of the exit
+     * @param y       The y-position of the exit
+     * @param angle   The angle of the new exit
+     * @param floor   The floor the exit has to stand on
+     * @return        The newly created exit
+     */
     public CarQueueModel createExit(int x, int y, int angle, int floor) {
         CarQueueModel exit = new CarQueueModel(x, y, angle, floor,
                 EnumSet.of(CarModel.CarType.AD_HOC, CarModel.CarType.VIP, CarModel.CarType.RESERVED)

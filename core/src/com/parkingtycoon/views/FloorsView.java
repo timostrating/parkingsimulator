@@ -20,7 +20,7 @@ import com.parkingtycoon.models.FloorModel;
 import static com.parkingtycoon.models.FloorModel.TRANSITION_DURATION;
 
 /**
- * This Class is responsible for showing the floor as a map.
+ * This Class is responsible for rendering all floorTiles, and transition effects between floors
  */
 public final class FloorsView extends BaseView {
 
@@ -38,6 +38,9 @@ public final class FloorsView extends BaseView {
     private int transitionDirection;
     private Color fadeColor = new Color();
 
+    /**
+     * The constructor will initialize the Isometric TiledMap
+     */
     public FloorsView() {
         tiledMap = new TmxMapLoader().load("maps/default.tmx");
         renderer = new IsometricTiledMapRenderer(tiledMap, 1 / 32f);
@@ -46,6 +49,11 @@ public final class FloorsView extends BaseView {
         show();
     }
 
+    /**
+     * The updateView method will be called by all the floors
+     * It will gather information that is needed to render the map correctly.
+     * @param model A floorModel
+     */
     @Override
     public void updateView(BaseModel model) {
 
@@ -87,6 +95,10 @@ public final class FloorsView extends BaseView {
 
     }
 
+    /**
+     * The render method will render some additional things
+     * @param batch
+     */
     @Override
     public void render(SpriteBatch batch) {
         if (validTiles == null)
@@ -115,6 +127,9 @@ public final class FloorsView extends BaseView {
         }
     }
 
+    /**
+     * Before other views are rendered, the camera is moved and the map will be rendered correctly.
+     */
     @Override
     public void preRender() {
         OrthographicCamera camera = CompositionRoot.getInstance().renderController.getMainCamera();
@@ -136,6 +151,10 @@ public final class FloorsView extends BaseView {
         return 9999;
     }
 
+    /**
+     * This method will move the camera if the cursor is near an edge of the screen
+     * @param camera The camera to move
+     */
     private void moveCamera(OrthographicCamera camera) {
         float x = Gdx.input.getX() / (float) Gdx.graphics.getWidth();
         float y = Gdx.input.getY() / (float) Gdx.graphics.getHeight();
@@ -164,12 +183,20 @@ public final class FloorsView extends BaseView {
         camera.update();
     }
 
+    /**
+     * This method will actually render the map.
+     * @param camera Camera that is used
+     */
     private void renderMap(OrthographicCamera camera) {
         // before all other sprites are rendered -> render IsometricTiledMap
         renderer.setView(camera);
         renderer.render();
     }
 
+    /**
+     * This method will update the tiles on the TiledMap according to the given FloorModel
+     * @param floor FloorModel that has to be rendered
+     */
     private void setTiles(FloorModel floor) {
 
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
@@ -243,6 +270,10 @@ public final class FloorsView extends BaseView {
         return x >= 0 && x < Game.WORLD_WIDTH && y >= 0 && y < Game.WORLD_HEIGHT ? floor.tiles[x][y] : null;
     }
 
+    /**
+     * In debug mode, a grid will be drawn
+     * @param shapeRenderer ShapeRenderer used to render
+     */
     @Override
     public void debugRender(ShapeRenderer shapeRenderer) {
 
@@ -254,6 +285,10 @@ public final class FloorsView extends BaseView {
             shapeRenderer.line(0, y, Game.WORLD_WIDTH, y);
     }
 
+    /**
+     * This method will darken the zone where the player is not allowed to build
+     * @param shapeRenderer ShapeRenderer used to render
+     */
     private void renderNoBuildZone(ShapeRenderer shapeRenderer) {
 
         noBuildZoneColor.a = Math.min(.5f, noBuildZoneColor.a + .04f);
@@ -275,6 +310,12 @@ public final class FloorsView extends BaseView {
         }
     }
 
+    /**
+     * This method is used for the fade effect
+     * @param shapeRenderer   ShapeRenderer used to render
+     * @param transitionTimer Timer of the transition
+     * @param in              Whether to fade in or out
+     */
     private void renderFade(ShapeRenderer shapeRenderer, float transitionTimer, boolean in) {
         fadeColor.a = in ? TRANSITION_DURATION - transitionTimer : transitionTimer;
         fadeColor.a *= 1 / TRANSITION_DURATION;

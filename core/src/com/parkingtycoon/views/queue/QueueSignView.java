@@ -9,7 +9,7 @@ import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.views.AnimatedSpriteView;
 
 /**
- * This Class is responsible for showing an entrance.
+ * This Class is responsible for showing a big sign above an entrance or exit
  */
 public class QueueSignView extends AnimatedSpriteView {
 

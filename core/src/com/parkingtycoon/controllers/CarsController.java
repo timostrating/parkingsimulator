@@ -28,6 +28,15 @@ public class CarsController extends PathFollowersController<CarModel> {
     // Cars that have reserved a place, but are not yet in the game-world
     private final ArrayList<CarModel> reservedCarsToSpawn = new ArrayList<>();
 
+    /**
+     * This method will add cars to the simulation.
+     *
+     * It will decide how big the chances are that a new car is added.
+     * It will also decide what type the car will be. (AD_HOC, VIP or RESERVED)
+     *
+     * When a reserved-type car is added and a place is reserved,
+     * the car will not be spawned but after a certain time it will be.
+     */
     private void addCars() {
         SimulationController simulationController = CompositionRoot.getInstance().simulationController;
         long updates = simulationController.getUpdates();
@@ -69,6 +78,11 @@ public class CarsController extends PathFollowersController<CarModel> {
         }
     }
 
+    /**
+     * This method will make a car appear in the game-world and it will send it to an entrance.
+     *
+     * @param car The car that has to be spawned
+     */
     private void spawnCar(CarModel car) {
 
         car.setOnActiveFloor(car.floor == floorsController.getCurrentFloor());
@@ -88,6 +102,12 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     }
 
+    /**
+     * This method will search for an available place that can be reserved.
+     * If a place is found it will reserve the place and return true.
+     *
+     * @return Whether or not a place could be reserved.
+     */
     private boolean reservePlace() {
 
         for (FloorModel floor : floorsController.floors) {
@@ -111,6 +131,15 @@ public class CarsController extends PathFollowersController<CarModel> {
         return false;
     }
 
+    /**
+     * The update method will do several things:
+     *
+     * 1. Call the super.update() method. This will make the cars travel.
+     * 2. Call addCars(). This will add cars to the simulation.
+     * 3. Increase waitingTime so that other cars will avoid busy areas
+     * 4. Send cars to the exit
+     * 5. Make cars brake when they're colliding with other cars.
+     */
     @Override
     public void update() {
         super.update();
@@ -162,6 +191,12 @@ public class CarsController extends PathFollowersController<CarModel> {
 
     }
 
+    /**
+     * This method will update the Axis Aligned Bounding Box of a car.
+     * The AABB is used to detect collisions with other cars.
+     *
+     * @param car The car
+     */
     private void updateCarAABB(CarModel car) {
         car.aabb.center.set(car.position);
 
@@ -178,6 +213,12 @@ public class CarsController extends PathFollowersController<CarModel> {
         }
     }
 
+    /**
+     * This method will detect collisions with any other car.
+     * If a collision is detected, the method will decide which of the 2 cars have to brake.
+     *
+     * @param car The car you want to detect collisions for.
+     */
     private void detectCollisions(CarModel car) {
         if (car.waitingOn != null
                 && (car.floor != car.waitingOn.floor
@@ -234,10 +275,24 @@ public class CarsController extends PathFollowersController<CarModel> {
         }
     }
 
+    /**
+     * This method will search for an available parking place, and send the car to it.
+     *
+     * @param car   The car you want to park
+     * @return      Whether or not an available place was found.
+     */
     public boolean parkCar(CarModel car) {
         return parkCar(car, (int) car.position.x, (int) car.position.y);
     }
 
+    /**
+     * This method will search for an available parking place, and send the car to it.
+     *
+     * @param car   The car you want to park
+     * @param fromX The x-position from where to calculate a path from
+     * @param fromY The y-position from where to calculate a path from
+     * @return      Whether or not an available place was found.
+     */
     public boolean parkCar(CarModel car, int fromX, int fromY) {
 
         if (car.carType == CarModel.CarType.RESERVED && !car.claimedReservedPlace) {
@@ -273,6 +328,18 @@ public class CarsController extends PathFollowersController<CarModel> {
         return false;
     }
 
+    /**
+     * This method will actually send a car to its parking place.
+     * If the car fails to arrive, the car will try again to find another parking place or drive to the exit.
+     *
+     * @param car   The car that has to be send to a parking place
+     * @param floor The floor that the parking place is on
+     * @param x     The x-coordinate of the parking place
+     * @param y     The y-coordinate of the parking place
+     * @param fromX The x-position from where to calculate a path from
+     * @param fromY The y-position from where to calculate a path from
+     * @return      Whether or not a path could be calculated to the parking place
+     */
     private boolean sendToParkingPlace(CarModel car, int floor, int x, int y, int fromX, int fromY) {
 
         if (!floorsController.floors.get(floor).accessibleParkables[x][y])
@@ -305,6 +372,13 @@ public class CarsController extends PathFollowersController<CarModel> {
         return setGoal(car, goal);
     }
 
+    /**
+     * This method will try to send a car to an exit.
+     * This method will also clear the parking space of the car.
+     *
+     * @param car The car that has to be send to the exit
+     * @return    Whether or not an exit was found.
+     */
     public boolean sendToExit(CarModel car) {
 
         if (CompositionRoot.getInstance().exitsController.addToQueue(car)) {
@@ -314,10 +388,28 @@ public class CarsController extends PathFollowersController<CarModel> {
         return false;
     }
 
+    /**
+     * This method will make a car drive to the end of the world.
+     * When arrived the car will despawn and be removed from the simulation.
+     *
+     * @param car       The car that has to go away
+     * @param forced    If forced, the car will also despawn when no path could be found to the end of the world.
+     * @return          Whether or not the car is going to despawn.
+     */
     public boolean sendToEndOfTheWorld(CarModel car, boolean forced) {
         return sendToEndOfTheWorld(car, (int) car.position.x, (int) car.position.y, forced);
     }
 
+    /**
+     * This method will make a car drive to the end of the world.
+     * When arrived the car will despawn and be removed from the simulation.
+     *
+     * @param car       The car that has to go away
+     * @param fromX     The x-position from where to calculate a path from
+     * @param fromY     The y-position from where to calculate a path from
+     * @param forced    If forced, the car will also despawn when no path could be found to the end of the world.
+     * @return          Whether or not the car is going to despawn.
+     */
     public boolean sendToEndOfTheWorld(CarModel car, int fromX, int fromY, boolean forced) {
 
         int toX, toY;
@@ -353,6 +445,11 @@ public class CarsController extends PathFollowersController<CarModel> {
         return false;
     }
 
+    /**
+     * This method will clear the parking space of a car
+     *
+     * @param car The car you want to clear the parking space of.
+     */
     public void clearParkingSpace(CarModel car) {
 
         for (FloorModel floor : floorsController.floors) {
@@ -375,6 +472,14 @@ public class CarsController extends PathFollowersController<CarModel> {
         car.parked = false;
     }
 
+    /**
+     * This method will try to find a path to a elevator
+     *
+     * @param pathFollower  The car that has to go to an elevator
+     * @param fromX         From where to calculate the path
+     * @param fromY         From where to calculate the path
+     * @return              Whether or not a path was found to an elevator
+     */
     @Override
     protected List<PathFinder.Node> getPathToElevator(CarModel pathFollower, int fromX, int fromY) {
 
@@ -393,6 +498,17 @@ public class CarsController extends PathFollowersController<CarModel> {
         return null;
     }
 
+    /**
+     * This method will ask the PathFinder for a path from point A to B
+     * When a path was found, the path will be repositioned so that cars drive on the right of the road.
+     *
+     * @param floor On which floor
+     * @param fromX From where
+     * @param fromY From where
+     * @param toX   To where
+     * @param toY   To where
+     * @return      The found path
+     */
     @Override
     protected List<PathFinder.Node> getPath(int floor, int fromX, int fromY, int toX, int toY) {
 
@@ -406,11 +522,24 @@ public class CarsController extends PathFollowersController<CarModel> {
         return path;
     }
 
+    /**
+     * This method is called when the floor underneath an idle car is changed.
+     * It will make the car drive away.
+     *
+     * @param pathFollower The car
+     */
     @Override
     protected void onIdlesFloorChanged(CarModel pathFollower) {
         sendToEndOfTheWorld(pathFollower, true);
     }
 
+    /**
+     * This method will make sure that cars won't park on a place that is not PARKABLE anymore.
+     * The method is called when the floor-layout changed
+     *
+     * @param floorIndex   The regarding floor
+     * @param tilesChanged What tiles have changed?
+     */
     @Override
     public void onTerrainChange(int floorIndex, Boolean[][] tilesChanged) {
 

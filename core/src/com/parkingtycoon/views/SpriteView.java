@@ -14,7 +14,7 @@ import com.parkingtycoon.models.BuildingModel;
 import java.util.HashMap;
 
 /**
- * This Class is responsible for showing a image containing multiple images as an single image.
+ * The SpriteView can render a static image to the screen on any position
  */
 public class SpriteView extends BaseView {
 
@@ -38,10 +38,17 @@ public class SpriteView extends BaseView {
     protected Sprite sprite = new Sprite();
     protected String spritePath;
 
+    /**
+     * Creates a new SpriteView
+     * @param spritePath place where the image can be found
+     */
     public SpriteView(String spritePath) {
         this.spritePath = spritePath;
     }
 
+    /**
+     * This method is called when the sprite should load its texture
+     */
     @Override
     public void start() {
         Texture texture = TEXTURES.get(spritePath);
@@ -65,17 +72,29 @@ public class SpriteView extends BaseView {
         }
     }
 
+    /**
+     * This method wil render the sprite
+     * @param batch
+     */
     @Override
     public void render(SpriteBatch batch) {
         if (visible)
             sprite.draw(batch);
     }
 
+    /**
+     * This method is used to sort the views based on their positions
+     * @return Render Index (The higher, the earlier the sprite will be rendered)
+     */
     @Override
     public float renderIndex() {
         return sprite.getY();
     }
 
+    /**
+     * Shows some useful lines for debugging mode.
+     * @param shapeRenderer
+     */
     @Override
     public void debugRender(ShapeRenderer shapeRenderer) {
         if (!visible)

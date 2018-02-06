@@ -2,6 +2,9 @@ package com.parkingtycoon.helpers;
 
 public class CoordinateRotater {
 
+    /**
+     * This static method is used to rotate coordinates on an integer grid
+     */
     public static int rotate(int i, int iLength, int j, int jLength, int angle) {
         switch (angle % 4) {
             case 0:
@@ -15,5 +18,7 @@ public class CoordinateRotater {
         }
         return 0;
     }
+
+    private CoordinateRotater() {}
 
 }

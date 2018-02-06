@@ -16,7 +16,10 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 
 /**
- * The responsibility of this class is to place buildings on the current floor.
+ * The responsibility of this controller is to build and demolish buildings
+ * using the information of the BluePrints and the input of the player.
+ *
+ * @author Hilko Janssen
  */
 public class BluePrintsController extends UpdatableController {
 
@@ -174,6 +177,9 @@ public class BluePrintsController extends UpdatableController {
 
     }};
 
+    /**
+     * This constructor will create the BluePrintsController and register inputListeners.
+     */
     public BluePrintsController() {
         super();
 
@@ -243,6 +249,9 @@ public class BluePrintsController extends UpdatableController {
 
     }
 
+    /**
+     * This method is used to cancel the preview of a to be built BluePrint
+     */
     private void unsetToBeBuilt() {
         if (toBeBuilt != null) {
             toBeBuilt.setActive(false);
@@ -253,6 +262,12 @@ public class BluePrintsController extends UpdatableController {
         }
     }
 
+    /**
+     * This method is used to show a preview of a to be built BluePrint.
+     * With this preview the player can see and choose where the building will be placed.
+     *
+     * @param bluePrint The bluePrint that is going to be built
+     */
     private void setToBeBuilt(BluePrintModel bluePrint) {
 
         toBeBuilt = bluePrint;
@@ -265,21 +280,33 @@ public class BluePrintsController extends UpdatableController {
 
     }
 
+    /**
+     * This method will toggle the demolishMode on or off.
+     * With the demolishMode the player can choose to demolish a building.
+     */
     public void toggleDemolishMode() {
         demolishMode = !demolishMode;
     }
 
+    /**
+     * This method is used to notify the controller that the player wants to see a preview of a BluePrint
+     * @param nextToBeBuilt The bluePrint that the player wants to see previewed.
+     */
     public void setNextToBeBuilt(BluePrintModel nextToBeBuilt) {
         this.nextToBeBuilt = nextToBeBuilt;
     }
 
+    /**
+     * In the update method the controller will check if the player has clicked.
+     * If so, the controller will build or demolish an building, depending on what mode the controller is in.
+     */
     @Override
     public void update() {
 
         if (nextToBeBuilt != toBeBuilt) {
             unsetToBeBuilt();
             if (nextToBeBuilt != null)
-                setToBeBuilt(nextToBeBuilt);
+                setToBeBuilt(nextToBeBuilt); // create a preview of the bluePrint
         }
 
         if (toBeBuilt != null) {
@@ -335,6 +362,10 @@ public class BluePrintsController extends UpdatableController {
         clicked = false;
     }
 
+    /**
+     * This method will remove the red Highlight that is being shown on a building.
+     * The red Highlight is being shown when a player hovers the mouse on a building while in demolishMode.
+     */
     private void unsetToBeDemolished() {
         if (toBeDemolished == null)
             return;
@@ -393,6 +424,17 @@ public class BluePrintsController extends UpdatableController {
         return canBuild;
     }
 
+    /**
+     * This method will build a building using the information provided with the BluePrint.
+     * It is not the responsibility of this method to check if it is allowed to build this building here.
+     * It is the responsibility of placeBuildingOnFloor() to actually place the building on one or multiple floors.
+     *
+     * @param bluePrint     The BluePrint that contains information about the building that is going to be placed.
+     * @param originX       The x-position of the building
+     * @param originY       The y-position of the building
+     * @param angle         The angle of the building (min 0, max 3)
+     * @param floorIndex    The floor that this building has to be placed on.
+     */
     public void build(BluePrintModel bluePrint, int originX, int originY, int angle, int floorIndex) {
 
         bluePrint.setAngle(angle);
@@ -404,17 +446,24 @@ public class BluePrintsController extends UpdatableController {
 
         if (bluePrint.buildOnAllFloors)
             for (int i = 0; i < floorsController.floors.size(); i++)
-                placeBuildingOnFloor(building, bluePrint, i, originX, originY);
+                placeBuildingOnFloor(building, bluePrint, i);
 
         else
-            placeBuildingOnFloor(building, bluePrint, floorIndex, originX, originY);
+            placeBuildingOnFloor(building, bluePrint, floorIndex);
     }
 
+    /**
+     * This building will actually place a building on a floor.
+     * You have to provide an already built building.
+     *
+     * @param building      The building that has to be placed on a floor
+     * @param bluePrint     The bluePrint that was being used to build this building
+     * @param floorIndex    The floor that the building has to be placed on.
+     */
     private void placeBuildingOnFloor(
             BuildingModel building,
             BluePrintModel bluePrint,
-            int floorIndex,
-            int originX, int originY) {
+            int floorIndex) {
 
         Boolean[][] tilesChanged = new Boolean[Game.WORLD_WIDTH][];
 
@@ -431,8 +480,8 @@ public class BluePrintsController extends UpdatableController {
                 if (floorType == null)
                     continue;
 
-                int worldX = CoordinateRotater.rotate(x, width, y, height, bluePrint.getAngle()) + originX;
-                int worldY = CoordinateRotater.rotate(y, height, x, width, bluePrint.getAngle()) + originY;
+                int worldX = CoordinateRotater.rotate(x, width, y, height, bluePrint.getAngle()) + building.x;
+                int worldY = CoordinateRotater.rotate(y, height, x, width, bluePrint.getAngle()) + bluePrint.y;
 
                 if (floor.buildings[worldX] == null)
                     floor.buildings[worldX] = new BuildingModel[Game.WORLD_HEIGHT];
@@ -456,6 +505,11 @@ public class BluePrintsController extends UpdatableController {
         root.carsController.onTerrainChange(floorIndex, tilesChanged);
     }
 
+    /**
+     * This method will demolish a given building
+     *
+     * @param building The building that has to be demolished
+     */
     public void demolish(BuildingModel building) {
 
         FloorsController floorsController = CompositionRoot.getInstance().floorsController;
@@ -479,6 +533,12 @@ public class BluePrintsController extends UpdatableController {
         demolishMode = false;
     }
 
+    /**
+     * This method will remove a demolished building from a floor
+     *
+     * @param building      The building that was demolished
+     * @param floorIndex    The floor that the building was standing on
+     */
     private void removeBuildingFromFloor(BuildingModel building, int floorIndex) {
 
         Boolean[][] tilesChanged = new Boolean[Game.WORLD_WIDTH][];

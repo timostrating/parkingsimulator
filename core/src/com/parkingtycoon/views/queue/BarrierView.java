@@ -5,6 +5,9 @@ import com.parkingtycoon.models.BaseModel;
 import com.parkingtycoon.models.CarQueueModel;
 import com.parkingtycoon.views.AnimatedSpriteView;
 
+/**
+ * This View wil show a barrier at exits and entrances
+ */
 public class BarrierView extends AnimatedSpriteView {
 
     public BarrierView() {
@@ -17,6 +20,10 @@ public class BarrierView extends AnimatedSpriteView {
         play("openAndClose", false, -1);
     }
 
+    /**
+     * This method will make the barrier go open
+     * @param model
+     */
     @Override
     public void updateView(BaseModel model) {
 

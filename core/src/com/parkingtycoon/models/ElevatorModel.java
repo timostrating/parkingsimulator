@@ -15,10 +15,18 @@ public class ElevatorModel extends BuildingModel {
         super(x, y, angle, 0, true);
     }
 
+    /**
+     * Returns how far the doors are opened (range 0-1)
+     * @return How far are the doors opened (range 0-1)
+     */
     public float getDoorsTimer() {
         return doorsTimer;
     }
 
+    /**
+     * Set how far the doors are opened
+     * @param doorsTimer How far the doors are opened (range 0-1)
+     */
     public void setDoorsTimer(float doorsTimer) {
         this.doorsTimer = doorsTimer;
         notifyViews();

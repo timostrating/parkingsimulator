@@ -8,13 +8,17 @@ import com.parkingtycoon.helpers.ArrayNamed;
 import com.parkingtycoon.models.AnimatedSpriteModel;
 
 /**
- * This class is responsible for processing the data for the AnimatedSpriteView
+ * This class is responsible for loading Animated Sprite Data from JSON files to usable AnimatedSpriteModels.
+ *
+ * @author Hilko Janssen
  */
 public class AnimatedSpritesController extends UpdatableController {
 
     private static ArrayNamed<AnimatedSpriteModel> models = new ArrayNamed<>();
 
-
+    /**
+     * This method will change the speedMultiplier of animated sprites depending on the simulation speed.
+     */
     @Override
     public void update() {
 
@@ -26,6 +30,13 @@ public class AnimatedSpritesController extends UpdatableController {
             spriteModel.speedMultiplier = speedMultiplier;
     }
 
+    /**
+     * This method will provide a model with all information of an animated sprite.
+     * If the requested model does not exist yet, then the information will be read from a JSON file.
+     *
+     * @param   spritePath The path of the requested sprite.
+     * @return  The requested model
+     */
     public AnimatedSpriteModel getAnimatedSpriteModel(String spritePath) {
         AnimatedSpriteModel model = models.get(spritePath);
         if (model == null)
@@ -34,6 +45,12 @@ public class AnimatedSpritesController extends UpdatableController {
         return model;
     }
 
+    /**
+     * This method will create a new AnimatedSpriteModel containing information that is read from the JSON file
+     *
+     * @param path  The path of the requested sprite
+     * @return      The newly created model
+     */
     private AnimatedSpriteModel modelFromJson(String path) {  // TODO: to long
 
         AnimatedSpriteModel spriteModel = new AnimatedSpriteModel(path);

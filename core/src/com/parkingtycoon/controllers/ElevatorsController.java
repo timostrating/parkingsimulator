@@ -11,10 +11,19 @@ import com.parkingtycoon.views.elevator.ElevatorView;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+
+/**
+ * This controller is responsible for processing cars through elevators.
+ *
+ * @author Hilko Janssen
+ */
 public class ElevatorsController extends UpdatableController {
 
     public ArrayList<ElevatorModel> elevators = new ArrayList<>();
 
+    /**
+     * This method will update all the individual elevators.
+     */
     @Override
     public void update() {
 
@@ -23,6 +32,14 @@ public class ElevatorsController extends UpdatableController {
 
     }
 
+    /**
+     * This method will create an elevator that can be used.
+     *
+     * @param x     The x-position of the new elevator
+     * @param y     The y-position of the new elevator
+     * @param angle The angle of the elevator
+     * @return      The newly created elevator
+     */
     public ElevatorModel createElevator(int x, int y, int angle) {
         ElevatorModel elevator = new ElevatorModel(x, y, angle);
         elevators.add(elevator);
@@ -35,6 +52,11 @@ public class ElevatorsController extends UpdatableController {
         return elevator;
     }
 
+    /**
+     * This method will remove a demolished elevator, so that cars will not use this elevator anymore.
+     *
+     * @param building The demolished elevator
+     */
     public void removeElevator(BuildingModel building) {
         if (building instanceof ElevatorModel) {
 
@@ -48,6 +70,12 @@ public class ElevatorsController extends UpdatableController {
         }
     }
 
+    /**
+     * This method will process a car through the elevator.
+     * It will make cars wait before the doors have opened.
+     *
+     * @param elevator The elevator to update
+     */
     private void updateElevator(ElevatorModel elevator) {
 
         Iterator<CarModel> it = elevator.cars.iterator();
@@ -74,6 +102,12 @@ public class ElevatorsController extends UpdatableController {
         }
     }
 
+    /**
+     * This method will search for the first car in the queue.
+     * The car is then allowed to go inside the elevator.
+     *
+     * @param elevator The regarding elevator
+     */
     private void elevateNextCar(ElevatorModel elevator) {
 
         if (elevator.cars.size() == 0)
@@ -99,6 +133,12 @@ public class ElevatorsController extends UpdatableController {
 
     }
 
+    /**
+     * This method will check if a car is positioned in front of the elevators doors
+     * @param elevator  The regarding elevator
+     * @param car       The regarding car
+     * @return          Whether or not this car is in front of the doors
+     */
     private boolean onWaitingPosition(ElevatorModel elevator, CarModel car) {
         int waitingPlaceX = elevator.x + (elevator.angle == 0 ? 2 : 1);
         int waitingPlaceY = elevator.y + (elevator.angle == 0 ? 1 : 2);
@@ -109,6 +149,12 @@ public class ElevatorsController extends UpdatableController {
                 && car != elevator.currentlyElevating;
     }
 
+    /**
+     * This method will move the elevator up or down.
+     * When arrived, the doors will open and the car is allowed to go away.
+     *
+     * @param elevator The elevator to move.
+     */
     private void elevate(ElevatorModel elevator) {
 
         CarModel elevating = elevator.currentlyElevating;
@@ -152,16 +198,34 @@ public class ElevatorsController extends UpdatableController {
         }
     }
 
+    /**
+     * This method will slowly open the doors of a elevator
+     *
+     * @param elevator  The elevator
+     * @return          Are the doors completely open?
+     */
     private boolean openDoors(ElevatorModel elevator) {
         elevator.setDoorsTimer(Math.min(1, elevator.getDoorsTimer() + .05f));
         return elevator.getDoorsTimer() == 1;
     }
 
+    /**
+     * This method will slowly close the doors of a elevator
+     *
+     * @param elevator  The elevator
+     * @return          Are the doors completely closed?
+     */
     private boolean closeDoors(ElevatorModel elevator) {
         elevator.setDoorsTimer(Math.max(0, elevator.getDoorsTimer() - .05f));
         return elevator.getDoorsTimer() == 0;
     }
 
+    /**
+     * This method will check whether or not the car is still in the elevator.
+     *
+     * @param elevator  The regarding elevator
+     * @return          Whether or not the car is still in the elevator
+     */
     private boolean carLeftElevator(ElevatorModel elevator) {
 
         float distance = new Vector2(elevator.x + 1.5f, elevator.y + 1.5f).sub(

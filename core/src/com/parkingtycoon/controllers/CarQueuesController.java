@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * This class is responsible for providing a blueprint for any kind of Queue.
+ * This class is responsible for adding and sending cars to an appropriate queue.
  */
 public abstract class CarQueuesController extends UpdatableController {
 
@@ -25,6 +25,13 @@ public abstract class CarQueuesController extends UpdatableController {
         CompositionRoot.getInstance().simulationController.registerUpdatable(this);
     }
 
+    /**
+     * This method will try to find an appropriate queue for a given car.
+     * If a queue is found, then the car will be added and sent to that queue.
+     *
+     * @param car The car that is looking for a queue
+     * @return    Whether or not a queue has been found
+     */
     public boolean addToQueue(CarModel car) {
         if (queues.size() == 0)
             return false;
@@ -47,6 +54,15 @@ public abstract class CarQueuesController extends UpdatableController {
         return false;
     }
 
+    /**
+     * This method will actually send a car to a queue if a path can be found to it.
+     * If the car fails to arrive, then the car will try to find another queue, if that fails too,
+     * then the car will be send to the end of the world.
+     *
+     * @param queue The queue the car wants to drive to.
+     * @param car   The car that wants to drive to the queue.
+     * @return      Whether or not a path was found to the queue.
+     */
     private boolean sendCarToQueue(CarQueueModel queue, CarModel car) {
 
         int x = queue.x + CoordinateRotater.rotate(2, 3, 1, 3, queue.angle);
@@ -76,6 +92,10 @@ public abstract class CarQueuesController extends UpdatableController {
         return CompositionRoot.getInstance().carsController.setGoal(car, goal);
     }
 
+    /**
+     * This method will look for the cars that are first in the queue.
+     * If a car has waited long enough, the abstract method nextAction(car) will be called.
+     */
     @Override
     public void update() {
         for (CarQueueModel queue : queues) {
@@ -107,6 +127,12 @@ public abstract class CarQueuesController extends UpdatableController {
         }
     }
 
+    /**
+     * This abstract method should try to give a car a new goal after it has waited long enough in the queue.
+     *
+     * @param car   The car that has waited long enough
+     * @return      Whether or not a new action could be given
+     */
     protected abstract boolean nextAction(CarModel car);
 
     protected void createViews(CarQueueModel queue, String type) {
@@ -121,6 +147,11 @@ public abstract class CarQueuesController extends UpdatableController {
         arrow.show();
     }
 
+    /**
+     * This method should be called when a queue is demolished.
+     *
+     * @param building The queue that is demolished.
+     */
     public void removeQueue(BuildingModel building) {
         if (building instanceof CarQueueModel)
             queues.remove(building);
