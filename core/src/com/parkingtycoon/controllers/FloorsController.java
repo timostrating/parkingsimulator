@@ -24,7 +24,7 @@ import java.util.Date;
 /**
  * This class is responsible for providing the floor of te simulation world
  */
-public class FloorsController extends UpdateableController {
+public class FloorsController extends UpdatableController {
 
     public FloorsView view;
     public ArrayList<FloorModel> floors = new ArrayList<>();
@@ -48,10 +48,6 @@ public class FloorsController extends UpdateableController {
         CompositionRoot root = CompositionRoot.getInstance();
 
         view = new FloorsView();
-
-//        for (int i = 0; i < 10; i++)
-//            createFloor(i == 0);
-//        setCurrentFloor(0);
 
         // temporary:
         root.inputController.onKeyDown.put(Input.Keys.NUM_3, () -> {
@@ -222,6 +218,12 @@ public class FloorsController extends UpdateableController {
                 }
             }
         }
+    }
+
+    public void createFloors() {
+        for (int i = 0; i < 10; i++)
+            createFloor(i == 0);
+        setCurrentFloor(0);
     }
 
     private void createFloor(boolean first) {

@@ -11,10 +11,21 @@ import com.parkingtycoon.helpers.interfaces.Showable;
 import com.parkingtycoon.models.BluePrintModel;
 import com.parkingtycoon.views.ui.HudBuildView;
 
+/**
+ * This Class is responsible for processing the user requests in the build window.
+ *
+ * @author Timo Strating
+ */
 public class HudBuildController extends BaseController implements Showable {
 
     private HudBuildView view;
 
+
+    /**
+     * Setup the model and view
+     *
+     * @param stage the stage where the View should be added to.
+     */
     public HudBuildController(Stage stage) {
         CompositionRoot root = CompositionRoot.getInstance();
 
@@ -37,6 +48,11 @@ public class HudBuildController extends BaseController implements Showable {
         }
     }
 
+    /**
+     * Give the view the responsibility of processing the Showable interface.
+     *
+     * @param stage the stage where the View should be added to.
+     */
     @Override
     public void show(Stage stage) {
         view.show(stage);

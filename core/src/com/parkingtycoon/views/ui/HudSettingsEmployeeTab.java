@@ -6,6 +6,9 @@ import com.kotcrab.vis.ui.widget.spinner.IntSpinnerModel;
 import com.kotcrab.vis.ui.widget.spinner.Spinner;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 
+/**
+ * This class in responsible for processing the employees tab in the settings menu.
+ */
 public class HudSettingsEmployeeTab extends Tab {
 
     public IntSpinnerModel employeesAmount = new IntSpinnerModel(15, 0, 999);
@@ -15,14 +18,22 @@ public class HudSettingsEmployeeTab extends Tab {
 
 
     public HudSettingsEmployeeTab() {
-        super(false, false);
+        super(false, false);  // the user can not close this tab
     }
 
+    /**
+     * The title of this tab
+     * @return the title that is placed in the tab header
+     */
     @Override
     public String getTabTitle () {
         return "Employees";
     }
 
+    /**
+     * Gets the content for the tab. This content will be loaded when you have the tab selected
+     * @return
+     */
     @Override
     public Table getContentTable () {
         VisTable table = new VisTable(true);

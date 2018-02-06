@@ -7,6 +7,11 @@ import com.parkingtycoon.controllers.BaseController;
 import com.parkingtycoon.helpers.interfaces.Showable;
 import com.parkingtycoon.views.ui.HudSettingsView;
 
+/**
+ * This Class is responsible for processing the user requests in the Settings window.
+ *
+ * @author Timo Strating
+ */
 public class HudSettingsController extends BaseController implements Showable {
 
     private final HudSettingsView view;
@@ -28,6 +33,11 @@ public class HudSettingsController extends BaseController implements Showable {
 
     }
 
+    /**
+     * Give the view the responsibility of processing the Showable interface.
+     *
+     * @param stage the stage where the View should be added to.
+     */
     @Override
     public void show(Stage stage) {
         view.show(stage);

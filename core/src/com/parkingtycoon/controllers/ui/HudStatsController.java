@@ -8,13 +8,19 @@ import com.parkingtycoon.views.ui.HudStatsView;
 
 /**
  * This class is responsible for controlling the UI that allows the game to have stats.
+ *
+ * @author Timo Strating
  */
 public class HudStatsController extends BaseController {
 
-    public HudStatsView view;
+    private HudStatsView view;
     private final CompositionRoot root;
 
-
+    /**
+     * Setup the view.
+     *
+     * @param stage the stage where the view should be added to.
+     */
     public HudStatsController(Stage stage) {
         HudDiagramsController diagramController = new HudDiagramsController(stage);
 

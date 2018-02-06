@@ -12,6 +12,8 @@ import com.parkingtycoon.views.BaseView;
 
 /**
  * This Class is responsible for enabling Views to be called every frame.
+ *
+ * @author GGG
  */
 public class RenderController extends BaseController {
 
@@ -26,9 +28,14 @@ public class RenderController extends BaseController {
     private Delegate.Sorter<BaseView> sorter = BaseView::renderIndex;
     private Delegate.Starter<BaseView> starter = BaseView::start;
 
-    public boolean debug = false;
+    public boolean debug = false;  // should the debug rendering be activated
 
 
+    /**
+     * This is the standard constructor for the render controller
+     *
+     * @param game we need data from the game class. Also nobody else but a direct involved class from Game should create us.
+     */
     public RenderController(Game game) {
         super();
         this.game = game;
@@ -42,6 +49,9 @@ public class RenderController extends BaseController {
         });
     }
 
+    /**
+     * Setup a new Render
+     */
     public void preRender() {
         views.process(starter);                 // for every new view -> call start()
 
@@ -52,6 +62,9 @@ public class RenderController extends BaseController {
         views.notifyObjects(preRenderer);       // for every view -> call preRender()
     }
 
+    /**
+     * Render the screen
+     */
     public void render() {
         game.batch.begin();
         views.notifyObjects(renderer);          // for every view -> call render(game.batch)
@@ -72,18 +85,38 @@ public class RenderController extends BaseController {
         }
     }
 
+    /**
+     * Register a view as to be rendered
+     *
+     * @param view the view that would like to be rendered.
+     */
     public void registerView(BaseView view) {
         views.register(view);
     }
 
+    /**
+     * Unregister a view so that it wil not be rendered anymore.
+     *
+     * @param view this is the view that would like to stop listening to what this class has to scream.
+     */
     public void unregisterView(BaseView view) {
         views.unregister(view);
     }
 
+    /**
+     * Getter fot the current active camera
+     *
+     * @return the current active camera
+     */
     public OrthographicCamera getMainCamera() {
         return mainCamera;
     }
 
+    /**
+     * Setter for a new currently active camera.
+     *
+     * @param mainCamera the camera that you would like to main the new main camera.
+     */
     public void setMainCamera(OrthographicCamera mainCamera) {
         this.mainCamera = mainCamera;
     }
