@@ -1,15 +1,21 @@
 ![LOGO](https://raw.githubusercontent.com/timostrating/parkingsimulator/master/blender_files/logo/logo_small.png)
 
 This is an AWESOME parkingsimulator inspired by Rollercoaster Tycoon 2.
-<br><br>[Javadoc can be found here](https://timostrating.github.io/parkingsimulator/)
-<br><br>
 ![gif](https://i.imgur.com/NNS8PzY.png)
+
+## Team
+* [Hilko Janssen](https://github.com/hilkojj)
+* [CodeCasper](https://github.com/codecasper)
+* [Timo Strating](https://github.com/timostrating) 
 
 ## Dependencies
 * Gradle
 * Java 8
 * JRE: 1.8+ 64bit
 * JVM: OpenJDK 64-Bit Server VM by JetBrains
+
+## Documentation
+[Javadoc documentation can be found here](https://timostrating.github.io/parkingsimulator/)
 
 ## Installation
 
@@ -34,6 +40,3 @@ Now we are going to refresh the dependencies. Go to View -> Tool Windows -> Grad
 ![Intellij Gradle run](https://i.imgur.com/gRYdssI.png)
 
 Now hit SHIFT + F9 and enjoy.
-
-
-
