@@ -7,16 +7,22 @@ This is an AWESOME parkingsimulator inspired by Rollercoaster Tycoon 2.
 * [Hilko Janssen](https://github.com/hilkojj)
 * [CodeCasper](https://github.com/codecasper)
 * [Timo Strating](https://github.com/timostrating) 
+<br/><br/>
+
 
 ## Dependencies
 * Gradle
 * Java 8
 * JRE: 1.8+ 64bit
 * JVM: OpenJDK 64-Bit Server VM by JetBrains
+<br/><br/>
+
 
 ## Documentation
 [Javadoc documentation can be found here](https://timostrating.github.io/parkingsimulator/)
+<br/><br/>
 
+`
 ## Installation
 
 gradle.properties
@@ -32,6 +38,7 @@ org.gradle.java.home=C:\\Program Files\\Java\\jdk1.8.0_73
 ```
 
 Now go to the platform / tool that you would like to use.
+<br/><br/>
 
 
 ## Intellij idea
@@ -45,6 +52,7 @@ Now we are going to refresh the dependencies. Go to View -> Tool Windows -> Grad
 ![Intellij Gradle run](https://i.imgur.com/gRYdssI.png)
 
 Now hit SHIFT + F9 and enjoy.
+<br/><br/>
 
 
 ## Windows Powershell
@@ -64,6 +72,7 @@ With gradle we can run the application.
 ```
 gradle desktop:run
 ```
+<br/><br/>
 
 
 ## Linux Manjaro (arch)
@@ -83,12 +92,13 @@ With gradle we can run the application.
 ```
 gradle desktop:run
 ```
+<br/><br/>
 
 
 ## Linux Manjaro (arch)
 On MAC OS your java.home should look like something like this.
 ```gradle.properties
-org.gradle.java.home=/usr/lib/jvm/java-8-openjdk/jre
+org.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home
 ```
 
 We are going to install gradle using brew.
