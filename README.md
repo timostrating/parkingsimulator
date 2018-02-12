@@ -54,6 +54,13 @@ Now we are going to refresh the dependencies. Go to View -> Tool Windows -> Grad
 Now hit SHIFT + F9 and enjoy.
 <br/>
 
+## Windows
+There is a special .bat file that automates the windows pipeline.
+```
+.\gradlew.dat desktop:run
+```
+In the case this does not work take a look at the Windows Powershell installation or the intellij development installation.
+<br/>
 
 ## Windows Powershell
 
