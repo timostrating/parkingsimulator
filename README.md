@@ -1,7 +1,7 @@
 ![LOGO](https://raw.githubusercontent.com/timostrating/parkingsimulator/master/blender_files/logo/logo_small.png)
 
 This is an AWESOME parkingsimulator inspired by Rollercoaster Tycoon 2.
-![gif](https://i.imgur.com/NNS8PzY.png)
+![gif](https://i.imgur.com/6lZ2RnS.png)
 
 ## Team
 * [Hilko Janssen](https://github.com/hilkojj)
