@@ -33,14 +33,14 @@ public class HudSettingsFinancialController implements TimedUpdatable {
         view.adhockSpinner.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                root.financialController.adhockTicketPrice = view.adhockTickedPrice.getValue();
+                root.financialController.adhockTicketPrice = view.adhockTicketPrice.getValue();
             }
         });
 
         view.reservedSpinner.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                root.financialController.reservedTicketPrice = view.reservedTickedPrice.getValue();
+                root.financialController.reservedTicketPrice = view.reservedTicketPrice.getValue();
             }
         });
 
