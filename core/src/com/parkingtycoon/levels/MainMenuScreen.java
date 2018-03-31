@@ -94,7 +94,6 @@ public class MainMenuScreen implements Screen {
 
         mainTable.add(table);
         stage.addActor(mainTable);
-
     }
 
     @Override

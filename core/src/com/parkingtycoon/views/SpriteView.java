@@ -34,7 +34,7 @@ public class SpriteView extends BaseView {
     };
 
     protected boolean visible = true;
-    protected Vector2 spritePosition = new Vector2();
+    protected Vector2 spritePosition = new Vector2();  // TODO: this is only used in some other classes
     protected Sprite sprite = new Sprite();
     protected String spritePath;
 
