@@ -24,7 +24,7 @@ public class SimulationScreen implements Screen {
     private HudView hud;
 
     private InputController.ScrollListener zoomer = amount -> {
-        worldCamera.zoom = Math.max(1, Math.min(18, worldCamera.zoom + amount * worldCamera.zoom / 16f));
+        worldCamera.zoom = Math.max(1, Math.min(18, worldCamera.zoom + amount * worldCamera.zoom / 16f));  //  1 < zoom < 18
         return true;
     };
 
@@ -42,6 +42,7 @@ public class SimulationScreen implements Screen {
 
         worldCamera = new OrthographicCamera();
         worldCamera.setToOrtho(false, Game.VIEWPORT_WIDTH, Game.VIEWPORT_HEIGHT);
+        worldCamera.zoom = 10;   // better default zoom level
 
         root = CompositionRoot.getInstance();
         root.renderController.setMainCamera(worldCamera);
