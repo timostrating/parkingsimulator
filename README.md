@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/timostrating/parkingsimulator/master/blender_files/logo/logo_small.png" alt="rug" width="500" height="218">
+  <img src="https://raw.githubusercontent.com/timostrating/parkingsimulator/master/blender_files/logo/logo.png" alt="rug" width="700" height="400">
 </p>
 <p align="center">
   This is an AWESOME parkingsimulator inspired by Rollercoaster Tycoon 2.
