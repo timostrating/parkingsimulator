@@ -7,6 +7,9 @@
 
 ![gif](https://i.imgur.com/rIjKCu7.gif)
 
+[![Build Status](https://travis-ci.org/timostrating/parkingsimulator.svg?branch=master)](https://travis-ci.org/timostrating/parkingsimulator)
+[![BCH compliance](https://bettercodehub.com/edge/badge/timostrating/parkingsimulator?branch=master)](https://bettercodehub.com/)
+
 ## Team
 * [Hilko Janssen](https://github.com/hilkojj)
 * [CodeCasper](https://github.com/codecasper)
