@@ -78,7 +78,7 @@ public class MainMenuScreen implements Screen {
         final VisTextButton playButton = new VisTextButton("PLAY");
         table.add(playButton).padRight(20).padLeft(20);
 
-        playButton.addListener((ClickListener) (event, actor) -> { root.floorsController.createFloors(); game.setScreen(new SimulationScreen(game)); dispose();} );
+        playButton.addListener((ClickListener) (event, actor) -> { game.setScreen(new SimulationScreen(game)); dispose();} );
 
 
         final VisTextButton loadButton = new VisTextButton("LOAD");

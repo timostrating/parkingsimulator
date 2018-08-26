@@ -5,8 +5,10 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.Shader;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.parkingtycoon.levels.MainMenuScreen;
+import com.parkingtycoon.levels.ShaderScreen;
 import com.parkingtycoon.levels.SimulationScreen;
 
 import java.lang.reflect.InvocationTargetException;
@@ -38,6 +40,7 @@ public class Game extends com.badlogic.gdx.Game {
     private ArrayList<Class<? extends Screen>> screens = new ArrayList<>();
 
     public Game() { // added Screens
+//        screens.add(ShaderScreen.class);
         screens.add(MainMenuScreen.class);
         screens.add(SimulationScreen.class);
     }

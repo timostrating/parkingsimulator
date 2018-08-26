@@ -6,12 +6,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.parkingtycoon.CompositionRoot;
 import com.parkingtycoon.Game;
 import com.parkingtycoon.controllers.InputController;
-import com.parkingtycoon.controllers.SimulationController;
 import com.parkingtycoon.views.ui.HudView;
 
 
 /**
- * This Class is responsible for setting up the
+ * This Class is responsible for setting up and starting the simulation
  *
  * @author Timo Strating
  */
@@ -36,6 +35,7 @@ public class SimulationScreen implements Screen {
     public SimulationScreen(Game game) {
 
         root = CompositionRoot.getInstance();
+        root.floorsController.createFloors();
         root.simulationController.startSimulation();
 
         this.game = game;
@@ -50,7 +50,6 @@ public class SimulationScreen implements Screen {
         hud = root.hudController.view;
 
         CompositionRoot.getInstance().inputController.scrollListeners.add(zoomer);
-
     }
 
     @Override
@@ -69,9 +68,7 @@ public class SimulationScreen implements Screen {
         root.renderController.render();         // render views
         hud.render();                           // render UI
 
-        SimulationController simulationController = CompositionRoot.getInstance().simulationController;
-
-        Gdx.graphics.setTitle("Parking Tycoon (fps: " + Gdx.graphics.getFramesPerSecond() + ") (updates/sec: " + simulationController.getUpdatesPerSecond() + ") (real updates/sec: " + simulationController.realUpdatesPerSecond + ")");
+        Gdx.graphics.setTitle("Parking Tycoon (fps: " + Gdx.graphics.getFramesPerSecond() + ") (updates/sec: " + root.simulationController.getUpdatesPerSecond() + ") (real updates/sec: " + root.simulationController.realUpdatesPerSecond + ")");
     }
 
     /**
