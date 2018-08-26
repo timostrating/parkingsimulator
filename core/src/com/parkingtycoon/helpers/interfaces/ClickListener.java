@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
  * @author Timo Strating
  */
 public interface ClickListener extends EventListener {
-    default public boolean handle (Event event) {  // We use default to get functional code into a interface
+    default boolean handle(Event event) {  // We use default to get functional code into a interface
         if (!(event instanceof ChangeListener.ChangeEvent)) return false;
         changed((ChangeListener.ChangeEvent)event, event.getTarget());
         return false;
@@ -23,5 +23,5 @@ public interface ClickListener extends EventListener {
      * @param event this is a standard ChangeEvent that would normally also be fired if you would use the ChangeListener.
      * @param actor The event target, which is the actor that emitted the change event.
      */
-    public void changed(ChangeListener.ChangeEvent event, Actor actor);
+    void changed(ChangeListener.ChangeEvent event, Actor actor);
 }

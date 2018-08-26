@@ -63,7 +63,7 @@ public class MainMenuScreen implements Screen {
      * Create the menu
      */
     private void create() {
-        root.game.inputMultiplexer.addProcessor(stage);
+        game.inputMultiplexer.addProcessor(stage);
 
         VisTable mainTable = new VisTable(true);
         mainTable.setFillParent(true);

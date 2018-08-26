@@ -16,7 +16,7 @@ public class HudTopView {
     public VisSlider speedSlider = new VisSlider(10, 1000, 1, false);
     public VisTextButton floorUp = new VisTextButton("^");
     public VisLabel floorTitle = new VisLabel("Floor: XX");
-    public VisTextButton floorDown = new VisTextButton("v");;
+    public VisTextButton floorDown = new VisTextButton("v");
 
     public VisTextButton deletedButton = new VisTextButton("delete");
     public VisTextButton buildButton = new VisTextButton("build");

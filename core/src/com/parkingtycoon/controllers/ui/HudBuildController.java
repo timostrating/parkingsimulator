@@ -37,7 +37,7 @@ public class HudBuildController extends BaseController implements Showable {
 
         for (BluePrintModel bluePrint : root.bluePrintsController.bluePrints) {
             VisImageButton button = new VisImageButton(TextureHelper.setupDrawable(bluePrint.uiImagePath+".jpg", 100, 100), bluePrint.title);
-            button.addListener((EventListener) (event) -> {  // hover
+            button.addListener((event) -> {  // hover
                 view.description.setText(bluePrint.description);
                 view.price.setText(""+bluePrint.price);
                 return true;
@@ -51,7 +51,7 @@ public class HudBuildController extends BaseController implements Showable {
 
         for (FloorModel.FloorType floorType : FloorModel.FloorType.values()) {
             VisTextButton button = new VisTextButton(floorType.toString());
-            button.addListener((EventListener) (event) -> {  // hover
+            button.addListener((event) -> {  // hover
                 view.description.setText(floorType.toString());
                 view.price.setText("100");
                 return true;

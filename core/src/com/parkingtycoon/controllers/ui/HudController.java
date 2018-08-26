@@ -2,6 +2,7 @@ package com.parkingtycoon.controllers.ui;
 
 import com.badlogic.gdx.Input;
 import com.parkingtycoon.CompositionRoot;
+import com.parkingtycoon.Game;
 import com.parkingtycoon.views.ui.HudView;
 
 /**
@@ -18,10 +19,10 @@ public class HudController {
     /**
      * Setup the hud view and the other controllers
      */
-    public HudController() {
+    public HudController(Game game) {
         CompositionRoot root = CompositionRoot.getInstance();
 
-        view = new HudView();
+        view = new HudView(game);
 
         new HudTopController(view.stage);
         new HudStatsController(view.stage);

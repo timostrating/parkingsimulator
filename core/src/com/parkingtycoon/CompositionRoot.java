@@ -11,7 +11,6 @@ import com.parkingtycoon.helpers.Logger;
  */
 public class CompositionRoot {
 
-    public Game game;
     public InputController inputController;
     public SimulationController simulationController;
     public RenderController renderController;
@@ -46,7 +45,6 @@ public class CompositionRoot {
     }
 
     private void start(Game game) {
-        this.game = game;
         inputController = new InputController(game);                     // Setup
         simulationController = new SimulationController();
         renderController = new RenderController(game);
@@ -60,7 +58,7 @@ public class CompositionRoot {
         financialController = new FinancialController();                 // UI
         bluePrintsController = new BluePrintsController();
         elevatorsController = new ElevatorsController();
-        hudController = new HudController();
+        hudController = new HudController(game);
     }
 
 }

@@ -18,7 +18,7 @@ import com.parkingtycoon.helpers.ui.GameWindowResizeEvent;
  * @author Timo Strating
  */
 public class HudView implements Disposable {
-    private final CompositionRoot root = CompositionRoot.getInstance();;
+    private final CompositionRoot root = CompositionRoot.getInstance();
 
     public Stage stage;
 
@@ -30,12 +30,12 @@ public class HudView implements Disposable {
     /**
      * standard constructor, we create a new camera, viewport and spriteBatch where we render the ui on.
      */
-    public HudView() {
+    public HudView(Game game) {
         hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
         hudCamera.setToOrtho(false, Game.VIEWPORT_WIDTH, Game.VIEWPORT_HEIGHT);
 
         viewport = new ScreenViewport();
-        stage = new Stage(viewport, root.game.batch);
+        stage = new Stage(viewport, game.batch);
         stage.getViewport().setCamera(hudCamera);
 
         hudBatch = new SpriteBatch();
@@ -43,7 +43,7 @@ public class HudView implements Disposable {
 
         VisUI.load();
 
-        root.game.inputMultiplexer.addProcessor(0, stage);
+        game.inputMultiplexer.addProcessor(0, stage);
     }
 
     /**

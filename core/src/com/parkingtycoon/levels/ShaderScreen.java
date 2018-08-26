@@ -17,34 +17,20 @@ import com.parkingtycoon.views.ui.HudView;
  */
 public class ShaderScreen implements Screen {
 
-    String vertexShader = "attribute vec4 a_position;    \n" +
-            "attribute vec4 a_color;\n" +
-            "attribute vec2 a_texCoord0;\n" +
-            "uniform mat4 u_projTrans;\n" +
-            "varying vec4 v_color;" +
-            "varying vec2 v_texCoords;" +
-            "void main()                  \n" +
-            "{                            \n" +
-            "   v_color = vec4(1, 1, 1, 1); \n" +
-            "   v_texCoords = a_texCoord0; \n" +
-            "   gl_Position =  u_projTrans * a_position;  \n"      +
-            "}                            \n" ;
-
-    String fragmentShader = "#ifdef GL_ES\n" +
-            "precision mediump float;\n" +
-            "#endif\n" +
-            "varying vec4 v_color;\n" +
-            "varying vec2 v_texCoords;\n" +
-            "uniform sampler2D u_texture;\n" +
-            "void main()                                  \n" +
-            "{                                            \n" +
-            "  gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n" +
-            "}";
-
     ShaderProgram shader;
     Mesh mesh;
     Matrix4 matrix = new Matrix4();
 
+    final Game game;
+    private CompositionRoot root;
+
+    private OrthographicCamera worldCamera;
+    private HudView hud;
+
+    private InputController.ScrollListener zoomer = amount -> {
+        worldCamera.zoom = Math.max(1, Math.min(18, worldCamera.zoom + amount * worldCamera.zoom / 16f));  //  1 < zoom < 18
+        return true;
+    };
 
     /**
      * The standard constructor for the simulation screen,
@@ -52,19 +38,12 @@ public class ShaderScreen implements Screen {
      * @param game we require dat from the game, also probably should only the game create us.
      */
     public ShaderScreen(Game game) {
-        System.out.println("-- SHADERS LOADING ... --");
-        shader = new ShaderProgram(vertexShader, fragmentShader);
-
-        mesh = new Mesh(true, 4, 6, VertexAttribute.Position(), VertexAttribute.ColorUnpacked(), VertexAttribute.TexCoords(0));
-        mesh.setVertices(new float[]
-                {-0.5f, -0.5f, 0, 1, 1, 1, 1, 0, 1,
-                0.5f, -0.5f, 0, 1, 1, 1, 1, 1, 1,
-                0.5f, 0.5f, 0, 1, 1, 1, 1, 1, 0,
-                -0.5f, 0.5f, 0, 1, 1, 1, 1, 0, 0});
-        mesh.setIndices(new short[]{0, 1, 2, 2, 3, 0});
-        System.out.println("-- SHADERS LOADED --");
+        shader = new ShaderProgram(
+                Gdx.files.internal("shaders/myshader.vert"),
+                Gdx.files.internal("shaders/myshader.frag"));
 
         root = CompositionRoot.getInstance();
+        root.floorsController.createFloors();
         root.simulationController.startSimulation();
 
         this.game = game;
@@ -82,17 +61,6 @@ public class ShaderScreen implements Screen {
     }
 
 
-    final Game game;
-    private CompositionRoot root;
-
-    private OrthographicCamera worldCamera;
-    private HudView hud;
-
-    private InputController.ScrollListener zoomer = amount -> {
-        worldCamera.zoom = Math.max(1, Math.min(18, worldCamera.zoom + amount * worldCamera.zoom / 16f));  //  1 < zoom < 18
-        return true;
-    };
-
     @Override
     public void show() { }
 
@@ -103,18 +71,19 @@ public class ShaderScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        shader.begin();
-        shader.setUniformMatrix("u_projTrans", matrix);
-        shader.setUniformi("u_texture", 0);
-        mesh.render(shader, GL20.GL_TRIANGLES);
+//        shader.begin();
+//        shader.setUniformMatrix("u_projTrans", matrix);
+//        shader.setUniformi("u_texture", 0);
+//        mesh.render(shader, GL20.GL_TRIANGLES);
 
         root.renderController.preRender();      // preRender views
         game.batch.setProjectionMatrix(worldCamera.combined);
         game.shapeRenderer.setProjectionMatrix(worldCamera.combined);
+        game.batch.setShader(shader);
         root.renderController.render();         // render views
         hud.render();                           // render UI
 
-        shader.end();
+//        shader.end();
 
         Gdx.graphics.setTitle("Parking Tycoon (fps: " + Gdx.graphics.getFramesPerSecond() + ") (updates/sec: " + root.simulationController.getUpdatesPerSecond() + ") (real updates/sec: " + root.simulationController.realUpdatesPerSecond + ")");
     }

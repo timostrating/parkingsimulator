@@ -104,7 +104,7 @@ public class FixedRingArray {
         queue.put(24f);
         queue.put(25f);
 
-        System.out.println("");
+        System.out.println();
 
         for (int i=0; i<queue.size(); i++) {
             System.out.println(queue.get(i));

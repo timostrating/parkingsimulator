@@ -57,7 +57,7 @@ public abstract class BaseView implements Renderable {
     public void render(SpriteBatch batch) {}
 
     /**
-     * If you which to render a shapre than you can this.
+     * If you which to render a shape than you can this.
      *
      * @param shapeRenderer the renderer where you can draw lines and shapes.
      */

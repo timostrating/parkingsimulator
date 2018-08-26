@@ -35,9 +35,7 @@ public class AABB {
     public boolean overlaps(AABB other) {
         if (Math.abs(center.x - other.center.x) > halfSize.x + other.halfSize.x)
             return false;
-        if (Math.abs(center.y - other.center.y) > halfSize.y + other.halfSize.y)
-            return false;
-        return true;
+        return !(Math.abs(center.y - other.center.y) > halfSize.y + other.halfSize.y);
     }
 
 }

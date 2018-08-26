@@ -47,7 +47,6 @@ public class Game extends com.badlogic.gdx.Game {
 
     @Override
     public void create() {
-
         inputMultiplexer = new InputMultiplexer();
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
