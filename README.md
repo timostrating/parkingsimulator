@@ -50,7 +50,7 @@ Now go to the platform / tool that you would like to use.
 
 ### Intellij idea
 
-Press ALT + SHIFT + F9 add select edit configuration. Now add the following gradle configuration to Intellij and hit apply.
+Press ALT + SHIFT + F9 add select edit configuration. (you can add a configuration by clicking on the top left + icon) Now add the following gradle configuration to Intellij and hit apply.
 
 ![Intellij Gradle run](https://i.imgur.com/scTH9Jw.png)
 
