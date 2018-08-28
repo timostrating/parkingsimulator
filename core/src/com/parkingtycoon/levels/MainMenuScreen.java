@@ -92,7 +92,17 @@ public class MainMenuScreen implements Screen {
 
         exitButton.addListener((ClickListener) (event, actor) -> Gdx.app.exit());
 
+        final VisTextButton testButton = new VisTextButton("SHADERTEST");
+        testButton.addListener((ClickListener) (event, actor) -> { game.setScreen(new ShaderScreen(game)); dispose();} );
+
         mainTable.add(table);
+
+        mainTable.row();
+        mainTable.addSeparator().padTop(20).padBottom(20);
+        mainTable.row();
+
+        mainTable.add(testButton);
+
         stage.addActor(mainTable);
 
     }

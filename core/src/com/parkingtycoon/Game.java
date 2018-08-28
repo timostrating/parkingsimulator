@@ -40,9 +40,9 @@ public class Game extends com.badlogic.gdx.Game {
     private ArrayList<Class<? extends Screen>> screens = new ArrayList<>();
 
     public Game() { // added Screens
-//        screens.add(ShaderScreen.class);
         screens.add(MainMenuScreen.class);
         screens.add(SimulationScreen.class);
+        screens.add(ShaderScreen.class);
     }
 
     @Override
